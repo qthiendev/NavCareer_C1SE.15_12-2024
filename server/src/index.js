@@ -5,6 +5,7 @@ const app = express();
 const port = 5000;
 
 app.use('/', router);
+app.use(express.urlencoded({ extended: true }));
 
 app.listen(port, () => {
     console.log(`</> Listening on port ${port}.`);

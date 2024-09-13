@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import './Home.css';
 
 function Home() {
 
   const [backendData, setBackendData] = useState([{}]);
 
   useEffect(() => {
-    fetch("/test").then(
+    fetch("/").then(
       response => response.json()
     ).then(
       data => {
@@ -15,7 +16,11 @@ function Home() {
   }, []);
 
   return (
-    <div>This is home</div>
+    <div>
+      This is home
+      <a href="/signin">Signin</a>
+      </div>
+
   );
 }
 
