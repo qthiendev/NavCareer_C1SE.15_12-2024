@@ -1,0 +1,61 @@
+/* Ensure the body and html take full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Arial, sans-serif;
+    background-color: #0d1117; /* Dark background for the entire layout */
+    color: #e1e4e8; /* Light text color for readability */
+}
+
+/* Container for the layout */
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Navigation bar */
+.navbar {
+    background-color: #161b22; /* Darker background for the navbar */
+    color: #e1e4e8; /* Light text color */
+    padding: 10px;
+}
+
+.nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-item {
+    margin: 0 15px;
+}
+
+.nav-item a {
+    color: #e1e4e8; /* Light color for the links */
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.nav-item a:hover {
+    color: #58a6ff; /* Light blue on hover */
+}
+
+/* Main content area */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #0d1117; /* Same dark background as the body */
+}
+
+/* Footer */
+.footer {
+    background-color: #161b22; /* Same dark background as the navbar */
+    color: #e1e4e8; /* Light text color */
+    text-align: center;
+    padding: 10px;
+    font-size: 0.875rem;
+}
