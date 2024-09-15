@@ -4,15 +4,17 @@ import './index.css';
 
 import Home from "./pages/Home";
 import SignIn from "./pages/authentications/SingIn";
+import Layout from "./pages/Layout";
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
-
-        <Route path="/" element={<Home />}/>
-        <Route path="/signin" element={<SignIn />}/>
-
+        {/* Wrap routes with Layout */}
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/signin" element={<SignIn />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
