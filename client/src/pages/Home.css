@@ -1,0 +1,112 @@
+/* Ensure the body and html take full height and have no margins */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Arial, sans-serif;
+    background-color: #0d1117; /* Dark background */
+    color: #e1e4e8; /* Light text color */
+}
+
+/* Container for the entire Home component */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header styling */
+.home-header {
+    background-color: #161b22; /* Darker background for the header */
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start; /* Align profile picture to the left */
+    border-bottom: 1px solid #30363d; /* Dark border for header */
+}
+
+/* Profile picture and username styling */
+.profile-menu {
+    display: flex;
+    align-items: center;
+    position: relative; /* For dropdown positioning */
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Circular profile picture */
+    margin-right: 10px;
+    border: 2px solid #2ea44f; /* Green border for profile picture */
+}
+
+.username {
+    font-size: 1rem;
+    color: #e1e4e8; /* Light text color */
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    position: absolute;
+    top: 50px; /* Adjust position relative to profile-info */
+    left: 0;
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.dropdown-menu button {
+    background: none;
+    border: none;
+    color: #e1e4e8;
+    padding: 10px 20px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu button:hover {
+    background-color: #30363d; /* Darker background on hover */
+}
+
+/* Button styling */
+.auth-button {
+    background-color: #2ea44f; /* GitHub green for buttons */
+    color: #ffffff; /* White text color */
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.875rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.auth-button:hover {
+    background-color: #22863a; /* Darker green on hover */
+}
+
+/* Main content styling */
+.home-main {
+    flex: 1; /* Take up remaining space */
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    padding: 20px;
+    background-color: #0d1117; /* Dark background */
+    color: #e1e4e8; /* Light text color */
+}
+
+/* Main content paragraph */
+.home-main p {
+    font-size: 24px; /* Larger text size */
+}

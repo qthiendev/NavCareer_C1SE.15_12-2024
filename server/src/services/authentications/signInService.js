@@ -3,8 +3,8 @@ const { query } = require('../database/connectTestDB');
 const signInService = async (account, password) => {
     try {
         const queryString = `
-        SELECT [AUTH_ID]
-        FROM [DBO].[AUTH]
+        SELECT [AUTHENTICATION_ID]
+        FROM [DBO].[AUTHENTICATIONS]
         WHERE [ACCOUNT] = @account 
             AND [PASSWORD] = @password;
         `;

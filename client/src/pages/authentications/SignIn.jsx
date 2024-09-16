@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SignIn.css';
 
 function SignIn() {
@@ -7,6 +8,15 @@ function SignIn() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
+    // Redirect to home page if already logged in
+    useEffect(() => {
+        const authId = localStorage.getItem('AUTHENTICATION_ID');
+        if (authId) {
+            navigate('/');  // Redirect to home if logged in
+        }
+    }, [navigate]);
 
     // Handle form submission
     const handleSubmit = async (event) => {
@@ -16,15 +26,17 @@ function SignIn() {
 
         try {
             // Make the GET request to your sign-in service
-            const response = await fetch(`http://localhost:5000/signin/service?account=${encodeURIComponent(account)}&password=${encodeURIComponent(password)}`);
+            const response = await fetch(`http://localhost:5000/signin/get?account=${encodeURIComponent(account)}&password=${encodeURIComponent(password)}`);
 
             // Parse the response
             const result = await response.json();
-
             // Handle based on the result
-            if (result.isUser) {
-                // Redirect or take further action on successful login
-                window.location.href = '/'; // Redirect to home on success
+            if (result && result.AUTHENTICATION_ID) {
+                // Save the AUTHENTICATION_ID in localStorage to persist login state
+                localStorage.setItem('AUTHENTICATION_ID', result.AUTHENTICATION_ID);
+
+                // Redirect to the home page on successful login
+                navigate('/');
             } else {
                 // Display an error message
                 setError(result.message || 'Invalid credentials.');
