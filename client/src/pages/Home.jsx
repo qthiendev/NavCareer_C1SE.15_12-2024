@@ -47,7 +47,7 @@ function Home() {
         {isLoggedIn ? (
           <div className="profile-menu">
             <div className="profile-info" onClick={toggleDropdown}>
-              <img src="https://via.placeholder.com/40" alt="Profile" className="profile-picture" />
+              <img src="https://yt3.googleusercontent.com/ytc/AIdro_kG1AaurvqvdbbpAUW_PLMHeXf384dp8KX_stB4mHRVOQQ=s900-c-k-c0x00ffffff-no-rj" alt="Profile" className="profile-picture" />
               <span className="username">{profileData?.USER_NAME}</span>
             </div>
             {dropdownVisible && (
