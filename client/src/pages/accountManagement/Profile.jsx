@@ -10,6 +10,7 @@ const Profile = () => {
 
     const navigate = useNavigate();
     const { user_id } = useParams();
+    const authID = localStorage.getItem('AUTHENTICATION_ID');
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -19,11 +20,10 @@ const Profile = () => {
                 if (response.ok) {
                     const data = await response.json();
                     setProfile(data);
-                    setIsEdit(data.AUTHENTICATION_ID == localStorage.getItem('AUTHENTICATION_ID'));
+                    setIsEdit(data.AUTHENTICATION_ID === authID);
                 } else {
                     navigate('/');
                 }
-
             } catch (err) {
                 setError('An error occurred while fetching profile data.');
                 console.error('Error fetching profile data:', err);
@@ -34,36 +34,32 @@ const Profile = () => {
         };
 
         fetchProfile();
-    }, [user_id, navigate]);
+    }, [user_id, navigate, authID]);
 
-    if (isLoading) {
-        return <p>Loading profile...</p>;
-    }
+    if (isLoading) return <p>Loading profile...</p>;
 
-    if (error) {
-        return <p className="error-message">{error}</p>;
-    }
+    if (error) return <p className="error-message">{error}</p>;
+
+    if (!profile) return <p>No profile data available.</p>;
+
+    // Map gender value to text
+    const genderText = profile.GENDER === true ? 'Male' : 'Female';
 
     return (
         <div className="profile-container">
-            {profile ? (
-                <div className="profile-info">
-                    <h1>{profile.DISPLAY_FIRST_NAME} {profile.DISPLAY_LAST_NAME}</h1>
-                    <p><strong>Username:</strong> {profile.USER_NAME}</p>
-                    <p><strong>Gender:</strong> {profile.GENDER}</p>
-                    <p><strong>Birth Date:</strong> {profile.BIRTH_DATE}</p>
-                    <p><strong>Phone Number:</strong> {profile.PHONE_NUMBER}</p>
-                    <p><strong>Address:</strong> {profile.ADDRESS}</p>
+            <h1>{profile.DISPLAY_FIRST_NAME} {profile.DISPLAY_LAST_NAME}</h1>
+            <div className="profile-details">
+                <p><strong>Username:</strong> {profile.USER_NAME}</p>
+                <p><strong>Gender:</strong> {genderText}</p>
+                <p><strong>Birth Date:</strong> {profile.BIRTH_DATE}</p>
+                <p><strong>Phone Number:</strong> {profile.PHONE_NUMBER}</p>
+                <p><strong>Address:</strong> {profile.ADDRESS}</p>
+            </div>
 
-                    {/* Conditionally render the 'Edit Profile' button */}
-                    {isEdit && (
-                        <button className="edit-profile-button" onClick={() => navigate(`/profile/edit/${user_id}`)}>
-                            Edit Profile
-                        </button>
-                    )}
-                </div>
-            ) : (
-                <p>No profile data available.</p>
+            {isEdit && (
+                <button className="edit-profile-button" onClick={() => navigate(`/profile/edit/${user_id}`)}>
+                    Edit Profile
+                </button>
             )}
         </div>
     );
