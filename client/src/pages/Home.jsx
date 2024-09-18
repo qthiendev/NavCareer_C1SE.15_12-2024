@@ -9,6 +9,9 @@ function Home() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
+
+    document.title = 'Home | NavCareer';
+
     const fetchProfile = async () => {
       const AUTHENTICATION_ID = localStorage.getItem('AUTHENTICATION_ID');
       if (AUTHENTICATION_ID) {

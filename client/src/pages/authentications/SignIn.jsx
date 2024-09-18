@@ -10,10 +10,15 @@ function SignIn() {
     const navigate = useNavigate();
 
     useEffect(() => {
+
+        document.title = 'Sign In | NavCareer';
+
         const authId = localStorage.getItem('AUTHENTICATION_ID');
+
         if (authId) {
             navigate('/');
         }
+
     }, [navigate]);
 
     const handleSubmit = async (event) => {

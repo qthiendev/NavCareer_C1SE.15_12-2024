@@ -21,6 +21,7 @@ const Profile = () => {
                     const data = await response.json();
                     setProfile(data);
                     setIsEdit(data.AUTHENTICATION_ID === authID);
+                    document.title = `Profile: ${data.USER_NAME} | NavCareer`;
                 } else {
                     navigate('/');
                 }
@@ -47,7 +48,7 @@ const Profile = () => {
 
     return (
         <div className="profile-container">
-            <h1>{profile.DISPLAY_FIRST_NAME} {profile.DISPLAY_LAST_NAME}</h1>
+            <h1>{profile.DISPLAY_LAST_NAME} {profile.DISPLAY_FIRST_NAME}</h1>
             <div className="profile-details">
                 <p><strong>Username:</strong> {profile.USER_NAME}</p>
                 <p><strong>Gender:</strong> {genderText}</p>

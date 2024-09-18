@@ -87,6 +87,8 @@ const getProfileByUserID = async (USER_ID) => {
     }
 }
 
-
+const EditProfile = async (USER_ID) => {
+    
+}
 
 module.exports = { getProfileByAuthID, getProfileByUserName, getProfileByUserID };
