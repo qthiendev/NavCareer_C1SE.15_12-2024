@@ -31,9 +31,9 @@ function Home() {
 
   const handleSignOut = () => {
     if (window.confirm('Are you sure you want to sign out?')) {
-      localStorage.removeItem('AUTHENTICATION_ID');  // Clear authentication ID from local storage
-      setIsLoggedIn(false);  // Update login state
-      navigate('/signin');  // Redirect to Sign In page after sign out
+      localStorage.removeItem('AUTHENTICATION_ID');
+      setIsLoggedIn(false);
+      navigate('/signin');
     }
   };
 
@@ -52,7 +52,7 @@ function Home() {
             </div>
             {dropdownVisible && (
               <div className="dropdown-menu">
-                <button onClick={() => navigate('/profile')}>Profile</button>
+                <button onClick={() => navigate(`/profile/${profileData?.USER_ID}`)}>Profile</button>
                 <button onClick={handleSignOut}>Sign Out</button>
               </div>
             )}

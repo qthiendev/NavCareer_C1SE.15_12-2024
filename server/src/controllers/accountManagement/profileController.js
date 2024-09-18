@@ -1,11 +1,23 @@
-const { getProfileService } = require("../../services/accountManagement/profileService");
+const { getProfileByAuthID, getProfileByUserName, getProfileByUserID } = require("../../services/accountManagement/profileService");
 
 const getProfile = async (req, res) => {
-    try {
-        const { AUTHENTICATION_ID } = req.query;
+    const { AUTHENTICATION_ID, 
+        USER_ID, 
+        USER_NAME } = req.query;
 
-        console.log(`</> AUTHENTICATION_ID: '${AUTHENTICATION_ID}'.`);
-        const result = await getProfileService(AUTHENTICATION_ID);
+    try {
+        console.log(`</> ${JSON.stringify(req.query)}`);
+
+        let result = null;
+
+        if (AUTHENTICATION_ID) {
+            result = await getProfileByAuthID(AUTHENTICATION_ID);
+        } else if (USER_ID) {
+            result = await getProfileByUserID(USER_ID);
+        } else if (USER_NAME) {
+            result = await getProfileByUserName(USER_NAME);
+        }
+
         res.json(result[0]);
 
     } catch (err) {

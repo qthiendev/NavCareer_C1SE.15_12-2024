@@ -15,7 +15,7 @@ const Router = () => {
 
         <Route index element={<Home />} />
         <Route path="/signin" element={<SignIn />}/>
-        <Route path="/profile" element={<Profile />}/>
+        <Route path="/profile/:user_id" element={<Profile />}/>
 
       </Route>
     </Routes>

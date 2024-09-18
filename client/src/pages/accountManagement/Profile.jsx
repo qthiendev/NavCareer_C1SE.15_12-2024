@@ -1,39 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import './Profile.css';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const [profile, setProfile] = useState(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
+    const [isEdit, setIsEdit] = useState(false);
 
-    // Fetch profile data when the component mounts
+    const navigate = useNavigate();
+    const { user_id } = useParams();
+
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                // Assuming AUTHENTICATION_ID is stored in localStorage
-                const AUTHENTICATION_ID = localStorage.getItem('AUTHENTICATION_ID');
+                const response = await fetch(`http://localhost:5000/profile/get?USER_ID=${encodeURIComponent(user_id)}`);
 
-                // Fetch profile data
-                const response = await fetch(`http://localhost:5000/profile/get?AUTHENTICATION_ID=${encodeURIComponent(AUTHENTICATION_ID)}`);
-                
                 if (response.ok) {
                     const data = await response.json();
                     setProfile(data);
+                    setIsEdit(data.AUTHENTICATION_ID == localStorage.getItem('AUTHENTICATION_ID'));
                 } else {
-                    setError('Failed to fetch profile data.');
+                    navigate('/');
                 }
+
             } catch (err) {
                 setError('An error occurred while fetching profile data.');
                 console.error('Error fetching profile data:', err);
+                navigate('/');
             } finally {
                 setIsLoading(false);
             }
         };
 
         fetchProfile();
-    }, []); // Empty dependency array means this runs once on component mount
+    }, [user_id, navigate]);
 
-    // Display loading state or error message
     if (isLoading) {
         return <p>Loading profile...</p>;
     }
@@ -42,7 +44,6 @@ const Profile = () => {
         return <p className="error-message">{error}</p>;
     }
 
-    // Display profile information
     return (
         <div className="profile-container">
             {profile ? (
@@ -53,6 +54,13 @@ const Profile = () => {
                     <p><strong>Birth Date:</strong> {profile.BIRTH_DATE}</p>
                     <p><strong>Phone Number:</strong> {profile.PHONE_NUMBER}</p>
                     <p><strong>Address:</strong> {profile.ADDRESS}</p>
+
+                    {/* Conditionally render the 'Edit Profile' button */}
+                    {isEdit && (
+                        <button className="edit-profile-button" onClick={() => navigate(`/profile/edit/${user_id}`)}>
+                            Edit Profile
+                        </button>
+                    )}
                 </div>
             ) : (
                 <p>No profile data available.</p>
