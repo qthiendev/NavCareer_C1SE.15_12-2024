@@ -6,7 +6,7 @@
             "user": "sa",
             "password": "123456",
             "server": "localhost",
-            "database": "TestDB",
+            "database": "NavCareerDB",
             "options": {
                 "port": 1433,
                 "encrypt": true,

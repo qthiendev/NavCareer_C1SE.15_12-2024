@@ -6,7 +6,6 @@ import './index.css';
 import Layout from './pages/Layout.jsx';
 import Home from './pages/Home.jsx';
 import SignIn from './pages/authentications/SignIn.jsx';
-import Profile from './pages/accountManagement/Profile.jsx';
 
 const Router = () => {
   return (
@@ -14,8 +13,7 @@ const Router = () => {
       <Route path="/" element={<Layout />}>
 
         <Route index element={<Home />} />
-        <Route path="/signin" element={<SignIn />}/>
-        <Route path="/profile/:user_id" element={<Profile />}/>
+        <Route path="signin" element={<SignIn />} />
 
       </Route>
     </Routes>

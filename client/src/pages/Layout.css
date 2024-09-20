@@ -1,61 +1,84 @@
-/* Ensure the body and html take full height */
-html, body {
-    height: 100%;
+* {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Arial, sans-serif;
-    background-color: #0d1117; /* Dark background for the entire layout */
-    color: #e1e4e8; /* Light text color for readability */
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Container for the layout */
+html,
+body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
 .layout-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #f4f4f9;
 }
 
-/* Navigation bar */
+/*nav item*/
 .navbar {
-    background-color: #161b22; /* Darker background for the navbar */
-    color: #e1e4e8; /* Light text color */
-    padding: 10px;
+    background-image: linear-gradient(to right, #043873, #4f76f6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding: 0 10px;
+    height: 60px;
+    position: relative;
+    z-index: 1000;
 }
 
 .nav-list {
+    font-size: 18px;
     list-style: none;
-    margin: 0;
-    padding: 0;
     display: flex;
-    justify-content: left;
+    align-items: center;
+    padding: 0;
+    margin: 0;
 }
 
 .nav-item {
-    margin: 0 15px;
+    margin-right: 50px;
 }
 
 .nav-item a {
-    color: #e1e4e8; /* Light color for the links */
     text-decoration: none;
-    font-size: 1.2rem;
-    transition: color 0.3s ease;
+    color: #ffffff;
+    transition: color 0.3s;
 }
 
 .nav-item a:hover {
-    color: #58a6ff; /* Light blue on hover */
+    color: #f0a500;
+    /* Highlight color on hover */
 }
 
-/* Main content area */
+.search-bar {
+    padding: 5px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+#home-image {
+    width: auto;
+    height: 40px;
+}
+
+/* Main Content Area */
 .main-content {
-    flex: 1;
-    padding: 20px;
-    background-color: #0d1117; /* Same dark background as the body */
+    flex-grow: 1;
+    width: 100%;
+    background-color: white;
 }
 
 /* Footer */
 .footer {
-    background-color: #161b22; /* Same dark background as the navbar */
-    color: #e1e4e8; /* Light text color */
+    background-image: linear-gradient(to right, #4f76f6, #043873);
+    color: white;
     text-align: center;
-    padding: 10px;
-    font-size: 0.875rem;
+    padding: 1rem 0;
+    width: 100%;
+    position: relative;
 }
