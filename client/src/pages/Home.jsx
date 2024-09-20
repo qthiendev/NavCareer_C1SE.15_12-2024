@@ -5,7 +5,7 @@ import './Home.css';
 function Home() {
   return (
     <div className="home-container">
-      This is home page
+      This is home page !
     </div>
   );
 }
