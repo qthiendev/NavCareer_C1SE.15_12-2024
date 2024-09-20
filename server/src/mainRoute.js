@@ -15,9 +15,23 @@ router.get('/test/query', async (req, res) => {
 });
 
 // main router
-router.get('/', signIn)
-router.get('/authentication/signin', signIn);
+router.get('/', (req, res) => { });
 
+router.get('/authentication/signin', signIn);
+router.get('/authentication/signup', signIn);
+router.get('/authentication/resetpassword', signIn);
+
+router.get('/profile/create', readProfile);
 router.get('/profile/read', readProfile);
+router.get('/profile/update', readProfile);
+router.get('/profile/delete', readProfile);
+
+router.get('/course/create', readProfile);
+router.get('/course/read', readProfile);
+router.get('/course/update', readProfile);
+router.get('/course/delete', readProfile);
+
+router.get('/enrollment/enroll', readProfile);
+router.get('/enrollment/disenroll', readProfile);
 
 module.exports = router;
