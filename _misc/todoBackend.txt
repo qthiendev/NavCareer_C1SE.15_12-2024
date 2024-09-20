@@ -1,0 +1,10 @@
+config and queriable database: done
+
+sign in: done
+sign up: on going
+reset password: pending
+
+read profile: done
+update profile: pending
+delete profile: pending
+create profile: pending

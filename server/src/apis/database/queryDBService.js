@@ -1,16 +1,15 @@
-const sql = require("mssql");
-const config = require("../../configs/navCareerDB.json");
+const sql = require('mssql');
+const config = require('./ncdbConfig.json');
 const now = new Date();
 
 let connection;
 
 const tryConnect = async (userType) => {
-    try {   
+    try {  
         const userConfig = config.connections.find(conn => conn.name === userType);
 
-        if (!userConfig) {
+        if (!userConfig) 
             throw new Error(`   User '${userType}' not found.`);
-        }
 
         connection = new sql.ConnectionPool(userConfig);
         await connection.connect();
@@ -29,8 +28,7 @@ const closeConnect = async () => {
             console.log(`[${now.toLocaleString()}] at connectNavCareer.js/closeConnect() | Closed NavCareerDB connection.`);
         } else {
             throw new Error(`   There is no NavCareerDB connection to close.`);
-        }
-
+        }    
     } catch (err) {
         throw new Error(`closeConnect() | Error {\n${err.message}\n}`);
     }

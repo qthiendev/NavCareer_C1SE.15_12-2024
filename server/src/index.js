@@ -15,5 +15,5 @@ app.use('/', router);
 app.use(express.urlencoded({ extended: true }));
 
 app.listen(port, () => {
-    console.log(`[${now.toLocaleString()}] at index.js/queryDB() ACCESS LINK: http://localhost:${port}.`);
+    console.log(`[${now.toLocaleString()}] at index.js| ACCESS LINK: http://localhost:${port}`);
 });

@@ -1,23 +1,19 @@
-const { trySignIn } = require('./signInService');
+const { tryReadProfile } = require('./readProfileService');
 
-const signIn = async (req, res) => {
+const readProfile = async (req, res) => {
     try {
         const {
             userType,
-            account,
-            password
+            index
         } = req.query;
 
         if (!userType || userType === '')
             throw new Error(`'userType' is empty.`);
 
-        if (!account || account === '')
-            throw new Error(`'account' is empty.`);
+        if (!index || index === '')
+            throw new Error(`   'index' is empty.`);
 
-        if (!password || password === '')
-            throw new Error(`'password' is empty.`);
-
-        data = await trySignIn(userType, account, password);
+        data = await tryReadProfile(userType, index);
 
         res.json(data);
 
@@ -26,6 +22,6 @@ const signIn = async (req, res) => {
         console.log(`[${now.toLocaleString()}] at signInController.js/signIn() | {\n${err.message}\n}`);
         res.status(400).json({ message: err.message });
     }
-}
+};
 
-module.exports = { signIn };
+module.exports = { readProfile };
