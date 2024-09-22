@@ -1,0 +1,5 @@
+DB_sqlsever_USER=sa
+DB_sqlsever_PWD=12345
+DB_sqlsever_NAME=HRM
+DB_sqlsever_HOST=localhost
+DB_sqlsever_PORT=1433
