@@ -3,15 +3,14 @@ const router = express.Router();
 
 const { queryDB } = require('./apis/database/queryDBService');
 
-const { signIn } = require('./apis/authentications/signIn/signInController');
-const { signUp } = require('./apis/authentications/signUp/signUpController');
+const { signIn } = require('./apis/authentications/signIn/signInController'); // Done
+const { signUp } = require('./apis/authentications/signUp/signUpController'); // On going
 const { resetPassword } = require('./apis/authentications/resetPassword/resetPasswordController');
 const { deleteAccount } = require('./apis/authentications/deleteAccount/deleteAccountController');
 
 const { createProfile } = require('./apis/profileManagement/createProfile/createProfileController');
-const { readProfile } = require('./apis/profileManagement/readProfile/readProfileController');
+const { readProfile } = require('./apis/profileManagement/readProfile/readProfileController'); // Done
 const { updateProfile } = require('./apis/profileManagement/updateProfile/updateProfileController');
-const { readProfile } = require('./apis/profileManagement/readProfile/readProfileController');
 
 const { createCourse } = require('./apis/CourseManagement/createCourse/createCourseController');
 const { readCourse } = require('./apis/CourseManagement/readCourse/readCourseController');
