@@ -12,7 +12,7 @@ const tryReadProfile = async (userType, index) => {
                    [address],
                    [date_joined],
                    [authentication_id]
-            FROM [users]
+            FROM [Users]
             WHERE [authentication_id] = @index
                OR [user_name] = @index
                OR [user_id] = @index
