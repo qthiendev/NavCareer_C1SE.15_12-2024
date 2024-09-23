@@ -397,6 +397,9 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-#
+# Ignore specific config file
 server/src/apis/database/ncdbConfig.json
-.evn
+
+# Ignore all .env files
+*.env
+
