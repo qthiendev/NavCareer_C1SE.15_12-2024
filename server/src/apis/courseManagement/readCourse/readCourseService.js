@@ -22,20 +22,24 @@ const tryReadCourse = async (userType, index) => {
         if (!resultCourse || resultCourse.length === 0)
             throw Error('Course not found.');
 
-        const queryStringMaterial = `
-        SELECT [material_name],
-            [material_description]
-        FROM [CourseMaterials]
+        const queryStringModule = `
+        SELECT [module_id],
+	        [module_ordinal],
+	        [module_name],
+	        [module_description],
+	        [created_date] ,
+	        [course_id]
+        FROM [Modules]
         WHERE [course_id] = @course_id
         `;
 
-        const paramsMaterial = { course_id: resultCourse[0]['course_id'] };
+        const paramsModule = { course_id: resultCourse[0]['course_id'] };
 
-        const resultMaterial = await queryDB(userType, queryStringMaterial, paramsMaterial);
+        const resultModule= await queryDB(userType, queryStringModule, paramsModule);
 
         const result = {
             ...resultCourse[0],
-            materials: resultMaterial
+            modules: resultModule
         };
 
         return result;
