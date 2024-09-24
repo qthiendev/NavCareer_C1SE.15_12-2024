@@ -7,16 +7,13 @@ const createCourse = async (req, res) => {
     try {
         const {
             userType: rawUser = '',
-            course_name: rawUserName = '',
-            course_description: rawCourseDescription = '',
-            duration: rawDuration = '',
+            course_name,
+            course_description,
+            duration,
             user_id: rawUserID = ''
         } = req.query;
 
         const userType = rawUser.trim().replace(/\s/g, '') || null;
-        const course_name = rawUserName.trim().replace(/\s/g, '') || null;
-        const course_description = rawCourseDescription.trim().replace(/\s/g, '') || null;
-        const duration = rawDuration.trim().replace(/\s/g, '') || null;
         const user_id = rawUserID.trim().replace(/\s/g, '') || null;
 
         if (!userType)
