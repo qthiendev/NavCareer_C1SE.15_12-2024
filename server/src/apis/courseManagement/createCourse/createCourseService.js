@@ -9,7 +9,8 @@ const tryCreateCourse = async (userType, course_name, course_description, durati
             {}
         ) || [];
 
-        const latestID = (latestIDResult.length > 0) ? latestIDResult[0].authentication_id : 0;
+        const latestID = (latestIDResult.length > 0) ? latestIDResult[0].course_id : 0;
+        console.log(latestID)
         const newID = parseInt(latestID) + 1;
 
         const insertQuery = `

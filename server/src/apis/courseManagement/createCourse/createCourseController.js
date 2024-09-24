@@ -29,16 +29,13 @@ const createCourse = async (req, res) => {
             throw new Error(`'password' is empty or invalid.`);
 
         if (!duration)
-            throw new Error(`'email' is empty or invalid.`);
+            throw new Error(`'duration' is empty or invalid.`);
 
         if (!user_id)
             throw new Error(`'authorization_id' is empty or invalid.`);
 
         if (!isValidInput(userType))
             throw new Error(`'userType' contains invalid characters.`);
-
-        if (!isValidInput(email))
-            throw new Error(`'email' contains invalid characters.`);
 
         if (!isValidInput(user_id))
             throw new Error(`'authorization_id' contains invalid characters.`);
