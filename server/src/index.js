@@ -1,5 +1,5 @@
 const express = require('express');
-const router = require('./mainRoute');
+const router = require('./mainRouter');
 const cors = require("cors");
 const now = new Date();
 
