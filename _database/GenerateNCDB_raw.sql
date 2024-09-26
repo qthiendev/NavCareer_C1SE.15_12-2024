@@ -11,7 +11,7 @@ CREATE DATABASE NavCareerDB;
 go
 USE NavCareerDB;
 go
-
+go
 -- Questions
 if object_id('NavQuestions', 'U') is not null drop table NavQuestions;
 create table NavQuestions (
@@ -24,7 +24,7 @@ values
 (1, N'Bạn đánh giá thế nào về khả năng học một ngôn ngữ mới của mình?'),
 (2, N'Bạn thấy khả năng đọc và làm việc với giấy tờ, văn bản, tài liệu của mình như thế nào?'),
 (3, N'Hãy đánh giá khả năng dùng lời nói để truyền đạt đến mọi người (Thuyết trình, hướng dẫn, giải thích,...)?');
-
+go
 
 -- Answers
 if object_id('NavAnswers', 'U') is not null drop table NavAnswers;
@@ -52,7 +52,7 @@ values
 (13, N'Thấp', 3),
 (14, N'Cao', 3),
 (15, N'Rất cao', 3);
-
+go
 
 -- Authorizations - role
 if object_id('Authorizations', 'U') is not null drop table Authorizations;
@@ -65,7 +65,7 @@ values
 (0, N'Admin'),
 (1, N'Education service provider'),
 (2, N'Student');
-
+go
 
 -- Authentications - user private info
 if object_id('Authentications', 'U') is not null drop table Authentications;
@@ -84,7 +84,7 @@ values
 (1, 'esp', 'esp', 'esp@gmail.com', getdate(), 1),
 (2, 'student', 'student', 'student@gmail.com', getdate(), 2),
 (3, 'qthiendev', 'qthiendev', 'trinhquythien.dev@gmail.com', getdate(), 0);
-
+go
 
 -- Users - user public info
 if object_id('Users', 'U') is not null drop table Users;
@@ -107,7 +107,7 @@ values
 (1, N'education service provider 0', N'esp@gmail.com', getdate(), 0, N'0123456789', N'Đà Nẵng', getdate(), N'profiles/_1', 1),
 (2, N'student 0', N'student@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'profiles/_2', 2),
 (3, N'Trịnh Quý Thiện', N'trinhquythien.dev@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'profiles/_3', 3);
-
+go
 
 -- Feedbacks
 if object_id('SystemFeedbacks', 'U') is not null drop table SystemFeedbacks;
@@ -121,6 +121,7 @@ CREATE TABLE SystemFeedbacks (
 insert into SystemFeedbacks ([feedback_id], [feedback_description], [feedback_date], [user_id])
 values
 (0, N'Need more course', getdate(), 2);
+go
 
 -- Courses
 if object_id('Courses', 'U') is not null drop table Courses;
@@ -137,7 +138,7 @@ insert into Courses ([course_id], [course_name], [course_description], [duration
 values
 (0, N'Lập trình C/C++', N'Khóa học về lập trình C cơ bản và hướng đối tượng với C++.', N'3 tháng', getdate(), 1),
 (1, N'Lập trình Python', N'Khóa học về lập trình Python.', N'5 tháng', getdate(), 1);
-
+go
 
 -- Modules - Course's modules
 if object_id('Modules', 'U') is not null drop table Modules;
@@ -155,7 +156,7 @@ values
 (1, N'Hướng đối tượng và lập trình C++.', getdate(), 0, 0),
 (2, N'Lập trình Python cơ bản.', getdate(), 0, 1),
 (3, N'Tự động hóa với Python.', getdate(), 1, 1);
-
+go
 
 -- Collection Types
 if object_id('CollectionTypes', 'U') is not null drop table CollectionTypes;
@@ -168,7 +169,7 @@ values
 (0, 'Lesson'),
 (1, 'Quiz'),
 (2, 'Graded Quiz');
-
+go
 
 -- Collections - Module's Collections
 if object_id('Collections', 'U') is not null drop table Collections;
@@ -205,7 +206,7 @@ values
 (15, N'Kiểm tra nhanh.', getdate(), 2, 1, 3),
 (16, N'Sử dụng máy ảo.', getdate(), 3, 0, 3),
 (17, N'Kiểm tra.', getdate(), 4, 2, 3);
-
+go
 
 -- QuestionTypes - type for sever render
 if object_id('QuestionTypes', 'U') is not null drop table QuestionTypes;
@@ -217,6 +218,7 @@ insert into QuestionTypes ([question_type_id], [type_description])
 values
 (0, N'Multiple choice'),
 (1, N'Multiple response');
+go
 
 -- Questions
 if object_id('Questions', 'U') is not null drop table Questions;
@@ -230,6 +232,7 @@ insert into Questions ([question_id], [question_description], [question_type_id]
 values
 (0, N'Câu lệnh nào dùng để in ra màn hình trong C?', 0),
 (1, N'Những thành phần nào dưới đây là kiểu dữ liệu trong C?', 1);
+go
 
 -- Answers
 if object_id('Answers', 'U') is not null drop table Answers;
@@ -251,7 +254,7 @@ values
 (5, N'float', 1, 1),
 (6, N'string', 1, 1),
 (7, N'object', 0, 1);
-
+go
 
 -- Material types
 if object_id('MaterialType', 'U') is not null drop table MaterialType;
@@ -265,7 +268,7 @@ values
 (1, 'Image'),
 (2, 'Video'),
 (3, 'Question');
-
+go
 
 -- Materials - Collection's materials
 if object_id('Materials', 'U') is not null drop table Materials;
@@ -297,7 +300,7 @@ values
 
 (12, N'0', 0, 3, 3),
 (13, N'1', 1, 3, 3);
-
+go
 
 -- Enrollments - after student enroll a course
 if object_id('Enrollments', 'U') is not null drop table Enrollments;
@@ -314,6 +317,7 @@ insert into Enrollments([enrollment_id], [enrollment_date], [is_done], [student_
 values
 (0, getdate(), 1, 2, 0),
 (1, getdate(), 0, 2, 1);
+go
 
 -- Tracking - enrollment tracking
 if object_id('Tracking', 'U') is not null drop table Tracking;
@@ -331,6 +335,7 @@ values
 (2, 0, 2),
 (3, 0, 3),
 (4, 1, 4);
+go
 
 -- Grade
 if object_id('Grades', 'U') is not null drop table Grades;
@@ -347,7 +352,7 @@ insert into Grades([grade_id], [grade_number], [graded_date], [enrollment_id], [
 values
 (0, 95, getdate(), 0, 0),
 (1, 85, getdate(), 0, 1);
-
+go
 
 -- Accomplishments
 if object_id('Accomplishments', 'U') is not null drop table Accomplishments;
@@ -362,7 +367,7 @@ CREATE TABLE Accomplishments (
 insert Accomplishments ([accomplishment_id], [completion_date], [overall_grade], [certificate_id], [enrollment_id])
 values
 (0, getdate(), 90, N'BCCPP010', 0);
-
+go
 
 -- CourseFeedbacks
 if object_id('CourseFeedbacks', 'U') is not null drop table CourseFeedbacks;
@@ -376,7 +381,7 @@ CREATE TABLE CourseFeedbacks (
 insert into CourseFeedbacks ([feedback_id], [feedback_description], [feedback_date], [enrollment_id])
 values
 (0, N'Cảm ơn!', getdate(), 0);
-
+go
 
 -- Fields - flagging field for filtering/searching
 if object_id('Fields', 'U') is not null drop table Fields;
@@ -393,9 +398,10 @@ values
 (4, N'Automation'),
 (5, N'Object-oriented'),
 (6, N'Virtual machine');
+go
 
-
-if object_id('CourseField ', 'U') is not null drop table CourseField ;
+-- Course Field
+if object_id('CourseField', 'U') is not null drop table CourseField ;
 create table CourseField (
 	[course_field_id] int primary key not null,
 	[course_id] int not null,
@@ -414,3 +420,41 @@ values
 (6, 0, 4),
 (7, 0, 5),
 (8, 0, 6);
+go
+
+--PROCEDURE
+-- For sign in
+create procedure GetAuthentication @account nvarchar(max), @password nvarchar(max)
+as
+begin
+	select [a1].[authentication_id], [a2].[description]
+    from Authentications a1
+		join Authorizations a2 on a2.authorization_id = a1.authorization_id
+    where [a1].[account] = @account and [a1].[password] = @password;
+end
+go
+
+-- For sign up
+create procedure AddAuthentication @account nvarchar(max), @password nvarchar(max), @identifier_email nvarchar(max), @authorization_id int
+as
+begin
+	if (@account is null or @account = '')
+		or (@password is null or @password = '')
+		or (@identifier_email is null or @identifier_email = '') 
+		or (@authorization_id is null)
+    begin
+        rollback transaction;
+        return;
+    end;
+
+	declare @newID int;
+
+	select top 1 @newID = [authentication_id] + 1
+	from Authentications
+	order by [authentication_id] desc;
+
+	insert into Authentications ([authentication_id], [account], [password], [identifier_email], [created_date], [authorization_id])
+    VALUES (@newID, @account, @password, @identifier_email, getdate(), @authorization_id);
+end
+go
+

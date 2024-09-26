@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './SignIn.css'; // Create a CSS file for styling
-import { FaUser,FaLock } from "react-icons/fa";
+import { FaUser, FaLock } from "react-icons/fa";
 function SignIn() {
 
 
