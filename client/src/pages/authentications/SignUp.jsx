@@ -11,15 +11,15 @@ function SignUp() {
            </div>
            <div className="inputs">
             <div className="input">
-                <img src={user_icon.png} alt="" />
+                <img src='/img/user_icon.png' alt="" />
                 <input type="text" placeholder="Name" />
             </div>
             <div className="input">
-                <img src={email_icon.png} alt="" />
+                <img src='/img/email_icon.png' alt="" />
                 <input type="email" placeholder="Email Id" />
             </div>
             <div className="input">
-                <img src={pass_icon.png} alt="" />
+                <img src='/img/pass_icon.png' alt="" />
                 <input type="password" placeholder="Password" />
             </div>
            </div>
