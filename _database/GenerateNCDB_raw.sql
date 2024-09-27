@@ -424,7 +424,7 @@ go
 
 --PROCEDURE
 -- For sign in
-create procedure GetAuthentication @account nvarchar(max), @password nvarchar(max)
+create procedure ReadAuthentication @account nvarchar(max), @password nvarchar(max)
 as
 begin
 	select [a1].[authentication_id], [a2].[description]
@@ -443,7 +443,7 @@ begin
 		or (@identifier_email is null or @identifier_email = '') 
 		or (@authorization_id is null)
     begin
-        rollback transaction;
+		raiserror('Input(s) is missing!', 16, 1);
         return;
     end;
 
@@ -457,4 +457,91 @@ begin
     VALUES (@newID, @account, @password, @identifier_email, getdate(), @authorization_id);
 end
 go
+-- for reset password
+create procedure ResetPassword @authentication_id int, @newPassword nvarchar(max)
+as
+begin
+	if (@newPassword is null or @newPassword = '')
+		or (@authentication_id is null)
+    begin
+		raiserror('Input(s) is missing!', 16, 1);
+        return;
+    end;
 
+	update Authentications
+	set
+	[password] = @newPassword
+	where [authentication_id] = @authentication_id
+end
+go
+-- for remove account
+
+-- for read profile
+
+-- for create profile
+-- for update profile
+-- for delete profile
+
+-- for read course
+create procedure ReadCourse @course_id int
+as
+begin
+    SELECT 
+        c.course_id,
+        c.course_name,
+        c.course_description,
+        c.duration,
+        c.created_date,
+        c.provider_id,
+        m.module_id,
+        m.module_ordinal,
+        m.module_name,
+        m.created_date
+    FROM Courses c
+    LEFT JOIN Modules m ON c.course_id = m.course_id
+    WHERE c.course_id = ISNULL(@course_id, c.course_id)
+    ORDER BY c.course_id, m.module_ordinal;
+END
+GO
+-- for create course
+create procedure CreateCourse 
+	@course_name nvarchar(max), 
+	@course_description nvarchar(max), 
+	@duration nvarchar(max),
+	@provider_id int
+as
+begin
+	if (@course_name is null or @course_name = '')
+		or (@course_description is null or @course_description = '')
+		or (@duration is null or @duration = '') 
+		or (@provider_id is null)
+    begin
+        return;
+    end;
+
+	declare @userType int;
+
+	select top 1 @userType = a2.authorization_id
+	from Authentications a1
+		join Authorizations a2 on a2.authorization_id = a1.authorization_id
+		join Users u on u.authentication_id = a1.authentication_id
+	where u.user_id = @provider_id
+
+	if (@userType != 1)
+	begin
+		raiserror('User type is not provider', 16, 1);
+        return;
+    end;
+
+	declare @newID int;
+
+	select top 1 @newID = [course_id] + 1
+	from Courses
+	order by [course_id] desc;
+
+	insert into Courses ([course_id], [course_name], [course_description], [duration], [created_date], [provider_id])
+    VALUES (@newID, @course_name, @course_description, @duration, getdate(), @provider_id);
+end
+go
+-- for update course
+-- for delete course
