@@ -23,7 +23,7 @@ function SignIn() {
                 </div>
                 
                 <div>
-                    <a href="#">Register</a>
+                    <a href="/signup">Sign Up</a>
                 </div>
 
             </form>
