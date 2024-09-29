@@ -1,14 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { signIn } = require('../apis/authentications/signIn/signInController');
-const { signUp } = require('../apis/authentications/signUp/signUpController');
-const { resetPassword } = require('../apis/authentications/resetPassword/resetPasswordController');
-const { deleteAccount } = require('../apis/authentications/deleteAccount/deleteAccountController');
+const { authCheck } = require('../middlewares/authCheck');
 
-router.get('/signin', signIn);
-router.get('/signup', signUp);
-router.get('/reset', resetPassword);
-router.get('/delete', deleteAccount);
+const { signIn } = require('../apis/authenticationManagement/signIn/signInController');
+const { signOut } = require('../apis/authenticationManagement/signOut/signOutController');
+
+router.post('/signin', signIn);
+router.post('/signout', authCheck, signOut);
 
 module.exports = router;

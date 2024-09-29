@@ -1,20 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const { authCheck } = require('./middlewares/authCheck');
+
 // Import routes
-const authenticationRoutes = require('./routers/authenticationRouters');
-const profileRoutes = require('./routers/profileRouters');
-const courseRoutes = require('./routers/courseRouters');
-const materialRoutes = require('./routers/materialRouters');
-const educationRoutes = require('./routers/educationRouters');
-const testRoutes = require('./routers/testRouters');
+const testRouters = require('./routers/testRouters');
+const authenticationRouters = require('./routers/authenticationRouters');
 
 // Use routes
-router.use('/authentication', authenticationRoutes);
-router.use('/profile', profileRoutes);
-router.use('/course', courseRoutes);
-router.use('/material', materialRoutes);
-router.use('/education', educationRoutes);
-router.use('/test', testRoutes);
+router.get('/auth-check', authCheck);
+router.use('/test', testRouters);
+
+router.use('/authentication', authenticationRouters);
 
 module.exports = router;
