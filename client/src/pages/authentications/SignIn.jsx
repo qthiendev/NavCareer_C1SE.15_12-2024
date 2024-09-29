@@ -1,33 +1,36 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import './SignIn.css'; // Create a CSS file for styling
-import { FaUser, FaLock } from "react-icons/fa";
 function SignIn() {
 
 
     return (
-        <div className="warpper">
-           <form action="">
-            <h1>Login</h1>
-            <div className="input-box">
-            <input type="text" placeholder="Username"  required/>
-            <FaUser className="icon" />
-
+        <div className="login-container">
+        <div className="login-box">
+          <h2>Chào mừng bạn đến với Navcareer</h2>
+          <form>
+            <div className="social-login">
+              <button className="google-btn">Đăng nhập với Google</button>  
+              <button className="facebook-btn">Đăng nhập với Facebook</button>
             </div>
-            <div className="input-box">
-            <input type="password" placeholder="Password"  required/>
-            <FaLock className="icon"/>
+            <div className="form-group">
+              <label>Nhập tên tài khoản hoặc địa chỉ email của bạn</label>
+              <input type="text" placeholder="Email hoặc tên tài khoản" required />
             </div>
-            <div className="remember-forgot">
-                <label><input type="checkbox" />Remember Me</label>
-                <a href="#">Forgot Password?</a>
+            <div className="form-group">
+              <label>Nhập mật khẩu của bạn</label>
+              <input type="password" placeholder="Mật khẩu" required />
             </div>
-            <button type="submit">Login</button>
-            <div className="register-link">
-                <p>Dont have an account ? <a href="#">Register</a></p>
+            <div className="forgot-password">
+              <a href="/">Quên mật khẩu?</a>
             </div>
-           </form>
+            <button type="submit" className="login-btn">Sign in</button>
+          </form>
+          <div className="signup-link">
+            <span>Chưa có tài khoản? </span><a href="/">Đăng ký</a>
+          </div>
         </div>
+      </div>
     );
 }
 
