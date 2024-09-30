@@ -11,7 +11,7 @@ function Home() {
             try {
                 const response = await axios.get('http://localhost:5000/auth-check', { withCredentials: true });
                 setIsAuthenticated(true)
-                setIsAuthenticated(response.data.authenticated);
+                setIsAuthenticated(response.data.session_status);
             } catch (err) {
                 console.error("Error during auth check:", err);
             }

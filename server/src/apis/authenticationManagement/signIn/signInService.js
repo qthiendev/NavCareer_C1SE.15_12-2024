@@ -13,7 +13,7 @@ const trySignIn = async (account, password) => {
         return result[0];
 
     } catch (err) {
-        throw new Error(`signInService.js/trySignIn() | Error: ${err.message}`);
+        throw new Error(`signInService.js/trySignIn() | Error: >{${err.message}}<`);
     }
 };
 

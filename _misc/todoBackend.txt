@@ -1,10 +1,15 @@
-config and queriable database: done
+//seize
+v: done, -: on going, x: pending
 
-sign in: done
-sign up: on going
-reset password: pending
+config and queriable database: done/updating
 
-read profile: done
-update profile: pending
-delete profile: pending
-create profile: pending
+sign in: v
+sign out: v
+sign up: v
+reset password: -
+delte account: x
+
+read profile: x
+update profile: x
+delete profile: x
+create profile: x

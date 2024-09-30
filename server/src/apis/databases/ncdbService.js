@@ -16,7 +16,7 @@ const tryConnect = async (userType) => {
 
         console.log(`[${now.toLocaleString()}] at connectNavCareer.js/tryConnect() | Connected to NavCareerDB as '${userType}'.`);
     } catch (err) {
-        throw new Error(`tryConnect() | Error >>>{${err.message}}<<<`);
+        throw new Error(`tryConnect() | Error >{${err.message}}<`);
     }
 };
 
@@ -29,7 +29,7 @@ const closeConnect = async () => {
             throw new Error(`There is no NavCareerDB connection to close.`);
         }
     } catch (err) {
-        throw new Error(`closeConnect() | Error >>>{${err.message}}<<<`);
+        throw new Error(`closeConnect() | Error >{${err.message}}<`);
     }
 };
 
@@ -55,7 +55,7 @@ const query = async (userType, queryString, params = {}) => {
         
         return results.recordset;
     } catch (err) {
-        console.error(`[${now.toLocaleString()}] at connectNavCareer.js/query() | ${err.message}`);
+        throw new Error(`connectNavCareer.js/query() | ${err.message}`);
     }
 };
 

@@ -427,10 +427,9 @@ go
 create procedure ReadAuthentication @account nvarchar(max), @password nvarchar(max)
 as
 begin
-	select [a1].[authentication_id], [a2].[description]
-    from Authentications a1
-		join Authorizations a2 on a2.authorization_id = a1.authorization_id
-    where [a1].[account] = @account and [a1].[password] = @password;
+	select [authentication_id], [authorization_id]
+    from Authentications
+    where [account] = @account and [password] = @password;
 end
 go
 

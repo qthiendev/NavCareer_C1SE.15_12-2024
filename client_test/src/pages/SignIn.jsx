@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function SignIn() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
+    const [noti, setNoti] = useState(null); // Notification message
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -13,7 +13,7 @@ function SignIn() {
         const checkAuth = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/auth-check', { withCredentials: true });
-                if (response.data.authenticated) {
+                if (response.data.session_status) {
                     navigate('/'); // Redirect to home if authenticated
                 }
             } catch (err) {
@@ -26,7 +26,7 @@ function SignIn() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null); // Reset error state before a new attempt
+        setNoti(null); // Reset notification before a new attempt
 
         try {
             const response = await axios.post('http://localhost:5000/authentication/signin', {
@@ -34,17 +34,15 @@ function SignIn() {
                 password: password
             }, { withCredentials: true });
 
-            if (response.status === 200) {
-                console.log("Login successful:", response.data);
-                navigate('/'); // Redirect on successful login
+            if (response.data.signed_in) {
+                navigate('/'); // Redirect if sign-in is successful
+            } else {
+                setNoti('Invalid username or password. Try again.');
             }
+
         } catch (err) {
             console.error("Error during login:", err);
-            if (err.response && err.response.status === 401) {
-                setError("Invalid credentials. Please try again."); // Handle invalid credentials
-            } else {
-                setError("An error occurred. Please try again later."); // General error handling
-            }
+            setNoti("An error occurred. Please try again later.");
         }
     };
 
@@ -53,27 +51,30 @@ function SignIn() {
             <form onSubmit={handleSubmit}>
                 <h1>Login</h1>
                 <div>
-                    <input 
-                        type="text" 
-                        placeholder="Username" 
-                        value={username} 
-                        onChange={(e) => setUsername(e.target.value)} 
-                        required 
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
-                    <input 
-                        type="password" 
-                        placeholder="Password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
                 </div>
+                {noti ? (
+                    <div>{noti}</div>
+                ) : null}
+
                 <div>
                     <button type="submit">Login</button>
                 </div>
-                {error && <div className="error-message">{error}</div>}
             </form>
         </div>
     );
