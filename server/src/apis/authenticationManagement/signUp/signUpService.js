@@ -4,7 +4,7 @@ const now = new Date();
 const trySignUp = async (account, password, identifier_email, authorization_id) => {
     try {
         // Insert new authentication data
-        const insertQuery = `EXECUTE AddAuthentication @account, @password, @identifier_email, @authorization_id`;
+        const insertQuery = `EXECUTE CreateAuthentication @account, @password, @identifier_email, @authorization_id`;
 
         const params = {
             account: account,

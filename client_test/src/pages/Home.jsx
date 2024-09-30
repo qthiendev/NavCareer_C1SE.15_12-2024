@@ -4,21 +4,23 @@ import { useNavigate } from 'react-router-dom';
 
 function Home() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [username, setUsername] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/auth-check', { withCredentials: true });
-                setIsAuthenticated(true)
+                console.log(response)
                 setIsAuthenticated(response.data.session_status);
+                setUsername(response.data.username);
             } catch (err) {
-                console.error("Error during auth check:", err);
+                setIsAuthenticated(false);
             }
         };
-
         checkAuth();
     }, []);
+
 
     const handleSignOut = async () => {
         try {
@@ -34,7 +36,7 @@ function Home() {
         <div className="home-container">
             {isAuthenticated ? (
                 <div>
-                    <h1>Hello, user!</h1>
+                    <h1>Hello, {username}!</h1>
                     <button onClick={handleSignOut}>Sign Out</button>
                 </div>
             ) : (
@@ -42,6 +44,6 @@ function Home() {
             )}
         </div>
     );
-}
+};
 
 export default Home;

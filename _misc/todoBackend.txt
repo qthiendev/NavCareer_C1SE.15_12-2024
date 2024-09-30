@@ -6,10 +6,15 @@ config and queriable database: done/updating
 sign in: v
 sign out: v
 sign up: v
-reset password: -
-delte account: x
+update authentication: v
+delete authentication: -
 
 read profile: x
+create profile: x
 update profile: x
 delete profile: x
-create profile: x
+
+read course:
+create course:
+update course:
+delete course:

@@ -434,7 +434,7 @@ end
 go
 
 -- For sign up
-create procedure AddAuthentication @account nvarchar(max), @password nvarchar(max), @identifier_email nvarchar(max), @authorization_id int
+create procedure CreateAuthentication @account nvarchar(max), @password nvarchar(max), @identifier_email nvarchar(max), @authorization_id int
 as
 begin
 	if (@account is null or @account = '')
@@ -457,20 +457,21 @@ begin
 end
 go
 -- for reset password
-create procedure ResetPassword @authentication_id int, @newPassword nvarchar(max)
+create procedure UpdateAuthentication @authentication_id int,
+	@current_account nvarchar(max),
+	@current_password nvarchar(max), 
+	@new_password nvarchar(max),
+	@new_email nvarchar(max),
+	@new_authorization_id int
 as
 begin
-	if (@newPassword is null or @newPassword = '')
-		or (@authentication_id is null)
-    begin
-		raiserror('Input(s) is missing!', 16, 1);
-        return;
-    end;
-
 	update Authentications
-	set
-	[password] = @newPassword
+	set [password] = @new_password,
+		[identifier_email] = @new_email,
+		[authorization_id] = @new_authorization_id
 	where [authentication_id] = @authentication_id
+		and [account] = @current_account
+		and [password] = @current_password
 end
 go
 -- for remove account

@@ -38,6 +38,7 @@ const signIn = async (req, res) => {
         //Set to connect.sid
         req.session.auth_id = authentication_id;
         req.session.authz_id = authorization_id;
+        req.session.username = account;
 
         console.log(`[${now.toLocaleString()}] at signInController.js/signIn() | Signed in successfully {${account}, ${password}}`);
 

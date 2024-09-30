@@ -14,7 +14,7 @@ function SignIn() {
             try {
                 const response = await axios.get('http://localhost:5000/auth-check', { withCredentials: true });
                 if (response.data.session_status) {
-                    navigate('/'); // Redirect to home if authenticated
+                    navigate('/');
                 }
             } catch (err) {
                 console.error("Error during auth check:", err);
@@ -44,6 +44,10 @@ function SignIn() {
             console.error("Error during login:", err);
             setNoti("An error occurred. Please try again later.");
         }
+    };
+
+    const navigateToSignUp = () => {
+        navigate('/signup'); // Navigate to signup page
     };
 
     return (
@@ -76,6 +80,10 @@ function SignIn() {
                     <button type="submit">Login</button>
                 </div>
             </form>
+
+            <div>
+                <button onClick={navigateToSignUp}>Sign Up</button>
+            </div>
         </div>
     );
 }

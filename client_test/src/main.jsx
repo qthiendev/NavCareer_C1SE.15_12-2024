@@ -6,6 +6,7 @@ import './index.css';
 import Layout from './pages/Layout.jsx';
 import Home from './pages/Home.jsx';
 import SignIn from './pages/SignIn.jsx';
+import SignUp from './pages/SignUp.jsx';
 
 const Router = () => {
   return (
@@ -13,6 +14,7 @@ const Router = () => {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="signin" element={<SignIn />} />
+        <Route path="signup" element={<SignUp />} />
       </Route>
 
     </Routes>
@@ -20,9 +22,9 @@ const Router = () => {
 };
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  //<StrictMode>
     <BrowserRouter>
       <Router />
     </BrowserRouter>
-  </StrictMode>
+  //</StrictMode>
 );
