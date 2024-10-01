@@ -58,13 +58,14 @@ go
 if object_id('Authorizations', 'U') is not null drop table Authorizations;
 create table Authorizations (
 	[authorization_id] int primary key not null,
-	[description] nvarchar(100) not null unique,
+	[alias] nvarchar(3) not null unique,
+	[description] nvarchar(100) not null,
 )
-insert into Authorizations ([authorization_id], [description])
+insert into Authorizations ([authorization_id], [alias], [description])
 values
-(0, N'Admin'),
-(1, N'Education service provider'),
-(2, N'Student');
+(0, N'adm', N'Admin'),
+(1, N'esp', N'Education Service Provider'),
+(2, N'stu', N'Student');
 go
 
 -- Authentications - user private info
@@ -423,6 +424,17 @@ values
 go
 
 --PROCEDURE
+
+-- For author
+create procedure ReadAlias @authorization_id int
+as
+begin
+	select [alias]
+	from Authorizations
+	where [authorization_id] = @authorization_id;
+end
+go
+
 -- For sign in
 create procedure ReadAuthentication @account nvarchar(max), @password nvarchar(max)
 as
@@ -462,6 +474,7 @@ create procedure UpdateAuthentication @authentication_id int,
 	@current_password nvarchar(max), 
 	@new_password nvarchar(max),
 	@new_email nvarchar(max),
+	@current_authorization_id int,
 	@new_authorization_id int
 as
 begin
@@ -472,6 +485,7 @@ begin
 	where [authentication_id] = @authentication_id
 		and [account] = @current_account
 		and [password] = @current_password
+		and [authorization_id] = @current_authorization_id
 end
 go
 -- for remove account

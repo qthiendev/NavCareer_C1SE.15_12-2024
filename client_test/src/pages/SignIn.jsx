@@ -9,24 +9,27 @@ function SignIn() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Check if the user is already authenticated and redirect to home
         const checkAuth = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/auth-check', { withCredentials: true });
-                if (response.data.session_status) {
+                const response = await axios.get('http://localhost:5000/authentication/status', { withCredentials: true });
+                if (response.data.status) {
                     navigate('/');
                 }
             } catch (err) {
-                console.error("Error during auth check:", err);
+                
             }
         };
-
         checkAuth();
     }, [navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setNoti(null); // Reset notification before a new attempt
+        setNoti(null);
+
+        if (!username || !password) {
+            setNoti('Please enter both username and password.');
+            return;
+        }
 
         try {
             const response = await axios.post('http://localhost:5000/authentication/signin', {
@@ -34,26 +37,22 @@ function SignIn() {
                 password: password
             }, { withCredentials: true });
 
-            if (response.data.signed_in) {
-                navigate('/'); // Redirect if sign-in is successful
-            } else {
-                setNoti('Invalid username or password. Try again.');
+            if (response.status === 200) {
+                navigate('/');
             }
-
         } catch (err) {
-            console.error("Error during login:", err);
-            setNoti("An error occurred. Please try again later.");
+            if (err.response && err.response.status === 401) {
+                setNoti('Invalid username or password. Please try again.');
+            } else {
+                setNoti('Server error. Please try again later.');
+            }
         }
-    };
-
-    const navigateToSignUp = () => {
-        navigate('/signup'); // Navigate to signup page
     };
 
     return (
         <div className="signin-container">
             <form onSubmit={handleSubmit}>
-                <h1>Login</h1>
+                <h1>Sign In</h1>
                 <div>
                     <input
                         type="text"
@@ -72,18 +71,16 @@ function SignIn() {
                         required
                     />
                 </div>
-                {noti ? (
-                    <div>{noti}</div>
-                ) : null}
+                {noti && (
+                    <div style={{ color: 'red', marginTop: '10px' }}>
+                        {noti}
+                    </div>
+                )}
 
                 <div>
-                    <button type="submit">Login</button>
+                    <button type="submit">Sign in</button>
                 </div>
             </form>
-
-            <div>
-                <button onClick={navigateToSignUp}>Sign Up</button>
-            </div>
         </div>
     );
 }

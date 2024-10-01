@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const { authCheck } = require('../middlewares/authCheck');
 const { query } = require('../apis/databases/ncdbService');
 
 router.get('/query', async (req, res) => {

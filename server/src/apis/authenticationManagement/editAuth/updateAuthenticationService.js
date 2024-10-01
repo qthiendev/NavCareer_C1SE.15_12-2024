@@ -1,11 +1,13 @@
 const ncdb = require('../../databases/ncdbService');
 
 const tryUpdateAuthentication = async (
+    userType,
     authenticationId,
     currentAccount,
     currentPassword,
     newPassword,
     newIdentifierEmail,
+    currentAuthorizationId,
     newAuthorizationId
 ) => {
     try {
@@ -13,7 +15,14 @@ const tryUpdateAuthentication = async (
             throw new Error("All parameters must be provided.");
         }
         // Insert new authentication data
-        const insertQuery = `EXECUTE UpdateAuthentication @authentication_id, @current_account, @current_password, @new_password, @new_email, @new_authorization_id`;
+        const insertQuery = `EXECUTE UpdateAuthentication 
+            @authentication_id, 
+            @current_account, 
+            @current_password,
+            @new_password, 
+            @new_email, 
+            @current_authorization_id,
+            @new_authorization_id`;
 
         const params = {
             authentication_id: authenticationId,
@@ -21,10 +30,11 @@ const tryUpdateAuthentication = async (
             current_password: currentPassword,
             new_password: newPassword,
             new_email: newIdentifierEmail,
+            current_authorization_id: currentAuthorizationId,
             new_authorization_id: newAuthorizationId
         };
 
-        await ncdb.query('sa', insertQuery, params);
+        await ncdb.query(userType, insertQuery, params);
 
         // Verify
         const checkQuery = `EXECUTE ReadAuthentication @account, @password`;

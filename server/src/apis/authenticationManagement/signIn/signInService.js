@@ -1,6 +1,6 @@
 const ncdb = require('../../../apis/databases/ncdbService');
 
-const trySignIn = async (account, password) => {
+const trySignIn = async (userType, account, password) => {
     try {
         if (!account || !password) 
             throw new Error(`Account and password must be provided.`);
@@ -8,7 +8,7 @@ const trySignIn = async (account, password) => {
         const queryString = `EXECUTE ReadAuthentication @account, @password`;
         const params = { account, password };
 
-        const result = await ncdb.query('sa', queryString, params);
+        const result = await ncdb.query(userType, queryString, params);
 
         return result[0];
 
