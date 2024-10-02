@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-const authentication = require('./middlewares/authentication');
-
 // Import routes
-const testRouters = require('./routers/testRouters');
+const serverRouters = require('./routers/serverRouters');
 const authenticationRouters = require('./routers/authenticationRouters');
 
+
 // Use routes
-router.use('/test', testRouters);
 router.use('/authentication', authenticationRouters);
+
+//Self implement route
+router.use('/', serverRouters);
 
 module.exports = router;
