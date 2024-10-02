@@ -104,10 +104,10 @@ create table Users (
 )
 insert into Users ([user_id], [user_name], [email], [birthdate], [gender], [phone_number], [address], [date_joined], [resource_url], [authentication_id])
 values
-(0, N'admin 0', N'admin@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'profiles/_0', 0),
-(1, N'education service provider 0', N'esp@gmail.com', getdate(), 0, N'0123456789', N'Đà Nẵng', getdate(), N'profiles/_1', 1),
-(2, N'student 0', N'student@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'profiles/_2', 2),
-(3, N'Trịnh Quý Thiện', N'trinhquythien.dev@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'profiles/_3', 3);
+(0, N'admin 0', N'admin@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_0', 0),
+(1, N'education service provider 0', N'esp@gmail.com', getdate(), 0, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_1', 1),
+(2, N'student 0', N'student@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_2', 2),
+(3, N'Trịnh Quý Thiện', N'trinhquythien.dev@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_3', 3);
 go
 
 -- Feedbacks
@@ -491,8 +491,49 @@ go
 -- for remove account
 
 -- for read profile
+create procedure ReadProfile @authentication_id int
+as
+begin
+
+	select [user_id], 
+		[user_name], 
+		[email], 
+		[birthdate], 
+		[gender], 
+		[phone_number], 
+		[address], 
+		[date_joined], 
+		[resource_url]
+	from Users
+	where [authentication_id] = @authentication_id
+end
+go
 
 -- for create profile
+create procedure CreateProfile @user_name nvarchar(max), 
+	@email nvarchar(max), 
+	@birthdate datetime, 
+	@gender bit, 
+	@phone_number nvarchar(30), 
+	@address nvarchar(max),
+	@authentication_id int
+as
+begin
+	
+	declare @newId int;
+
+	select top 1 @newId = [user_id] + 1
+	from Users
+	order by [user_id] desc
+
+	declare @resource_url nvarchar(max) = '/profiles/_' + str(@newID);
+
+	insert into Users ([user_id], [user_name], [email], [birthdate], [gender], [phone_number], [address], [date_joined], [resource_url], [authentication_id])
+	values
+	(@newId, @user_name, @email, @birthdate, @gender, @phone_number, @address, getdate(), trim(@resource_url), @authentication_id);
+
+end
+go
 -- for update profile
 -- for delete profile
 
