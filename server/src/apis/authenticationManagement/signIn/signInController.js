@@ -28,12 +28,12 @@ const signIn = async (req, res) => {
             });
         }
 
-        const { authorization_id } = data;
+        const { authentication_id, authorization_id } = data;
 
         const authorization = await ncdb.query('gst', `execute ReadAlias @authorization_id`, { authorization_id });
 
         //Set to connect.sid
-        req.session.username = account;
+        req.session.authentication = authentication_id;
         req.session.authorization = authorization[0].alias;
 
         console.log(`[${now.toLocaleString()}] at signInController.js/signIn() | Signed in successfully {${account}, ${password}}`);

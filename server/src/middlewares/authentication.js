@@ -2,9 +2,12 @@ module.exports.check = async (req, res, next) => {
     const now = new Date();
 
     try {
-        const { username } = req.session;
+        const { authentication, authorization } = req.session;
 
-        if (!username) {
+        const authCheck = authentication != null && typeof(authentication) != 'undefined';
+        const authzCheck = authorization && authorization != '';
+
+        if (!authCheck || !authzCheck) {
             return res.status(401).json({
                 message: 'Not signed in.',
                 time: now.toLocaleString(),

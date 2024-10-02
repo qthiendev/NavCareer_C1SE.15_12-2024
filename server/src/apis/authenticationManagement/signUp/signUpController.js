@@ -19,7 +19,7 @@ const signUp = async (req, res) => {
         if (typeof(email) == 'undefined' || email == null)
             throw new Error(`'email' is empty or invalid.`);
 
-        if (typeof(authorization_id) == 'undefined' || authorization_id == null)
+        if (typeof(authorization_id) == 'undefined' || authorization_id == null || Number.parseInt(authorization_id) === 0)
             throw new Error(`'authorization_id' is empty or invalid.`);
 
         const signUpStatus = await trySignUp(account, password, email, authorization_id);
