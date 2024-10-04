@@ -1,101 +1,194 @@
-INSERT INTO Authorizations(authorization_id, description)
-VALUES
-(0, N'Admin'),
-(1, N'Educational Service Provider'),
-(2, N'Student');
+insert into NavQuestions ([question_id], [question_description])
+values
+(0, N'Bạn đánh giá thế nào về khả năng viết văn/ làm thơ của mình?'),
+(1, N'Bạn đánh giá thế nào về khả năng học một ngôn ngữ mới của mình?'),
+(2, N'Bạn thấy khả năng đọc và làm việc với giấy tờ, văn bản, tài liệu của mình như thế nào?'),
+(3, N'Hãy đánh giá khả năng dùng lời nói để truyền đạt đến mọi người (Thuyết trình, hướng dẫn, giải thích,...)?');
+use master
+insert into NavAnswers ([answer_id], [answer_description], [question_id])
+values
+(0, N'Rất thấp', 0),
+(1, N'Thấp', 0),
+(2, N'Cao', 0),
+(3, N'Rất cao', 0),
+(4, N'Rất thấp', 1),
+(5, N'Thấp', 1),
+(6, N'Cao', 1),
+(7, N'Rất cao', 1),
+(8, N'Rất thấp', 2),
+(9, N'Thấp', 2),
+(10, N'Cao', 2),
+(11, N'Rất cao', 2),
+(12, N'Rất thấp', 3),
+(13, N'Thấp', 3),
+(14, N'Cao', 3),
+(15, N'Rất cao', 3);
 
-INSERT INTO Authentications(authentication_id, account, password, identifier_email, created_date, authorization_id)
-VALUES
-(0, N'admin', N'adminpass', N'admin@example.com', GETDATE(), 0),
-(1, N'educator1', N'educatorpass', N'educator1@example.com', GETDATE(), 1),
-(2, N'student1', N'studentpass', N'student1@example.com', GETDATE(), 2),
-(3, N'qthiendev', N'qthiendev', N'trinhquythien.dev@gmail.com', GETDATE(), 2);
+insert into Authentications ([authentication_id], [account], [password], [identifier_email], [created_date], [authorization_id])
+values
+(0, 'admin', 'admin', 'admin@gmail.com', getdate(), 0),
+(1, 'esp', 'esp', 'esp@gmail.com', getdate(), 1),
+(2, 'student', 'student', 'student@gmail.com', getdate(), 2),
+(3, 'qthiendev', 'qthiendev', 'trinhquythien.dev@gmail.com', getdate(), 0);
 
-INSERT INTO Users(user_id, user_name, email, birthdate, gender, phone_number, address, date_joined, avatar_img, cover_img, authentication_id)
-VALUES
-(0, 'Alice Smith', 'alice@example.com', GETDATE(), 1, '123-456-7890', '123 Main St', GETDATE(), NULL, NULL, 0),
-(1, 'Bob Johnson', 'bob@example.com', GETDATE(), 0, '098-765-4321', '456 Elm St', GETDATE(), NULL, NULL, 1),
-(2, 'Charlie Brown', 'charlie@example.com', GETDATE(), 1, '111-222-3333', '789 Pine St', GETDATE(), NULL, NULL, 2),
-(3, N'Trịnh Quý Thiện', 'trinhquythien.dev@gmail.com', GETDATE(), 1, '0395075100', N'Cẩm Lệ, Đà Nẵng', GETDATE(), NULL, NULL, 3);
+insert into Authentications ([authentication_id], [account], [password], [identifier_email], [created_date], [authorization_id])
+values
+(0, 'admin', 'admin', 'admin@gmail.com', getdate(), 0),
+(1, 'esp', 'esp', 'esp@gmail.com', getdate(), 1),
+(2, 'student', 'student', 'student@gmail.com', getdate(), 2),
+(3, 'qthiendev', 'qthiendev', 'trinhquythien.dev@gmail.com', getdate(), 0);
 
-INSERT INTO Courses(course_id, course_name, course_description, duration, created_date, user_id)
-VALUES 
-(0, 'Introduction to Programming', 'Learn the basics of programming.', '3 months', GETDATE(), 2),
-(1, 'Data Science Fundamentals', 'Introduction to data science concepts.', '2 months', GETDATE(), 2),
-(2, 'Web Development Basics', 'Learn the basics of web development.', '1 month', GETDATE(), 2);
+insert into Users ([user_id], [user_name], [email], [birthdate], [gender], [phone_number], [address], [date_joined], [resource_url], [authentication_id])
+values
+(0, N'admin 0', N'admin@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_0', 0),
+(1, N'education service provider 0', N'esp@gmail.com', getdate(), 0, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_1', 1),
+(2, N'student 0', N'student@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_2', 2),
+(3, N'Trịnh Quý Thiện', N'trinhquythien.dev@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_3', 3);
+go
 
-INSERT INTO Modules(module_id, module_ordinal, module_name, module_description, created_date, course_id)
-VALUES
-(0, 0, 'Module 1: Basics', 'Introduction to programming concepts.', GETDATE(), 0),
-(1, 1, 'Module 2: Control Structures', 'Understanding loops and conditionals.', GETDATE(), 0),
-(2, 0, 'Module 1: Data Science Overview', 'Introduction to data science.', GETDATE(), 1),
-(3, 0, 'Module 1: Website Overview', 'Introduction to website.', GETDATE(), 2);
+insert into SystemFeedbacks ([feedback_id], [feedback_description], [feedback_date], [user_id])
+values
+(0, N'Need more course', getdate(), 2);
+go
 
-INSERT INTO CollectionTypes(collection_type_id, collection_name)
-VALUES 
+insert into Courses ([course_id], [course_name], [course_description], [duration], [created_date], [provider_id])
+values
+(0, N'Lập trình C/C++', N'Khóa học về lập trình C cơ bản và hướng đối tượng với C++.', N'3 tháng', getdate(), 1),
+(1, N'Lập trình Python', N'Khóa học về lập trình Python.', N'5 tháng', getdate(), 1);
+go
+
+insert into Modules ([module_id], [module_name], [created_date], [module_ordinal], [course_id])
+values
+(0, N'Lập trình C cơ bản.', getdate(), 0, 0),
+(1, N'Hướng đối tượng và lập trình C++.', getdate(), 0, 0),
+(2, N'Lập trình Python cơ bản.', getdate(), 0, 1),
+(3, N'Tự động hóa với Python.', getdate(), 1, 1);
+go
+
+insert into CollectionTypes ([collection_type_id], [collection_type_name])
+values
 (0, 'Lesson'),
-(1, 'Quiz');
+(1, 'Quiz'),
+(2, 'Graded Quiz');
 
-INSERT INTO Collections(collection_id, collection_ordinal, collection_name, created_date, module_id, collection_type_id)
-VALUES 
-(0, 0, 'Introduction', GETDATE(), 0, 0),
-(1, 1, 'Control Structures Article', GETDATE(), 0, 0),
-(2, 2, 'Quiz', GETDATE(), 0, 1),
-(3, 0, 'Control Structures Article', GETDATE(), 1, 0);
+insert into Collections ([collection_id], [collection_name], [created_date], [collection_ordinal], [collection_type_id], [module_id])
+values
+(0, N'Khái niệm lập trình.', getdate(), 0, 0, 0),
+(1, N'Biến và hằng trong C.', getdate(), 1, 0, 0),
+(2, N'Input và output.', getdate(), 2, 0, 0),
+(3, N'Kiểm tra.', getdate(), 3, 2, 0),
 
-INSERT INTO EnrollmentStatus(status_id, status_description)
-(0, 'Enrolled'),
-(1, 'Completed');
+(4, N'Khái niệm hướng đối tượng.', getdate(), 0, 0, 1),
+(5, N'Lớp và đối tượng.', getdate(), 1, 0, 1),
+(6, N'Con trỏ.', getdate(), 2, 0, 1),
+(7, N'Kiểm tra.', getdate(), 3, 2, 1),
 
-INSERT INTO Enrollments(enrollment_id, student_id, course_id, enrollment_date, status_id)
-VALUES 
-(0, 3, 0, GETDATE(), 1),
-(1, 3, 1, GETDATE(), 0);
+(8, N'Khái niệm lập trình.', getdate(), 0, 0, 2),
+(9, N'Biến và hằng trong Python.', getdate(), 1, 0, 2),
+(10, N'Kiểm tra nhanh.', getdate(), 2, 1, 2),
+(11, N'Input và output.', getdate(), 3, 0, 2),
+(12, N'Kiểm tra.', getdate(), 4, 2, 2),
 
-INSERT INTO Grades(grade_id, enrollment_id, module_id, grade_number, graded_date)
-VALUES 
-(0, 0, 0, 85, GETDATE()),
-(1, 0, 1, 90, GETDATE());
+(13, N'Khái niệm tự động hóa tác vụ.', getdate(), 0, 0, 3),
+(14, N'Đọc và xử lý file.', getdate(), 1, 0, 3),
+(15, N'Kiểm tra nhanh.', getdate(), 2, 1, 3),
+(16, N'Sử dụng máy ảo.', getdate(), 3, 0, 3),
+(17, N'Kiểm tra.', getdate(), 4, 2, 3);
 
-INSERT INTO Accomplishments(accomplishment_id, student_id, course_id, completion_date, overall_grade, certificate_id)
-VALUES 
-(0, 2, 1, GETDATE(), 87, 'CERT123'),
-(1, 2, 2, GETDATE(), 90, 'CERT124');
+insert into QuestionTypes ([question_type_id], [type_description])
+values
+(0, N'Multiple choice'),
+(1, N'Multiple response');
 
-INSERT INTO CourseFeedbacks (feedback_id, feedback_description, feedback_date, course_id, user_id)
-VALUES 
-(0, 'Great course, very informative!', GETDATE(), 0, 2);
+insert into Questions ([question_id], [question_description], [question_type_id])
+values
+(0, N'Câu lệnh nào dùng để in ra màn hình trong C?', 0),
+(1, N'Những thành phần nào dưới đây là kiểu dữ liệu trong C?', 1);
+go
+insert into Answers ([answer_id], [answer_description], [is_right], [question_id])
+values
+(0, N'printf()', 1, 0),
+(1, N'scanf()', 0, 0),
+(2, N'cout', 0, 0),
+(3, N'echo', 0, 0),
 
-INSERT INTO Fields (field_id, field_description)
-VALUES 
-(0, 'Programming'),
-(1, 'Data Science'),
-(2, 'Web Development'),
-(3, 'Programmer');
+(4, N'int', 1, 1),
+(5, N'float', 1, 1),
+(6, N'string', 1, 1),
+(7, N'object', 0, 1);
+go
+insert into MaterialType ([material_type_id], [material_type_name])
+values
+(0, 'Text'),
+(1, 'Image'),
+(2, 'Video'),
+(3, 'Question');
+go
+insert into Materials ([material_id], [material_content], [material_ordinal], [material_type_id], [collection_id])
+values
+(0, N'Giới thiệu về lập trình C', 0, 0, 0),
+(1, N'course/_0/lap_trinh_c.png', 1, 1, 0),
+(2, N'Lập trình C là một trong những ngôn ngữ lập trình lâu đời và phổ biến nhất. Được phát triển vào đầu những năm 1970 bởi Dennis Ritchie tại Bell Labs, ngôn ngữ C đã trở thành nền tảng cho nhiều ngôn ngữ lập trình hiện đại, bao gồm C++, C#, và Java.', 2, 0, 0),
+(3, N'course/_0/lap_trinh_c.mp4', 3, 2, 0),
 
-INSERT INTO CourseField (course_field_id, course_id, field_id)
-VALUES 
+(4, N'Biến và hằng trong C.', 0, 0, 1),
+(5, N'course/_0/lap_trinh_c.png', 1, 1, 1),
+(6, N'Lập trình C là một trong những ngôn ngữ lập trình lâu đời và phổ biến nhất. Được phát triển vào đầu những năm 1970 bởi Dennis Ritchie tại Bell Labs, ngôn ngữ C đã trở thành nền tảng cho nhiều ngôn ngữ lập trình hiện đại, bao gồm C++, C#, và Java.', 2, 0, 1),
+(7, N'course/_0/lap_trinh_c.mp4', 3, 2, 1),
+
+(8, N'Input và output.', 0, 0, 2),
+(9, N'course/_0/lap_trinh_c.png', 1, 1, 2),
+(10, N'Lập trình C là một trong những ngôn ngữ lập trình lâu đời và phổ biến nhất. Được phát triển vào đầu những năm 1970 bởi Dennis Ritchie tại Bell Labs, ngôn ngữ C đã trở thành nền tảng cho nhiều ngôn ngữ lập trình hiện đại, bao gồm C++, C#, và Java.', 2, 0, 2),
+(11, N'course/_0/lap_trinh_c.mp4', 3, 2, 2),
+
+(12, N'0', 0, 3, 3),
+(13, N'1', 1, 3, 3);
+go
+insert into Enrollments([enrollment_id], [enrollment_date], [is_done], [student_id], [course_id])
+values
+(0, getdate(), 1, 2, 0),
+(1, getdate(), 0, 2, 1);
+go
+insert into Tracking ([tracking_id], [enrollment_id], [collection_id])
+values
 (0, 0, 0),
-(1, 1, 1),
-(2, 1, 0),
-(3, 2, 2),
-(4, 2, 0);
-
-INSERT INTO UserField (user_field_id, user_id, field_id)
-VALUES
-(0, 1, 3);
-
-INSERT INTO SystemFeedbacks (feedback_id, feedback_description, feedback_date, user_id)
-VALUES 
-(0, 'The platform is user-friendly.', GETDATE(), 1),
-(1, 'More courses on data science would be great.', GETDATE(), 2);
-
-INSERT INTO Materials(material_id, material_ordinal, text, image, video_url, question_id, collection_id)
-VALUES 
-(0, 0, 'Hello, and welcome to the second course of the Google Data Analytics Certificate program. You’re on an exciting journey!
-
-In this part of the program, you’ll learn how data analysts use structured thinking to solve business problems. Then, you’ll explore how to ask effective questions and use the answers to tell a meaningful story about data. Finally, you’ll discover strategies for effectively communicating and collaborating with your stakeholders when defining a problem and presenting data insights. This will enable you to support and advance business goals with data!', NULL, null, null, 0),
-(1, 1, NULL, 
-    (SELECT * FROM OPENROWSET(BULK 'D:\Workspace\NavCareer_C1SE.15_12-2024\server\localResources\courses\bmRBqebdTR6YvLDNTJCL6Q_129fcd20b3e947dbae1e1eb79636b7f1_D4G001_2.png', SINGLE_BLOB) AS img), 
-    NULL, NULL, 0),
-(2, 2, null, NULL, 'testVid.mp4', null, 0);
+(1, 0, 1),
+(2, 0, 2),
+(3, 0, 3),
+(4, 1, 4);
+go
+insert into Grades([grade_id], [grade_number], [graded_date], [enrollment_id], [module_id])
+values
+(0, 95, getdate(), 0, 0),
+(1, 85, getdate(), 0, 1);
+go
+insert Accomplishments ([accomplishment_id], [completion_date], [overall_grade], [certificate_id], [enrollment_id])
+values
+(0, getdate(), 90, N'BCCPP010', 0);
+go
+insert into CourseFeedbacks ([feedback_id], [feedback_description], [feedback_date], [enrollment_id])
+values
+(0, N'Cảm ơn!', getdate(), 0);
+go
+insert into Fields ([field_id], [field_description])
+values
+(0, N'Programming'),
+(1, N'C'),
+(2, N'C++'),
+(3, N'Python'),
+(4, N'Automation'),
+(5, N'Object-oriented'),
+(6, N'Virtual machine');
+go
+insert into CourseField ([course_field_id], [course_id], [field_id])
+values
+(0, 0, 0),
+(1, 0, 1),
+(2, 0, 2),
+(3, 0, 5),
+(4, 1, 0),
+(5, 1, 3),
+(6, 0, 4),
+(7, 0, 5),
+(8, 0, 6);
+go

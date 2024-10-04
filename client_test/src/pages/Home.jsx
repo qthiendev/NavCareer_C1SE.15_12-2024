@@ -13,7 +13,7 @@ function Home() {
             try {
                 const response = await axios.get('http://localhost:5000/authentication/status', { withCredentials: true });
                 setStatus(response.data.status);
-                setUsername(response.data.username);
+                setUsername(response.data.authentication + ' as ' + response.data.authorization);
             } catch (err) {
                 if (!err.response) {
                     setError('Error during auth check!');
@@ -27,7 +27,7 @@ function Home() {
 
     const handleSignOut = async () => {
         try {
-            await axios.post('http://localhost:5000/authentication/signout', {}, { withCredentials: true });
+            await axios.post('http://localhost:5000/auth/signout', {}, { withCredentials: true });
             setStatus(false);
             navigate('/'); // Redirect to sign-in page after signing out
         } catch (err) {

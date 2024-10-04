@@ -3,12 +3,14 @@ const router = express.Router();
 
 // Import routes
 const serverRouters = require('./routers/serverRouters');
-const authenticationRouters = require('./routers/authenticationRouters');
+const authRouters = require('./routers/authRouters');
+const authzRouters = require('./routers/authzRouters');
 const profileRouters = require('./routers/profileRouters');
 
 
 // Use routes
-router.use('/authentication', authenticationRouters);
+router.use('/auth', authRouters);
+router.use('/authz', authzRouters);
 router.use('/profile', profileRouters);
 
 //Self implement route

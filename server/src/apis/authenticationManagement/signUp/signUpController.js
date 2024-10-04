@@ -7,7 +7,7 @@ const signUp = async (req, res) => {
             account,
             password,
             email,
-            authorization_id,
+            authz_id,
         } = req.body;
 
         if (typeof(account) == 'undefined' || account == null)
@@ -19,22 +19,37 @@ const signUp = async (req, res) => {
         if (typeof(email) == 'undefined' || email == null)
             throw new Error(`'email' is empty or invalid.`);
 
-        if (typeof(authorization_id) == 'undefined' || authorization_id == null || Number.parseInt(authorization_id) === 0)
-            throw new Error(`'authorization_id' is empty or invalid.`);
+        if (typeof(authz_id) == 'undefined' || authz_id == null || Number.parseInt(authz_id) === 0)
+            throw new Error(`'authz_id' is empty or invalid.`);
 
-        const signUpStatus = await trySignUp(account, password, email, authorization_id);
+        const signUpStatus = await trySignUp(account, password, email, authz_id);
 
-        res.status(200).json({
-            message: `Account signed up${signUpStatus ? '' : ' not' } successfully.`,
-            sign_up_status: signUpStatus,
+        if (signUpStatus === 'EXISTED') {
+            console.error(`[${now.toLocaleString()}] at signUpController.js/signUp | Authentication already existed.`);
+            return res.status(201).json({
+                message: `Authentication information already existed.`,
+                time: now.toLocaleString()
+            });
+        }
+
+        if (signUpStatus === 'FAILED') {
+            console.error(`[${now.toLocaleString()}] at signUpController.js/signUp | Failed to created Authentication.`);
+            return res.status(203).json({
+                message: `Failed to create Authentication information.`,
+                time: now.toLocaleString()
+            });
+        }
+
+        console.log(`[${now.toLocaleString()}] at signUpController.js/signUp | Authentication information created successfully.`);
+        return res.status(200).json({
+            message: `Authentication information created successfully.`,
             time: now.toLocaleString()
         });
 
     } catch (err) {
-        console.error(`[${now.toLocaleString()}] at signUpController.js/signUp() | Error >{${err.message}}<`);
-        res.status(400).json({ 
-            message: 'Failed to sign up the account.',
-            sign_up_status: false,
+        console.error(`[${now.toLocaleString()}] at signUpController.js/signUp | ${err.message}`);
+        return res.status(500).json({ 
+            message: 'Internal Server Error',
             time: now.toLocaleString()
         });
     }

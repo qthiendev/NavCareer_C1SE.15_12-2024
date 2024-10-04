@@ -1,20 +1,28 @@
 const checkAuthorization = (requiredRole) => async (req, res, next) => {
     try {
-        const { authorization } = req.session;
         const now = new Date();
+
+        const { aid, role } = req.session;
+
+        const aidCheck = aid != null && typeof(aid) !== 'undefined';
+        const roleCheck = role && role !== '';
+
+        if (aidCheck ^ roleCheck)
+            throw new Error('There is trouble with the session:', id, role);
         
-        if (authorization !== requiredRole) {
-            return res.status(401).json({
-                message: 'Not allowed',
+        if (role !== requiredRole) {
+            console.log(`[${now.toLocaleString()}] at authentication.js/checkAuthorization | Triggered`);
+            return res.status(403).json({
+                message: 'Permission Denied',
                 time: now.toLocaleString()
             });
         }
 
         next();
     } catch (err) {
-        console.error(`[${now.toLocaleString()}] authorization.js/checkAuthorization() | ${err.message}`);
+        console.error(`[${now.toLocaleString()}] authorization.js/checkAuthorization | ${err.message}`);
         res.status(500).json({
-            message: 'Error on request',
+            message: 'Internal Server Error',
             time: new Date().toLocaleString()
         });
     }

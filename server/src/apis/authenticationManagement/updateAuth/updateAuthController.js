@@ -1,37 +1,32 @@
-const { tryUpdateAuthentication } = require('./updateAuthenticationService');
+const { tryUpdateAuth } = require('./updateAuthService');
 const now = new Date();
 
-const updateAuthentication = async (req, res) => {
+const updateAuth= async (req, res) => {
     try {
         const {
+            new_account,
             current_password,
             new_password,
-            identifier_email,
-            authorization_id
+            new_identifier_email,
+            new_authz_id
         } = req.body;
 
-        const {
-            username,
-            auth_id,
-            authz_id,
-            authorization
-        } = req.session;
+        const { aid, role } = req.session;
 
         // Call the service to try editing the auth
         const editStatus = await tryUpdateAuthentication(
-            authorization,
-            auth_id,
-            username,
+            role,
+            aid,
+            new_account,
             current_password,
             new_password,
-            identifier_email,
-            authz_id,
-            authorization_id
+            new_identifier_email,
+            new_authz_id
         );
 
         console.log(`[${now.toLocaleString()}] at editAuthController.js/editAuth() | Account edited${editStatus ? '' : ' not'} successfully.`);
 
-        res.status(200).json({
+        res.status(editStatus ? 200 : 204).json({
             message: `Account edited${editStatus ? '' : ' not'} successfully.`,
             edit_status: editStatus,
             time: now.toLocaleString()
@@ -40,11 +35,11 @@ const updateAuthentication = async (req, res) => {
     } catch (err) {
         console.error(`[${now.toLocaleString()}] at editAuthController.js/editAuth() | ${err.message}`);
         res.status(400).json({
-            message: 'Failed to edit the account.',
+            message: 'Internal Server Error',
             edit_status: false,
             time: now.toLocaleString()
         });
     }
 }
 
-module.exports = { updateAuthentication };
+module.exports = { updateAuth };

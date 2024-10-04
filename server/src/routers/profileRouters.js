@@ -7,7 +7,7 @@ const { createProfile } = require('../apis/profileManagement/createProfile/creat
 //const { readProfile } = require('../apis/profileManagement/readProfile/readProfileController');
 //const { updateProfile } = require('../apis/profileManagement/updateProfile/updateProfileController');
 
-router.post('/create', authMiddleware.check, createProfile);
+router.post('/create', authMiddleware.isSignedIn, createProfile);
 //router.get('/read', readProfile);
 //router.get('/update', updateProfile);
 
