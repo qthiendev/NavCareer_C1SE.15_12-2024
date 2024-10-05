@@ -1,45 +1,64 @@
-const { queryDB } = require('../../database/queryDBService');
+const ncbd = require('../../databases/ncdbService');
+
+// Utility function to convert date from dd/MM/yyyy to yyyy-MM-dd
+const formatDate = (birthdate) => {
+    const [day, month, year] = birthdate.split('/');
+    return `${year}-${month}-${day}`; // yyyy-MM-dd
+};
 
 const tryCreateProfile = async (profileData) => {
+    const {
+        userType,
+        userFullName,
+        email,
+        birthdate,
+        gender,
+        phoneNumber,
+        address,
+        authenticationId
+    } = profileData;
+
     try {
-        const { userType, userId, userName, email, birthdate, gender, phoneNumber, address, authenticationId } = profileData;
+        // Check if the profile already exists
+        const existingProfile = await ncbd.query(
+            userType, 
+            `EXECUTE ReadProfile @authentication_id`, 
+            { authentication_id: authenticationId }
+        );
 
-        const queryString = `
-            INSERT INTO [Users] (
-                [user_id], 
-                [user_name], 
-                [email], 
-                [birthdate], 
-                [gender], 
-                [phone_number], 
-                [address], 
-                [date_joined], 
-                [authentication_id]
-            ) 
-            VALUES (
-                @userId, 
-                @userName, 
-                @Email, 
-                @birthdate, 
-                @gender, 
-                @phoneNumber, 
-                @address, 
-                GETDATE(), 
-                @authenticationId
-            );
-        `;
+        if (existingProfile && existingProfile.length > 0) {
+            return 3; // Profile already exists
+        }
 
-        const params = { userId, userName, email, birthdate, gender, phoneNumber, address, authenticationId };
+        // Convert birthdate from dd/MM/yyyy to yyyy-MM-dd format
+        const formattedBirthdate = formatDate(birthdate);
 
-        // Insert profile data and return the inserted record's id
-        const result = await queryDB(userType, queryString, params);
+        // Create profile query and parameters
+        const queryString = `EXECUTE CreateProfile @user_name, @email, @birthdate, @gender, @phone_number, @address, @authentication_id`;
+        const params = {
+            user_name: userFullName,
+            email: email,
+            birthdate: formattedBirthdate,
+            gender: gender,
+            phone_number: phoneNumber,
+            address: address,
+            authentication_id: authenticationId
+        };
 
-        return result && result.length > 0 ? { profileId: result[0].id, ...profileData } : null;
+        // Insert profile data
+        await ncbd.query(userType, queryString, params);
+
+        // Verify the profile insertion
+        const newProfile = await ncbd.query(
+            userType, 
+            `EXECUTE ReadProfile @authentication_id`, 
+            { authentication_id: authenticationId }
+        );
+
+        return newProfile && newProfile.length > 0 ? 2 : 1;
 
     } catch (err) {
-        const now = new Date();
-        console.error(`[${now.toLocaleString()}] at createProfileService.js/tryCreateProfile() | {\n${err.message}\n}`);
-        return null;
+        throw Error(`createProfileService.js/tryCreateProfile() | ${err.message}`);
     }
 };
 

@@ -15,7 +15,7 @@ function SignUp() {
         setNoti(null); // Reset notification before a new attempt
 
         try {
-            const response = await axios.post('http://localhost:5000/authentication/signup', {
+            const response = await axios.post('http://localhost:5000/auth/signup', {
                 account: username,
                 password: password,
                 email: email,

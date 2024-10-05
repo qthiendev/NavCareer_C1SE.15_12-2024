@@ -11,7 +11,7 @@ function SignIn() {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/authentication/status', { withCredentials: true });
+                const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
                 if (response.data.status) {
                     navigate('/');
                 }
