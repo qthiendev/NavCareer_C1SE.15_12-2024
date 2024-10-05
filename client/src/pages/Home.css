@@ -79,8 +79,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 50px;
-  background-color: #F9F9F9; /* Màu nền sáng */
+  padding: 50px; 
   border-radius: 10px; /* Bo góc cho hộp */
 }
 
@@ -110,3 +109,254 @@
   color: #333333; /* Màu chữ mô tả */
   letter-spacing: -0.36px;
 }
+
+
+/* Phần Courses Container */
+.courses-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 25px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+/* Phần introduce */
+.introduce {
+  display: flex;
+  justify-content: space-between; /* Căn giữa nội dung và nút "Xem tất cả" */
+  align-items: center; /* Căn nội dung theo chiều dọc */
+  padding: 30px 0; /* Khoảng cách trên và dưới */
+  
+}
+
+.text-container {
+  width: 100%;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.text-container .heading {
+  font-size: 2.5rem;
+  color: #043873; /* Màu xanh đậm cho tiêu đề */
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.text-introduce {
+  display: flex;
+  justify-content: space-between; /* Căn đều phần text và button */
+  align-items: center;
+  font-family: 'Rokkitt', sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  color: #333333; /* Màu chữ mô tả */
+  letter-spacing: -0.36px;
+}
+
+.text-introduce p {
+  width: 70%;
+}
+
+.text-introduce .paragraph {
+  font-size: 1.2rem;
+  color: #4F76F6; /* Màu xanh nhẹ cho mô tả */
+  line-height: 1.6;
+  width: 70%; /* Căn chỉnh độ rộng của đoạn văn */
+}
+
+.courses_button {
+  display: inline-block;
+  font-size: 1rem;
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 1px solid #043873;
+  color: #043873;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-align: center;
+  margin-left: 20px; /* Khoảng cách giữa đoạn văn và nút */
+}
+
+.courses_button:hover {
+  background-color: #043873;
+  color: white;
+}
+
+
+/* Phần courses-grid*/
+.courses-grid {/* Đặt các thẻ khóa học theo chiều ngang */
+  display: flex;
+  gap: 20px; /* Khoảng cách giữa các khóa học */
+  flex-wrap: wrap; /* Cho phép xuống dòng nếu có quá nhiều khóa học */
+}
+
+.course-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 49%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Sắp xếp nội dung theo cột */
+  justify-content: space-between; /* Đảm bảo các phần tử bên trong được sắp xếp đồng nhất */
+  min-height: 300px; /* Đảm bảo chiều cao tối thiểu cho các thẻ */
+}
+
+.course-card:hover {
+  transform: scale(1.05);
+}
+
+.course-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.course-info {
+  margin-top: 20px;
+  flex-grow: 1; /* Đảm bảo phần nội dung khóa học chiếm phần lớn không gian */
+  text-align: left;
+}
+
+.course-title{
+  padding: 10px 0;
+}
+
+.course-description {
+  padding: 10px 0;
+}
+
+.course-meta {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.meta-item {
+  background-color: #e1e5eb;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #555;
+  margin-right: 10px;
+}
+
+.meta-author {
+  margin-left: auto;
+  padding: 5px 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 23px;
+  letter-spacing: -0.36px;
+}
+
+.join-button {
+  background-color: #043873;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  position: relative; /* Không dùng absolute để tránh ảnh hưởng layout */
+  align-self: center; /* Căn giữa nút "Join" */
+  margin-top: 20px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+}
+
+.join-button:hover {
+  background-color: #4f76f6;
+}
+
+/* Phần Pagination Controls */
+
+.courses-container .pagination-controls {
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center;
+  margin: 20px auto; /* Đảm bảo thẻ pagination được căn giữa hoàn toàn */
+  width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều rộng của khối cha */
+}
+
+.instructors-container .pagination-controls {
+  grid-column: 1 / -1; /* Đảm bảo pagination trải rộng toàn bộ hàng */
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  margin: 20px 0;
+}
+
+.pagination-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #e1e5eb; /* Default background */
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-dot.active {
+  background-color: #4f76f6;
+}
+
+.pagination-dot:hover {
+  background-color: #4f76f6;
+}
+
+/* Phần Instructors */
+.instructors-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 25px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+/* Grid cho instructors */
+.instructors-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 giảng viên mỗi hàng */
+  gap: 20px;
+}
+
+.instructor-card {
+  background-color: #e0e5e5;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.instructor-card:hover {
+  transform: scale(1.05);
+}
+
+.instructor-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.instructor-info {
+  padding-top: 10px;
+}
+
+.instructor-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #043873;
+  margin-bottom: 10px;
+}
+
+.instructor-title {
+  font-size: 1.1rem;
+  color: #555;
+}
+
