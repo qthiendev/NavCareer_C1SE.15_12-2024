@@ -1,5 +1,7 @@
 -- Route
 -- note that if any route return status 500 mean server is error, ask backend dev!!!
+authz = authorization
+auth = authentication
 -------------------------------------------------------------------------------------------------------------------------------
 GET:    /authz/student -> student check
 GET:    /authz/esp -> education service provider check

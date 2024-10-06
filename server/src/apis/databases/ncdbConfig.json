@@ -1,12 +1,9 @@
 {
-    "sqlConfig": {
-      "server": "localhost",
-      "database": "NavCareerDB",
-      "options": {
-        "port": 1433,
-        "encrypt": true,
-        "trustServerCertificate": true
-      }
-    }
+  "server": "localhost",
+  "database": "NavCareerDB",
+  "options": {
+    "port": 1433,
+    "encrypt": true,
+    "trustServerCertificate": true
   }
-  
+}

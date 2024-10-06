@@ -11,7 +11,7 @@ body {
 }
 
 .layout-container {
-    width: 100%;
+    width: auto;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -20,7 +20,7 @@ body {
 .navbar {
     background-color: #043873; /* Màu nền header */
     color: #fff; /* Màu chữ */
-    padding: 0px 20px;
+    padding: 0px 10px;
     display: flex; /* Sắp xếp các phần tử theo hàng ngang */
     justify-content: space-between; /* Căn chỉnh các phần tử đều nhau */
     align-items: center; /* Căn giữa các phần tử theo chiều dọc */
@@ -51,7 +51,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 63px;
+    gap: 20px;
   }
   
   .nav-list li {

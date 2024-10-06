@@ -16,6 +16,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
+// Session configuration
 app.use(session({
     secret: 'NavCareerProject',
     resave: false,
@@ -28,12 +29,19 @@ app.use(session({
 }));
 
 app.use(express.json());
-app.use(express.urlencoded({
-    extended: true
-}));
+app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+    if (!req.session.role) {
+        req.session.role = 'NAV_GUEST';
+    }
+    next();
+});
+
+// Use your main router for routing
 app.use('/', mainRouter);
 
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
