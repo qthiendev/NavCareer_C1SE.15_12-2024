@@ -1,33 +1,17 @@
-const { queryDB } = require('../../database/queryDBService');
+const ncdb = require('../../databases/ncdbService');
 
-const tryReadProfile = async (userType, index) => {
+const tryReadProfile = async (role, userID) => {
     try {
-        const queryString = `
-            SELECT [user_id],
-                   [user_name],
-                   [email], 
-                   [birthdate], 
-                   [gender], 
-                   [phone_number], 
-                   [address],
-                   [date_joined],
-                   [authentication_id]
-            FROM [Users]
-            WHERE [authentication_id] = @index
-               OR [user_name] = @index
-               OR [user_id] = @index
-        `;
+        const queryString = `EXECUTE ViewProfile @user_id`;
 
-        const params = { index };
+        const params = { user_id: userID};
 
-        const result = await queryDB(userType, queryString, params);
+        const result = await ncdb.query(role, queryString, params);
 
         return result.length > 0 ? result[0] : null;
 
     } catch (err) {
-        const now = new Date();
-        console.error(`[${now.toLocaleString()}] at readProfileService.js/tryReadProfile() | {\n${err.message}\n}`);
-        return null;
+        throw new Error(err.message);
     }
 };
 

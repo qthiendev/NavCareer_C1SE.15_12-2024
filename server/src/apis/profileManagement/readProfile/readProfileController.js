@@ -1,26 +1,36 @@
 const { tryReadProfile } = require('./readProfileService');
+const now = new Date();
 
 const readProfile = async (req, res) => {
     try {
-        const { userType, index } = req.query;
+        const { user_id } = req.query;
+        const { role } = req.session;
 
-        if (!userType) 
-            throw new Error(`'userType' is required.`);
+        if (!role)
+            throw new Error(`'role' is required.`);
 
-        if (!index) 
+        if (user_id === null || typeof(user_id) === 'undefined')
             throw new Error(`'index' is required.`);
 
-        const data = await tryReadProfile(userType, index);
+        const data = await tryReadProfile(role, user_id);
 
-        if (!data) 
-            throw new Error(`No profile found for the given index.`);
+        if (!data) {
+            console.log(`[${now.toLocaleString()}] at readProfileController.js/readProfile() | Profile '${user_id}' not found`);
+            return res.status(203).json({
+                message: `Profile '${user_id}' not found`,
+                time: now.toLocaleString()
+            });
+        }
 
-        res.status(200).json(data);
+        return res.status(200).json(data);
 
     } catch (err) {
         const now = new Date();
-        console.error(`[${now.toLocaleString()}] at readProfileController.js/readProfile() | {\n${err.message}\n}`);
-        res.status(400).json({ message: err.message });
+        console.error(`[${now.toLocaleString()}] at readProfileController.js/readProfile() | ${err.message}`);
+        res.status(500).json({ 
+            message: 'Server Error',
+            time: now.toLocaleString()
+        });
     }
 };
 
