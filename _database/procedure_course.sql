@@ -67,8 +67,7 @@ create procedure UpdateCourse
 	@course_id int,
 	@new_course_name nvarchar(max),
 	@new_course_description nvarchar(max),
-	@new_duration nvarchar(max),
-	@provider_id nvarchar(max)
+	@new_duration nvarchar(max)
 as
 begin
 	declare @IsBanned BIT;
@@ -80,7 +79,15 @@ begin
 		[course_description] = @new_course_description,
 		[duration] = @new_duration
 	where [course_id] = @course_id
-		and [provider_id] = @provider_id
+		and [provider_id] = @aid
+
+	select 'TRUE' as [check]
+	from Courses
+	where [course_id] = @course_id
+		and [provider_id] = @aid
+		and [course_name] = @new_course_name
+		and [course_description] = @new_course_description
+		and [duration] = @new_duration
 end
 go
 
@@ -92,5 +99,7 @@ grant execute on dbo.ReadCourse to [NAV_STUDENT];
 grant execute on dbo.CreateCourse to [NAV_ADMIN];
 grant execute on dbo.CreateCourse to [NAV_ESP];
 
-grant execute on dbo.ReadCourse to [NAV_ADMIN];
-grant execute on dbo.ReadCourse to [NAV_ESP];
+grant execute on dbo.UpdateCourse to [NAV_ADMIN];
+grant execute on dbo.UpdateCourse to [NAV_ESP];
+
+execute UpdateCourse 1, 3, 'new', 'new', 'new'
