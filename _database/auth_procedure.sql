@@ -1,16 +1,31 @@
--- Other procedure
+go
+use master;
+go
+use NavCareerDB;
+go
+
 if object_id('SignIn', 'P') is not null drop procedure SignIn;
 go
 create procedure SignIn  @account nvarchar(max), @password nvarchar(max)
 as
 begin
+	declare @is_active bit;
+	select @is_active = [is_active]
+	from Authentications
+	where convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [account])) = @account
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [password])) = @password;
+
+	if (@is_active = 0)
+		return;
+
 	select auth.[authentication_id], authz.[role]
 	from Authentications auth join Authorizations authz on authz.authorization_id = auth.authorization_id
 	where convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', auth.[account])) = @account
 		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', auth.[password])) = @password;
 end
 go
-
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 if object_id('SignUp', 'P') is not null drop procedure SignUp;
 go
 create procedure SignUp @account nvarchar(max), @password nvarchar(max), @identifier_email nvarchar(max), @authorization_id int
@@ -30,7 +45,8 @@ begin
     values (@authentication_id, @encoded_account, @encoded_password, @encoded_identifier_email, getdate(), @authorization_id, 1);
 end
 go
-
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 if object_id('UpdateAuth', 'P') is not null drop procedure UpdateAuth;
 go
 create procedure UpdateAuth
@@ -62,7 +78,8 @@ begin
 		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [password])) = @current_password
 end
 go
-
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 if object_id('CheckAuth', 'P') is not null drop procedure CheckAuth; 
 go
 create procedure CheckAuth @aid int, @account nvarchar(max), @password nvarchar(max)
@@ -79,7 +96,31 @@ begin
 		and [authentication_id] = @aid
 end
 go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('SetAuthState', 'P') is not null drop procedure SetAuthState; 
+go
+create procedure SetAuthState @aid int, @password nvarchar(max), @is_active bit
+as
+begin
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'SetAuthState');
+    if @IsBanned = 1 return;
 
+	update Authentications
+	set [is_active] = @is_active
+	where [authentication_id] = @aid
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [password])) = @password;
+
+	select 'TRUE' as [check]
+	from Authentications
+	where [authentication_id] = @aid
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [password])) = @password
+		and [is_active] = @is_active;
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 
 -- grant procedure
 grant execute on dbo.SignIn to [NAV_GUEST];
@@ -93,8 +134,13 @@ grant execute on dbo.CheckAuth to [NAV_ADMIN];
 grant execute on dbo.CheckAuth to [NAV_ESP];
 grant execute on dbo.CheckAuth to [NAV_STUDENT];
 
+grant execute on dbo.SetAuthState to [NAV_ADMIN];
+grant execute on dbo.SetAuthState to [NAV_ESP];
+grant execute on dbo.SetAuthState to [NAV_STUDENT];
+
 -- Test execution as NAV_USER
-EXECUTE AS USER = 'NAV_GUEST';
+EXECUTE AS USER = 'NAV_ADMIN';
 --EXEC dbo.SignIn @account = 'qthiendev', @password = 'qthiendev';
 --EXEC dbo.SignUp 'test', 'test', 'test@gmail.com', 1;
+exec SetAuthState 3, 'qthiendev', 1
 REVERT;
