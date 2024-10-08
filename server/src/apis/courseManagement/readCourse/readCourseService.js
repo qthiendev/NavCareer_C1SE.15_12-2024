@@ -8,10 +8,9 @@ const tryReadCourse = async (role, course_id) => {
 
         const result = await ncbd.query(role, `execute ReadCourse @course_id`, { course_id: course_id });
 
-        if (!result || result.length === 0) {
-            throw new Error('Course not found.');
-        }
-
+        if (!result || result.length === 0) 
+            return null;
+        
         const courseDetails = {
             provider_name: result[0].user_full_name,
             provider_birthdate: result[0].birthdate,

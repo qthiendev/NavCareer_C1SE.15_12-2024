@@ -1,52 +1,40 @@
-const { queryDB } = require('../../database/queryDBService');
-const now = new Date();
+const ncbd = require('../../databases/ncdbService');
 
-const tryCreateCourse = async (userType, course_name, course_description, duration, user_id) => {
+const tryCreateCourse = async (aid, role, courseName, courseDescription, duration, providerId) => {
     try {
-        const latestIDResult = await queryDB(
-            userType,
-            `SELECT TOP 1 course_id FROM Courses ORDER BY course_id DESC`,
-            {}
-        ) || [];
 
-        const latestID = (latestIDResult.length > 0) ? latestIDResult[0].course_id : 0;
-        console.log(latestID)
-        const newID = parseInt(latestID) + 1;
+        if (Number.isNaN(aid))
+            throw new Error(`'aid' must provided.`);
 
-        const insertQuery = `
-            INSERT INTO Courses ([course_id], [course_name], [course_description], [duration], [created_date], [user_id])
-            VALUES (@newID, @course_name, @course_description, @duration, @created_date, @user_id)
-        `;
+        if (!role)
+            throw new Error(`'role' must provided.`);
 
-        const params = {
-            newID: newID,
-            course_name: course_name,
-            course_description: course_description,
-            duration: duration,
-            created_date: now.toISOString(),
-            user_id: user_id
-        };
+        if (!courseName)
+            throw new Error(`'courseName' must provided.`);
 
-        await queryDB(userType, insertQuery, params);
+        if (!courseDescription)
+            throw new Error(`'courseDescription' must provided.`);
 
-        // Verify
-        const checkQuery = `
-            SELECT [course_id] FROM Courses 
-            WHERE [course_id] = @newID AND [user_id] = @user_id
-        `;
+        if (!duration)
+            throw new Error(`'duration' must provided.`);
 
-        const checkParams = {
-            newID: newID,
-            user_id: user_id
-        };
+        if (Number.isNaN(providerId))
+            throw new Error(`'providerId' must provided.`);
 
-        const checkResult = await queryDB(userType, checkQuery, checkParams);
+        const result = await ncbd.query(role,
+            `execute CreateCourse @aid, @course_name, @course_description, @duration, @provider_id`,
+            {
+                aid: aid,
+                course_name: courseName,
+                course_description: courseDescription,
+                duration: duration,
+                provider_id: providerId
+            });
 
-        return checkResult.length > 0;
+        return result && result.length > 0;
 
     } catch (err) {
-        console.error(`[${now.toLocaleString()}] at createCourseService.js/tryCreateCourse() | {\n${err.message}\n}`);
-        return false;
+        throw new Error(`createCourseService.js/tryCreateCourse| ${err.message}`);
     }
 };
 
