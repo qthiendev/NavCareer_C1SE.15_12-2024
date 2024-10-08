@@ -1,32 +1,72 @@
 const { queryDB } = require('../../database/queryDBService');
 
+const formatDate = (birthdate) => {
+    const [day, month, year] = birthdate.split('/');
+    return `${year}-${month}-${day}`; // yyyy-MM-dd
+};
+
 const tryUpdateProfile = async (profileData) => {
-    try {
-        const { userType, userId, userName, email, birthdate, gender, phoneNumber, address } = profileData;
-
-        const queryString = `
-            UPDATE [Users]
-            SET [user_name] = @userName,  
-                [email] = @email,  
-                [birthdate] = @birthdate,  
-                [gender] = @gender,  
-                [phone_number] = @phoneNumber,  
-                [address] = @address, 
-            WHERE [user_id] = @userId;
+    
+        const { userType,
+            userId,
+            userFullName,
+            birthdate,
+            gender,
+            email,
+            phoneNumber,
+            address,
+            authenticationId,
+            isActive
+        } = profileData;
+        try {
+            // Check if the profile already exists
+            const existingProfile = await ncbd.query(
+                userType, 
+                `EXECUTE ReadProfile @authentication_id`, 
+                { authentication_id: authenticationId }
+            );
+    
+            if (existingProfile && existingProfile.length > 0) {
+                return 3; // Profile already exists
+            }
+    
+            // Convert birthdate from dd/MM/yyyy to yyyy-MM-dd format
+            const formattedBirthdate = formatDate(birthdate);
+    
+            // Create profile query and parameters
+            const queryString = `
+            EXEC UpdateProfile @user_id, @user_full_name, 
+            @birthdate, @gender, @email, @phone_number, 
+            @address, @authentication_id,@is_active;
         `;
-
-        const params = { userId, userName, email, birthdate, gender, phoneNumber, address };
-
-        // Update profile data and return the updated record
-        const result = await queryDB(userType, queryString, params);
-
-        return result.length > 0 ? result[0] : null;
-
-    } catch (err) {
-        const now = new Date();
-        console.error(`[${now.toLocaleString()}] at updateProfileService.js/tryUpdateProfile() | {\n${err.message}\n}`);
-        return null;
-    }
+        const params = { 
+            userType, 
+            userId: userId,
+            user_full_name: userFullName,
+            birthdate: formattedBirthdate,
+            gender: gender,
+            email: email,
+            phone_number: phoneNumber,
+            address: address,
+            authentication_id: authenticationId,
+            is_active: isActive
+         };
+            
+            // Insert profile data
+            await ncbd.query(userType, queryString, params);
+    
+            // Verify the profile insertion
+            const newProfile = await ncbd.query(
+                userType, 
+                `EXECUTE ViewProfile @authentication_id`, 
+                { authentication_id: authenticationId }
+            );
+    
+            return newProfile && newProfile.length > 0 ? 2 : 1;
+    
+        } catch (err) {
+            throw Error(`createProfileService.js/tryCreateProfile() | ${err.message}`);
+        }
 };
 
 module.exports = { tryUpdateProfile };

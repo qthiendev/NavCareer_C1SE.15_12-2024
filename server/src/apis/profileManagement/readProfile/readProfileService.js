@@ -1,4 +1,4 @@
-const ncdb = require('../../databases/ncdbService');
+const ncdb = require('./readProfileController');
 
 const tryReadProfile = async (role, userID) => {
     try {
