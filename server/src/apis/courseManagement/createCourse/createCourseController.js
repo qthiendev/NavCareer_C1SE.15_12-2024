@@ -1,53 +1,55 @@
 const { tryCreateCourse } = require('./createCourseService');
-
-// Validate input using regex
-const isValidInput = (input) => /^[a-zA-Z0-9@._-]+$/.test(input);
+const now = new Date();
 
 const createCourse = async (req, res) => {
     try {
+        const { role, aid } = req.session;
         const {
-            userType: rawUser = '',
-            course_name,
-            course_description,
-            duration,
-            user_id: rawUserID = ''
-        } = req.query;
+            course_name, 
+            course_description, 
+            duration, 
+            provider_id
+        } = req.body;
 
-        const userType = rawUser.trim().replace(/\s/g, '') || null;
-        const user_id = rawUserID.trim().replace(/\s/g, '') || null;
+        if (Number.isNaN(aid))
+            throw new Error(`'aid' must provided.`);
 
-        if (!userType)
-            throw new Error(`'userType' is empty.`);
+        if (!role)
+            throw new Error(`'role' must provided.`);
 
         if (!course_name)
-            throw new Error(`'account' is empty or invalid.`);
+            throw new Error(`'course_name' must provided.`);
 
         if (!course_description)
-            throw new Error(`'password' is empty or invalid.`);
+            throw new Error(`'course_description' must provided.`);
 
         if (!duration)
-            throw new Error(`'duration' is empty or invalid.`);
+            throw new Error(`'duration' must provided.`);
 
-        if (!user_id)
-            throw new Error(`'authorization_id' is empty or invalid.`);
+        if (Number.isNaN(provider_id))
+            throw new Error(`'provider_id' must provided.`);
 
-        if (!isValidInput(userType))
-            throw new Error(`'userType' contains invalid characters.`);
+        const data = await tryCreateCourse(aid, role, course_name, course_description, duration, provider_id);
 
-        if (!isValidInput(user_id))
-            throw new Error(`'authorization_id' contains invalid characters.`);
-
-        const createCourseSuccess = await tryCreateCourse(userType, course_name, course_description, duration, user_id);
-
-        if (!createCourseSuccess)
-            throw new Error('Failed to add course.');
-
-        res.status(200).json({ message: 'Course added successfully.' });
-
+        if (data) {
+            console.log(`[${now.toLocaleString()}] at createCourseController.js/createCourse | Course created succesfuly.`);
+            return res.status(200).json({
+                message: `Course created succesfuly.`,
+                time: now.toLocaleString()
+            });
+        } else {
+            console.log(`[${now.toLocaleString()}] at createCourseController.js/createCourse | Course failed to create.`);
+            return res.status(203).json({
+                message: `Course failed to create.`,
+                time: now.toLocaleString()
+            });
+        }
     } catch (err) {
-        const now = new Date();
-        console.error(`[${now.toLocaleString()}] at createCourseController.js/createCourse() | {\n${err.message}\n}`);
-        res.status(400).json({ message: err.message });
+        console.error(`[${now.toLocaleString()}] at createCourseController.js/createCourse | ${err.message}`);
+        res.status(500).json({
+            message: 'Internal Server Error',
+            time: now.toLocaleString()
+        });
     }
 };
 

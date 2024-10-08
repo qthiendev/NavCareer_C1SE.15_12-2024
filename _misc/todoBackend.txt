@@ -7,14 +7,15 @@ sign in: v
 sign out: v
 sign up: v
 update authentication: v
-delete authentication: -
+disable authentication: v
+reset password: x
 
 read profile: x
 create profile: x
 update profile: x
 delete profile: x
 
-read course:
-create course:
-update course:
-delete course:
+read course: v
+create course: v
+update course: -
+delete course: x
