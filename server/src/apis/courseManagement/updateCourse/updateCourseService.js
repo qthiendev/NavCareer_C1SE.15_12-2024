@@ -1,34 +1,15 @@
-const { queryDB } = require('../../database/queryDBService');
-const now = new Date();
+const ncdb = require('../../databases/ncdbService');
 
-const tryCreateCourse = async (userType, course_id, course_name, course_description, duration, created_date, user_id) => {
+const tryCreateCourse = async (aid, role, courseId, newName, newDescription, newDuration) => {
     try {
-        const queryString = `
-            update [Courses]
-            set course_name = @course_name,
-                course_description = @course_description,
-                duration = @duration,
-                created_date = convert(date, @created_date),
-                user_id = @user_id
-            where course_id = @course_id
-        `;
+        const results = await ncdb.query(role,
+            'EXECUTE UpdateCourse @aid, @course_id, @new_course_name, @new_course_description, @new_duration',
+            { aid: aid, course_id: courseId, new_course_name: newName, new_course_description: newDescription, new_duration: newDuration });
 
-        const params = {
-            course_name: course_name,
-            course_description: course_description,
-            duration: duration,
-            created_date: created_date,
-            user_id: user_id,
-            course_id: course_id
-        };
-
-        await queryDB(userType, queryString, params);
-
-        return true;
+        return results && results.length > 0;
 
     } catch (err) {
-        console.error(`[${now.toLocaleString()}] at createCourseService.js/tryCreateCourse() | {\n${err.message}\n}`);
-        return false;
+        throw new Error(`updateCourseService.js/tryUpdateCourse| ${err.message}`);
     }
 };
 

@@ -60,6 +60,29 @@ end
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('UpdateCourse', 'P') is not null drop procedure UpdateCourse;
+go
+create procedure UpdateCourse 
+	@aid int,
+	@course_id int,
+	@new_course_name nvarchar(max),
+	@new_course_description nvarchar(max),
+	@new_duration nvarchar(max),
+	@provider_id nvarchar(max)
+as
+begin
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateAuth');
+    if @IsBanned = 1 return;
+
+	update Courses
+	set [course_name] = @new_course_name,
+		[course_description] = @new_course_description,
+		[duration] = @new_duration
+	where [course_id] = @course_id
+		and [provider_id] = @provider_id
+end
+go
 
 grant execute on dbo.ReadCourse to [NAV_GUEST];
 grant execute on dbo.ReadCourse to [NAV_ADMIN];
@@ -68,3 +91,6 @@ grant execute on dbo.ReadCourse to [NAV_STUDENT];
 
 grant execute on dbo.CreateCourse to [NAV_ADMIN];
 grant execute on dbo.CreateCourse to [NAV_ESP];
+
+grant execute on dbo.ReadCourse to [NAV_ADMIN];
+grant execute on dbo.ReadCourse to [NAV_ESP];

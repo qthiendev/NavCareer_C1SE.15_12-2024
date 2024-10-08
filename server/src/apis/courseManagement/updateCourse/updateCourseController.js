@@ -1,47 +1,52 @@
 const { tryCreateCourse } = require('./updateCourseService');
+const now = new Date();
 
 const updateCourse = async (req, res) => {
     try {
-        const {
-            userType: rawUser = '',
-            course_id,
-            course_name,
-            course_description,
-            duration,
-            created_date,
-            user_id: rawUserID = ''
-        } = req.query
-        
-        const userType = rawUser.trim().replace(/\s/g, '') || null;
-        const user_id = rawUserID.trim().replace(/\s/g, '') || null;
+        const { aid, role } = req.session;
+        const { 
+            course_id, 
+            new_course_name, 
+            new_course_description, 
+            new_duration 
+        } = req.body;
 
-        if (!userType)
-            throw new Error(`'userType' is empty.`);
+        if (Number.isNaN(aid))
+            throw new Error(`'course_id' is required.`);
 
-        if (!course_name)
+        if (!role)
+            throw new Error(`'course_id' is required.`);
+
+        if (!new_course_name)
             throw new Error(`'account' is empty or invalid.`);
 
-        if (!course_description)
+        if (!new_course_description)
             throw new Error(`'password' is empty or invalid.`);
 
-        if (!duration)
+        if (!new_duration)
             throw new Error(`'duration' is empty or invalid.`);
 
-        if (!created_date)
-            throw new Error(`'duration' is empty or invalid.`);
+        const data = await tryCreateCourse(aid, role, course_id, new_course_name, new_course_description, new_duration);
 
-        if (!user_id)
-            throw new Error(`'user_id' is empty or invalid.`);
-
-        const data = tryCreateCourse(userType, course_id, course_name, course_description, duration, created_date, user_id);
-
-        if (data)
-            res.status(200).json({ message: 'Course modified successfully.' });
-
+        if (data) {
+            console.log(`[${now.toLocaleString()}] at updateCourseController.js/updateCourse | Course ${course_id} edited successfuly.`);
+            return res.status(200).json({
+                message: `Course ${course_id} edited successfuly.`,
+                time: now.toLocaleString()
+            });
+        } else {
+            console.log(`[${now.toLocaleString()}] at updateCourseController.js/updateCourse |  Course ${course_id} failed to edit.`);
+            return res.status(203).json({
+                message: `Course ${course_id} failed to edit.`,
+                time: now.toLocaleString()
+            });
+        }
     } catch (err) {
-        const now = new Date();
-        console.error(`[${now.toLocaleString()}] at createCourseController.js/createCourse() | {\n${err.message}\n}`);
-        res.status(400).json({ message: err.message });
+        console.error(`[${now.toLocaleString()}] at updateCourseController.js/updateCourse | ${err.message}`);
+        res.status(500).json({
+            message: 'Internal Server Error',
+            time: now.toLocaleString()
+        });
     }
 }
 

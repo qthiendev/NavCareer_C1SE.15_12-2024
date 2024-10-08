@@ -28,8 +28,8 @@ const checkAuthorization = (requiredRole) => async (req, res, next) => {
     }
 };
 
-const student = checkAuthorization('std');
-const esp = checkAuthorization('esp');
-const admin = checkAuthorization('adm');
+const student = checkAuthorization('NAV_STUDENT');
+const esp = checkAuthorization('NAV_ESP');
+const admin = checkAuthorization('NAV_ADMIN');
 
 module.exports = { admin, esp, student };

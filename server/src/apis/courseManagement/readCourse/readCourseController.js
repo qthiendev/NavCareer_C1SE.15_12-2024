@@ -6,7 +6,7 @@ const readCourse = async (req, res) => {
         const { role } = req.session;
         const { course_id } = req.query;
 
-        if (!course_id)
+        if (Number.isNaN(course_id))
             throw new Error(`'course_id' is required.`);
 
         const data = await tryReadCourse(role, course_id);
