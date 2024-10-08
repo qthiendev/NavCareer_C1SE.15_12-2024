@@ -1,7 +1,5 @@
 ﻿use NavCareerDB;
 
-
-
 --- procedure
 if object_id('ViewProfile', 'P') is not null drop procedure ViewProfile;
 go
