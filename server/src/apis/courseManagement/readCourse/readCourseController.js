@@ -1,26 +1,35 @@
 const { tryReadCourse } = require('./readCourseService');
+const now = new Date();
 
 const readCourse = async (req, res) => {
     try {
-        const { userType, course_id } = req.query;
+        const { role } = req.session;
+        const { course_id } = req.query;
 
-        if (!userType) 
-            throw new Error(`'userType' is required.`);
-
-        if (!course_id) 
+        if (!course_id)
             throw new Error(`'course_id' is required.`);
 
-        const data = await tryReadCourse(userType, course_id);
+        const data = await tryReadCourse(role, course_id);
 
-        if (!data) 
-            throw new Error(`No course found for the given course_id.`);
-
-        res.status(200).json(data);
-
+        if (data) {
+            console.log(`[${now.toLocaleString()}] at readCourseController.js/readCourse | Course ${course_id} found.`);
+            return res.status(200).json({
+                data,
+                time: now.toLocaleString()
+            });
+        } else {
+            console.log(`[${now.toLocaleString()}] at readCourseController.js/readCourse | Course ${course_id} not found.`);
+            return res.status(203).json({
+                message: `Course ${course_id} not found.`,
+                time: now.toLocaleString()
+            });
+        }
     } catch (err) {
-        const now = new Date();
-        console.error(`[${now.toLocaleString()}] at readCourseController.js/readCourse() | {\n${err.message}\n}`);
-        res.status(400).json({ message: err.message });
+        console.error(`[${now.toLocaleString()}] at readCourseController.js/readCourse | ${err.message}`);
+        res.status(500).json({
+            message: 'Internal Server Error',
+            time: now.toLocaleString()
+        });
     }
 }
 

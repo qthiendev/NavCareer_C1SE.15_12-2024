@@ -43,6 +43,13 @@ begin
     
     insert into Authentications([authentication_id], [account], [password], [identifier_email], [created_date], [authorization_id], [is_active])
     values (@authentication_id, @encoded_account, @encoded_password, @encoded_identifier_email, getdate(), @authorization_id, 1);
+
+	select 'TRUE' as [check]
+	from Authentications
+	where convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [account])) = @account
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [password])) = @password
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [identifier_email])) = @identifier_email
+		and [authorization_id] = @authorization_id;
 end
 go
 ------------------------------------------------------------------------------------------------------------
@@ -76,24 +83,14 @@ begin
 		[identifier_email] = @encoded_new_identifier_email
 	where [authentication_id] = @aid
 		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [password])) = @current_password
-end
-go
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
-if object_id('CheckAuth', 'P') is not null drop procedure CheckAuth; 
-go
-create procedure CheckAuth @aid int, @account nvarchar(max), @password nvarchar(max)
-as
-begin
-	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateAuth');
-    if @IsBanned = 1 return;
 
 	select 'TRUE' as [check]
 	from Authentications
-	where convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [account])) = @account
-		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [password])) = @password
-		and [authentication_id] = @aid
+	where [authentication_id] = @aid
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [account])) = @new_account
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [password])) = @new_password
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [identifier_email])) = @new_identifier_email
+		and [authorization_id] = @new_authorization_id;
 end
 go
 ------------------------------------------------------------------------------------------------------------
@@ -121,6 +118,25 @@ end
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('ResetPassword', 'P') is not null drop procedure ResetPassword; 
+go
+create procedure ResetPassword @account nvarchar(max), @new_password nvarchar(max), @identifier_email nvarchar(max)
+as
+begin
+	update Authentications
+	set [password] = EncryptByPassPhrase('NavCareerSecret', @new_password)
+	where convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [account])) = @account
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [identifier_email])) = @identifier_email;
+
+	select 'TRUE' as [check]
+	from Authentications
+	where convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [account])) = @account
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [password])) = @new_password
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [identifier_email])) = @identifier_email;
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 
 -- grant procedure
 grant execute on dbo.SignIn to [NAV_GUEST];
@@ -138,9 +154,11 @@ grant execute on dbo.SetAuthState to [NAV_ADMIN];
 grant execute on dbo.SetAuthState to [NAV_ESP];
 grant execute on dbo.SetAuthState to [NAV_STUDENT];
 
+grant execute on dbo.ResetPassword to [NAV_GUEST];
+
 -- Test execution as NAV_USER
 EXECUTE AS USER = 'NAV_ADMIN';
 --EXEC dbo.SignIn @account = 'qthiendev', @password = 'qthiendev';
 --EXEC dbo.SignUp 'test', 'test', 'test@gmail.com', 1;
-exec SetAuthState 3, 'qthiendev', 1
+--exec SetAuthState 3, 'qthiendev', 1
 REVERT;

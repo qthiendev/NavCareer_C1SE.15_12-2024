@@ -520,7 +520,7 @@ execute CreateCourse 0, N'Lập trình C/C++', N'Khóa học về lập trình C
 execute CreateCourse 0, N'Lập trình Python', N'Khóa học về lập trình Python.', N'5 tháng', 1;
 
 execute CreateModule 0, N'Lập trình C cơ bản.', 0, 0;
-execute CreateModule 0, N'Hướng đối tượng và lập trình C++.', 0, 0;
+execute CreateModule 0, N'Hướng đối tượng và lập trình C++.', 1, 0;
 execute CreateModule 0, N'Lập trình Python cơ bản.', 0, 1;
 execute CreateModule 0, N'Tự động hóa với Python.', 1, 1;
 
