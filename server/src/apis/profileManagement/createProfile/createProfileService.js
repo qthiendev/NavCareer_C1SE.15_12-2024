@@ -10,9 +10,9 @@ const tryCreateProfile = async (profileData) => {
     const {
         userType,
         userFullName,
-        email,
         birthdate,
         gender,
+        email,
         phoneNumber,
         address,
         authenticationId
@@ -34,12 +34,14 @@ const tryCreateProfile = async (profileData) => {
         const formattedBirthdate = formatDate(birthdate);
 
         // Create profile query and parameters
-        const queryString = `EXECUTE CreateProfile @user_name, @email, @birthdate, @gender, @phone_number, @address, @authentication_id`;
+        const queryString = `EXECUTE CreateProfile @user_full_name, 
+            @birthdate, @gender, @email, @phone_number, 
+            @address, @authentication_id`;
         const params = {
-            user_name: userFullName,
-            email: email,
+            user_full_name: userFullName,
             birthdate: formattedBirthdate,
             gender: gender,
+            email: email,
             phone_number: phoneNumber,
             address: address,
             authentication_id: authenticationId
@@ -51,7 +53,7 @@ const tryCreateProfile = async (profileData) => {
         // Verify the profile insertion
         const newProfile = await ncbd.query(
             userType, 
-            `EXECUTE ReadProfile @authentication_id`, 
+            `EXECUTE ViewProfile @authentication_id`, 
             { authentication_id: authenticationId }
         );
 
