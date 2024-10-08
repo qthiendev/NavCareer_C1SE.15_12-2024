@@ -21,9 +21,9 @@ const Router = () => {
 };
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  //<StrictMode>
     <BrowserRouter>
       <Router />
     </BrowserRouter>
-  </StrictMode>
+  //</StrictMode>
 );

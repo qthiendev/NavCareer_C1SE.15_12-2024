@@ -29,12 +29,7 @@ go
 ------------------------------------------------------------------------------------------------------------
 if object_id('CreateCourse', 'P') is not null drop procedure CreateCourse;
 go
-create procedure CreateCourse 
-	@aid int,
-	@course_name nvarchar(max),
-	@course_description nvarchar(max),
-	@duration nvarchar(max),
-	@provider_id nvarchar(max)
+create procedure CreateCourse @aid int, @course_name nvarchar(max), @course_description nvarchar(max), @duration nvarchar(max), @provider_id nvarchar(max)
 as
 begin
 	declare @IsBanned BIT;
@@ -62,12 +57,7 @@ go
 ------------------------------------------------------------------------------------------------------------
 if object_id('UpdateCourse', 'P') is not null drop procedure UpdateCourse;
 go
-create procedure UpdateCourse 
-	@aid int,
-	@course_id int,
-	@new_course_name nvarchar(max),
-	@new_course_description nvarchar(max),
-	@new_duration nvarchar(max)
+create procedure UpdateCourse @aid int, @course_id int, @new_course_name nvarchar(max), @new_course_description nvarchar(max), @new_duration nvarchar(max)
 as
 begin
 	declare @IsBanned BIT;
@@ -90,16 +80,26 @@ begin
 		and [duration] = @new_duration
 end
 go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('DeleteCourse', 'P') is not null drop procedure DeleteCourse;
+go
+create procedure DeleteCourse @aid int, @course_id int
+as
+begin
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateAuth');
+    if @IsBanned = 1 return;
+
+
+
+end
 
 grant execute on dbo.ReadCourse to [NAV_GUEST];
 grant execute on dbo.ReadCourse to [NAV_ADMIN];
 grant execute on dbo.ReadCourse to [NAV_ESP];
 grant execute on dbo.ReadCourse to [NAV_STUDENT];
 
-grant execute on dbo.CreateCourse to [NAV_ADMIN];
 grant execute on dbo.CreateCourse to [NAV_ESP];
-
-grant execute on dbo.UpdateCourse to [NAV_ADMIN];
 grant execute on dbo.UpdateCourse to [NAV_ESP];
-
-execute UpdateCourse 1, 3, 'new', 'new', 'new'
+grant execute on dbo.DeleteCourse to [NAV_ESP];

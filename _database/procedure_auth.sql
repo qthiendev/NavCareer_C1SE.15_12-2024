@@ -140,19 +140,23 @@ go
 
 -- grant procedure
 grant execute on dbo.SignIn to [NAV_GUEST];
+go
 grant execute on dbo.SignUp to [NAV_GUEST];
+go
 
 grant execute on dbo.UpdateAuth to [NAV_ADMIN];
+go
 grant execute on dbo.UpdateAuth to [NAV_ESP];
+go
 grant execute on dbo.UpdateAuth to [NAV_STUDENT];
-
-grant execute on dbo.CheckAuth to [NAV_ADMIN];
-grant execute on dbo.CheckAuth to [NAV_ESP];
-grant execute on dbo.CheckAuth to [NAV_STUDENT];
+go
 
 grant execute on dbo.SetAuthState to [NAV_ADMIN];
+go
 grant execute on dbo.SetAuthState to [NAV_ESP];
+go
 grant execute on dbo.SetAuthState to [NAV_STUDENT];
+go
 
 grant execute on dbo.ResetPassword to [NAV_GUEST];
 

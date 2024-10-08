@@ -35,6 +35,8 @@ const signIn = async (req, res) => {
         req.session.aid = q_aid;
         req.session.role = q_role;
 
+        console.log(req.session)
+
         console.log(`[${now.toLocaleString()}] at signInController.js/signIn | Signed in successfully {${account}, ${password}}`);
         res.status(200).json({
             message: 'Signed in successfully.',

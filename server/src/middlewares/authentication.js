@@ -3,8 +3,9 @@ require('dotenv').config();
 
 const isSignedIn = async (req, res, next) => { // Pass when user already signed in
     try {
-        if (req.session.role === 'NAV_GUEST' || !req.session.role || req.session.role === '') {
-            req.session.role = 'NAV_GUEST';
+        //console.log(req.session)
+        console.log(Number.isNaN(Number.parseInt(req.session.aid)))
+        if (Number.isNaN(Number.parseInt(Number.isNaN(Number.parseInt(req.session.aid))))) {
             console.log(`[${now.toLocaleString()}] at authentication.js/isSignedIn | Triggered`);
             return res.status(203).json({
                 message: 'Must Sign In to Access.',
@@ -16,7 +17,6 @@ const isSignedIn = async (req, res, next) => { // Pass when user already signed 
         next();
 
     } catch (err) {
-        req.session.role = 'NAV_GUEST';
         console.error(`[${now.toLocaleString()}] authentication.js/isSignedIn | ${err.message}`);
         res.status(500).json({
             message: 'Internal Server Error',
@@ -27,11 +27,9 @@ const isSignedIn = async (req, res, next) => { // Pass when user already signed 
 
 const isNotSignedIn = async (req, res, next) => { // Pass when user not sign in yet
     try {
-        if (req.session.role !== 'NAV_GUEST') {
-
-            if (!req.session.role || req.session.role === '')
-                req.session.role = 'NAV_GUEST';
-            
+        //console.log(req.session)
+        console.log(!Number.isNaN(Number.parseInt(req.session.aid)))
+        if (!Number.isNaN(Number.parseInt(req.session.aid))) {
             console.error(`[${now.toLocaleString()}] at authentication.js/isNotSignedIn | Triggered`);
             return res.status(203).json({
                 message: 'Must Not Sign In to Access.',
@@ -40,11 +38,9 @@ const isNotSignedIn = async (req, res, next) => { // Pass when user not sign in 
             });
         }
 
-        req.session.role = 'NAV_GUEST';
         next();
 
     } catch (err) {
-        req.session.role = 'NAV_GUEST';
         console.error(`[${now.toLocaleString()}] authentication.js/isNotSignedIn | ${err.message}`);
         res.status(500).json({
             message: 'Internal Server Error',
