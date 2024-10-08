@@ -20,7 +20,7 @@ begin
 		m.[module_name],
 		m.[module_ordinal]
 	from Courses c
-		left join Modules m on m.[course_id] = c.[course_id]
+		join Modules m on m.[course_id] = c.[course_id]
 		join Users u on u.[user_id] = c.[provider_id]
 	where c.course_id = @course_id
 end
