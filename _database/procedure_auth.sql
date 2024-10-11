@@ -141,6 +141,12 @@ go
 -- grant procedure
 grant execute on dbo.SignIn to [NAV_GUEST];
 go
+grant execute on dbo.SignIn to [NAV_ADMIN];
+go
+grant execute on dbo.SignIn to [NAV_ESP];
+go
+grant execute on dbo.SignIn to [NAV_STUDENT];
+go
 grant execute on dbo.SignUp to [NAV_GUEST];
 go
 

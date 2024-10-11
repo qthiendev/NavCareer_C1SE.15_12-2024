@@ -7,6 +7,7 @@ const authRouters = require('./routers/authRouters');
 const authzRouters = require('./routers/authzRouters');
 const profileRouters = require('./routers/profileRouters');
 const courseRouters = require('./routers/courseRouters');
+const adminRouters = require('./routers/adminRouters');
 
 
 // Use routes
@@ -14,6 +15,7 @@ router.use('/auth', authRouters);
 router.use('/authz', authzRouters);
 router.use('/profile', profileRouters);
 router.use('/course', courseRouters );
+router.use('/admin', adminRouters );
 
 //Self implement route
 router.use('/', serverRouters);
