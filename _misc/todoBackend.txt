@@ -17,5 +17,6 @@ delete profile: x
 
 read course: v
 create course: v
-update course: -
-delete course: x
+update course: V
+delete course: -
+np

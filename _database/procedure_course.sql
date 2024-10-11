@@ -29,49 +29,45 @@ go
 ------------------------------------------------------------------------------------------------------------
 if object_id('CreateCourse', 'P') is not null drop procedure CreateCourse;
 go
-create procedure CreateCourse 
-	@aid int,
-	@course_name nvarchar(max),
-	@course_description nvarchar(max),
-	@duration nvarchar(max),
-	@provider_id nvarchar(max)
+create procedure CreateCourse @aid int, @course_name nvarchar(max), @course_description nvarchar(max), @duration nvarchar(max), @provider_id nvarchar(max)
 as
 begin
-	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateAuth');
+    declare @IsBanned BIT;
+    set @IsBanned = dbo.IsUserBanned(@aid, 'CreateCourse');
     if @IsBanned = 1 return;
 
-	declare @course_id int;
+    declare @course_id int;
 
-	select @course_id = isnull(max(course_id), -1) + 1 from Courses;
+    select top 1 @course_id = t1.course_id + 1
+    from Courses t1
+		left join Courses t2 on t1.course_id + 1 = t2.course_id
+    where t2.course_id is null
+    order by t1.course_id;
 
-	insert into Courses ([course_id], [course_name], [course_description], [duration], [created_date], [provider_id])
-	values
-	(@course_id, @course_name, @course_description, @duration, getdate(), @provider_id);
+    if @course_id is null select @course_id = isnull(max(course_id), 0) + 1 from Courses;
 
-	select 'TRUE' as [check]
-	from Courses
-	where [course_id] = @course_id
-		and [course_name] = @course_name
-		and [course_description] = @course_description
-		and [duration] = @duration
-		and [provider_id] = @provider_id
+    insert into Courses ([course_id], [course_name], [course_description], [duration], [created_date], [provider_id])
+    values
+    (@course_id, @course_name, @course_description, @duration, getdate(), @provider_id);
+
+    select 'TRUE' as [check]
+    from Courses
+    where [course_id] = @course_id
+        and [course_name] = @course_name
+        and [course_description] = @course_description
+        and [duration] = @duration
+        and [provider_id] = @provider_id;
 end
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 if object_id('UpdateCourse', 'P') is not null drop procedure UpdateCourse;
 go
-create procedure UpdateCourse 
-	@aid int,
-	@course_id int,
-	@new_course_name nvarchar(max),
-	@new_course_description nvarchar(max),
-	@new_duration nvarchar(max)
+create procedure UpdateCourse @aid int, @course_id int, @new_course_name nvarchar(max), @new_course_description nvarchar(max), @new_duration nvarchar(max)
 as
 begin
 	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateAuth');
+	set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
     if @IsBanned = 1 return;
 
 	update Courses
@@ -90,16 +86,32 @@ begin
 		and [duration] = @new_duration
 end
 go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('DeleteCourse', 'P') is not null drop procedure DeleteCourse;
+go
+create procedure DeleteCourse @aid int, @course_id int
+as
+begin
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'DeleteCourse');
+    if @IsBanned = 1 return;
+
+	delete from Courses
+	where [course_id] = @course_id
+		and [provider_id] = @aid
+
+	select 'TRUE' as [check]
+	from Courses
+	where [course_id] = @course_id;
+end
+go
 
 grant execute on dbo.ReadCourse to [NAV_GUEST];
 grant execute on dbo.ReadCourse to [NAV_ADMIN];
 grant execute on dbo.ReadCourse to [NAV_ESP];
 grant execute on dbo.ReadCourse to [NAV_STUDENT];
 
-grant execute on dbo.CreateCourse to [NAV_ADMIN];
 grant execute on dbo.CreateCourse to [NAV_ESP];
-
-grant execute on dbo.UpdateCourse to [NAV_ADMIN];
 grant execute on dbo.UpdateCourse to [NAV_ESP];
-
-execute UpdateCourse 1, 3, 'new', 'new', 'new'
+grant execute on dbo.DeleteCourse to [NAV_ESP];

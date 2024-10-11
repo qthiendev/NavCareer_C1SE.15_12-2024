@@ -17,9 +17,9 @@ const createProfile = async (req, res) => {
         const profileData = {
             userType: req.session.authorization || 'gst',  // Fallback if session data is missing
             userFullName: userFullName,
-            email: email,
             birthdate: birthdate,
             gender: gender,
+            email: email,
             phoneNumber: phoneNumber,
             address: address || 'N/A',  // Set default if address is null or undefined
             authenticationId: req.session.authentication || 'defaultAuthenticationId'  // Fallback if session is missing
@@ -27,7 +27,6 @@ const createProfile = async (req, res) => {
 
         // Create profile in the service
         const createdProfile = await tryCreateProfile(profileData);
-
         if (Number.parseInt(createdProfile) === 1) {
             console.error(`[${now.toLocaleString()}] at createProfileController.js/createProfile() | Profile failed to create!`);
             return res.status(400).json({
