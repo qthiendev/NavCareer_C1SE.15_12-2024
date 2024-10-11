@@ -1,4 +1,4 @@
-const { queryDB } = require('../../database/queryDBService');
+const ncdb = require('../../databases/ncdbService');
 
 const formatDate = (birthdate) => {
     const [day, month, year] = birthdate.split('/');
@@ -20,7 +20,7 @@ const tryUpdateProfile = async (profileData) => {
         } = profileData;
         try {
             // Check if the profile already exists
-            const existingProfile = await ncbd.query(
+            const existingProfile = await ncdb.query(
                 userType, 
                 `EXECUTE ReadProfile @authentication_id`, 
                 { authentication_id: authenticationId }

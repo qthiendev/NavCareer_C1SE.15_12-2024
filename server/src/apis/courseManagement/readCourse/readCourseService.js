@@ -2,7 +2,6 @@ const ncbd = require('../../databases/ncdbService');
 
 const tryReadCourse = async (role, course_id) => {
     try {
-
         if (Number.isNaN(course_id))
             throw new Error(`'course_id' must provided.`);
 

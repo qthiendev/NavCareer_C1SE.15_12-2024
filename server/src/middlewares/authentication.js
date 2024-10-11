@@ -3,9 +3,7 @@ require('dotenv').config();
 
 const isSignedIn = async (req, res, next) => { // Pass when user already signed in
     try {
-        //console.log(req.session)
-        console.log(Number.isNaN(Number.parseInt(req.session.aid)))
-        if (Number.isNaN(Number.parseInt(Number.isNaN(Number.parseInt(req.session.aid))))) {
+        if (Number.isNaN(Number.parseInt(req.session.aid))) {
             console.log(`[${now.toLocaleString()}] at authentication.js/isSignedIn | Triggered`);
             return res.status(203).json({
                 message: 'Must Sign In to Access.',
@@ -27,8 +25,6 @@ const isSignedIn = async (req, res, next) => { // Pass when user already signed 
 
 const isNotSignedIn = async (req, res, next) => { // Pass when user not sign in yet
     try {
-        //console.log(req.session)
-        console.log(!Number.isNaN(Number.parseInt(req.session.aid)))
         if (!Number.isNaN(Number.parseInt(req.session.aid))) {
             console.error(`[${now.toLocaleString()}] at authentication.js/isNotSignedIn | Triggered`);
             return res.status(203).json({

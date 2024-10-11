@@ -25,7 +25,9 @@ go
 
 
 -- CREATE
-alter PROCEDURE CreateProfile 
+if object_id('CreateProfile', 'P') is not null drop procedure CreateProfile;
+go
+create procedure CreateProfile 
     @user_full_name NVARCHAR(MAX), 
     @birthdate DATETIME, 
     @gender BIT, 
@@ -65,18 +67,20 @@ BEGIN
 END;
 GO
 
-EXEC CreateProfile 
-    @user_full_name = N'phúc đẹp trai ông trùng kéo viu số 1 việt nam ', 
-    @birthdate = '1995-05-15', 
-    @gender = 0,  -- Assuming 0 for female
-    @email = 'jane.doe@example.com', 
-    @phone_number = '0987654321', 
-    @address = '456 Another St', 
-    @authentication_id = 3, 
-    @is_active = 1;
+--EXEC CreateProfile 
+    --@user_full_name = N'phúc đẹp trai ông trùng kéo viu số 1 việt nam ', 
+   -- @birthdate = '1995-05-15', 
+    --@gender = 0,  -- Assuming 0 for female
+   -- @email = 'jane.doe@example.com', 
+    --@phone_number = '0987654321', 
+    --@address = '456 Another St', 
+   -- @authentication_id = 3, 
+   -- @is_active = 1;
 
 
 -- UPDATE
+if object_id('UpdateProfile', 'P') is not null drop procedure UpdateProfile;
+go
 CREATE PROCEDURE UpdateProfile 
     @user_id INT,  -- The ID of the user to be updated
     @user_full_name NVARCHAR(MAX), 
@@ -118,18 +122,20 @@ BEGIN
 END;
 GO
 
-EXEC UpdateProfile 
-    @user_id = 1, 
-    @user_full_name = 'John Doe', 
-    @birthdate = '1990-01-01', 
-    @gender = 1, 
-    @email = 'john.doe@example.com', 
-    @phone_number = '1234567890', 
-    @address = '123 Main St', 
-    @authentication_id = 2
+--EXEC UpdateProfile 
+   -- @user_id = 1, 
+   -- @user_full_name = 'John Doe', 
+   -- @birthdate = '1990-01-01', 
+   -- @gender = 1, 
+   -- @email = 'john.doe@example.com', 
+   -- @phone_number = '1234567890', 
+   -- @address = '123 Main St', 
+   -- @authentication_id = 2
 
 -- DELETE
-CREATE PROCEDURE DeleteProfile
+if object_id('DisableProfile', 'P') is not null drop procedure DisableProfile;
+go
+CREATE PROCEDURE DisableProfile
     @user_id INT  -- The ID of the user to be deleted
 AS
 BEGIN
@@ -147,7 +153,6 @@ BEGIN
     END
 END;
 GO
-EXEC DeleteProfile @user_id = 4;
 
 grant execute on dbo.[ViewProfile] to [NAV_GUEST]
 grant execute on dbo.[ViewProfile] to [NAV_ADMIN]
