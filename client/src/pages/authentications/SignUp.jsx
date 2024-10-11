@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React from 'react';
 import './SignUp.css'; // Create a CSS file for styling
 import icon from "./img/headericon.png"
 function SignUp() {
@@ -36,7 +36,17 @@ function SignUp() {
               <input type="password" placeholder="Mật khẩu" required />
               <input type="password" placeholder="Nhập lại mật khẩu" required />
             </div>
-  
+
+
+            <div className="form-group">
+              <select className="user-type" required>
+                <option value="">Loại người dùng</option>
+                <option value="hoc-sinh">Học sinh</option>
+                <option value="nha-cung-cap-dich-vu">Nhà cung cấp dịch vụ</option>
+              </select>
+            </div>
+
+
             <div className="terms-group">
               <input type="checkbox" id="terms" required />
               <label htmlFor="terms">
@@ -62,6 +72,15 @@ function SignUp() {
             <p className="login-link">
               Đã có tài khoản? <a href="#">Đăng nhập</a>
             </p>
+
+            <div className="note-section">
+              <h3 className="note-title">• Lưu ý</h3>
+              <p><strong>Tên người dùng:</strong></p>
+              <p>Viết thường, không dấu, chỉ bao gồm chữ cái và số, tối đa 12 ký tự.</p>
+              <p><strong>Mật khẩu:</strong></p>
+              <p>Bao gồm chữ in hoa, chữ in thường, số và ký tự đặc biệt, dài từ 6-12 ký tự.</p>
+            </div>
+
           </form>
         </div>
       </div>

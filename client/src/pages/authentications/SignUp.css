@@ -154,3 +154,31 @@ h1 {
   height: auto;
   max-height: 50px; /* Điều chỉnh chiều cao tối đa */
 }
+.user-type {
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 12px;
+}
+ .note-section {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.note-title {
+  font-size: 18px;
+  color: #007bff; /* Màu xanh nước biển cho tiêu đề */
+  margin-bottom: 10px;
+}
+
+.note-section p {
+  font-size: 16px; /* Tăng kích thước chữ */
+  color: #666;
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
