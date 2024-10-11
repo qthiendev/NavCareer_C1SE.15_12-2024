@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import './Layout.css';
 
 function Layout({ children }) {
@@ -7,30 +7,35 @@ function Layout({ children }) {
     <div className="layout-container">
       <header>
         <nav className="navbar">
-          <div className="logo">
-            <p>nav</p>
-            <img src="img/Header/white_icon 1.svg" alt="Logo" />
-            <p>areer</p>
+
+          {/* Standalone Home Logo and Nav List */}
+          <div className="left-section">
+            <div className="home-logo">
+              <a href="/">
+                <img src="img/Header/Logo.svg" alt="Logo" />
+              </a>
+            </div>
+
+            <ul className="nav-list">
+              <li>
+                <a href="/tests">TRẮC NGHIỆM HƯỚNG NGHIỆP</a>
+              </li>
+              <li><a href="/courses">KHÓA HỌC</a></li>
+              <li>
+                <a href="/resources">VỀ CHÚNG TÔI</a>
+              </li>
+            </ul>
           </div>
-          <ul className="nav-list">
-            <li><a href="/">Trang chủ</a></li>
-            <li>
-              <a href="/system-tests">Hệ thống bài test</a>
-              <img className='down-arrow' src="img/Header/Down Arrow_Vector.svg" alt="Down Arrow" />
-            </li>
-            <li><a href="/courses">Khoá học</a></li>
-            <li>
-              <a href="/resources">Tài nguyên hỗ trợ</a>
-              <img className='down-arrow' src="img/Header/Down Arrow_Vector.svg" alt="Down Arrow" />
-            </li>
-          </ul>
-          <div className="auth-buttons">
-            <a className="btn_login" href="/signin">Đăng Nhập</a>
-            <a className="btn_signup" href="/signup">Đăng Ký</a>
+
+          {/* Auth Links */}
+          <div className="auth">
+            <a className="signin" href="/signin">ĐĂNG NHẬP</a>
+            |
+            <a className="signup" href="/signup">ĐĂNG KÝ</a>
           </div>
+
         </nav>
       </header>
-
 
       <main className="main-content">
         <Outlet />
@@ -40,9 +45,7 @@ function Layout({ children }) {
         <div class="footer_container">
           <div class="logo-info">
             <div className="logo">
-              <p>nav</p>
-              <img src="img/Header/white_icon 1.svg" alt="Logo" />
-              <p>areer</p>
+              <img src="img/Header/Logo.svg" alt="Logo" />
             </div>
             <ul>
               <li>
@@ -54,7 +57,7 @@ function Layout({ children }) {
                 <p>+91 91813 23 2309</p>
               </li>
               <li>
-                <img style={{padding: "5px"}} src="img/Footer/location_white_vector.svg" alt="" />
+                <img style={{ padding: "5px" }} src="img/Header/Logo.svg" alt="" />
                 <p>Somewhere in the World</p>
               </li>
             </ul>
@@ -87,7 +90,7 @@ function Layout({ children }) {
         <p className='copyright'>&copy; C1SE.15</p>
       </footer>
     </div>
-  )
-};
+  );
+}
 
 export default Layout;

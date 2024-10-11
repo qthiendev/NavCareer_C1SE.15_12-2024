@@ -26,6 +26,7 @@ router.get('/adm',
 
 router.get('/esp',
     authMiddlware.isSignedIn,
+    authzMiddlware.esp,
     async (req, res) => {
         res.status(200).json({
             message: 'This is esp',

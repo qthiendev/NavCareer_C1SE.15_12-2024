@@ -1,0 +1,125 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Layout Container */
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%; /* Ensure full width */
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #343a40;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%; /* Prevents overflow */
+    overflow: hidden;
+}
+
+.nav-list {
+    list-style-type: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list li {
+    display: inline;
+}
+
+.nav-list a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-list a:hover {
+    color: #ffcd39;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    background-color: #fff;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%; /* Ensure it adapts to screen size */
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: auto; /* Ensures footer sticks to the bottom */
+}
+
+.footer p {
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .main-content {
+        padding: 1rem;
+    }
+
+    .nav-list a {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0.5rem;
+    }
+
+    .main-content {
+        padding: 0.5rem;
+    }
+
+    .nav-list a {
+        font-size: 1rem;
+    }
+
+    .footer {
+        padding: 0.5rem;
+    }
+}
