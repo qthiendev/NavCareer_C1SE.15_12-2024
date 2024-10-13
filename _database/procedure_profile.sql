@@ -169,15 +169,15 @@ BEGIN
 END;
 GO
 
-EXEC UpdateProfile 
-    @aid = 5,                    -- Replace with the actual authentication ID
-	@user_id = 4,
-    @user_full_name = N'John Doe',  -- Replace with the actual full name
-    @birthdate = '1990-01-01',      -- Replace with the actual birthdate
-    @gender = 1,                    -- 1 for male, 0 for female
-    @email = N'john.doe@example.com',-- Replace with the actual email
-    @phone_number = N'123-456-7890',-- Replace with the actual phone number
-    @address = N'123 Main St';      -- Replace with the actual address
+--EXEC UpdateProfile 
+--    @aid = 4,                         
+--	@user_id = 4,
+--    @user_full_name = N'John Doe',    
+--    @birthdate = '1990-01-01',        
+--    @gender = 1,                      
+--    @email = N'john.doe@example.com', 
+--    @phone_number = N'123-456-7890',  
+--    @address = N'123 Main St';        
 
 -- DELETE
 
@@ -202,7 +202,7 @@ BEGIN
 END;
 GO
 
- exec DeleteProfile 4
+-- exec DeleteProfile 4
 
 
 grant execute on dbo.[ViewProfile] to [NAV_GUEST]
@@ -210,14 +210,17 @@ grant execute on dbo.[ViewProfile] to [NAV_ADMIN]
 grant execute on dbo.[ViewProfile] to [NAV_ESP]
 grant execute on dbo.[ViewProfile] to [NAV_STUDENT]
 
+grant execute on dbo.[ViewProfile] to [NAV_GUEST]
 grant execute on dbo.[CreateProfile] to [NAV_ADMIN]
 grant execute on dbo.[CreateProfile] to [NAV_ESP]
 grant execute on dbo.[CreateProfile] to [NAV_STUDENT]
 
+grant execute on dbo.[ViewProfile] to [NAV_GUEST]
 grant execute on dbo.[UpdateProfile] to [NAV_ADMIN]
 grant execute on dbo.[UpdateProfile] to [NAV_ESP]
 grant execute on dbo.[UpdateProfile] to [NAV_STUDENT]
 
+grant execute on dbo.[ViewProfile] to [NAV_GUEST]
 grant execute on dbo.[DeleteProfile] to [NAV_ADMIN]
 grant execute on dbo.[DeleteProfile] to [NAV_ESP]
 grant execute on dbo.[DeleteProfile] to [NAV_STUDENT]

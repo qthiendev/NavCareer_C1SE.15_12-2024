@@ -4,29 +4,27 @@ const now = new Date();
 const deleteProfile = async (req, res) => {
     try {
         const { user_id } = req.query;
-        const { role } = req.session;
+        const { role, id: currentUserId } = req.session;
 
         if (!role)
             throw new Error(`'role' is required.`);
 
         if (user_id === null || typeof(user_id) === 'undefined')
-            throw new Error(`'index' is required.`);
+            throw new Error(`'user_id' is not provided.`); // Sửa lại lỗi thông báo
 
-        const data = await tryDeleteProfile(role, user_id);
-
-        if (!data) {
-            console.log(`[${now.toLocaleString()}] at data deleteProfileController.js/deleteProfile() | Profile '${user_id}' not found`);
+        if (user_id !== currentUserId.toString()) {
+            console.log(`[${now.toLocaleString()}] at deleteProfileController.js/deleteProfile() | Profile '${user_id}' deleted successfully.`);
             return res.status(203).json({
-                message: `Profile '${user_id}' not found`,
+                message: `Failed to delete Profile ${user_id}.`,
                 time: now.toLocaleString()
             });
         }
+        await tryDeleteProfile(role, user_id); // Đổi tên biến để dễ hiểu hơn
 
-        return res.status(200).json(data);
+        
 
     } catch (err) {
-        const now = new Date();
-        console.error(`[${now.toLocaleString()}] at cache deleteProfileController.js/deleteProfile() | ${err.message}`);
+        console.error(`[${now.toLocaleString()}] at deleteProfileController.js/deleteProfile() | ${err.message}`);
         res.status(500).json({ 
             message: 'Server Error',
             time: now.toLocaleString()

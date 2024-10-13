@@ -12,7 +12,7 @@ const tryDeleteCourse = async (aid, role, course_id) => {
         return result && result.length === 0;
 
     } catch (err) {
-        throw new Error(`readCourseService.js/tryReadCourse| ${err.message}`);
+        throw new Error(`deleteCourseService.js/tryDeleteCourse| ${err.message}`);
     }
 };
 

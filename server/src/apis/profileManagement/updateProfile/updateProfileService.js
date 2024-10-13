@@ -1,4 +1,4 @@
-const ncdb = require('../../databases/ncdbService');
+const ncbd = require('../../databases/ncdbService');
 
 const formatDate = (birthdate) => {
     const [day, month, year] = birthdate.split('/');
@@ -18,10 +18,6 @@ const tryUpdateProfile = async (profileData) => {
             address
         } = profileData;
         try {
-    
-            if (existingProfile && existingProfile.length > 0) {
-                return 3; // Profile already exists
-            }
     
             // Convert birthdate from dd/MM/yyyy to yyyy-MM-dd format
             const formattedBirthdate = formatDate(birthdate);
@@ -43,8 +39,8 @@ const tryUpdateProfile = async (profileData) => {
          };
             
             // Insert profile data
-            await ncbd.query(role, queryString, params);
-    
+            const newProfile = await ncbd.query(role, queryString, params);
+
             return newProfile && newProfile.length > 0 ;
     
         } catch (err) {
