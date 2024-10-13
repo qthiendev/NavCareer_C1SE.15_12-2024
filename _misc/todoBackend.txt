@@ -10,8 +10,8 @@ update authentication: v
 disable authentication: v
 reset password: x
 
-read profile: x
-create profile: x
+read profile: v
+create profile: v
 update profile: x
 delete profile: x
 

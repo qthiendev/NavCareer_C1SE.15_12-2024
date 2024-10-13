@@ -43,7 +43,7 @@ begin
     
     insert into Authentications([authentication_id], [account], [password], [identifier_email], [created_date], [authorization_id], [is_active])
     values (@authentication_id, @encoded_account, @encoded_password, @encoded_identifier_email, getdate(), @authorization_id, 1);
-
+	--kieem TRA
 	select 'TRUE' as [check]
 	from Authentications
 	where convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [account])) = @account

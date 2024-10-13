@@ -7,24 +7,17 @@ const formatDate = (birthdate) => {
 
 const tryUpdateProfile = async (profileData) => {
     
-        const { userType,
-            userId,
+        const { aid,
+            role,
+            userid,
             userFullName,
             birthdate,
             gender,
             email,
             phoneNumber,
-            address,
-            authenticationId,
-            isActive
+            address
         } = profileData;
         try {
-            // Check if the profile already exists
-            const existingProfile = await ncdb.query(
-                userType, 
-                `EXECUTE ReadProfile @authentication_id`, 
-                { authentication_id: authenticationId }
-            );
     
             if (existingProfile && existingProfile.length > 0) {
                 return 3; // Profile already exists
@@ -35,37 +28,27 @@ const tryUpdateProfile = async (profileData) => {
     
             // Create profile query and parameters
             const queryString = `
-            EXEC UpdateProfile @user_id, @user_full_name, 
+            EXEC UpdateProfile @aid, @user_id, @user_full_name, 
             @birthdate, @gender, @email, @phone_number, 
-            @address, @authentication_id,@is_active;
-        `;
+            @address;`;
         const params = { 
-            userType, 
-            userId: userId,
+            aid: aid,
+            user_id: userid,
             user_full_name: userFullName,
             birthdate: formattedBirthdate,
             gender: gender,
             email: email,
             phone_number: phoneNumber,
-            address: address,
-            authentication_id: authenticationId,
-            is_active: isActive
+            address: address
          };
             
             // Insert profile data
-            await ncbd.query(userType, queryString, params);
+            await ncbd.query(role, queryString, params);
     
-            // Verify the profile insertion
-            const newProfile = await ncbd.query(
-                userType, 
-                `EXECUTE ViewProfile @authentication_id`, 
-                { authentication_id: authenticationId }
-            );
-    
-            return newProfile && newProfile.length > 0 ? 2 : 1;
+            return newProfile && newProfile.length > 0 ;
     
         } catch (err) {
-            throw Error(`createProfileService.js/tryCreateProfile() | ${err.message}`);
+            throw Error(`createProfileService.js/tryUpdateProfile() | ${err.message}`);
         }
 };
 

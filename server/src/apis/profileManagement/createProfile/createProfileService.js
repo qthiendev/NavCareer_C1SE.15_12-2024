@@ -8,56 +8,39 @@ const formatDate = (birthdate) => {
 
 const tryCreateProfile = async (profileData) => {
     const {
-        userType,
+        aid,
+        role,
         userFullName,
         birthdate,
         gender,
         email,
         phoneNumber,
         address,
-        authenticationId
     } = profileData;
 
     try {
-        // Check if the profile already exists
-        const existingProfile = await ncbd.query(
-            userType, 
-            `EXECUTE ReadProfile @authentication_id`, 
-            { authentication_id: authenticationId }
-        );
-
-        if (existingProfile && existingProfile.length > 0) {
-            return 3; // Profile already exists
-        }
-
         // Convert birthdate from dd/MM/yyyy to yyyy-MM-dd format
         const formattedBirthdate = formatDate(birthdate);
 
         // Create profile query and parameters
-        const queryString = `EXECUTE CreateProfile @user_full_name, 
+        const queryString = `EXECUTE CreateProfile @aid, @user_full_name, 
             @birthdate, @gender, @email, @phone_number, 
-            @address, @authentication_id`;
+            @address`;
         const params = {
+            aid: aid,
             user_full_name: userFullName,
             birthdate: formattedBirthdate,
             gender: gender,
             email: email,
             phone_number: phoneNumber,
             address: address,
-            authentication_id: authenticationId
         };
 
         // Insert profile data
-        await ncbd.query(userType, queryString, params);
+        const results = await ncbd.query(role, queryString, params);
 
-        // Verify the profile insertion
-        const newProfile = await ncbd.query(
-            userType, 
-            `EXECUTE ViewProfile @authentication_id`, 
-            { authentication_id: authenticationId }
-        );
 
-        return newProfile && newProfile.length > 0 ? 2 : 1;
+        return results && results.length > 0;
 
     } catch (err) {
         throw Error(`createProfileService.js/tryCreateProfile() | ${err.message}`);

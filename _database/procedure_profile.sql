@@ -6,38 +6,60 @@ go
 
 --READ
 
-create procedure ViewProfile @user_id int
-as
-begin
-	select [user_full_name], 
-		[birthdate],
-		[gender],
-		[email], 
-		[phone_number],
-		[address], 
-		[date_joined],
-		[resource_url], 
-		[authentication_id],
-		[is_active] 
-	from Users where user_id = @user_id
-end
-go
+CREATE PROCEDURE ViewProfile @user_id INT
+AS
+BEGIN
+    -- Check if the user exists
+    IF EXISTS (SELECT 1 FROM Users WHERE user_id = @user_id)
+    BEGIN
+        -- If user exists, return the profile data
+        SELECT 
+            [user_full_name], 
+            [birthdate],
+            [gender],
+            [email], 
+            [phone_number],
+            [address], 
+            [date_joined],
+            [resource_url], 
+            [authentication_id],
+            [is_active] 
+        FROM Users 
+        WHERE user_id = @user_id;
+    END
+    ELSE
+    BEGIN
+        -- Raise an error if the user is not found
+        RAISERROR('User with ID %d not found.', 16, 1, @user_id);
+    END
+END;
+GO
+
 
 
 -- CREATE
 if object_id('CreateProfile', 'P') is not null drop procedure CreateProfile;
 go
 create procedure CreateProfile 
+	@aid int,
     @user_full_name NVARCHAR(MAX), 
     @birthdate DATETIME, 
     @gender BIT, 
     @email NVARCHAR(MAX), 
     @phone_number NVARCHAR(30), 
-    @address NVARCHAR(MAX),
-    @authentication_id INT
+    @address NVARCHAR(MAX)
 AS
 BEGIN
     -- Declare a new ID for the user
+	declare @IsBanned BIT;
+    set @IsBanned = dbo.IsUserBanned(@aid, 'CreateProfile');
+    if @IsBanned = 1 return;
+
+	IF EXISTS (SELECT 1 FROM Users WHERE authentication_id = @aid)
+    BEGIN
+        RETURN;
+    END
+
     DECLARE @newId INT;
 
     -- Find the next available user_id (either a gap or the next sequential value)
@@ -61,41 +83,55 @@ BEGIN
         [user_id],  [user_full_name], [birthdate],  [gender],  [email], 
         [phone_number],  [address],  [date_joined],  [resource_url], [authentication_id],[is_active]
     )
-    VALUES (
-        @newId,  @user_full_name,  @birthdate,  @gender, @email,  @phone_number, @address, GETDATE(), TRIM(@resource_url), @authentication_id,1
-    );
+    VALUES (@newId,  @user_full_name,  @birthdate,  @gender, @email,  @phone_number, @address, GETDATE(), TRIM(@resource_url), @aid, 1);
+
+	select 'TRUE' as [check]
+	from Users
+	where 
+		[user_full_name]=@user_full_name and 
+		[birthdate] = @birthdate and
+		[gender] = @gender and
+		[email] = @email and
+		[phone_number] = @phone_number and
+		[address] = @address and
+		[resource_url] = TRIM(@resource_url) AND
+		[authentication_id] = @aid
 END;
 GO
 
 --EXEC CreateProfile 
-    --@user_full_name = N'phúc đẹp trai ông trùng kéo viu số 1 việt nam ', 
-   -- @birthdate = '1995-05-15', 
-    --@gender = 0,  -- Assuming 0 for female
-   -- @email = 'jane.doe@example.com', 
-    --@phone_number = '0987654321', 
-    --@address = '456 Another St', 
-   -- @authentication_id = 3, 
-   -- @is_active = 1;
+--   @aid=4,
+--   @user_full_name = N'phúc đẹp trai ông trùng kéo viu số 1 việt nam ', 
+--   @birthdate = '1995-05-15', 
+--   @gender = 0,  -- Assuming 0 for female
+--   @email = 'jane.doe@example.com', 
+--   @phone_number = '0987654321', 
+--   @address = '456 Another St' 
 
 
 -- UPDATE
+
 if object_id('UpdateProfile', 'P') is not null drop procedure UpdateProfile;
 go
 CREATE PROCEDURE UpdateProfile 
+	@aid int,
     @user_id INT,  -- The ID of the user to be updated
     @user_full_name NVARCHAR(MAX), 
     @birthdate DATETIME, 
     @gender BIT, 
     @email NVARCHAR(MAX), 
     @phone_number NVARCHAR(30), 
-    @address NVARCHAR(MAX),
-    @authentication_id INT,
-    @is_active BIT
+    @address NVARCHAR(MAX)
 AS
 BEGIN
     -- Check if the user exists before attempting an update
-    IF EXISTS (SELECT 1 FROM Users WHERE user_id = @user_id)
+	IF EXISTS (SELECT 1 FROM Users WHERE @user_id = @aid)
     BEGIN
+		
+		declare @IsBanned BIT;
+		set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateProfile');
+		if @IsBanned = 1 return;
+
         DECLARE @resource_url NVARCHAR(MAX) = '/profiles/_' + CAST(@user_id AS NVARCHAR);
 
         -- Perform the update
@@ -106,36 +142,48 @@ BEGIN
             gender = @gender, 
             email = @email, 
             phone_number = @phone_number, 
-            address = @address, 
-            date_joined = GETDATE(),  -- If you want to keep the original value, remove this line
-            resource_url = TRIM(@resource_url), 
-            authentication_id = @authentication_id,
-            is_active = @is_active
+            address = @address 
         WHERE 
-            user_id = @user_id;
+            user_id = @user_id and 
+            authentication_id = @aid and 
+			is_active = 1
+
+
+		select 'TRUE' as [check]
+		from Users
+		where 
+		[user_full_name]=@user_full_name and 
+		[birthdate] = @birthdate and
+		[gender] = @gender and
+		[email] = @email and
+		[phone_number] = @phone_number and
+		[address] = @address and
+		[resource_url] = TRIM(@resource_url) AND
+		[authentication_id] = @aid
     END
-    ELSE
-    BEGIN
+	else
+	BEGIN
         -- Raise an error if the user is not found
-        RAISERROR('User not found with ID %d', 16, 1, @user_id);
+        RAISERROR('User with ID %d not found.', 16, 1, @user_id);
     END
 END;
 GO
 
---EXEC UpdateProfile 
-   -- @user_id = 1, 
-   -- @user_full_name = 'John Doe', 
-   -- @birthdate = '1990-01-01', 
-   -- @gender = 1, 
-   -- @email = 'john.doe@example.com', 
-   -- @phone_number = '1234567890', 
-   -- @address = '123 Main St', 
-   -- @authentication_id = 2
+EXEC UpdateProfile 
+    @aid = 5,                    -- Replace with the actual authentication ID
+	@user_id = 4,
+    @user_full_name = N'John Doe',  -- Replace with the actual full name
+    @birthdate = '1990-01-01',      -- Replace with the actual birthdate
+    @gender = 1,                    -- 1 for male, 0 for female
+    @email = N'john.doe@example.com',-- Replace with the actual email
+    @phone_number = N'123-456-7890',-- Replace with the actual phone number
+    @address = N'123 Main St';      -- Replace with the actual address
 
 -- DELETE
-if object_id('DisableProfile', 'P') is not null drop procedure DisableProfile;
+
+if object_id('DeleteProfile', 'P') is not null drop procedure DeleteProfile;
 go
-CREATE PROCEDURE DisableProfile
+CREATE PROCEDURE DeleteProfile
     @user_id INT  -- The ID of the user to be deleted
 AS
 BEGIN
@@ -154,14 +202,30 @@ BEGIN
 END;
 GO
 
+ exec DeleteProfile 4
+
+
 grant execute on dbo.[ViewProfile] to [NAV_GUEST]
 grant execute on dbo.[ViewProfile] to [NAV_ADMIN]
 grant execute on dbo.[ViewProfile] to [NAV_ESP]
 grant execute on dbo.[ViewProfile] to [NAV_STUDENT]
 
+grant execute on dbo.[CreateProfile] to [NAV_ADMIN]
+grant execute on dbo.[CreateProfile] to [NAV_ESP]
+grant execute on dbo.[CreateProfile] to [NAV_STUDENT]
+
+grant execute on dbo.[UpdateProfile] to [NAV_ADMIN]
+grant execute on dbo.[UpdateProfile] to [NAV_ESP]
+grant execute on dbo.[UpdateProfile] to [NAV_STUDENT]
+
+grant execute on dbo.[DeleteProfile] to [NAV_ADMIN]
+grant execute on dbo.[DeleteProfile] to [NAV_ESP]
+grant execute on dbo.[DeleteProfile] to [NAV_STUDENT]
+
+
 EXECUTE AS USER = 'NAV_ADMIN';
 --EXEC dbo.SignIn @account = 'qthiendev', @password = 'qthiendev';
-EXEC ViewProfile 1;
+--EXEC ViewProfile 5;
 --select * from users
 REVERT;
 --declare @IsBanned BIT;

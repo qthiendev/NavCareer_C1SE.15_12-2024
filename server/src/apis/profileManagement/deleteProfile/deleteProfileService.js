@@ -1,6 +1,5 @@
 const ncbd = require('../../databases/ncdbService');
 
-// Utility function to convert date from dd/MM/yyyy to yyyy-MM-dd
 const tryDeleteProfile = async (role, userID) => {
     try {
         const queryString = `EXECUTE DeleteProfile @user_id`;
