@@ -1,8 +1,45 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react'
-import './Mentor_Page.css'
-import mentor from './assets/Ellipse 4.png'
+import React, { useEffect, useState } from 'react';
+import './Mentor_Page.css';
+import mentor from './assets/Ellipse 4.png';
+
 const Mentor_Page = () => {
+  const [mentorData, setMentorData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchMentorData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/mentor'); // Ensure this URL matches your API's endpoint
+        if (response.status === 200) {
+          const data = await response.json();
+          setMentorData(data);
+        } else if (response.status === 203) {
+          setError("Operation failed."); // Handle specific error message
+        } else if (response.status === 500) {
+          setError("Server error, please contact the backend."); // Handle server error
+        } else {
+          throw new Error("An unknown error occurred.");
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMentorData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div className="mentor-page">
       <div className="profile-section">
@@ -12,16 +49,16 @@ const Mentor_Page = () => {
           className="profile-image" 
         />
         <div className="profile-info">
-          <h2 className="mentor-name">Emily Johnson</h2>
-          <p className="mentor-title">Nhà thiết kế UI/UX</p>
+          <h2 className="mentor-name">{mentorData?.name || "Emily Johnson"}</h2>
+          <p className="mentor-title">{mentorData?.title || "Nhà thiết kế UI/UX"}</p>
           <div className="stats">
             <div className="stat">
               <span className="stat-label">Lượt đăng ký:</span>
-              <span className="stat-value">500</span>
+              <span className="stat-value">{mentorData?.registrations || 500}</span>
             </div>
             <div className="stat">
               <span className="stat-label">Lượt review:</span>
-              <span className="stat-value">40,445</span>
+              <span className="stat-value">{mentorData?.reviews || "40,445"}</span>
             </div>
           </div>
           <div className="social-links">
@@ -66,7 +103,7 @@ const Mentor_Page = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Mentor_Page
+export default Mentor_Page;
