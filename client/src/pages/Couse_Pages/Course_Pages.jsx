@@ -12,7 +12,7 @@ const reviewData = [
     date: "Đã đánh giá vào ngày 22 tháng 3 năm 2024",
     avatar: "./assets/ellipse-19.svg",
     rating: 5,
-    stars: Array(5).fill("./assets/phosphor-icons-star-6.svg"),
+    stars: Array(5).fill({star}),
     review: `Ban đầu tôi hơi lo lắng vì không có kinh nghiệm thiết kế trước đó. 
     Nhưng các khoá học từ John Doe, đã giúp tôi tiếp cận các bài giảng 1 cách 
     dễ hiểu hơn khi chia nhỏ các khái niệm phức tạp thành các mô-đun dễ hiểu. 
@@ -24,7 +24,7 @@ const reviewData = [
     date: "Đã đánh giá vào ngày 22 tháng 3 năm 2024",
     avatar: "./assets/ellipse-19.svg",
     rating: 5,
-    stars: Array(5).fill("./assets/phosphor-icons-star-6.svg"),
+    stars: Array(5).fill({star}),
     review: `Ban đầu tôi hơi lo lắng vì không có kinh nghiệm thiết kế trước đó. 
     Nhưng các khoá học từ John Doe, đã giúp tôi tiếp cận các bài giảng 1 cách 
     dễ hiểu hơn khi chia nhỏ các khái niệm phức tạp thành các mô-đun dễ hiểu. 
@@ -36,7 +36,7 @@ const reviewData = [
     date: "Đã đánh giá vào ngày 22 tháng 3 năm 2024",
     avatar: "./assets/ellipse-19.svg",
     rating: 5,
-    stars: Array(5).fill("./assets/phosphor-icons-star-6.svg"),
+    stars: Array(5).fill({star}),
     review: `Ban đầu tôi hơi lo lắng vì không có kinh nghiệm thiết kế trước đó. 
     Nhưng các khoá học từ John Doe, đã giúp tôi tiếp cận các bài giảng 1 cách 
     dễ hiểu hơn khi chia nhỏ các khái niệm phức tạp thành các mô-đun dễ hiểu. 
