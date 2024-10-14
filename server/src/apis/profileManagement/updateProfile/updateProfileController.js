@@ -49,11 +49,11 @@ const updateProfile = async (req, res) => {
             console.log(`[${now.toLocaleString()}] tại updateProfileController.js/updateProfile() | Cập nhật hồ sơ thành công!`);
             return res.status(200).json({
                 message: 'Cập nhật hồ sơ thành công!',
-                update_status: false
+                update_status: true
             });
         } else {
             console.error(`[${now.toLocaleString()}] tại updateProfileController.js/updateProfile() | Cập nhật hồ sơ thất bại!`);
-            return res.status(201).json({
+            return res.status(203).json({
                 message: 'Cập nhật hồ sơ thất bại!',
                 update_status: false
             });

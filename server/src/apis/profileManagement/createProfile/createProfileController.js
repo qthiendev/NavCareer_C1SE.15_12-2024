@@ -39,7 +39,7 @@ const createProfile = async (req, res) => {
             });
         } else {
             console.error(`[${now.toLocaleString()}] at createProfileController.js/createProfile() | Profile failed to create!`);
-            return res.status(201).json({
+            return res.status(203).json({
                 message: 'Profile failed to create!',
                 create_status: false
             });
