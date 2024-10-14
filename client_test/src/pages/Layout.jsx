@@ -1,35 +1,133 @@
-import React, { useEffect, useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
+import axios from 'axios';
+import './Layout.css';
 
-const Layout = () => {
+function Layout() {
+    const [isAuth, setIsAuth] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isESP, setIsESP] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown visibility
+    const navigate = useNavigate();
 
-  return (
-    <div className="layout-container">
-      <nav className="navbar">
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
+                setIsAuth(response.data.sign_in_status);
+            } catch (err) {
+                console.error('Failed to check authentication status:', err);
+                setIsAuth(false);
+            }
+        };
+        const checkAdmin = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/authz/adm', { withCredentials: true });
+                console.log(response);
+                if (response.status === 200)
+                    setIsAdmin(true);
+            } catch (err) {
+                console.error('Failed to check authentication status:', err);
+                setIsAdmin(false);
+            }
+        };
+        const checkESP = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
+                console.log(response);
+                if (response.status === 200)
+                    setIsESP(true);
+            } catch (err) {
+                console.error('Failed to check authentication status:', err);
+                setIsESP(false);
+            }
+        };
+        checkAuth();
+        checkAdmin();
+        checkESP();
+    }, [navigate]);
 
-        <ul className="nav-list">
-          <li className="nav-item" id="home"> <Link to="/">Home</Link></li>
-          <li className="nav-item" id="search"><input type="text" className="search-bar" placeholder="Tìm kiếm..." /></li>
+    // Handle user image click to toggle dropdown
+    const handleUserImageClick = () => {
+        setDropdownOpen(prevState => !prevState);
+    };
 
-          <li className="nav-item" id="about-career-test"><Link to="/careertest">Trắc nghiệm hướng nghiệp</Link></li>
-          <li className="nav-item" id="about-courses"><Link to="/course">Khóa học</Link></li>
-          <li className="nav-item" id="about-us"><Link to="/about">Về chúng tôi</Link></li>
-          <li className="nav-item" id="support"><Link to="/support">Hỗ trợ</Link></li>
+    // Handle sign-out action
+    const handleSignOut = async () => {
+        try {
+            await axios.post('http://localhost:5000/auth/signout', {}, { withCredentials: true });
+            setIsAuth(false);
+            navigate('/signin'); // Redirect to sign-in page after sign out
+        } catch (err) {
+            console.error('Failed to sign out:', err);
+        }
+    };
 
-          <li className="nav-item" id="sign-in"><Link to="/signin">Đăng nhập</Link></li>
+    return (
+        <div className="layout-container">
+            <header>
+                <nav className="navbar">
+                    <div className="home-logo">
+                        <a href="/"><img src="img/Header/Logo.svg" alt="Logo" /></a>
+                    </div>
 
-        </ul>
-      </nav>
+                    <ul className="nav-list">
+                        <li><a className="nav-tests" href="/tests">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
+                        <li><a className="nav-courses" href="/courses">KHÓA HỌC</a></li>
+                        <li><a className="nav-about" href="/about">VỀ CHÚNG TÔI</a></li>
+                        {isAdmin && (
+                            <li>
+                                <a className="for" href="/about">DÀNH CHO NHÀ PHÁT TRIỂN</a>
+                            </li>
+                        )}
 
-      <main className="main-content">
-        <Outlet />
-      </main>
+                        {isESP && (
+                            <li>
+                                <a className="for" href="/about">DÀNH CHO NHÀ CUNG CẤP</a>
+                            </li>
+                        )}
 
-      <footer className="footer">
-        <p>&copy; C1SE.15</p>
-      </footer>
-    </div>
-  );
-};
+                    </ul>
+
+                    <div className="auth-links">
+                        {isAuth ? (
+                            <>
+                                <div className="notification-icon">
+                                    <i className="fa fa-bell"></i>
+                                </div>
+                                <div className="user-image" onClick={handleUserImageClick}>
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR26AaR_J8UOopLWkGkJpZ3g1r4Cl-vIlnWwg&s" alt="User" />
+                                </div>
+                                {dropdownOpen && (
+                                    <div className={`dropdown-menu ${dropdownOpen ? 'show' : ''}`}>
+                                        <ul>
+                                            <li><a href="/profile">Profile</a></li>
+                                            <li><a href="/settings">Settings</a></li>
+                                            <li onClick={handleSignOut}>Sign Out</li>
+                                        </ul>
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <a className="signin" href="/signin">ĐĂNG NHẬP</a>
+                                |
+                                <a className="signup" href="/signup">ĐĂNG KÝ</a>
+                            </>
+                        )}
+                    </div>
+                </nav>
+            </header>
+
+            <main className="main-content">
+                <Outlet />
+            </main>
+
+            <footer className="footer">
+                <p className='copyright'>&copy; C1SE.15</p>
+            </footer>
+        </div>
+    );
+}
 
 export default Layout;

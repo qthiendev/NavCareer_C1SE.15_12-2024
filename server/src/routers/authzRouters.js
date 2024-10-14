@@ -8,9 +8,13 @@ router.get('/stu',
     authMiddlware.isSignedIn,
     authzMiddlware.student,
     async (req, res) => {
-        res.status(200).json({
-            message: 'This is student',
-        });
+        try {
+            return res.status(200).json({
+                message: 'This is student',
+            });
+        } catch (error) {
+            return res.status(500).json({ message: 'Internal Server Error' });
+        }
     }
 );
 
@@ -18,9 +22,13 @@ router.get('/adm',
     authMiddlware.isSignedIn,
     authzMiddlware.admin,
     async (req, res) => {
-        res.status(200).json({
-            message: 'This is admin',
-        });
+        try {
+            return res.status(200).json({
+                message: 'This is admin',
+            });
+        } catch (error) {
+            return res.status(500).json({ message: 'Internal Server Error' });
+        }
     }
 );
 
@@ -28,9 +36,13 @@ router.get('/esp',
     authMiddlware.isSignedIn,
     authzMiddlware.esp,
     async (req, res) => {
-        res.status(200).json({
-            message: 'This is esp',
-        });
+        try {
+            return res.status(200).json({
+                message: 'This is esp',
+            });
+        } catch (error) {
+            return res.status(500).json({ message: 'Internal Server Error' });
+        }
     }
 );
 
