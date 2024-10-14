@@ -52,6 +52,7 @@ function Layout() {
                         <li><a href="/tests">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
                         <li><a href="/course/view">KHÓA HỌC</a></li>
                         <li><a href="/about">VỀ CHÚNG TÔI</a></li>
+                        <li><a href="/about">DÀNH CHO NHÀ PHÁT TRIỂN</a></li>
                         {isAdmin && (
                             <li><a href="/about">DÀNH CHO NHÀ PHÁT TRIỂN</a></li>
                         )}
