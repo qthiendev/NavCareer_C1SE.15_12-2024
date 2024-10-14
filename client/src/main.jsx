@@ -6,6 +6,7 @@ import './index.css';
 import Layout from './pages/Layout.jsx';
 import Home from './pages/Home.jsx';
 import SignIn from './pages/authentications/SignIn.jsx';
+import ViewCourse from './pages/courseManagement/ViewCourse.jsx';
 
 import LayoutAdmin from './pages/systemMangement/LayoutAdmin.jsx';
 import SignInAdmin from './pages/systemMangement/SignInAdmin.jsx';
@@ -17,6 +18,7 @@ const Router = () => {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="signin" element={<SignIn />} /> 
+        <Route path="courses" element={<ViewCourse />} /> 
       </Route>
 
       <Route path="/admin" element={<LayoutAdmin />}>
