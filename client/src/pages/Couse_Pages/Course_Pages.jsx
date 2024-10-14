@@ -1,11 +1,11 @@
 // eslint-disable-next-line no-unused-vars
-import React,{useState} from 'react'
-import './Course_Pages.css'
-import productimage from './assets/Image.png'
-import MentorImage from "./assets/Ellipse 4.png"
-import vector from "./assets/Vector_1.png"
-import star from "./assets/start.png"
-import reviewuser from "./assets/Ellipse 19.png"
+import React, { useState, useEffect } from 'react';
+import './Course_Pages.css';
+import productimage from './assets/Image.png';
+import MentorImage from "./assets/Ellipse 4.png";
+import star from "./assets/start.png";
+import reviewuser from "./assets/Ellipse 19.png";
+import axios from 'axios';
 const reviewData = [
   {
     name: "Mark Doe",
@@ -178,76 +178,94 @@ const Curriculum = () => {
   );
 };
 const Course_Pages = () => {
+  const [courseData, setCourseData] = useState(null);
+  const [reviews, setReviews] = useState([]); // State for reviews
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    return (
-      <div className="course-container">
-        <div className="course-header">
-          <h1>Thiết kế UI-UX</h1>
-          <p>
-              Nắm vững nghệ thuật tạo giao diện người dùng trực quan (UI) và nâng cao
-              trải nghiệm người dùng (UX). Tìm hiểu các nguyên tắc thiết kế,
-              wireframing, tạo mẫu và kỹ thuật kiểm tra khả năng sử dụng.
-            </p>
-          <p className="course-rating">
-            <span className="stars">4.6 ★★★★★</span> (146,951 lượt đánh giá) 
-          </p>
-          <p>12 giờ học • 15 bài giảng • Phù hợp cho trình độ trung cấp</p>
-         
-          <div className="card">
-            <img src={productimage} alt="Product" className="card-image" />
-            <div className="card-content">
-              <div className="pricing">
-                <span className="current-price">560.000 VND</span>
-                <div className="original-price-group">
-                  <img
-                    src="./assets/rectangle-1086.svg"
-                    alt="Line"
-                    className="line"
-                  />
-                  <span className="original-price">800.000 VND</span>
-                </div>
-                <span className="discount">30% Off</span>
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/course/read?course_id=123'); // Replace 123 with actual course_id
+        if (response.status === 200) {
+          setCourseData(response.data);
+          setReviews(response.data.reviews || []); // Set reviews if available in the response
+        } else if (response.status === 203) {
+          setError('Failed to retrieve course data.');
+        }
+      } catch (err) {
+        setError('Error fetching course data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourseData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  return (
+    <div className="course-container">
+      <div className="course-header">
+        <h1>{courseData.title}</h1>
+        <p>{courseData.description}</p>
+        <p className="course-rating">
+          <span className="stars">{courseData.rating} ★★★★★</span> ({courseData.reviewCount} lượt đánh giá)
+        </p>
+        <p>{courseData.duration} • {courseData.lectures} • Phù hợp cho trình độ trung cấp</p>
+
+        <div className="card">
+          <img src={productimage} alt="Product" className="card-image" />
+          <div className="card-content">
+            <div className="pricing">
+              <span className="current-price">{courseData.currentPrice} VND</span>
+              <div className="original-price-group">
+                <img src="./assets/rectangle-1086.svg" alt="Line" className="line" />
+                <span className="original-price">{courseData.originalPrice} VND</span>
               </div>
-              <button className="buy-button">Mua ngay</button>
+              <span className="discount">{courseData.discount}% Off</span>
             </div>
-          </div>
-         
-        </div>
-  
-        <div className="course-details">
-          <h2>Thông tin khoá học</h2>
-          <p>
-          Khóa học Thiết Kế UI/UX được thiết kế nhằm trang bị cho học viên kỹ năng tạo giao diện người dùng trực quan và nâng cao trải nghiệm người dùng. Nội dung khóa học bao gồm các nguyên tắc thiết kế cơ bản, quy trình wireframing, cách tạo mẫu tương tác và kỹ thuật kiểm tra khả năng sử dụng. Khóa học phù hợp cho cả những người mới bắt đầu cũng như những người đã có kiến thức cơ bản trong lĩnh vực thiết kế và mong muốn nâng cao kỹ năng của mình.
-          </p>
-  
-          <h2>Chứng chỉ</h2>
-          <p>
-          Tại NavCareer, chúng tôi thấu hiểu rằng sự công nhận chính thức là phần thưởng xứng đáng cho những nỗ lực và cống hiến không ngừng trong học tập. Hoàn thành khóa học của chúng tôi, bạn sẽ nhận được chứng chỉ danh giá, không chỉ khẳng định trình độ chuyên môn mà còn mở ra vô vàn cơ hội mới trong lĩnh vực bạn đam mê. Hãy để NavCareer đồng hành cùng bạn trên con đường chinh phục những đỉnh cao mới!
-          </p>
-        </div>
-  
-        <div className="instructor-section">
-          <h2>Giáo viên</h2>
-          <div className="instructor-info">
-            <img src={MentorImage} alt="Instructor" className="instructor-image" />
-            <div>
-              <h3>Emily Johnson</h3>
-              <p>Nhà thiết kế UI/UX với hơn 10 năm kinh nghiệm trong ngành...</p>
-            </div>
+            <button className="buy-button">Mua ngay</button>
           </div>
         </div>
-  
-        <div className="syllabus-section">
-          <Curriculum /> {/* Replace the static syllabus with this dynamic component */}
-        </div>
-  
-        <div className="reviews-section">
-          <h2>Đánh giá của bạn học</h2>
-          <Reviews />
-        </div>
-        
       </div>
-  )
-}
+
+      <div className="course-details">
+        <h2>Thông tin khoá học</h2>
+        <p>{courseData.info}</p>
+
+        <h2>Chứng chỉ</h2>
+        <p>{courseData.certificateInfo}</p>
+      </div>
+
+      <div className="instructor-section">
+        <h2>Giáo viên</h2>
+        <div className="instructor-info">
+          <img src={MentorImage} alt="Instructor" className="instructor-image" />
+          <div>
+            <h3>{courseData.instructor.name}</h3>
+            <p>{courseData.instructor.bio}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="syllabus-section">
+        <Curriculum />
+      </div>
+
+      <div className="reviews-section">
+        <h2>Đánh giá của bạn học</h2>
+        <Reviews reviews={reviews} />
+      </div>
+    </div>
+  );
+};
 
 export default Course_Pages
