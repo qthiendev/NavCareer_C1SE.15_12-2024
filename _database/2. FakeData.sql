@@ -163,10 +163,10 @@ insert into SystemFeedbacks ([feedback_id], [feedback_description], [feedback_da
 values
 (0, N'Need more course', getdate(), 2);
 go
-insert into Courses ([course_id], [course_name], [course_description], [duration], [created_date], [provider_id])
+insert into Courses ([course_id], [course_name], [course_description], [course_price], [duration], [created_date], [provider_id])
 values
-(0, N'Lập trình C/C++', N'Khóa học về lập trình C cơ bản và hướng đối tượng với C++.', N'3 tháng', getdate(), 1),
-(1, N'Lập trình Python', N'Khóa học về lập trình Python.', N'5 tháng', getdate(), 1);
+(0, N'Lập trình C/C++', N'Khóa học về lập trình C cơ bản và hướng đối tượng với C++.', 3000000, N'3 tháng', getdate(), 1),
+(1, N'Lập trình Python', N'Khóa học về lập trình Python.', 2000000, N'5 tháng', getdate(), 1);
 go
 insert into Modules ([module_id], [module_name], [created_date], [module_ordinal], [course_id])
 values

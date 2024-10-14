@@ -109,7 +109,8 @@ go
 create table Courses (
     [course_id] int primary key not null,
     [course_name] nvarchar(max) not null, 
-    [course_description] nvarchar(max) not null, 
+    [course_description] nvarchar(max) not null,
+    [course_price] int not null,
     [duration] nvarchar(max) not null, 
     [created_date] datetime default getdate() not null,
     [provider_id] int null,

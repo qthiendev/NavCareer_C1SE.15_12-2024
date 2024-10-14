@@ -16,6 +16,7 @@ begin
 		u.phone_number,
 		c.[course_name], 
 		c.[course_description],
+		c.[course_price],
 		c.[duration],
 		m.[module_name],
 		m.[module_ordinal]
