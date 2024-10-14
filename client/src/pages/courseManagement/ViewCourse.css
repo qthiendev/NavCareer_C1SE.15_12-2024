@@ -169,3 +169,14 @@
     background-color: #FDCB6E;
     color: #ffffff;
   }
+  .rating {
+    display: flex;
+    align-items: center;
+  }
+  
+  .star-icon {
+    width: 16px; /* Set the size of the star */
+    height: 16px;
+    margin-left: 5px; /* Add some space between the rating number and the star */
+  }
+  

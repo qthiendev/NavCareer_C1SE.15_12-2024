@@ -104,7 +104,10 @@ const ViewCourse = () => {
         <img src={image} alt={title} className="course-image" />
         <div className="course-content">
           <div className="course-rating-price">
-            <span className="rating">{rating}</span>
+          <div className="rating">
+            <span>{rating}</span>
+            <img src="./assets/start.png" alt="star" className="star-icon" />
+          </div>
             <span className="price">{price}</span>
           </div>
           <h3 className="course-title">{title}</h3>
