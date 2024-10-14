@@ -12,7 +12,7 @@ auth = authentication
 
 default: localhost:5000/[api]
 
-[Loại request]: [api] | [loại tham số và tham số/None là không cần truyền]
+[HTTP method]: [api] | [loại tham số và tham số/None là không cần truyền]
 -> phản hồi
 
 -------------------------------------------------------------------------------------------------------------------------------
