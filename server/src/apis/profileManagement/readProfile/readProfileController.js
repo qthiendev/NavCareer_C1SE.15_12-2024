@@ -9,7 +9,7 @@ const readProfile = async (req, res) => {
         if (!role)
             throw new Error(`'role' is required.`);
 
-        if (user_id === null || typeof(user_id) === 'undefined')
+        if (user_id === null || typeof (user_id) === 'undefined')
             throw new Error(`'index' is required.`);
 
         const data = await tryReadProfile(role, user_id);
@@ -22,12 +22,12 @@ const readProfile = async (req, res) => {
             });
         }
 
-        return res.status(200).json(data);
+        return res.status(200).json({ data: data, time: now.toLocaleString() });
 
     } catch (err) {
         const now = new Date();
         console.error(`[${now.toLocaleString()}] cache at readProfileController.js/readProfile() | ${err.message}`);
-        res.status(500).json({ 
+        res.status(500).json({
             message: 'Server Error',
             time: now.toLocaleString()
         });
