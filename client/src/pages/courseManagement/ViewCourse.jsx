@@ -1,11 +1,10 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './ViewCourse.css';
 
 // Sample course data
-
 const ViewCourse = () => {
-  const courses = [
+  const [courses, setCourses] = useState([
     {
       image: './assets/course_1.png',
       title: 'Cơ sở dữ liệu Web',
@@ -96,18 +95,36 @@ const ViewCourse = () => {
       rating: '4.9',
       price: '200.000 VND',
     },
-  ];
-  const CourseCard = (data) => {
-    const { image, title, description, hours, videos, students, rating, price } = data
+  ]);
+
+  // Fetch courses data from API
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/course/read'); // Updated to course read endpoint
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setCourses(data); // Set the courses state to the fetched data
+      } catch (error) {
+        console.error('Failed to fetch courses:', error);
+      }
+    };
+
+    fetchCourses();
+  }, []); // Empty dependency array means this effect runs once on mount
+
+  const CourseCard = ({ image, title, description, hours, videos, students, rating, price }) => {
     return (
       <div className="course-card">
         <img src={image} alt={title} className="course-image" />
         <div className="course-content">
           <div className="course-rating-price">
-          <div className="rating">
-            <span>{rating}</span>
-            <img src="./assets/start.png" alt="star" className="star-icon" />
-          </div>
+            <div className="rating">
+              <span>{rating}</span>
+              <img src="./assets/start.png" alt="star" className="star-icon" />
+            </div>
             <span className="price">{price}</span>
           </div>
           <h3 className="course-title">{title}</h3>
@@ -121,7 +138,7 @@ const ViewCourse = () => {
       </div>
     );
   };
-  
+
   // Pagination component
   const Pagination = () => {
     return (
@@ -134,11 +151,9 @@ const ViewCourse = () => {
       </div>
     );
   };
-  
+
   return (
-    
     <div className="course-page">
-   
       <nav className="breadcrumb">Trang chủ &gt; Khoá học</nav>
       <div className="filter-row">
         <div className="filter-item">
@@ -176,8 +191,6 @@ const ViewCourse = () => {
 
       {/* Add Pagination here */}
       <Pagination />
-
-     
     </div>
   );
 };
