@@ -1,0 +1,100 @@
+.mentor-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .profile-section {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+  }
+  
+  .profile-info {
+    flex: 1;
+  }
+  
+  .mentor-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    color: #0f172a;
+  }
+  
+  .mentor-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #334155;
+  }
+  
+  .stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+  }
+  
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .stat-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #334155;
+  }
+  
+  .stat-value {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    color: #0f172a;
+  }
+  
+  .social-links {
+    margin-top: 20px;
+  }
+  
+  .social-button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #0f172a;
+    border: 1px solid #0f172a;
+    border-radius: 8px;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  
+  .details-section {
+    margin: 40px 0;
+  }
+  
+  .intro, .teaching-scope, .professional-experience {
+    margin-bottom: 20px;
+  }
+  
+  .details-section h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #0f172a;
+  }
+  
+  .details-section p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #334155;
+  }
+  
