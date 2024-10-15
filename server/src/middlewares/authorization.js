@@ -1,14 +1,14 @@
+const now = new Date();
+
 const checkAuthorization = (requiredRole) => async (req, res, next) => {
     try {
-        const now = new Date();
-
         const { aid, role } = req.session;
 
         const aidCheck = aid != null && typeof(aid) !== 'undefined';
         const roleCheck = role && role !== '';
 
         if (aidCheck ^ roleCheck)
-            throw new Error('There is trouble with the session:', id, role);
+            throw new Error('There is trouble with the session:', aid, role);
         
         if (role !== requiredRole) {
             console.log(`[${now.toLocaleString()}] at authorization.js/checkAuthorization | Triggered at ${requiredRole}`);

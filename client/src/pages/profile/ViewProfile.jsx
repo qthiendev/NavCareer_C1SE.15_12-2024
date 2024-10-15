@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { redirect, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './ViewProfile.css';
 
@@ -23,11 +23,13 @@ function ViewProfile() {
         const fetchProfile = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
+                if (!response.data.data) {
+                    navigate('/profile/create');
+                }
                 setProfile(response.data.data);
                 setLoading(false);
             } catch (err) {
-                console.error('Failed to fetch profile:', err);
-                navigate('/');
+                navigate('/profile/create');
             }
         };
 
@@ -74,7 +76,7 @@ function ViewProfile() {
                 <p><strong>Status:</strong> {profile.is_active ? 'Active' : 'Inactive'}</p>
             </div>
             {updatable && (
-                <button className="btn-edit" onClick={() => navigate(`/profile/update/${user_id}`)}>
+                <button className="btn-edit" onClick={() => navigate(`/profile/${user_id}/update`)}>
                     Edit Profile
                 </button>
             )}

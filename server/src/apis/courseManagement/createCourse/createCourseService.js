@@ -1,6 +1,6 @@
 const ncbd = require('../../databases/ncdbService');
 
-const tryCreateCourse = async (aid, role, courseName, courseDescription, duration, providerId) => {
+const tryCreateCourse = async (aid, role, courseName, courseDescription, coursePrice, duration) => {
     try {
 
         if (Number.isNaN(aid))
@@ -18,17 +18,15 @@ const tryCreateCourse = async (aid, role, courseName, courseDescription, duratio
         if (!duration)
             throw new Error(`'duration' must provided.`);
 
-        if (Number.isNaN(providerId))
-            throw new Error(`'providerId' must provided.`);
-
         const result = await ncbd.query(role,
-            `execute CreateCourse @aid, @course_name, @course_description, @duration, @provider_id`,
+            `execute CreateCourse @aid, @course_name, @course_description, @course_price, @duration`,
             {
                 aid: aid,
                 course_name: courseName,
                 course_description: courseDescription,
+                course_price: coursePrice,
                 duration: duration,
-                provider_id: providerId
+                provider_id: aid
             });
 
         return result && result.length > 0;

@@ -35,10 +35,14 @@ body {
 .profile-picture {
     width: 120px;
     height: 120px;
-    border-radius: 50%;
+    border-radius: 50%; /* Keeps the image circular */
     border: 4px solid white; /* White border for contrast */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    object-fit: cover; /* Makes the image fill the container and crops the overflow */
+    object-position: center; /* Centers the image within the container */
+    overflow: hidden; /* Ensures that any overflow is hidden */
 }
+
 
 .profile-info h2 {
     margin: 10px 0 5px;

@@ -151,13 +151,18 @@ execute CreateAuthentication 'nav_admin', 'nav_admin', 'nav_admin@gmail.com', 1,
 execute CreateAuthentication 'nav_esp', 'nav_esp', 'nav_esp@gmail.com', 2, 1;
 execute CreateAuthentication 'nav_student', 'nav_student', 'nav_student@gmail.com', 3, 1;
 execute CreateAuthentication 'qthiendev', 'qthiendev', 'trinhquythien.dev@gmail.com', 1, 1;
+execute CreateAuthentication 'KeyPhan', '123456', 'mynameispro164@gmail.com', 1, 1;
+execute CreateAuthentication 'phvbarca', '123456', 'phamhavy9b@gmail.com', 1, 1;
 
+delete from Users where user_id = 6
 insert into Users ([user_id], [user_full_name], [email], [birthdate], [gender], [phone_number], [address], [date_joined], [resource_url], [authentication_id])
 values
 (0, N'admin 0', N'admin@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_0', 0),
 (1, N'education service provider 0', N'esp@gmail.com', getdate(), 0, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_1', 1),
 (2, N'student 0', N'student@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_2', 2),
-(3, N'Trịnh Quý Thiện', N'trinhquythien.dev@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_3', 3);
+(3, N'Trịnh Quý Thiện', N'trinhquythien.dev@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_3', 3),
+(4, N'Phan Công Khải', N'mynameispro164@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_4', 4),
+(5, N'Phạm Hạ Vỹ', N'phamhavy9b@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), N'/profiles/_5', 5);
 go
 insert into SystemFeedbacks ([feedback_id], [feedback_description], [feedback_date], [user_id])
 values
@@ -171,7 +176,7 @@ go
 insert into Modules ([module_id], [module_name], [created_date], [module_ordinal], [course_id])
 values
 (0, N'Lập trình C cơ bản.', getdate(), 0, 0),
-(1, N'Hướng đối tượng và lập trình C++.', getdate(), 0, 0),
+(1, N'Hướng đối tượng và lập trình C++.', getdate(), 1, 0),
 (2, N'Lập trình Python cơ bản.', getdate(), 0, 1),
 (3, N'Tự động hóa với Python.', getdate(), 1, 1);
 go

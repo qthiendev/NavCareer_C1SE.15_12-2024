@@ -5,10 +5,10 @@ const createCourse = async (req, res) => {
     try {
         const { role, aid } = req.session;
         const {
-            course_name, 
-            course_description, 
-            duration, 
-            provider_id
+            course_name,
+            course_description,
+            course_price,
+            duration
         } = req.body;
 
         if (Number.isNaN(aid))
@@ -23,13 +23,13 @@ const createCourse = async (req, res) => {
         if (!course_description)
             throw new Error(`'course_description' must provided.`);
 
+        if (Number.isNaN(course_price))
+            throw new Error(`'course_price' must provided.`);
+
         if (!duration)
             throw new Error(`'duration' must provided.`);
 
-        if (Number.isNaN(provider_id))
-            throw new Error(`'provider_id' must provided.`);
-
-        const data = await tryCreateCourse(aid, role, course_name, course_description, duration, provider_id);
+        const data = await tryCreateCourse(aid, role, course_name, course_description, course_price, duration);
 
         if (data) {
             console.log(`[${now.toLocaleString()}] at createCourseController.js/createCourse | Course created succesfuly.`);

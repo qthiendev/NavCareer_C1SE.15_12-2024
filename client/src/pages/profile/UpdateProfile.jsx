@@ -4,7 +4,6 @@ import axios from 'axios';
 import './UpdateProfile.css';
 
 function UpdateProfile() {
-
     const [profile, setProfile] = useState({
         user_id: null,
         user_full_name: '',
@@ -30,14 +29,14 @@ function UpdateProfile() {
         const checkAuth = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                if(!response.data.sign_in_status || response.data.aid !== Number.parseInt(user_id))
+                if (!response.data.sign_in_status || response.data.aid !== Number.parseInt(user_id)) {
                     navigate('/');
-
+                }
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
-                setIsAuth(false);
             }
         };
+
         const fetchProfileData = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
@@ -57,7 +56,7 @@ function UpdateProfile() {
                 setDay(birthdate.getDate());
                 setMonth(birthdate.getMonth() + 1); // Month is 0-based
                 setYear(birthdate.getFullYear());
-                
+
                 setLoading(false);
             } catch (err) {
                 setError('Failed to fetch profile data.');
@@ -91,14 +90,18 @@ function UpdateProfile() {
             { withCredentials: true });
 
             alert('Profile updated successfully!');
-            navigate(`/profile/update/${profile.user_id}`);
+            navigate(`/profile/${profile.user_id}`);
         } catch (err) {
             setError('Failed to update profile.');
-            navigate(`/profile/update/${profile.user_id}`);
         }
     };
 
     if (loading) return <div>Loading...</div>;
+
+    // Generate arrays for dropdowns
+    const days = Array.from({ length: 31 }, (_, i) => i + 1);
+    const months = Array.from({ length: 12 }, (_, i) => i + 1);
+    const years = Array.from({ length: (new Date().getFullYear() - 1900 + 1) }, (_, i) => 1900 + i);
 
     return (
         <div className="update-profile-container">
@@ -120,33 +123,42 @@ function UpdateProfile() {
                 <div className="form-group">
                     <label htmlFor="birthdate">Birthdate:</label>
                     <div className="birthdate-fields">
-                        <input
-                            type="number"
+                        <select
                             id="day"
                             name="day"
-                            placeholder="Day"
                             value={day}
                             onChange={(e) => setDay(e.target.value)}
                             required
-                        />
-                        <input
-                            type="number"
+                        >
+                            <option value="">Day</option>
+                            {days.map((d) => (
+                                <option key={d} value={d}>{d}</option>
+                            ))}
+                        </select>
+                        <select
                             id="month"
                             name="month"
-                            placeholder="Month"
                             value={month}
                             onChange={(e) => setMonth(e.target.value)}
                             required
-                        />
-                        <input
-                            type="number"
+                        >
+                            <option value="">Month</option>
+                            {months.map((m) => (
+                                <option key={m} value={m}>{m}</option>
+                            ))}
+                        </select>
+                        <select
                             id="year"
                             name="year"
-                            placeholder="Year"
                             value={year}
                             onChange={(e) => setYear(e.target.value)}
                             required
-                        />
+                        >
+                            <option value="">Year</option>
+                            {years.map((y) => (
+                                <option key={y} value={y}>{y}</option>
+                            ))}
+                        </select>
                     </div>
                 </div>
 

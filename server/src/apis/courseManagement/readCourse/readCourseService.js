@@ -6,16 +6,18 @@ const tryReadCourse = async (role, course_id) => {
             throw new Error(`'course_id' must provided.`);
 
         const result = await ncbd.query(role, `execute ReadCourse @course_id`, { course_id: course_id });
-
+        
         if (!result || result.length === 0) 
             return null;
         
         const courseDetails = {
+            provider_id:  result[0].user_id,
             provider_name: result[0].user_full_name,
             provider_birthdate: result[0].birthdate,
             provider_email: result[0].email,
             provider_phone_number: result[0].phone_number,
             course_name: result[0].course_name,
+            course_price: result[0].course_price,
             course_description: result[0].course_description,
             duration: result[0].duration,
             modules: result.filter(row => row.module_name != null).map(module => ({

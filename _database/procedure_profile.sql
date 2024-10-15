@@ -59,31 +59,15 @@ BEGIN
     BEGIN
         RETURN;
     END
-
-    DECLARE @newId INT;
-
-    -- Find the next available user_id (either a gap or the next sequential value)
-    SELECT TOP 1 @newId = t1.user_id + 1
-    FROM Users t1
-    LEFT JOIN Users t2 ON t1.user_id + 1 = t2.user_id
-    WHERE t2.user_id IS NULL
-    ORDER BY t1.user_id;
-
-    -- If no gap is found, assign the next available user_id
-    IF @newId IS NULL
-    BEGIN
-        SELECT @newId = ISNULL(MAX(user_id), 0) + 1 FROM Users;
-    END
-
     -- Generate resource URL based on new user ID
-    DECLARE @resource_url NVARCHAR(MAX) = '/profiles/_' + CAST(@newId AS NVARCHAR);
+    DECLARE @resource_url NVARCHAR(MAX) = '/profiles/_' + CAST(@aid AS NVARCHAR);
 
     -- Insert the new user into the Users table with the updated column order
     INSERT INTO Users (
         [user_id],  [user_full_name], [birthdate],  [gender],  [email], 
         [phone_number],  [address],  [date_joined],  [resource_url], [authentication_id],[is_active]
     )
-    VALUES (@newId,  @user_full_name,  @birthdate,  @gender, @email,  @phone_number, @address, GETDATE(), TRIM(@resource_url), @aid, 1);
+    VALUES (@aid,  @user_full_name,  @birthdate,  @gender, @email,  @phone_number, @address, GETDATE(), TRIM(@resource_url), @aid, 1);
 
 	select 'TRUE' as [check]
 	from Users

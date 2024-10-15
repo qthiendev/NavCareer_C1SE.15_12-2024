@@ -15,7 +15,7 @@ const readProfile = async (req, res) => {
 
         if (!data) {
             console.log(`[${now.toLocaleString()}] Profile '${user_id}' not found.`);
-            return res.status(404).json({
+            return res.status(203).json({
                 message: `Profile '${user_id}' not found`,
                 time: now.toLocaleString()
             });

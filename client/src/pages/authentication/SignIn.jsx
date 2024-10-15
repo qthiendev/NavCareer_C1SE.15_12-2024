@@ -82,7 +82,7 @@ function SignIn() {
                     </div>
 
                     <div className="forgot-password">
-                        <a href="/">Quên mật khẩu?</a>
+                        <a href="#">Quên mật khẩu?</a>
                     </div>
 
                     <button type="submit" className="login-btn">Đăng nhập</button>
@@ -91,7 +91,7 @@ function SignIn() {
                 {noti && <div className="error-message" style={{ color: 'red' }}>{noti}</div>}
 
                 <div className="signup-link">
-                    <span>Chưa có tài khoản? </span><a href="/">Đăng ký</a>
+                    <span>Chưa có tài khoản? </span><a href="/signup">Đăng ký</a>
                 </div>
             </div>
         </div>
