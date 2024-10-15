@@ -4,6 +4,7 @@ import axios from 'axios';
 import './UpdateProfile.css';
 
 function UpdateProfile() {
+
     const [profile, setProfile] = useState({
         user_id: null,
         user_full_name: '',
@@ -21,16 +22,26 @@ function UpdateProfile() {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
     const navigate = useNavigate();
     const { user_id } = useParams();
 
-    // Fetch profile data on component mount
     useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
+                if(!response.data.sign_in_status || response.data.aid !== Number.parseInt(user_id))
+                    navigate('/');
+
+            } catch (err) {
+                console.error('Failed to check authentication status:', err);
+                setIsAuth(false);
+            }
+        };
         const fetchProfileData = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
                 const birthdate = new Date(response.data.data.birthdate);
-                console.log(response)
                 setProfile({
                     user_id: response.data.data.authentication_id,
                     user_full_name: response.data.data.user_full_name,
@@ -54,6 +65,7 @@ function UpdateProfile() {
             }
         };
 
+        checkAuth();
         fetchProfileData();
     }, [user_id]);
 
