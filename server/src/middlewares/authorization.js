@@ -11,7 +11,7 @@ const checkAuthorization = (requiredRole) => async (req, res, next) => {
             throw new Error('There is trouble with the session:', id, role);
         
         if (role !== requiredRole) {
-            console.log(`[${now.toLocaleString()}] at authorization.js/checkAuthorization | Triggered`);
+            console.log(`[${now.toLocaleString()}] at authorization.js/checkAuthorization | Triggered at ${requiredRole}`);
             return res.status(403).json({
                 message: 'Permission Denied',
                 time: now.toLocaleString()

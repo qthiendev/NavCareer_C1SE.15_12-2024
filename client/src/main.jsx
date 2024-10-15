@@ -9,6 +9,9 @@ import Home from './pages/Home.jsx';
 import SignIn from './pages/authentication/SignIn.jsx';
 import SignUp from './pages/authentication/SignUp.jsx';
 
+import AdminHome from './pages/administrator/AdminHome.jsx';
+import ViewAllUser from './pages/administrator/ViewAllUser.jsx';
+
 import CreateProfile from './pages/profile/CreateProfile.jsx';
 import UpdateProfile from './pages/profile/UpdateProfile.jsx';
 import ViewProfile from './pages/profile/ViewProfile.jsx';
@@ -23,8 +26,12 @@ const Router = () => {
         <Route path="/" element={<Layout />}>
 
           <Route index element={<Home />} />
+
           <Route path="signin" element={<SignIn />} /> 
-          <Route path="signup" element={<SignUp />} />
+          <Route path="signup" element={<SignUp />} /> 
+
+          <Route path="admin" element={<AdminHome />} /> 
+          <Route path="admin/user/view-all" element={<ViewAllUser />} />
 
           <Route path="profile/view" element={<ViewProfile />} />
           <Route path="profile/update" element={<UpdateProfile />} /> 

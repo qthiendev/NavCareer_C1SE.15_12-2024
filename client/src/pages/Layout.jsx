@@ -11,21 +11,40 @@ function Layout() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchStatuses = async () => {
+        const checkAuth = async () => {
             try {
-                const [authRes, adminRes, espRes] = await Promise.all([
-                    axios.get('http://localhost:5000/auth/status', { withCredentials: true }),
-                    axios.get('http://localhost:5000/authz/adm', { withCredentials: true }),
-                    axios.get('http://localhost:5000/authz/esp', { withCredentials: true })
-                ]);
-                setIsAuth(authRes.data.sign_in_status);
-                setIsAdmin(adminRes.status === 200);
-                setIsESP(espRes.status === 200);
+                const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
+                setIsAuth(response.data.sign_in_status);
             } catch (err) {
-                console.error('Error fetching statuses:', err);
+                console.error('Failed to check authentication status:', err);
+                setIsAuth(false);
             }
         };
-        fetchStatuses();
+        const checkAdmin = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/authz/adm', { withCredentials: true });
+                console.log(response);
+                if (response.status === 200)
+                    setIsAdmin(true);
+            } catch (err) {
+                console.error('Failed to check authentication status:', err);
+                setIsAdmin(false);
+            }
+        };
+        const checkESP = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
+                console.log(response);
+                if (response.status === 200)
+                    setIsESP(true);
+            } catch (err) {
+                console.error('Failed to check authentication status:', err);
+                setIsESP(false);
+            }
+        };
+        checkAuth();
+        checkAdmin();
+        checkESP();
     }, [navigate]);
 
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
@@ -52,12 +71,11 @@ function Layout() {
                         <li><a href="/tests">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
                         <li><a href="/course/view">KHÓA HỌC</a></li>
                         <li><a href="/about">VỀ CHÚNG TÔI</a></li>
-                        <li><a href="/about">DÀNH CHO NHÀ PHÁT TRIỂN</a></li>
                         {isAdmin && (
-                            <li><a href="/about">DÀNH CHO NHÀ PHÁT TRIỂN</a></li>
+                            <li><a href="/admin">DÀNH CHO NHÀ QUẢN TRỊ</a></li>
                         )}
                         {isESP && (
-                            <li><a href="/about">DÀNH CHO NHÀ CUNG CẤP</a></li>
+                            <li><a href="/esp">DÀNH CHO NHÀ CUNG CẤP</a></li>
                         )}
                     </ul>
 
