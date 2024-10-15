@@ -16,7 +16,7 @@ function Layout() {
             try {
                 const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
                 setIsAuth(response.data.sign_in_status);
-                setUserProfileURL(`profile/view/${response.data.aid}`);
+                setUserProfileURL(`/profile/view/${response.data.aid}`);
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
                 setIsAuth(false);

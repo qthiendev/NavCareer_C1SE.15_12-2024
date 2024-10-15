@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './ViewProfile.css';
 
 function ViewProfile() {
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [searchParams] = useSearchParams();
+    const [updatable, setUpdatable] = useState(false);
     const navigate = useNavigate();
-
     const { user_id } = useParams();
 
     useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
+                setUpdatable(response.data.aid === Number.parseInt(user_id));
+            } catch (err) {
+                console.error('Failed to check authentication status:', err);
+            }
+        };
+
         const fetchProfile = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
@@ -24,6 +32,7 @@ function ViewProfile() {
         };
 
         fetchProfile();
+        checkAuth();
     }, [user_id, navigate]);
 
     if (loading) {
@@ -64,6 +73,11 @@ function ViewProfile() {
                 <p><strong>Date Joined:</strong> {new Date(profile.date_joined).toLocaleDateString()}</p>
                 <p><strong>Status:</strong> {profile.is_active ? 'Active' : 'Inactive'}</p>
             </div>
+            {updatable && (
+                <button className="btn-edit" onClick={() => navigate(`/profile/update/${user_id}`)}>
+                    Edit Profile
+                </button>
+            )}
         </div>
     );
 }
