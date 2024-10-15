@@ -5,6 +5,7 @@ import './UpdateProfile.css';
 
 function UpdateProfile() {
     const [profile, setProfile] = useState({
+        user_id: null,
         user_full_name: '',
         email: '',
         phone_number: '',
@@ -29,8 +30,9 @@ function UpdateProfile() {
             try {
                 const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
                 const birthdate = new Date(response.data.data.birthdate);
-
+                console.log(response)
                 setProfile({
+                    user_id: response.data.data.authentication_id,
                     user_full_name: response.data.data.user_full_name,
                     email: response.data.data.email,
                     phone_number: response.data.data.phone_number,
@@ -69,7 +71,7 @@ function UpdateProfile() {
         const formattedBirthdate = `${day}/${month}/${year}`;
 
         try {
-            await axios.post(`http://localhost:5000/profile/update`, 
+            await axios.put(`http://localhost:5000/profile/update`, 
             {
                 ...profile,
                 birthdate: formattedBirthdate
@@ -77,19 +79,19 @@ function UpdateProfile() {
             { withCredentials: true });
 
             alert('Profile updated successfully!');
-            navigate('/profile/view');
+            navigate(`/profile/update/${profile.user_id}`);
         } catch (err) {
             setError('Failed to update profile.');
+            navigate(`/profile/update/${profile.user_id}`);
         }
     };
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div className="error">{error}</div>;
 
     return (
         <div className="update-profile-container">
             <h1>Update Profile</h1>
-            
+            {error && <div className="error">{error}</div>}
             <form className="update-profile-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="user_full_name">Full Name:</label>
@@ -141,12 +143,12 @@ function UpdateProfile() {
                     <select
                         id="gender"
                         name="gender"
-                        value={profile.gender}
+                        value={profile.gender ? "true" : "false"}
                         onChange={handleInputChange}
                     >
                         <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="true">Male</option>
+                        <option value="false">Female</option>
                     </select>
                 </div>
 
@@ -186,8 +188,6 @@ function UpdateProfile() {
 
                 <button type="submit" className="btn-update">Update Profile</button>
             </form>
-            
-            {error && <div className="error">{error}</div>}
         </div>
     );
 }

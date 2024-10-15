@@ -6,46 +6,49 @@ const formatDate = (birthdate) => {
 };
 
 const tryUpdateProfile = async (profileData) => {
-    
-        const { aid,
-            role,
-            userid,
-            userFullName,
-            birthdate,
-            gender,
-            email,
-            phoneNumber,
-            address
-        } = profileData;
-        try {
-    
-            // Convert birthdate from dd/MM/yyyy to yyyy-MM-dd format
-            const formattedBirthdate = formatDate(birthdate);
-    
-            // Create profile query and parameters
-            const queryString = `
+
+    const {
+        aid,
+        role,
+        user_id,
+        user_full_name,
+        email,
+        birthdate,
+        gender,
+        phone_number,
+        address
+    } = profileData;
+
+    console.log(profileData)
+    try {
+
+        // Convert birthdate from dd/MM/yyyy to yyyy-MM-dd format
+        const formattedBirthdate = formatDate(birthdate);
+
+        // Create profile query and parameters
+        const queryString = `
             EXEC UpdateProfile @aid, @user_id, @user_full_name, 
             @birthdate, @gender, @email, @phone_number, 
             @address;`;
-        const params = { 
-            aid: aid,
-            user_id: userid,
-            user_full_name: userFullName,
+        const params = {
+            aid,
+            user_id,
+            user_full_name,
             birthdate: formattedBirthdate,
-            gender: gender,
-            email: email,
-            phone_number: phoneNumber,
-            address: address
-         };
-            
-            // Insert profile data
-            const newProfile = await ncbd.query(role, queryString, params);
+            email,
+            gender,
+            phone_number,
+            address
+        };
 
-            return newProfile && newProfile.length > 0 ;
-    
-        } catch (err) {
-            throw Error(`createProfileService.js/tryUpdateProfile() | ${err.message}`);
-        }
+        // Insert profile data
+        const newProfile = await ncbd.query(role, queryString, params);
+
+        return newProfile && newProfile.length > 0;
+
+    } catch (err) {
+        throw Error(`createProfileService.js/tryUpdateProfile() | ${err.message}`);
+    }
 };
 
 module.exports = { tryUpdateProfile };

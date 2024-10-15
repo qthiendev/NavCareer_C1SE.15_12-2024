@@ -7,27 +7,29 @@ const updateProfile = async (req, res) => {
 
         // Cập nhật tên biến để khớp với request body
         const {
-            user_id: userid,
-            user_full_name: userFullName,
+            user_id,
+            user_full_name,
             email,
             birthdate,
             gender,
-            phone_number: phoneNumber,
+            phone_number,
             address
         } = req.body;
 
+        console.log(req.body)
+
         // In ra từng phần tử để kiểm tra
-        console.log("Các phần tử đã lưu:");
-        console.log("userId:", userid);
-        console.log("userFullName:", userFullName);
-        console.log("email:", email);
-        console.log("birthdate:", birthdate);
-        console.log("gender:", gender);
-        console.log("phoneNumber:", phoneNumber);
-        console.log("address:", address);
+        // console.log("Các phần tử đã lưu:");
+        // console.log("userId:", user_id);
+        // console.log("userFullName:", user_full_name);
+        // console.log("email:", email);
+        // console.log("birthdate:", birthdate);
+        // console.log("gender:", gender);
+        // console.log("phoneNumber:", phone_number);
+        // console.log("address:", address);
 
         // Kiểm tra các trường bắt buộc
-        if (!userid || !userFullName || !email || !birthdate || !gender || !phoneNumber || !address) {
+        if (Number.isNaN(user_id) || !user_full_name || !email || !birthdate || gender === null || !phone_number || !address) {
             throw new Error('Thiếu các phần tử bắt buộc');
         }
 
@@ -35,13 +37,13 @@ const updateProfile = async (req, res) => {
         const profileData = { 
             aid,
             role,
-            userid,
-            userFullName,
+            user_id,
+            user_full_name,
+            email,
             birthdate,
             gender,
-            email,
-            phoneNumber,
-            address: address || 'N/A'
+            phone_number,
+            address
         };
 
         const updatedProfile = await tryUpdateProfile(profileData);

@@ -30,6 +30,7 @@ const isNotSignedIn = async (req, res, next) => { // Pass when user not sign in 
             return res.status(203).json({
                 message: 'Must Not Sign In to Access.',
                 sign_in_status: true,
+                aid: req.session.aid,
                 time: now.toLocaleString(),
             });
         }

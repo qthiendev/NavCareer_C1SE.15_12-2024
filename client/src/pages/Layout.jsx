@@ -4,6 +4,7 @@ import axios from 'axios';
 import './Layout.css';
 
 function Layout() {
+    const [userProfileURL, setUserProfileURL] = useState('');
     const [isAuth, setIsAuth] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isESP, setIsESP] = useState(false);
@@ -15,6 +16,7 @@ function Layout() {
             try {
                 const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
                 setIsAuth(response.data.sign_in_status);
+                setUserProfileURL(`profile/view/${response.data.aid}`);
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
                 setIsAuth(false);
@@ -93,7 +95,7 @@ function Layout() {
                                 {dropdownOpen && (
                                     <div className="dropdown-menu show">
                                         <ul>
-                                            <li><a href="/profile">Profile</a></li>
+                                            <li><a href={userProfileURL}>Profile</a></li>
                                             <li><a href="/settings">Settings</a></li>
                                             <li onClick={handleSignOut}>Sign Out</li>
                                         </ul>
