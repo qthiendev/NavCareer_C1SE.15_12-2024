@@ -11,7 +11,7 @@ const { deleteProfile } = require('../apis/profileManagement/deleteProfile/delet
 
 router.post('/create', authMiddleware.isSignedIn, createProfile);
 router.get('/read', readProfile);
-router.put('/update', updateProfile);
-router.delete('/delete', deleteProfile);
+router.put('/update', authMiddleware.isSignedIn, updateProfile);
+router.delete('/delete', authMiddleware.isSignedIn, deleteProfile);
 
 module.exports = router;

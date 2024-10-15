@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './ViewProfile.css';
 
@@ -9,12 +9,12 @@ function ViewProfile() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
-    const userId = searchParams.get('user_id');
+    const { user_id } = useParams();
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/profile/read?user_id=${userId}`, { withCredentials: true });
+                const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
                 setProfile(response.data.data);
                 setLoading(false);
             } catch (err) {
@@ -24,7 +24,7 @@ function ViewProfile() {
         };
 
         fetchProfile();
-    }, [userId, navigate]);
+    }, [user_id, navigate]);
 
     if (loading) {
         return <div className="loading">Loading...</div>;

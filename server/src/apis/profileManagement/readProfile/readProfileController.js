@@ -54,8 +54,7 @@ const readProfile = async (req, res) => {
             cover: coverBase64,
         };
 
-        console.log(`[${now.toLocaleString()}] Profile data retrieved for '${user_id}':`, profileData);
-
+        console.log(`[${now.toLocaleString()}] Profile data retrieved for '${user_id}'.`);
         return res.status(200).json({ data: profileData, time: now.toLocaleString() });
 
     } catch (err) {

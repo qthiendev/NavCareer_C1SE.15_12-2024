@@ -33,8 +33,8 @@ const Router = () => {
           <Route path="admin" element={<AdminHome />} /> 
           <Route path="admin/user/view-all" element={<ViewAllUser />} />
 
-          <Route path="profile/view" element={<ViewProfile />} />
-          <Route path="profile/update" element={<UpdateProfile />} /> 
+          <Route path="/profile/view/:user_id" element={<ViewProfile />} />
+          <Route path="profile/update/:user_id" element={<UpdateProfile />} /> 
           <Route path="profile/create" element={<CreateProfile />} /> 
 
           <Route path="course/view" element={<ViewCourse />} />

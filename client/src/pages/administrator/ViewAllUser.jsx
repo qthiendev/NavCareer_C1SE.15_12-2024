@@ -35,10 +35,11 @@ function ViewAllUser() {
         fetchUsers();
     }, []);
 
-    // Event handlers for buttons
+
     const handleView = (userId) => {
-        navigate(`/profile/view?user_id=${userId}`);
+        navigate(`/profile/view/${userId}`);
     };
+
 
     const handleModify = (userId) => {
         navigate(`admin/user/modify?user_id=${userId}`);
