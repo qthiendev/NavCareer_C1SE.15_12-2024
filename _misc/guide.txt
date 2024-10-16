@@ -66,8 +66,11 @@ DELETE: /course/delete |body{course_id}
 -------------------------------------------------------------------------------------------------------------------------------
 * profile routers:
 
-POST:   /profile/create ||
-GET:    /profile/read   ||
-POST:   /profile/update ||
-DELETE: /profile/delete ||
+POST:   /profile/create || body { userFullName, email, birthdate, gender, phoneNumber, address }
+
+GET:    /profile/read   || query { user_id } 
+
+PUT:   /profile/update || body { user_id, user_full_name, email, birthdate, gender, phone_number, address}
+
+DELETE: /profile/delete || query { user_id } 
 
