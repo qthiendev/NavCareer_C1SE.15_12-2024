@@ -125,7 +125,7 @@ function SignUp() {
                         required
                     />
                 </div>
-                <div>
+                <div className="checkbox-container">
                     <input
                         type="checkbox"
                         id="acceptTerms"

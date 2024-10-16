@@ -1,0 +1,132 @@
+/* Container for the signup form */
+.signup-container {
+    background-color: #f9f9f9;
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+/* Form heading */
+.signup-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Form fields */
+.signup-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Labels */
+.signup-container label {
+    display: block;
+    text-align: left;
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* Input fields */
+.signup-container input[type="text"],
+.signup-container input[type="email"],
+.signup-container input[type="password"],
+.signup-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    transition: border 0.3s ease;
+}
+
+/* Hover and focus effects on input */
+.signup-container input[type="text"]:focus,
+.signup-container input[type="email"]:focus,
+.signup-container input[type="password"]:focus,
+.signup-container select:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
+
+/* Submit button */
+.signup-container button[type="submit"] {
+    background-color: #3b82f6;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+/* Button hover effect */
+.signup-container button[type="submit"]:hover {
+    background-color: #2563eb;
+}
+
+/* Button disabled state */
+.signup-container button[type="submit"]:disabled {
+    background-color: #a0aec0;
+    cursor: not-allowed;
+}
+
+/* Error message styling */
+.signup-container .error {
+    color: #e53e3e;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Success message styling */
+.signup-container .success {
+    color: #38a169;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Checkbox and terms */
+.signup-container input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.signup-container a {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.signup-container a:hover {
+    text-decoration: underline;
+}
+
+/* Already have an account link */
+.signup-container p {
+    font-size: 14px;
+    color: #555;
+    margin-top: 20px;
+}
+/* Container for checkbox and label */
+.signup-container .checkbox-container {
+    display: flex;
+    align-items: center; /* Aligns items vertically in the center */
+    margin-top: 10px;
+}
+
+/* Adjust checkbox style */
+.signup-container input[type="checkbox"] {
+    margin-right: 10px; /* Space between checkbox and label */
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
