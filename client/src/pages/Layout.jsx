@@ -10,41 +10,72 @@ function Layout() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isESP, setIsESP] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [searchIndex, setSearchIndex] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                setIsAuth(response.data.sign_in_status);
-                setUserProfileURL(`/profile/${response.data.aid}`);
+                console.log(response);
+                if (response) {
+                    setIsAuth(response.data.sign_in_status);
+                    setUserProfileURL(`/profile/${response.data.aid}`);
+                } else {
+                    setIsAuth(false);
+                    setIsAdmin(false);
+                    setIsESP(false);
+                }
+                return response.data.sign_in_status;
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
                 setIsAuth(false);
+                return false;
             }
         };
+    
         const checkAdmin = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/authz/adm', { withCredentials: true });
-                if (response.status === 200) setIsAdmin(true);
+                setIsAdmin(response.status === 200);
             } catch (err) {
-                console.error('Failed to check authentication status:', err);
+                console.error('Failed to check admin status:', err);
                 setIsAdmin(false);
             }
         };
+    
         const checkESP = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
-                if (response.status === 200) setIsESP(true);
+                setIsESP(response.status === 200);
             } catch (err) {
-                console.error('Failed to check authentication status:', err);
+                console.error('Failed to check ESP status:', err);
                 setIsESP(false);
             }
         };
-        checkAuth();
-        checkAdmin();
-        checkESP();
+    
+        const checkAll = async () => {
+            const isAuthenticated = await checkAuth();
+            if (isAuthenticated) {
+                await checkAdmin();
+                await checkESP();
+            }
+        };
+    
+        checkAll();
     }, [navigate]);
+
+    const handleSearch = () => {
+        if (searchIndex.trim()) {
+            navigate(`/search?index=${searchIndex}`);
+        }
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
 
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
@@ -66,10 +97,18 @@ function Layout() {
                         <a href="/"><img src="/img/Header/Logo.svg" alt="Logo" /></a>
                     </div>
 
+                    <div className="search-bar">
+                        <input
+                            type="text"
+                            value={searchIndex}
+                            onChange={(e) => setSearchIndex(e.target.value)}
+                            onKeyDown={handleKeyPress} // Updated to use onKeyDown
+                            placeholder="Tìm kiếm..."
+                            className="search-input"
+                        />
+                    </div>
+
                     <ul className="nav-list">
-                        <li onClick={() => navigate('/search')} style={{ cursor: 'pointer' }}>
-                            <FaSearch /> {/* Add the search icon */}
-                        </li>
                         <li><a href="/tests">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
                         <li><a href="/course/view">KHÓA HỌC</a></li>
                         <li><a href="/about">VỀ CHÚNG TÔI</a></li>

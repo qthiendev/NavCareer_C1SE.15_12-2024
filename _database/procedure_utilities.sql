@@ -21,6 +21,7 @@ begin
         1 as [is_user]
     from Users
     where lower([user_full_name]) collate sql_latin1_general_cp1_ci_ai like '%' + @normalizedindex + '%'
+		and [is_active] = 1
 
     union all
 
@@ -45,5 +46,5 @@ go
 grant execute on dbo.[Search] to [NAV_STUDENT];
 go
 
-exec Search N'Th'
+--exec Search N'Th'
 

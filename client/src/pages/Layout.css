@@ -33,7 +33,7 @@ header {
 .home-logo img {
   width: 150px;
   height: auto;
-  padding: 0px 30px;
+  padding: 0px 0px;
 }
 
 .main-content {
@@ -44,7 +44,7 @@ header {
 
 .nav-list {
   display: flex;
-  gap: 30px;
+  gap: 20px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -61,7 +61,7 @@ header {
   gap: 10px;
   list-style: none;
   margin: 0;
-  padding: 0px 30px;
+  padding: 0px 0px;
   align-items: center;
   justify-content: flex-end;
 }
@@ -77,30 +77,18 @@ header {
   text-decoration: none;
   font-size: 16px;
   overflow: hidden;
-}
-
-.nav-list li a::after,
-.auth-links a::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -2px;
-  width: 0;
-  height: 2px;
-  background-color: rgb(9, 255, 0);
-  transition: width 0.3s ease, left 0.3s ease;
-}
-
-.nav-list li a:hover::after,
-.auth-links a:hover::after {
-  width: 100%;
-  left: 0;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  padding: 8px 10px;
+  border-radius: 4px;
 }
 
 .nav-list li a:hover,
 .auth-links a:hover {
-  color: rgb(9, 255, 0);
+  background-color: rgb(9, 255, 0);
+  color: #043873;
+  transform: scale(1.05); /* Slightly increase the size on hover */
 }
+
 
 .user-image {
   display: flex;
@@ -158,6 +146,24 @@ header {
 .dropdown-menu li:hover {
   background-color: #f0f0f0;
 }
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+  padding-left: 10px;
+  width: 200px;
+}
+
+.search-input {
+  padding: 2px 4px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+  height: 10px;
+}
+
 
 .footer {
   text-align: center;

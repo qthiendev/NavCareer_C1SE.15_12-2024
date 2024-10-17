@@ -1,15 +1,23 @@
 ﻿use NavCareerDB;
 
 --- procedure
-if object_id('ViewProfile', 'P') is not null drop procedure ViewProfile;
-go
-CREATE PROCEDURE ViewProfile @user_id INT
+IF OBJECT_ID('ViewProfile', 'P') IS NOT NULL DROP PROCEDURE ViewProfile;
+GO
+CREATE PROCEDURE ViewProfile @auth_id INT
 AS
 BEGIN
+    SET NOCOUNT ON;
+
     -- Check if the user exists
-    IF EXISTS (SELECT 1 FROM Users WHERE user_id = @user_id)
+    IF EXISTS (SELECT 1 FROM Users WHERE [authentication_id] = @auth_id)
     BEGIN
-        -- If user exists, return the profile data
+        -- Check if the user is active
+        IF EXISTS (SELECT 1 FROM Users WHERE [authentication_id] = @auth_id AND [is_active] = 0)
+        BEGIN
+            RETURN;
+        END
+        
+        -- If user exists and is active, return the profile data
         SELECT 
             [user_full_name], 
             [birthdate],
@@ -22,12 +30,12 @@ BEGIN
             [authentication_id],
             [is_active] 
         FROM Users 
-        WHERE user_id = @user_id;
+        WHERE [authentication_id] = @auth_id;
     END
     ELSE
     BEGIN
         -- Raise an error if the user is not found
-        RAISERROR('User with ID %d not found.', 16, 1, @user_id);
+        RAISERROR('User with ID %d not found.', 16, 1, @auth_id);
     END
 END;
 GO
@@ -57,14 +65,17 @@ BEGIN
         RETURN;
     END
     -- Generate resource URL based on new user ID
-    DECLARE @resource_url NVARCHAR(MAX) = '/profiles/_' + CAST(@aid AS NVARCHAR);
+	declare @newID int;
+	select @newID = isnull(max([user_id]), -1) + 1 from Users;
+
+    DECLARE @resource_url NVARCHAR(MAX) = trim('/profiles/_' + CAST(@aid AS NVARCHAR));
 
     -- Insert the new user into the Users table with the updated column order
     INSERT INTO Users (
         [user_id],  [user_full_name], [birthdate],  [gender],  [email], 
         [phone_number],  [address],  [date_joined],  [resource_url], [authentication_id],[is_active]
     )
-    VALUES (@aid,  @user_full_name,  @birthdate,  @gender, @email,  @phone_number, @address, GETDATE(), TRIM(@resource_url), @aid, 1);
+    VALUES (@newID,  @user_full_name,  @birthdate,  @gender, @email,  @phone_number, @address, GETDATE(), TRIM(@resource_url), @aid, 1);
 
 	select 'TRUE' as [check]
 	from Users
@@ -162,23 +173,28 @@ GO
 
 -- DELETE
 
-if object_id('DeleteProfile', 'P') is not null drop procedure DeleteProfile;
+if object_id('SetStateProfile', 'P') is not null drop procedure SetStateProfile;
 go
-CREATE PROCEDURE DeleteProfile
-    @user_id INT  -- The ID of the user to be deleted
+CREATE PROCEDURE SetStateProfile @aid int, @state bit
 AS
 BEGIN
     -- Check if the user exists before attempting a delete
-    IF EXISTS (SELECT 1 FROM Users WHERE user_id = @user_id)
+    IF EXISTS (SELECT 1 FROM Users WHERE authentication_id = @aid)
     BEGIN
         -- Perform the delete
-        DELETE FROM Users
-        WHERE user_id = @user_id;
+        update Users
+		set [is_active] = @state
+		where [authentication_id] = @aid;
+
+		select 'TRUE' as [check]
+		from Users
+		where [authentication_id] = @aid
+			and [is_active] = @state;
     END
     ELSE
     BEGIN
         -- Raise an error if the user is not found
-        RAISERROR('User not found with ID %d', 16, 1, @user_id);
+        RAISERROR('User not found with ID %d', 16, 1, @aid);
     END
 END;
 GO
@@ -215,7 +231,7 @@ grant execute on dbo.[SearchProfile] to [NAV_ESP]
 grant execute on dbo.[SearchProfile] to [NAV_STUDENT]
 
 
-EXECUTE AS USER = 'sa';
+EXECUTE AS USER = 'NAV_GUEST';
 --EXEC dbo.SignIn @account = 'qthiendev', @password = 'qthiendev';
 --EXEC ViewProfile 5;
 --select * from users

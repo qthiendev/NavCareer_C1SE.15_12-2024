@@ -12,11 +12,10 @@ reset password: x
 
 read profile: v
 create profile: v
-update profile: x
+update profile: v
 delete profile: x
 
 read course: v
 create course: v
 update course: V
-delete course: -
-np
+delete course: v

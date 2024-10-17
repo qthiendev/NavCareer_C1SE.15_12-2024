@@ -2,9 +2,9 @@ const ncdb = require('../../databases/ncdbService');
 
 const tryReadProfile = async (role, userID) => {
     try {
-        const queryString = `EXECUTE ViewProfile @user_id`;
+        const queryString = `EXECUTE ViewProfile @auth_id`;
 
-        const params = { user_id: userID};
+        const params = { auth_id: userID};
 
         const result = await ncdb.query(role, queryString, params);
 
