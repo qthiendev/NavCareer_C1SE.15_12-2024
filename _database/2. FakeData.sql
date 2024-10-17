@@ -17,7 +17,7 @@ delete from CollectionTypes;
 delete from Modules;
 delete from Courses;
 delete from SystemFeedbacks;
-delete from UserProcedureBanned;
+delete from AuthProcedureBanned;
 delete from Users;
 delete from Authentications;
 delete from Authorizations;
@@ -246,9 +246,13 @@ values
 (9, N'course/_0/lap_trinh_c.png', 1, 1, 2),
 (10, N'Lập trình C là một trong những ngôn ngữ lập trình lâu đời và phổ biến nhất. Được phát triển vào đầu những năm 1970 bởi Dennis Ritchie tại Bell Labs, ngôn ngữ C đã trở thành nền tảng cho nhiều ngôn ngữ lập trình hiện đại, bao gồm C++, C#, và Java.', 2, 0, 2),
 (11, N'course/_0/lap_trinh_c.mp4', 3, 2, 2),
-(12, N'0', 0, 3, 3),
-(13, N'1', 1, 3, 3);
+(12, N'Question 0', 0, 3, 3),
+(13, N'Question 1', 1, 3, 3);
 go
+insert into MaterialQuestion ([id], [material_id], [question_id])
+values
+(0, 12, 0),
+(1, 13, 1);
 insert into Enrollments([enrollment_id], [enrollment_date], [is_complete], [user_id], [course_id])
 values
 (0, getdate(), 1, 2, 0),

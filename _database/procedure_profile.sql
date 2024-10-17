@@ -3,9 +3,6 @@
 --- procedure
 if object_id('ViewProfile', 'P') is not null drop procedure ViewProfile;
 go
-
---READ
-
 CREATE PROCEDURE ViewProfile @user_id INT
 AS
 BEGIN
@@ -189,6 +186,9 @@ GO
 -- exec DeleteProfile 4
 
 
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+
 grant execute on dbo.[ViewProfile] to [NAV_GUEST]
 grant execute on dbo.[ViewProfile] to [NAV_ADMIN]
 grant execute on dbo.[ViewProfile] to [NAV_ESP]
@@ -209,8 +209,13 @@ grant execute on dbo.[DeleteProfile] to [NAV_ADMIN]
 grant execute on dbo.[DeleteProfile] to [NAV_ESP]
 grant execute on dbo.[DeleteProfile] to [NAV_STUDENT]
 
+grant execute on dbo.[SearchProfile] to [NAV_GUEST]
+grant execute on dbo.[SearchProfile] to [NAV_ADMIN]
+grant execute on dbo.[SearchProfile] to [NAV_ESP]
+grant execute on dbo.[SearchProfile] to [NAV_STUDENT]
 
-EXECUTE AS USER = 'NAV_ADMIN';
+
+EXECUTE AS USER = 'sa';
 --EXEC dbo.SignIn @account = 'qthiendev', @password = 'qthiendev';
 --EXEC ViewProfile 5;
 --select * from users

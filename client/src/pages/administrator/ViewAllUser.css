@@ -2,41 +2,57 @@
     padding: 20px;
 }
 
-.admin-home-container {
+.view-all-admin-home-container {
     margin-bottom: 20px;
 }
 
-.admin-nav {
+.view-all-admin-nav {
     list-style: none;
     padding: 0;
 }
 
-.admin-nav li {
+.view-all-admin-nav li {
     display: inline;
     margin-right: 20px;
 }
 
-.user-table {
+.view-all-search-filters {
+    display: flex;
+    justify-content: flex-end; /* Aligns items to the right */
+    margin-bottom: 10px; /* Space below the filters */
+    flex-wrap: wrap; /* Allows items to wrap onto the next line if necessary */
+}
+
+.view-all-filter-input,
+.view-all-filter-dropdown {
+    margin-left: 10px; /* Space between the inputs */
+    padding: 8px; /* Consistent padding for inputs */
+    font-size: 14px; /* Font size for better readability */
+    border: 1px solid #ddd; /* Border for inputs */
+    border-radius: 4px; /* Rounded corners for inputs */
+    width: 150px; /* Set a fixed width for consistency */
+}
+
+.view-all-user-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.user-table th {
+.view-all-user-table th {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center; /* Center the text in the header */
 }
 
-.user-table td {
+.view-all-user-table td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
+    text-align: center; /* Center the text in the table */
 }
 
-.user-table td.actions {
-    width: 160px; /* Ensures space for two buttons */
-    text-align: center;
-    white-space: nowrap; /* Prevents buttons from wrapping to the next line */
+.view-all-actions {
+    display: flex;
+    justify-content: space-between; /* Space buttons evenly */
 }
 
 .status-active {
@@ -45,25 +61,4 @@
 
 .status-inactive {
     color: red; /* Red for inactive status */
-}
-
-button {
-    padding: 5px 10px; /* Ensures consistent button size */
-    font-size: 12px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    display: inline-block;
-    margin-right: 5px; /* Adds space between buttons */
-    white-space: nowrap; /* Prevent text from breaking into multiple lines */
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-button:last-child {
-    margin-right: 0; /* Removes margin from the last button */
 }

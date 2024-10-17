@@ -11,10 +11,10 @@ function AdminHome() {
             try {
                 const response = await axios.get('http://localhost:5000/authz/adm', { withCredentials: true });
                 if (response.status !== 200)
-                    navigate('/');
+                    navigate('/signin');
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
-                navigate('/');
+                navigate('/signin');
             }
         };
 
@@ -22,12 +22,14 @@ function AdminHome() {
     }, [navigate]);
 
     return (
-        <div class="admin-home-container">
-            <ul class="admin-nav">
-                <li><a href="/admin/user/view-all">Trang chủ Admin</a></li>
+        <div className="admin-home-container">
+            <h1 className="admin-home-title">Admin Dashboard</h1> {/* Optional Title */}
+            <ul className="admin-nav">
+                <li><a href="/admin">Trang chủ Admin</a></li>
                 <li><a href="/">Trang chủ Hệ thống</a></li>
                 <li><a href="/admin/user/view-all">Thông tin người dùng</a></li>
             </ul>
+            <Outlet /> {/* To render nested routes if needed */}
         </div>
     );
 }

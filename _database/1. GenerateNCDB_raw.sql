@@ -24,6 +24,7 @@ if object_id('Accomplishments', 'U') is not null drop table Accomplishments;
 if object_id('Grades', 'U') is not null drop table Grades;
 if object_id('UserTracking', 'U') is not null drop table UserTracking;
 if object_id('Enrollments', 'U') is not null drop table Enrollments;
+if object_id('MaterialQuestion', 'U') is not null drop table MaterialQuestion;
 if object_id('Materials', 'U') is not null drop table Materials;
 if object_id('MaterialType', 'U') is not null drop table MaterialType;
 if object_id('Answers', 'U') is not null drop table Answers;
@@ -34,8 +35,8 @@ if object_id('CollectionTypes', 'U') is not null drop table CollectionTypes;
 if object_id('Modules', 'U') is not null drop table Modules;
 if object_id('Courses', 'U') is not null drop table Courses;
 if object_id('SystemFeedbacks', 'U') is not null drop table SystemFeedbacks;
-if object_id('UserProcedureBanned', 'U') is not null drop table UserProcedureBanned;
 if object_id('Users', 'U') is not null drop table Users;
+if object_id('AuthProcedureBanned', 'U') is not null drop table UserProcedureBanned;
 if object_id('Authentications', 'U') is not null drop table Authentications;
 if object_id('Authorizations', 'U') is not null drop table Authorizations;
 if object_id('NavAnswers', 'U') is not null drop table NavAnswers;
@@ -45,14 +46,14 @@ go
 -- NavQuestions
 create table NavQuestions (
     [question_id] int primary key not null,
-    [question_description] nvarchar(max) not null 
+    [question_description] nvarchar(512) not null 
 );
 go
 
 -- NavAnswers
 create table NavAnswers (
     [answer_id] int primary key not null,
-    [answer_description] nvarchar(max) not null, 
+    [answer_description] nvarchar(512) not null, 
     [question_id] int null,
     constraint fk_nav_answer_question_id foreign key (question_id) references NavQuestions(question_id) on delete set null on update cascade
 );
@@ -61,16 +62,16 @@ go
 -- Authorizations - role
 create table Authorizations (
     [authorization_id] int primary key not null,
-    [role] nvarchar(1000) not null unique 
+    [role] nvarchar(32) not null unique 
 );
 go
 
 -- Authentications - user private info
 create table Authentications (
     [authentication_id] int primary key not null,
-    [account] varbinary(1000) not null unique,
-    [password] varbinary(max) not null, 
-    [identifier_email] varbinary(1000) not null unique,
+    [account] varbinary(700) not null unique,
+    [password] varbinary(700) not null, 
+    [identifier_email] varbinary(500) not null unique,
     [created_date] datetime default getdate() not null,
     [authorization_id] int null,
 	[is_active] bit default 1 not null,
@@ -81,14 +82,14 @@ go
 -- Users - user public info
 create table Users (
     [user_id] int primary key not null,
-    [user_full_name] nvarchar(max) not null, 
+    [user_full_name] nvarchar(255) not null, 
     [birthdate] datetime,
     [gender] bit,
-	[email] nvarchar(max), 
-    [phone_number] nvarchar(max),
-    [address] nvarchar(max), 
+	[email] nvarchar(512), 
+    [phone_number] nvarchar(20),
+    [address] nvarchar(512), 
     [date_joined] datetime default getdate() not null,
-    [resource_url] nvarchar(max), 
+    [resource_url] nvarchar(128), 
     [authentication_id] int null,
 	[is_active] bit default 1 not null,
     constraint fk_user_authentication_id foreign key (authentication_id) references Authentications(authentication_id) on delete set null on update cascade
@@ -98,7 +99,7 @@ go
 -- Feedbacks
 create table SystemFeedbacks (
     [feedback_id] int primary key not null,
-    [feedback_description] nvarchar(max) not null, 
+    [feedback_description] nvarchar(512) not null, 
     [feedback_date] datetime default getdate() not null,
     [user_id] int null,
     constraint fk_feedback_user_id foreign key (user_id) references Users(user_id) on delete set null on update cascade
@@ -108,10 +109,10 @@ go
 -- Courses
 create table Courses (
     [course_id] int primary key not null,
-    [course_name] nvarchar(max) not null, 
+    [course_name] nvarchar(512) not null, 
     [course_description] nvarchar(max) not null,
     [course_price] int not null,
-    [duration] nvarchar(max) not null, 
+    [duration] nvarchar(128) not null, 
     [created_date] datetime default getdate() not null,
     [provider_id] int null,
     constraint fk_course_provider_id foreign key (provider_id) references Users(user_id) on delete set null on update cascade
@@ -121,7 +122,7 @@ go
 -- Modules - Course's modules
 create table Modules (
     [module_id] int primary key not null,
-    [module_name] nvarchar(max) not null, 
+    [module_name] nvarchar(512) not null, 
     [created_date] datetime default getdate() not null,
     [module_ordinal] int not null,
     [course_id] int null,
@@ -132,14 +133,14 @@ go
 -- Collection Types
 create table CollectionTypes (
     [collection_type_id] int primary key not null,
-    [collection_type_name] nvarchar(max) 
+    [collection_type_name] nvarchar(512) 
 );
 go
 
 -- Collections - Module's Collections
 create table Collections (
     [collection_id] int primary key not null,
-    [collection_name] nvarchar(max) not null, 
+    [collection_name] nvarchar(512) not null, 
     [created_date] datetime default getdate() not null,
     [collection_ordinal] int not null,
     [collection_type_id] int null,
@@ -152,14 +153,14 @@ go
 -- Question Types - type for server render
 create table QuestionTypes (
     [question_type_id] int primary key not null,
-    [type_description] nvarchar(max) not null 
+    [type_description] nvarchar(512) not null 
 );
 go
 
 -- Questions
 create table Questions (
     [question_id] int primary key not null,
-    [question_description] nvarchar(max) not null, 
+    [question_description] nvarchar(512) not null, 
     [question_type_id] int null,
     constraint fk_question_question_type_id foreign key (question_type_id) references QuestionTypes(question_type_id) on delete set null on update cascade
 );
@@ -168,7 +169,7 @@ go
 -- Answers
 create table Answers (
     [answer_id] int primary key not null,
-    [answer_description] nvarchar(max) not null, 
+    [answer_description] nvarchar(512) not null, 
     [is_right] bit not null,
     [question_id] int null,
     constraint fk_answer_question_id foreign key (question_id) references Questions(question_id) on delete set null on update cascade
@@ -178,19 +179,28 @@ go
 -- Material Types
 create table MaterialType (
     [material_type_id] int primary key not null,
-    [material_type_name] nvarchar(max) not null 
+    [material_type_name] nvarchar(512) not null 
 );
 go
 
 -- Materials - Collection's materials
 create table Materials (
     [material_id] int primary key not null,
-    [material_content] nvarchar(max), 
+    [material_content] nvarchar(512), 
     [material_ordinal] int not null,
     [material_type_id] int null,
     [collection_id] int null,
     constraint fk_material_material_type_id foreign key (material_type_id) references MaterialType(material_type_id) on delete set null on update cascade, 
     constraint fk_material_collection_id foreign key (collection_id) references Collections(collection_id) on delete set null on update cascade
+);
+go
+
+create table MaterialQuestion (
+    [id] int primary key not null,
+    [material_id] int, 
+    [question_id] int,
+    constraint fk_material_question_material_id foreign key (material_id) references Materials(material_id) on delete set null on update cascade, 
+    constraint fk_material_question_question_id foreign key (question_id) references Questions(question_id) on delete set null on update cascade
 );
 go
 
@@ -233,7 +243,7 @@ create table Accomplishments (
     [accomplishment_id] int primary key not null,
     [completion_date] datetime default getdate() not null,
     [overall_grade] int not null,
-    [certificate_id] nvarchar(max) not null, 
+    [certificate_id] nvarchar(512) not null, 
     [enrollment_id] int null,
     constraint fk_accomplishment_enrollment_id foreign key (enrollment_id) references Enrollments(enrollment_id) on delete set null on update cascade
 );
@@ -242,7 +252,7 @@ go
 -- Course Feedbacks
 create table CourseFeedbacks (
     [feedback_id] int primary key not null,
-    [feedback_description] nvarchar(max) not null, 
+    [feedback_description] nvarchar(512) not null, 
     [feedback_date] datetime default getdate() not null,
     [enrollment_id] int null,
     constraint fk_course_feedback_enrollment_id foreign key (enrollment_id) references Enrollments(enrollment_id) on delete set null on update cascade
@@ -252,7 +262,7 @@ go
 -- Fields - flagging field for filtering/searching
 create table Fields (
     [field_id] int primary key not null,
-    [field_description] nvarchar(max) not null 
+    [field_description] nvarchar(512) not null 
 );
 go
 
@@ -267,17 +277,17 @@ create table CourseField (
 go
 
 -- UserProcedureBanned
-create table UserProcedureBanned (
+create table AuthProcedureBanned (
 	[banned_id] int primary key not null,
-	[procedure_name] nvarchar(max),
+	[procedure_name] nvarchar(512),
 	[authentication_id] int null,
-	constraint fk_banned_user_id foreign key (authentication_id) references Authentications(authentication_id) on delete set null on update cascade
+	constraint fk_auth_procedure_banned_auth_id foreign key (authentication_id) references Authentications(authentication_id) on delete set null on update cascade
 );
 go
 
 if object_id('dbo.IsUserBanned', 'fn') is not null drop function dbo.IsUserBanned;
 go
-create function dbo.IsUserBanned (@aid int, @procedurename nvarchar(max))
+create function dbo.IsUserBanned (@aid int, @procedurename nvarchar(512))
 returns bit
 as
 begin
@@ -285,9 +295,9 @@ begin
 
     if exists (
 		select 1 
-		from UserProcedureBanned 
-		where authentication_id = @aid
-			and procedure_name = @procedurename
+		from AuthProcedureBanned 
+		where [authentication_id] = @aid
+			and [procedure_name] = @procedurename
 	)
     begin
         set @isbanned = 1;

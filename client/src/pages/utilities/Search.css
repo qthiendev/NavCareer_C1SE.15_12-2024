@@ -1,0 +1,178 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.search-input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.search-label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.search-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.search-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4267B2;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.search-button:hover {
+    background-color: #365899;
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+.results-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.profile-card {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    flex: 1 1 calc(47% - 20px);
+    max-width: calc(47% - 20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-card:hover {
+    transform: scale(1.02);
+}
+
+.student {
+    background-color: #d4f1d4;
+}
+
+.course {
+    background-color: #d4e6f1;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 10px 0;
+}
+
+.profile-type {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-weight: bold;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.student .profile-type {
+    background-color: #4CAF50;
+}
+
+.course .profile-type {
+    background-color: #2196F3;
+}
+
+.filter-dropdown {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.filter-dropdown:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+@media (max-width: 768px) {
+    .profile-card {
+        flex: 1 1 calc(100% - 20px);
+        max-width: calc(100% - 20px);
+    }
+
+    .search-button {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .search-input {
+        font-size: 0.9rem;
+    }
+
+    .search-button {
+        font-size: 0.9rem;
+    }
+}

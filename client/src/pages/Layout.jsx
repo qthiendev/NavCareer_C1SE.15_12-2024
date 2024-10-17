@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
+import { FaSearch } from 'react-icons/fa'; // Import the search icon from react-icons
 import './Layout.css';
 
 function Layout() {
@@ -25,9 +26,7 @@ function Layout() {
         const checkAdmin = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/authz/adm', { withCredentials: true });
-                console.log(response);
-                if (response.status === 200)
-                    setIsAdmin(true);
+                if (response.status === 200) setIsAdmin(true);
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
                 setIsAdmin(false);
@@ -36,9 +35,7 @@ function Layout() {
         const checkESP = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
-                console.log(response);
-                if (response.status === 200)
-                    setIsESP(true);
+                if (response.status === 200) setIsESP(true);
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
                 setIsESP(false);
@@ -70,6 +67,9 @@ function Layout() {
                     </div>
 
                     <ul className="nav-list">
+                        <li onClick={() => navigate('/search')} style={{ cursor: 'pointer' }}>
+                            <FaSearch /> {/* Add the search icon */}
+                        </li>
                         <li><a href="/tests">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
                         <li><a href="/course/view">KHÓA HỌC</a></li>
                         <li><a href="/about">VỀ CHÚNG TÔI</a></li>

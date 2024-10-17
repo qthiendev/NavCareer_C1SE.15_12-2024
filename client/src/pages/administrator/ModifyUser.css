@@ -1,0 +1,73 @@
+.modify-user-container {
+    max-width: 800px; /* Limit the width */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Add padding around the container */
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    gap: 15px; /* Space between fields */
+}
+
+h2 {
+    text-align: center; /* Center the heading */
+}
+
+.field-row {
+    display: flex; /* Use flexbox for the field row */
+    align-items: center; /* Center align items vertically */
+    margin-bottom: 10px; /* Space below each field row */
+}
+
+label {
+    font-weight: bold; /* Make field names bold */
+    min-width: 150px; /* Set a minimum width for labels to align fields */
+}
+
+input, select {
+    padding: 10px; /* Add padding inside input fields */
+    margin-left: 10px; /* Space between label and input */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Increase font size for readability */
+    max-width: 300px; /* Set maximum width for input fields */
+    flex: 1; /* Allow input to grow */
+}
+
+/* Specific styles for dropdowns */
+select {
+    min-width: 120px; /* Minimum width for dropdowns */
+    width: auto; /* Let dropdown expand based on content */
+}
+
+/* Styles for date of birth and gender/status fields */
+.birthdate-fields, .gender-status-fields {
+    display: flex; /* Use flexbox for the birthdate selects and gender/status selects */
+    gap: 10px; /* Space between the selects */
+}
+
+button {
+    padding: 10px; /* Add padding for the button */
+    font-size: 16px; /* Font size for button */
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+@media (max-width: 600px) {
+    .modify-user-container {
+        padding: 10px; /* Less padding on smaller screens */
+    }
+
+    input, select {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+
+    button {
+        font-size: 14px; /* Smaller button font size */
+    }
+}

@@ -9,8 +9,11 @@ import Home from './pages/Home.jsx';
 import SignIn from './pages/authentication/SignIn.jsx';
 import SignUp from './pages/authentication/SignUp.jsx';
 
+import Search from './pages/utilities/Search.jsx';
+
 import AdminHome from './pages/administrator/AdminHome.jsx';
 import ViewAllUser from './pages/administrator/ViewAllUser.jsx';
+import ModifyUser from './pages/administrator/ModifyUser.jsx';
 
 import CreateProfile from './pages/profile/CreateProfile.jsx';
 import UpdateProfile from './pages/profile/UpdateProfile.jsx';
@@ -30,10 +33,13 @@ const Router = () => {
           <Route path="signin" element={<SignIn />} /> 
           <Route path="signup" element={<SignUp />} /> 
 
+          <Route path="search" element={<Search />} /> 
+
           <Route path="admin" element={<AdminHome />} /> 
           <Route path="admin/user/view-all" element={<ViewAllUser />} />
+          <Route path="admin/user/modify" element={<ModifyUser />} />
 
-          <Route path="/profile/:user_id/" element={<ViewProfile />} />
+          <Route path="profile/:user_id/" element={<ViewProfile />} />
           <Route path="profile/:user_id/update" element={<UpdateProfile />} /> 
           <Route path="profile/create" element={<CreateProfile />} /> 
 

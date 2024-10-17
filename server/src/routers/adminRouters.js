@@ -5,6 +5,7 @@ const authMiddleware = require('../middlewares/authentication');
 const authzMiddleware = require('../middlewares/authorization');
 
 const { readAll } = require('../apis/systemManagement/userManagement/readAll/readAllController');
+const { modifyUser } = require('../apis/systemManagement/userManagement/modifyUser/modifyUserController');
 
 router.get('', async (req, res) => {
     const htmlResponse = `
@@ -66,5 +67,6 @@ router.get('', async (req, res) => {
 });
 
 router.get('/user/read', authMiddleware.isSignedIn, authzMiddleware.admin, readAll);
+router.post('/user/modify', authMiddleware.isSignedIn, authzMiddleware.admin, modifyUser);
 
 module.exports = router;
