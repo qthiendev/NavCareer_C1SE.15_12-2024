@@ -56,7 +56,7 @@ function CreateCourse() {
     }
 
     return (
-        <div>
+        <div className="create-course">
             <h1>Create Course</h1>
             {error && <p className="error">{error}</p>} {/* Display error message if exists */}
             <form onSubmit={handleSubmit}>

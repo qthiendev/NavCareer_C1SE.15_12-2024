@@ -110,7 +110,7 @@ header {
 .dropdown-menu {
   position: absolute;
   top: 70px;
-  right: 10px;
+  right: 450px;
   background: linear-gradient(145deg, #f9f9f9, #e6e6e6);
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
