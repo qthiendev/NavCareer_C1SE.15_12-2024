@@ -1,0 +1,98 @@
+/* Container for the course details */
+.view-course-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #FFFFFF;  /* Secondary white */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+    font-family: 'Arial', sans-serif;
+    border: 1px solid #CFD7D9;  /* Secondary light gray border */
+}
+
+/* Course title */
+.view-course-container h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #043873; /* Primary dark blue */
+}
+
+/* Labels for course details */
+.view-course-container p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 10px 0;
+    color: #043873;
+}
+
+.view-course-container p strong {
+    font-weight: 600;
+    color: #043873;
+}
+
+/* Modules section */
+.view-course-container h3 {
+    font-size: 22px;
+    margin-top: 20px;
+    color: #4F76F6; /* Primary light blue */
+}
+
+/* Modules list styling */
+.view-course-container ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.view-course-container ul li {
+    padding: 10px;
+    background-color: #CFD7D9;  /* Secondary light gray */
+    border-radius: 4px;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #043873;
+    display: flex;
+    align-items: center;
+}
+
+.view-course-container ul li:nth-child(odd) {
+    background-color: #77F2A1; /* Secondary green for alternating rows */
+}
+
+/* Edit button */
+.btn-edit {
+    display: inline-block;
+    background-color: #4F76F6;  /* Primary light blue */
+    color: #FFFFFF;  /* White text */
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* Hover state for Edit button */
+.btn-edit:hover {
+    background-color: #043873; /* Darker blue for hover */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .view-course-container {
+        padding: 15px;
+    }
+
+    .view-course-container h1 {
+        font-size: 24px;
+    }
+
+    .view-course-container p, .view-course-container ul li {
+        font-size: 14px;
+    }
+
+    .btn-edit {
+        width: 100%;
+        text-align: center;
+    }
+}

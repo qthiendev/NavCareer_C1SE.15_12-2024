@@ -1,0 +1,99 @@
+/* Main container for the update course form */
+.update-course {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #FFFFFF; /* Secondary color - White */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Heading style */
+.update-course h2 {
+    color: #043873; /* Primary color - Dark blue */
+    margin-bottom: 20px;
+}
+
+/* Error message style */
+.error-message {
+    color: #D9534F; /* Bootstrap danger color for error messages */
+}
+
+/* Form labels */
+.update-course label {
+    display: block;
+    margin-bottom: 5px;
+    color: #4F76F6; /* Primary light blue */
+}
+
+/* Input fields and textarea */
+.update-course input,
+.update-course textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #CFD7D9; /* Light gray border */
+    border-radius: 4px;
+    font-size: 16px;
+    color: #043873; /* Dark blue text */
+}
+
+/* Modules heading */
+.update-course h3 {
+    margin-top: 20px;
+    color: #4F76F6; /* Primary light blue */
+}
+
+/* Button styles */
+.update-course button {
+    background-color: #4F76F6; /* Primary light blue */
+    color: #FFFFFF; /* White text */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* Button hover state */
+.update-course button:hover {
+    background-color: #043873; /* Darker blue for hover effect */
+}
+
+/* List items for modules */
+.update-course ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.update-course li {
+    background-color: #CFD7D9; /* Light gray background */
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Alternate background for odd-indexed modules */
+.update-course li:nth-child(odd) {
+    background-color: #77F2A1; /* Light green for alternating rows */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .update-course {
+        padding: 15px;
+    }
+
+    .update-course h2 {
+        font-size: 24px;
+    }
+
+    .update-course label, .update-course button {
+        font-size: 14px;
+    }
+}

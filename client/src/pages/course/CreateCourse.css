@@ -1,0 +1,72 @@
+/* Main container for the Create Course form */
+.create-course {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #FFFFFF; /* Secondary color - White */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Heading style */
+.create-course h1 {
+    color: #043873; /* Primary color - Dark blue */
+    margin-bottom: 20px;
+}
+
+/* Error message style */
+.error {
+    color: #D9534F; /* Bootstrap danger color for error messages */
+}
+
+/* Form labels */
+.create-course label {
+    display: block;
+    margin-bottom: 5px;
+    color: #4F76F6; /* Primary light blue */
+}
+
+/* Input fields and textarea */
+.create-course input,
+.create-course textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #CFD7D9; /* Light gray border */
+    border-radius: 4px;
+    font-size: 16px;
+    color: #043873; /* Dark blue text */
+}
+
+/* Button styles */
+.create-course button {
+    background-color: #4F76F6; /* Primary light blue */
+    color: #FFFFFF; /* White text */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* Button hover state */
+.create-course button:hover {
+    background-color: #043873; /* Darker blue for hover effect */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .create-course {
+        padding: 15px;
+    }
+
+    .create-course h1 {
+        font-size: 24px;
+    }
+
+    .create-course label, .create-course button {
+        font-size: 14px;
+    }
+}
