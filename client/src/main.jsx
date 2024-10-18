@@ -23,6 +23,7 @@ import CreateCourse from './pages/course/CreateCourse.jsx';
 import UpdateCourse from './pages/course/UpdateCourse.jsx';
 import ViewCourse from './pages/course/ViewCourse.jsx';
 
+
 const Router = () => {
     return (
       <Routes>
