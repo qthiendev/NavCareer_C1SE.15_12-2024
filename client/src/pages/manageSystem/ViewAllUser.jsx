@@ -101,6 +101,18 @@ function ViewAllUser() {
         navigate(`/admin/user/modify`, { state: { userData: selectedUser } });
     };
 
+    const handleDelete = async (userId) => {
+        try {
+            await axios.delete(`http://localhost:5000/admin/user/delete/${userId}`, { withCredentials: true });
+            setUsers(users.filter(user => user.user_id !== userId));
+            setFilteredUsers(filteredUsers.filter(user => user.user_id !== userId));
+            alert('User deleted successfully.');
+        } catch (err) {
+            console.error('Failed to delete user:', err);
+            alert('Error deleting user.');
+        }
+    };
+
     return (
         <div className="view-all-container">
             <div className="view-all-admin-home-container">
@@ -184,8 +196,13 @@ function ViewAllUser() {
                                     {user.user_status ? 'Active' : 'Inactive'}
                                 </td>
                                 <td className="view-all-actions">
-                                    <button onClick={() => handleView(user.user_id)}>View on page</button>
+                                    {user.user_status ? (
+                                        <button onClick={() => handleView(user.user_id)}>View</button>
+                                    ) : (
+                                        <button disabled>View</button>
+                                    )}
                                     <button onClick={() => handleModify(user.user_id)}>Modify</button>
+                                    <button onClick={() => handleDelete(user.user_id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}

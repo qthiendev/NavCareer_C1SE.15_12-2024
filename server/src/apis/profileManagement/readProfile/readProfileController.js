@@ -1,32 +1,36 @@
 const fs = require('fs');
 const path = require('path');
-const { tryReadProfile } = require('./readProfileService');
+const { tryReadProfile, tryReadProfileSignedIn } = require('./readProfileService');
 const now = new Date();
 
 const readProfile = async (req, res) => {
     try {
-        const { user_id } = req.query;
-        const { role } = req.session;
+        const { auth_id } = req.query;
+        const { aid, role } = req.session;
 
         if (!role) throw new Error(`'role' is required.`);
-        if (!user_id) throw new Error(`'user_id' is required.`);
+        if (!auth_id) throw new Error(`'auth_id' is required.`);
 
-        const data = await tryReadProfile(role, user_id);
+        // Check if aid exists and is a number
+        let data;
+        if (typeof aid === 'number' && !Number.isNaN(aid)) {
+            data = await tryReadProfileSignedIn(role, aid, auth_id);
+        } else {
+            data = await tryReadProfile(role, auth_id);
+        }
 
         if (!data) {
-            console.log(`[${now.toLocaleString()}] Profile '${user_id}' not found.`);
+            console.log(`[${now.toLocaleString()}] Profile '${auth_id}' not found.`);
             return res.status(203).json({
-                message: `Profile '${user_id}' not found`,
+                message: `Profile '${auth_id}' not found`,
                 time: now.toLocaleString()
             });
         }
 
         // Construct paths to the images
-        const avatarPath = path.join(__dirname, '..', '..', '..','..', 'localResources', data.resource_url, 'avartar.png');
-        const coverPath = path.join(__dirname, '..', '..', '..','..', 'localResources', data.resource_url, 'cover.png');
+        const avatarPath = path.join(__dirname, '..', '..', '..', '..', 'localResources', data.resource_url, 'avartar.png');
 
         let avatarBase64 = null;
-        let coverBase64 = null;
 
         // Check if avatar image exists and read it
         if (fs.existsSync(avatarPath)) {
@@ -37,24 +41,12 @@ const readProfile = async (req, res) => {
             // Optionally, you can set a default image or handle this case accordingly
             avatarBase64 = null; // Or set a default image base64 string
         }
-
-        // Check if cover image exists and read it
-        if (fs.existsSync(coverPath)) {
-            const coverImage = fs.readFileSync(coverPath);
-            coverBase64 = `data:image/png;base64,${coverImage.toString('base64')}`;
-        } else {
-            console.warn(`Cover image not found at: ${coverPath}`);
-            // Optionally, you can set a default image or handle this case accordingly
-            coverBase64 = null; // Or set a default image base64 string
-        }
-
         const profileData = {
             ...data,
             avatar: avatarBase64,
-            cover: coverBase64,
         };
 
-        console.log(`[${now.toLocaleString()}] Profile data retrieved for '${user_id}'.`);
+        console.log(`[${now.toLocaleString()}] Profile data retrieved for '${auth_id}'.`);
         return res.status(200).json({ data: profileData, time: now.toLocaleString() });
 
     } catch (err) {

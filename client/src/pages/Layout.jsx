@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
-import { FaSearch } from 'react-icons/fa'; // Import the search icon from react-icons
+import { FaSearch, FaBell } from 'react-icons/fa'; // Import FaBell and FaSearch
 import './Layout.css';
 
 function Layout() {
@@ -17,7 +17,6 @@ function Layout() {
         const checkAuth = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                console.log(response);
                 if (response) {
                     setIsAuth(response.data.sign_in_status);
                     setUserProfileURL(`/profile/${response.data.aid}`);
@@ -33,7 +32,7 @@ function Layout() {
                 return false;
             }
         };
-    
+
         const checkAdmin = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/authz/adm', { withCredentials: true });
@@ -43,7 +42,7 @@ function Layout() {
                 setIsAdmin(false);
             }
         };
-    
+
         const checkESP = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
@@ -53,7 +52,7 @@ function Layout() {
                 setIsESP(false);
             }
         };
-    
+
         const checkAll = async () => {
             const isAuthenticated = await checkAuth();
             if (isAuthenticated) {
@@ -61,7 +60,7 @@ function Layout() {
                 await checkESP();
             }
         };
-    
+
         checkAll();
     }, [navigate]);
 
@@ -102,53 +101,49 @@ function Layout() {
                             type="text"
                             value={searchIndex}
                             onChange={(e) => setSearchIndex(e.target.value)}
-                            onKeyDown={handleKeyPress} // Updated to use onKeyDown
+                            onKeyDown={handleKeyPress}
                             placeholder="Tìm kiếm..."
                             className="search-input"
                         />
+                        <FaSearch onClick={handleSearch} className="search-icon" />
                     </div>
 
                     <ul className="nav-list">
                         <li><a href="/tests">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
                         <li><a href="/course/view">KHÓA HỌC</a></li>
                         <li><a href="/about">VỀ CHÚNG TÔI</a></li>
-                        {isAdmin && (
-                            <li><a href="/admin">DÀNH CHO NHÀ QUẢN TRỊ</a></li>
-                        )}
-                        {isESP && (
-                            <li><a href="/esp">DÀNH CHO NHÀ CUNG CẤP</a></li>
-                        )}
                     </ul>
 
-                    <div className="auth-links">
-                        {isAuth ? (
-                            <>
-                                <div className="notification-icon">
-                                    <i className="fa fa-bell"></i>
-                                </div>
+                    <FaBell className="notification-icon" />
 
-                                <div className="user-image" onClick={toggleDropdown}>
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR26AaR_J8UOopLWkGkJpZ3g1r4Cl-vIlnWwg&s" alt="User" />
-                                </div>
-
-                                {dropdownOpen && (
-                                    <div className="dropdown-menu show">
-                                        <ul>
-                                            <li><a href={userProfileURL}>Profile</a></li>
-                                            <li><a href="/settings">Settings</a></li>
-                                            <li onClick={handleSignOut}>Sign Out</li>
-                                        </ul>
-                                    </div>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                <a className="signin" href="/signin">ĐĂNG NHẬP</a>
-                                |
-                                <a className="signup" href="/signup">ĐĂNG KÝ</a>
-                            </>
-                        )}
+                    <div className="user-image" onClick={toggleDropdown}>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR26AaR_J8UOopLWkGkJpZ3g1r4Cl-vIlnWwg&s" alt="User" />
                     </div>
+
+                    {dropdownOpen && (
+                        <div className="dropdown-menu show">
+                            <ul>
+                                {isAuth ? (
+                                    <>
+                                        <li><a href={userProfileURL}>Hồ sơ người dùng</a></li>
+                                        <li><a href="/settings">Thiết lập cá nhân</a></li>
+                                        {isAdmin && (
+                                            <li><a href="/admin">Dành cho nhà quản trị</a></li>
+                                        )}
+                                        {isESP && (
+                                            <li><a href="/esp">Dành cho nhà cung cấp</a></li>
+                                        )}
+                                        <li id="signout-btn" onClick={handleSignOut}>Đăng xuất</li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <li><a className="signin" href="/signin">Đăng nhập </a></li>
+                                        <li><a className="signup" href="/signup">Đăng ký</a></li>
+                                    </>
+                                )}
+                            </ul>
+                        </div>
+                    )}
                 </nav>
             </header>
 

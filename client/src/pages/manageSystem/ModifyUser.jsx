@@ -20,7 +20,7 @@ function ModifyUser() {
         email: '',
         phone_number: '',
         address: '',
-        user_status: 'active', // Set to active by default
+        user_status: 'true', // Set to active by default
     });
 
     const [day, setDay] = useState('');
@@ -45,13 +45,13 @@ function ModifyUser() {
         if (userDataFromState) {
             const birthdate = new Date(userDataFromState.birthdate);
             const initialRole = userDataFromState.role || (userDataFromState.authorization_id === 1 ? 'NAV_ADMIN' :
-                                                            userDataFromState.authorization_id === 2 ? 'NAV_ESP' : 'NAV_STUDENT');
+                userDataFromState.authorization_id === 2 ? 'NAV_ESP' : 'NAV_STUDENT');
             setUserData({
                 ...userDataFromState,
                 role: initialRole, // Use role from state or map from authorization_id
                 auth_status: userDataFromState.auth_status ? 'true' : 'false', // Convert boolean to string
                 gender: userDataFromState.gender ? 'true' : 'false', // Convert boolean to string
-                user_status: userDataFromState.user_status === 'active' ? 'active' : 'inactive', // Set status
+                user_status: userDataFromState.user_status ? 'true' : 'false', // Set status
             });
 
             // Set initial day, month, and year
@@ -73,7 +73,7 @@ function ModifyUser() {
         e.preventDefault();
         const formattedBirthdate = `${day}/${month}/${year}`;
         const authorization_id = userData.role === 'NAV_ADMIN' ? 1 :
-                                  userData.role === 'NAV_ESP' ? 2 : 3;
+            userData.role === 'NAV_ESP' ? 2 : 3;
 
         // Convert boolean-like values to 1 or 0
         const dataToSend = {
@@ -83,7 +83,7 @@ function ModifyUser() {
             authentication_id: Number(userData.authentication_id), // Ensure authentication_id is a number
             auth_status: userData.auth_status === 'true' ? 1 : 0, // Convert to 1 or 0
             gender: userData.gender === 'true' ? 1 : 0, // Convert to 1 or 0
-            user_status: userData.user_status === 'active' ? 1 : 0, // Convert to 1 or 0
+            user_status: userData.user_status === 'true' ? 1 : 0, // Convert to 1 or 0
         };
 
         try {
@@ -144,8 +144,8 @@ function ModifyUser() {
                             value={userData.password}
                             onChange={handleChange}
                         />
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             onClick={toggleShowPassword}
                             style={{ marginLeft: '10px', cursor: 'pointer' }}
                         >
@@ -277,8 +277,8 @@ function ModifyUser() {
                         value={userData.user_status}
                         onChange={handleChange}
                     >
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
                     </select>
                 </div>
                 <div className="field-row">

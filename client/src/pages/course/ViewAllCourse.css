@@ -1,0 +1,44 @@
+/* ViewAllCourse.css */
+
+#view-all-course {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.course-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.course-table th,
+.course-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.course-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.course-table tr:hover {
+    background-color: #f1f1f1; /* Change background on hover */
+}
+
+button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

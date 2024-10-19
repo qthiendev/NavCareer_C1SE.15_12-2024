@@ -16,7 +16,8 @@ const tryUpdateProfile = async (profileData) => {
         birthdate,
         gender,
         phone_number,
-        address
+        address,
+        is_active
     } = profileData;
 
     console.log(profileData)
@@ -29,7 +30,7 @@ const tryUpdateProfile = async (profileData) => {
         const queryString = `
             EXEC UpdateProfile @aid, @user_id, @user_full_name, 
             @birthdate, @gender, @email, @phone_number, 
-            @address;`;
+            @address, @is_active;`;
         const params = {
             aid,
             user_id,
@@ -38,7 +39,8 @@ const tryUpdateProfile = async (profileData) => {
             email,
             gender,
             phone_number,
-            address
+            address,
+            is_active
         };
 
         // Insert profile data

@@ -47,48 +47,31 @@ header {
   gap: 20px;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding-right: 110px;
   flex: 1;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .nav-list li {
   white-space: nowrap;
 }
 
-.auth-links {
-  display: flex;
-  gap: 10px;
-  list-style: none;
-  margin: 0;
-  padding: 0px 0px;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.auth-links a {
-  white-space: nowrap;
-}
-
-.nav-list li a,
-.auth-links a {
+.nav-list li a {
   position: relative;
   color: white;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 18px;
   overflow: hidden;
   transition: background-color 0.3s ease, transform 0.3s ease;
   padding: 8px 10px;
   border-radius: 4px;
 }
 
-.nav-list li a:hover,
-.auth-links a:hover {
+.nav-list li a:hover {
   background-color: rgb(9, 255, 0);
   color: #043873;
   transform: scale(1.05); /* Slightly increase the size on hover */
 }
-
 
 .user-image {
   display: flex;
@@ -109,20 +92,17 @@ header {
 
 .dropdown-menu {
   position: absolute;
-  top: 70px;
-  right: 450px;
-  background: linear-gradient(145deg, #f9f9f9, #e6e6e6);
-  border-radius: 10px;
+  top: 60px;
+  right: 310px;
+  background: linear-gradient(145deg, #ffffff, #afbbfd);
+  border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   width: 180px;
-  opacity: 0;
-  transform: translateY(-10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .dropdown-menu.show {
-  opacity: 1;
   transform: translateY(0);
 }
 
@@ -130,6 +110,7 @@ header {
   list-style: none;
   margin: 0;
   padding: 0;
+  opacity: 1;
 }
 
 .dropdown-menu li {
@@ -139,31 +120,57 @@ header {
 .dropdown-menu li a {
   text-decoration: none;
   text-align: center;
-  color: black;
+  color: rgb(0, 0, 0);
+  display: block;
+}
+
+#signout-btn {
+  text-decoration: none;
+  text-align: center;
+  color: red;
   display: block;
 }
 
 .dropdown-menu li:hover {
-  background-color: #f0f0f0;
+  background-color: greenyellow;
+  border-radius: 8px;
 }
 
 .search-bar {
   display: flex;
   align-items: center;
-  padding-right: 20px;
-  padding-left: 10px;
-  width: 200px;
+  padding-bottom: 3px;
 }
 
 .search-input {
-  padding: 2px 4px;
   font-size: 12px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 8px solid #ccc;
   outline: none;
-  height: 10px;
+  height: 8px;
 }
 
+.search-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.search-icon:hover {
+  transform: scale(1.2);
+}
+
+.notification-icon {
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+  padding-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.notification-icon:hover {
+  transform: scale(1.2);
+}
 
 .footer {
   text-align: center;

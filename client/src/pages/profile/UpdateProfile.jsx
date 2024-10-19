@@ -12,7 +12,7 @@ function UpdateProfile() {
         address: '',
         gender: '',
         date_joined: '',
-        is_active: false,
+        is_active: 0, // Default as a number
     });
 
     const [day, setDay] = useState('');
@@ -39,7 +39,7 @@ function UpdateProfile() {
 
         const fetchProfileData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
+                const response = await axios.get(`http://localhost:5000/profile/read?auth_id=${user_id}`, { withCredentials: true });
                 const birthdate = new Date(response.data.data.birthdate);
                 setProfile({
                     user_id: response.data.data.authentication_id,
@@ -49,7 +49,7 @@ function UpdateProfile() {
                     address: response.data.data.address,
                     gender: response.data.data.gender,
                     date_joined: response.data.data.date_joined,
-                    is_active: response.data.data.is_active,
+                    is_active: response.data.data.is_active ? 1 : 0, // Convert to 1 or 0
                 });
 
                 // Set the initial day, month, and year
@@ -71,30 +71,37 @@ function UpdateProfile() {
     // Handle form input changes
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setProfile({ ...profile, [name]: value });
+        setProfile({
+            ...profile,
+            [name]: name === 'is_active' ? Number(value) : value, // Convert is_active to a number
+        });
     };
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         // Format birthdate as day/month/year
         const formattedBirthdate = `${day}/${month}/${year}`;
-
+    
         try {
-            await axios.put(`http://localhost:5000/profile/update`, 
-            {
-                ...profile,
-                birthdate: formattedBirthdate
-            },
-            { withCredentials: true });
-
+            await axios.put(
+                `http://localhost:5000/profile/update`, 
+                {
+                    ...profile,
+                    is_active: Number(profile.is_active), // Ensure is_active is sent as a number
+                    birthdate: formattedBirthdate,
+                },
+                { withCredentials: true }
+            );
+    
             alert('Profile updated successfully!');
             navigate(`/profile/${profile.user_id}`);
         } catch (err) {
             setError('Failed to update profile.');
         }
     };
+    
 
     if (loading) return <div>Loading...</div>;
 
@@ -208,6 +215,19 @@ function UpdateProfile() {
                         value={profile.address}
                         onChange={handleInputChange}
                     />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="is_active">User Status:</label>
+                    <select
+                        id="is_active"
+                        name="is_active"
+                        value={profile.is_active}
+                        onChange={handleInputChange}
+                    >
+                        <option value={1}>Active</option>
+                        <option value={0}>Inactive</option>
+                    </select>
                 </div>
 
                 <button type="submit" className="btn-update">Update Profile</button>
