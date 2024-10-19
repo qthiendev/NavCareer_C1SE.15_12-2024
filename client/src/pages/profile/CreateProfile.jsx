@@ -3,13 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CreateProfile.css';
 
-function CreateProfile() {
-    const [userData, setUserData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [day, setDay] = useState('');
-    const [month, setMonth] = useState('');
-    const [year, setYear] = useState('');
+const ProfileForm = () => {
+    const [formData, setFormData] = useState({
+        fullName: '',
+        phoneNumber: '',
+        gender: '',
+        birthDay: '',
+        birthMonth: '',
+        birthYear: '',
+        email: '',
+        address: ''
+    });
+    const [errors, setErrors] = useState({});
     const [aid, setAid] = useState(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,10 +36,7 @@ function CreateProfile() {
                 console.log(profileResponse);
                 if (!Number.isNaN(profileResponse.data.data.user_id)) {
                     navigate(`/profile/${aid}`);
-                } else {
-                    setUserData({ aid });
                 }
-
             } catch (error) {
                 console.error('Failed to check profile status:', error);
             } finally {
@@ -43,25 +47,61 @@ function CreateProfile() {
         checkProfileStatus();
     }, [navigate]);
 
+    // Validation logic
+    const validateForm = () => {
+        const newErrors = {};
+        
+        if (!formData.fullName.trim()) {
+            newErrors.fullName = "Họ và tên không được để trống.";
+        }
+
+        if (!/^[0-9]{10}$/.test(formData.phoneNumber)) {
+            newErrors.phoneNumber = "SDT phải là 10 chữ số.";
+        }
+
+        if (!formData.gender) {
+            newErrors.gender = "Vui lòng chọn giới tính.";
+        }
+
+        if (!formData.birthDay || !formData.birthMonth || !formData.birthYear) {
+            newErrors.birthDate = "Vui lòng chọn đầy đủ ngày, tháng, năm sinh.";
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = "Email không hợp lệ.";
+        }
+
+        if (!formData.address.trim()) {
+            newErrors.address = "Địa chỉ không được để trống.";
+        }
+
+        setErrors(newErrors);
+
+        // Form is valid if there are no errors
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
-        const formattedBirthdate = `${day}/${month}/${year}`; // Format birthdate as dd/mm/yyyy
+        if (validateForm()) {
+            const formattedBirthdate = `${formData.birthDay}/${formData.birthMonth}/${formData.birthYear}`;
 
-        const formData = {
-            userFullName: e.target.userFullName.value,
-            email: e.target.email.value,
-            birthdate: formattedBirthdate,
-            gender: e.target.gender.value,
-            phoneNumber: e.target.phoneNumber.value,
-            address: e.target.address.value,
-        };
+            const formSubmissionData = {
+                userFullName: formData.fullName,
+                email: formData.email,
+                birthdate: formattedBirthdate,
+                gender: formData.gender,
+                phoneNumber: formData.phoneNumber,
+                address: formData.address,
+            };
 
-        try {
-            await axios.post('http://localhost:5000/profile/create', formData, { withCredentials: true });
-            navigate(`/profile/${aid}`);
-        } catch (error) {
-            console.error('Failed to create profile:', error);
+            try {
+                await axios.post('http://localhost:5000/profile/create', formSubmissionData, { withCredentials: true });
+                navigate(`/profile/${aid}`);
+            } catch (error) {
+                console.error('Failed to create profile:', error);
+            }
         }
     };
 
@@ -69,75 +109,111 @@ function CreateProfile() {
         return <p>Loading...</p>;
     }
 
-    // Generate day, month, and year options
-    const days = Array.from({ length: 31 }, (_, i) => i + 1);
-    const months = Array.from({ length: 12 }, (_, i) => i + 1);
-    const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
-
     return (
-        <div className="create-profile-container">
-            <h2>Create Profile</h2>
+        <div className="profile-form-container">
+            <div className="image-section">
+                <img src="/img/prf-inf.png" alt="profile form" />
+            </div>
 
-            <form onSubmit={handleFormSubmit}>
-                <div>
-                    <label>Full Name</label>
-                    <input type="text" name="userFullName" required />
-                </div>
+            <div className="form-section">
+                <h2 className="form-title">Thông tin hồ sơ</h2>
+                <form className="profile-form" onSubmit={handleFormSubmit}>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label>Họ và tên</label>
+                            <input
+                                type="text"
+                                name="fullName"
+                                value={formData.fullName}
+                                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                                placeholder="Họ và tên"
+                            />
+                            {errors.fullName && <p className="error">{errors.fullName}</p>}
+                        </div>
 
-                <div>
-                    <label>Email</label>
-                    <input type="email" name="email" required />
-                </div>
-
-                <div>
-                    <label>Birthdate</label>
-                    <div className="birthdate-select">
-                        <select name="day" value={day} onChange={(e) => setDay(e.target.value)} required>
-                            <option value="">Day</option>
-                            {days.map((d) => (
-                                <option key={d} value={d}>{d}</option>
-                            ))}
-                        </select>
-
-                        <select name="month" value={month} onChange={(e) => setMonth(e.target.value)} required>
-                            <option value="">Month</option>
-                            {months.map((m) => (
-                                <option key={m} value={m}>{m}</option>
-                            ))}
-                        </select>
-
-                        <select name="year" value={year} onChange={(e) => setYear(e.target.value)} required>
-                            <option value="">Year</option>
-                            {years.map((y) => (
-                                <option key={y} value={y}>{y}</option>
-                            ))}
-                        </select>
+                        <div className="form-group">
+                            <label>SDT</label>
+                            <input
+                                type="text"
+                                name="phoneNumber"
+                                value={formData.phoneNumber}
+                                onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                                placeholder="Số điện thoại"
+                            />
+                            {errors.phoneNumber && <p className="error">{errors.phoneNumber}</p>}
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    <label>Gender</label>
-                    <select name="gender" required>
-                        <option value="1">Male</option>
-                        <option value="0">Female</option>
-                    </select>
-                </div>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label>Giới tính</label>
+                            <select name="gender" value={formData.gender} onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
+                                <option value="">Chọn giới tính</option>
+                                <option value="1">Nam</option>
+                                <option value="0">Nữ</option>
+                            </select>
+                            {errors.gender && <p className="error">{errors.gender}</p>}
+                        </div>
 
-                <div>
-                    <label>Phone Number</label>
-                    <input type="tel" name="phoneNumber" required />
-                </div>
+                        <div className="form-group">
+                            <label>Ngày sinh</label>
+                            <div className="date-selects">
+                                <select name="birthDay" value={formData.birthDay} onChange={(e) => setFormData({ ...formData, birthDay: e.target.value })}>
+                                    <option value="">Ngày</option>
+                                    {[...Array(31).keys()].map((d) => (
+                                        <option key={d+1} value={d+1}>{d+1}</option>
+                                    ))}
+                                </select>
 
-                <div>
-                    <label>Address</label>
-                    <input type="text" name="address" required />
-                </div>
+                                <select name="birthMonth" value={formData.birthMonth} onChange={(e) => setFormData({ ...formData, birthMonth: e.target.value })}>
+                                    <option value="">Tháng</option>
+                                    {[...Array(12).keys()].map((m) => (
+                                        <option key={m+1} value={m+1}>{m+1}</option>
+                                    ))}
+                                </select>
 
-                <button type="submit">Create Profile</button>
-            </form>
+                                <select name="birthYear" value={formData.birthYear} onChange={(e) => setFormData({ ...formData, birthYear: e.target.value })}>
+                                    <option value="">Năm</option>
+                                    {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((y) => (
+                                        <option key={y} value={y}>{y}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            {errors.birthDate && <p className="error">{errors.birthDate}</p>}
+                        </div>
+                    </div>
+
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                placeholder="Email"
+                            />
+                            {errors.email && <p className="error">{errors.email}</p>}
+                        </div>
+
+                        <div className="form-group">
+                            <label>Địa chỉ liên lạc</label>
+                            <input
+                                type="text"
+                                name="address"
+                                value={formData.address}
+                                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                                placeholder="Địa chỉ liên lạc"
+                            />
+                            {errors.address && <p className="error">{errors.address}</p>}
+                        </div>
+                    </div>
+
+                    <button type="submit" className="submit-button">Tạo hồ sơ</button>
+                </form>
+            </div>
         </div>
     );
-}
+};
 
-export default CreateProfile;
+export default ProfileForm;
