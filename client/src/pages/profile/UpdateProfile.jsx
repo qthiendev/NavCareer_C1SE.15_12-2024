@@ -141,18 +141,39 @@ function UpdateProfile() {
                 <form className="user-profile-form" onSubmit={handleSubmit}>
                     <div className='form-row'>
                         <div className="form-group">
-                            <label>Mã người dùng:</label>
-                            <p>{profile.user_id}</p>
+                            <label htmlFor="is_active">Trạng thái tài khoản:</label>
+                            <p>{profile.is_active ? 'Đang hoạt động' : 'Không hoạt động'}</p>
                         </div>
                         <div className="form-group">
                             <label>Ngày tham gia:</label>
-                            <p>{profile.date_joined}</p>
+                            <p>{new Date(profile.date_joined).toLocaleDateString()}</p>
                         </div>
                     </div>
                     <div className='form-row'>
                         <div className="form-group">
-                            <label>Trạng thái tài khoản:</label>
-                            <p>{profile.is_active ? "Active" : "Inactive"}</p>
+                            <label>Ngày sinh</label>
+                            <div className="date-selects">
+                                <select name="day" value={day} onChange={(e) => setDay(e.target.value)}>
+                                    <option value="">Ngày</option>
+                                    {days.map((d) => (
+                                        <option key={d} value={d}>{d}</option>
+                                    ))}
+                                </select>
+
+                                <select name="month" value={month} onChange={(e) => setMonth(e.target.value)}>
+                                    <option value="">Tháng</option>
+                                    {months.map((m) => (
+                                        <option key={m} value={m}>{m}</option>
+                                    ))}
+                                </select>
+
+                                <select name="year" value={year} onChange={(e) => setYear(e.target.value)}>
+                                    <option value="">Năm</option>
+                                    {years.map((y) => (
+                                        <option key={y} value={y}>{y}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                         <div className="form-group">
                             <label htmlFor="gender">Giới tính</label>
@@ -162,8 +183,8 @@ function UpdateProfile() {
                                 value={profile.gender}
                                 onChange={handleInputChange}
                             >
-                                <option value="true">Male</option>
-                                <option value="false">Female</option>
+                                <option value="true">Nam</option>
+                                <option value="false">Nữ</option>
                             </select>
                         </div>
                     </div>
@@ -204,7 +225,7 @@ function UpdateProfile() {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="address">Address:</label>
+                            <label htmlFor="address">Địa chỉ:</label>
                             <input
                                 type="text"
                                 id="address"
@@ -229,27 +250,27 @@ function UpdateProfile() {
                     {/* Đưa phần links-section vào bên trong form */}
                     <div className="links-section">
                         <h2>Đường dẫn đính kèm</h2>
-                        <div >
+                        <div className='link-input'>
                             <label htmlFor="website">Website</label>
                             <input type="text" id="website" placeholder="Label" />
                         </div>
 
-                        <div>
+                        <div className='link-input'>
                             <label htmlFor="twitter">X (twitter)</label>
                             <input type="text" id="twitter" placeholder="Label" />
                         </div>
 
-                        <div>
+                        <div className='link-input'>
                             <label htmlFor="linkedin">LinkedIn</label>
                             <input type="text" id="linkedin" placeholder="Label" />
                         </div>
 
-                        <div>
+                        <div className='link-input'>
                             <label htmlFor="youtube">YouTube</label>
                             <input type="text" id="youtube" placeholder="Label" />
                         </div>
 
-                        <div>
+                        <div className='link-input'>
                             <label htmlFor="facebook">Facebook</label>
                             <input type="text" id="facebook" placeholder="Label" />
                         </div>
