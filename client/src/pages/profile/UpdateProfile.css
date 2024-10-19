@@ -1,86 +1,275 @@
-/* Container Styling */
-.update-profile-container {
-    width: 80%;
-    max-width: 600px;
-    margin: 0 auto;
+.profile-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #f8f9fa; /* Màu nền nhạt tổng thể */
     padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-}
-
-h1 {
+    height: auto; /* Chiều cao toàn màn hình */
+  }
+  
+  .left-panel {
+    width: 300px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.error {
-    color: red;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Form Styling */
-.update-profile-form {
+    position: sticky;
+    top: 20px; /* Giữ vị trí khi cuộn trang */
+  }
+  
+  .profile-header {
     display: flex;
     flex-direction: column;
-}
-
-.form-group {
+    align-items: center; /* Căn giữa nội dung theo chiều ngang */
+    margin-bottom: 20px;
+  }
+  
+  
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
     margin-bottom: 15px;
-}
-
-.form-group label {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+  }
+  
+  .profile-name {
+    font-size: 1.4rem;
     font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-    color: #555;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .share-profile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .share-profile-btn:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .share-icon {
+    margin-right: 8px; /* Khoảng cách giữa icon và text */
+    font-size: 1rem; /* Điều chỉnh kích thước icon */
+    color: #4b5563; /* Màu của icon */
+  }  
+  
+  .profile-menu {
+    margin-top: 20px;
+  }
+  
+  .profile-menu ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .menu-item {
+    padding: 12px 0;
+    font-size: 1rem;
+    color: #4b5563;
+    cursor: pointer;
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-item.active {
+    background-color: #dbeafe;
+    border-radius: 5px;
+    color: #4F76F6;
+  }
+  
+  .menu-item:hover {
+    background-color: #f3f4f6;
+    border-radius: 5px;
+    color: #4F76F6;
+  }
+  
+  .right-panel {
+    width: 100%;
+    max-width: 69%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 20px; /* Khoảng cách giữa left-panel và right-panel */
+  }
+  
+/* Căn chỉnh chung cho form-row */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
 }
 
+/* Căn chỉnh chung cho form-group */
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Khoảng cách giữa các form-group */
+}
+
+/* Căn chỉnh chung cho label */
+.form-group label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    text-align: left; /* Căn trái */
+}
+
+/* Căn chỉnh chung cho các input và select */
 .form-group input,
 .form-group select {
-    width: 100%;
     padding: 10px;
-    font-size: 1rem;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%; /* Chiếm đủ chiều ngang */
+    box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+    text-align: left; /* Căn trái cho nội dung */
+    max-width: 100%;
 }
 
-/* Birthdate Fields */
-.birthdate-fields {
+/* Căn chỉnh focus cho các input và select */
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #4F76F6; /* Màu khi input được focus */
+    outline: none;
+}
+
+/* Căn chỉnh p trong form-group */
+.form-group p {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 0;
+    width: 95%; /* Đảm bảo chiếm đủ chiều ngang */
+    background-color: #f9f9f9; /* Màu nền nhạt */
+    text-align: left; /* Căn trái */
+    max-width: 100%;
+}
+
+/* Căn chỉnh link-section */
+.links-section {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.links-section input {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 2%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+    text-align: left; /* Căn trái cho nội dung input */
+}
+
+.links-section h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Căn chỉnh nút submit */
+.save-profile-btn {
+    background-color: #212529;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%; /* Chiếm toàn bộ chiều ngang */
+    text-align: center;
+    margin-top: 20px; /* Khoảng cách trên */
+}
+
+.save-profile-btn:hover {
+    background-color: #4F76F6;
+}
+
+/* Căn chỉnh avatar section */
+.avatar-section {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.avatar-preview {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.avatar-image {
+    width: 280px;
+    height: 160px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
 }
 
-.birthdate-fields select {
-    width: 100%;
-    padding: 8px;
+.avatar-upload label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
 }
 
-/* Button Styling */
-.btn-update {
+.avatar-upload input[type="text"] {
     width: 100%;
-    padding: 12px;
-    background-color: #007bff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #6b7280;
+}
+
+.avatar-upload button {
+    background-color: #4F76F6;
     color: white;
+    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: 5px;
     cursor: pointer;
-    margin-top: 20px;
+    font-size: 16px;
 }
 
-.btn-update:hover {
-    background-color: #0056b3;
+.avatar-upload button:hover {
+    background-color: #4F76F6;
 }
 
-/* Responsive Layout */
-@media (max-width: 768px) {
-    .update-profile-container {
-        width: 100%;
-        padding: 15px;
-    }
+.save-profile-btn:hover {
+    background-color: #4F76F6;
 }

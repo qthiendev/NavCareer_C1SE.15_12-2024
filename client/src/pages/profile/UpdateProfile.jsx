@@ -104,114 +104,159 @@ function UpdateProfile() {
     const years = Array.from({ length: (new Date().getFullYear() - 1900 + 1) }, (_, i) => 1900 + i);
 
     return (
-        <div className="update-profile-container">
-            <h1>Update Profile</h1>
-            {error && <div className="error">{error}</div>}
-            <form className="update-profile-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="user_full_name">Full Name:</label>
-                    <input
-                        type="text"
-                        id="user_full_name"
-                        name="user_full_name"
-                        value={profile.user_full_name}
-                        onChange={handleInputChange}
-                        required
+        <div className="profile-container">
+            <div className="left-panel">
+                <div className="profile-header">
+                    <img
+                        src="/img/student_profile/std_prf.png"             
+                        alt="Avatar"
+                        className="profile-avatar"
                     />
+                    <h2 className="profile-name">huongdang123</h2>  
+                    {/* Lấy theo data người dùng đã điền khi đăng ký tài khoản */}
+                    <button className="share-profile-btn">
+                        <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" /> {/* Icon chia sẻ */}
+                        Chia sẻ hồ sơ
+                    </button>
                 </div>
+                <div className="profile-menu">
+                    <ul>
+                        <li className="menu-item active">Hồ sơ người dùng</li>
+                        <li className="menu-item">Các khoá học</li>
+                        <li className="menu-item">Giảng viên yêu thích</li>
+                        <li className="menu-item">Tin nhắn</li>
+                        <li style={{'border':'none'}} className="menu-item">Liên hệ admin</li>
+                    </ul>
+                </div>
+            </div>
 
-                <div className="form-group">
-                    <label htmlFor="birthdate">Birthdate:</label>
-                    <div className="birthdate-fields">
-                        <select
-                            id="day"
-                            name="day"
-                            value={day}
-                            onChange={(e) => setDay(e.target.value)}
-                            required
-                        >
-                            <option value="">Day</option>
-                            {days.map((d) => (
-                                <option key={d} value={d}>{d}</option>
-                            ))}
-                        </select>
-                        <select
-                            id="month"
-                            name="month"
-                            value={month}
-                            onChange={(e) => setMonth(e.target.value)}
-                            required
-                        >
-                            <option value="">Month</option>
-                            {months.map((m) => (
-                                <option key={m} value={m}>{m}</option>
-                            ))}
-                        </select>
-                        <select
-                            id="year"
-                            name="year"
-                            value={year}
-                            onChange={(e) => setYear(e.target.value)}
-                            required
-                        >
-                            <option value="">Year</option>
-                            {years.map((y) => (
-                                <option key={y} value={y}>{y}</option>
-                            ))}
-                        </select>
+            <div className="right-panel">
+                <form className="user-profile-form" onSubmit={handleSubmit}>
+                    <div className='form-row'>
+                        <div className="form-group">
+                            <label>Mã người dùng:</label>
+                            <p>{profile.user_id}</p>
+                        </div>
+                        <div className="form-group">
+                            <label>Ngày tham gia:</label>
+                            <p>{profile.date_joined}</p>
+                        </div>
                     </div>
-                </div>
 
-                <div className="form-group">
-                    <label htmlFor="gender">Gender:</label>
-                    <select
-                        id="gender"
-                        name="gender"
-                        value={profile.gender ? "true" : "false"}
-                        onChange={handleInputChange}
-                    >
-                        <option value="">Select Gender</option>
-                        <option value="true">Male</option>
-                        <option value="false">Female</option>
-                    </select>
-                </div>
+                    <div className='form-row'>
+                        <div className="form-group">
+                            <label>Trạng thái tài khoản:</label>
+                            <p>{profile.is_active ? "Active" : "Inactive"}</p>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="gender">Giới tính</label>
+                            <select
+                                id="gender"
+                                name="gender"
+                                value={profile.gender}
+                                onChange={handleInputChange}
+                            >
+                                <option value="true">Male</option>
+                                <option value="false">Female</option>
+                            </select>
+                        </div>
+                    </div>
 
-                <div className="form-group">
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={profile.email}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
+                    <div className='form-row'>
+                        <div className="form-group">
+                            <label htmlFor="user_full_name">Họ và Tên</label>
+                            <input
+                                type="text"
+                                id="user_full_name"
+                                name="user_full_name"
+                                value={profile.user_full_name}
+                                onChange={handleInputChange}
+                            />
+                        </div>
 
-                <div className="form-group">
-                    <label htmlFor="phone_number">Phone Number:</label>
-                    <input
-                        type="text"
-                        id="phone_number"
-                        name="phone_number"
-                        value={profile.phone_number}
-                        onChange={handleInputChange}
-                    />
-                </div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={profile.email}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className='form-row'>
+                        <div className="form-group">
+                            <label htmlFor="phone_number">Số điện thoại</label>
+                            <input
+                                type="text"
+                                id="phone_number"
+                                name="phone_number"
+                                value={profile.phone_number}
+                                onChange={handleInputChange}
+                            />
+                        </div>
 
-                <div className="form-group">
-                    <label htmlFor="address">Address:</label>
-                    <input
-                        type="text"
-                        id="address"
-                        name="address"
-                        value={profile.address}
-                        onChange={handleInputChange}
-                    />
-                </div>
+                        <div className="form-group">
+                            <label htmlFor="address">Địa chỉ</label>
+                            <input
+                                type="text"
+                                id="address"
+                                name="address"
+                                value={profile.address}
+                                onChange={handleInputChange}
+                            />
+                        </div>
 
-                <button type="submit" className="btn-update">Update Profile</button>
-            </form>
+                    </div>
+
+                    <div className="avatar-section">
+                        <h3>Ảnh đại diện</h3>
+                        <div className="avatar-preview">
+                            {/* Hiển thị ảnh đại diện mặc định hoặc thông báo */}
+                            <div className="avatar-placeholder">Chọn ảnh</div>
+                        </div>
+                        <div className="avatar-upload">
+                            <label htmlFor="avatarUpload">Thêm/thay đổi ảnh đại diện của bạn</label>
+                            <input type="file" id="avatarUpload" name="avatarUpload" />
+                        </div>
+                    </div>
+
+
+                    {/* Đưa phần links-section vào bên trong form */}
+                    <div className="links-section">
+                        <h2>Đường dẫn đính kèm</h2>
+                        <div >
+                            <label htmlFor="website">Website</label>
+                            <input type="text" id="website" placeholder="Label" />
+                        </div>
+
+                        <div>
+                            <label htmlFor="twitter">X (twitter)</label>
+                            <input type="text" id="twitter" placeholder="Label" />
+                        </div>
+
+                        <div>
+                            <label htmlFor="linkedin">LinkedIn</label>
+                            <input type="text" id="linkedin" placeholder="Label" />
+                        </div>
+
+                        <div>
+                            <label htmlFor="youtube">YouTube</label>
+                            <input type="text" id="youtube" placeholder="Label" />
+                        </div>
+
+                        <div>
+                            <label htmlFor="facebook">Facebook</label>
+                            <input type="text" id="facebook" placeholder="Label" />
+                        </div>
+                    </div>
+
+                    {/* Nút submit ở cuối cùng */}
+                    <button type="submit" className="save-profile-btn">Lưu hồ sơ</button>
+                </form>
+            </div>
         </div>
     );
 }
