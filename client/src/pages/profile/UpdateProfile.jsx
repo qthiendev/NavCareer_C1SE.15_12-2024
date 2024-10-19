@@ -12,7 +12,7 @@ function UpdateProfile() {
         address: '',
         gender: '',
         date_joined: '',
-        is_active: false,
+        is_active: 0, // Default as a number
     });
 
     const [day, setDay] = useState('');
@@ -39,7 +39,7 @@ function UpdateProfile() {
 
         const fetchProfileData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
+                const response = await axios.get(`http://localhost:5000/profile/read?auth_id=${user_id}`, { withCredentials: true });
                 const birthdate = new Date(response.data.data.birthdate);
                 setProfile({
                     user_id: response.data.data.authentication_id,
@@ -49,7 +49,7 @@ function UpdateProfile() {
                     address: response.data.data.address,
                     gender: response.data.data.gender,
                     date_joined: response.data.data.date_joined,
-                    is_active: response.data.data.is_active,
+                    is_active: response.data.data.is_active ? 1 : 0, // Convert to 1 or 0
                 });
 
                 // Set the initial day, month, and year
@@ -71,30 +71,37 @@ function UpdateProfile() {
     // Handle form input changes
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setProfile({ ...profile, [name]: value });
+        setProfile({
+            ...profile,
+            [name]: name === 'is_active' ? Number(value) : value, // Convert is_active to a number
+        });
     };
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         // Format birthdate as day/month/year
         const formattedBirthdate = `${day}/${month}/${year}`;
-
+    
         try {
-            await axios.put(`http://localhost:5000/profile/update`, 
-            {
-                ...profile,
-                birthdate: formattedBirthdate
-            },
-            { withCredentials: true });
-
+            await axios.put(
+                `http://localhost:5000/profile/update`, 
+                {
+                    ...profile,
+                    is_active: Number(profile.is_active), // Ensure is_active is sent as a number
+                    birthdate: formattedBirthdate,
+                },
+                { withCredentials: true }
+            );
+    
             alert('Profile updated successfully!');
             navigate(`/profile/${profile.user_id}`);
         } catch (err) {
             setError('Failed to update profile.');
         }
     };
+    
 
     if (loading) return <div>Loading...</div>;
 
@@ -142,7 +149,6 @@ function UpdateProfile() {
                             <p>{profile.date_joined}</p>
                         </div>
                     </div>
-
                     <div className='form-row'>
                         <div className="form-group">
                             <label>Trạng thái tài khoản:</label>
@@ -161,7 +167,6 @@ function UpdateProfile() {
                             </select>
                         </div>
                     </div>
-
                     <div className='form-row'>
                         <div className="form-group">
                             <label htmlFor="user_full_name">Họ và Tên</label>
@@ -199,7 +204,7 @@ function UpdateProfile() {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="address">Địa chỉ</label>
+                            <label htmlFor="address">Address:</label>
                             <input
                                 type="text"
                                 id="address"
@@ -210,7 +215,6 @@ function UpdateProfile() {
                         </div>
 
                     </div>
-
                     <div className="avatar-section">
                         <h3>Ảnh đại diện</h3>
                         <div className="avatar-preview">
@@ -222,8 +226,6 @@ function UpdateProfile() {
                             <input type="file" id="avatarUpload" name="avatarUpload" />
                         </div>
                     </div>
-
-
                     {/* Đưa phần links-section vào bên trong form */}
                     <div className="links-section">
                         <h2>Đường dẫn đính kèm</h2>
@@ -252,7 +254,6 @@ function UpdateProfile() {
                             <input type="text" id="facebook" placeholder="Label" />
                         </div>
                     </div>
-
                     {/* Nút submit ở cuối cùng */}
                     <button type="submit" className="save-profile-btn">Lưu hồ sơ</button>
                 </form>

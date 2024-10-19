@@ -15,7 +15,7 @@ function SignIn() {
                 const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
                 console.log(response)
                 if (response.data.sign_in_status) {
-                    navigate('/');
+                    navigate(-1);
                 }
             } catch (err) {
                 console.error('Failed to check authentication status:', err);

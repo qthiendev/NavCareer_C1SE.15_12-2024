@@ -40,6 +40,48 @@ BEGIN
 END;
 GO
 
+--
+IF OBJECT_ID('ViewProfileSignedIn', 'P') IS NOT NULL DROP PROCEDURE ViewProfileSignedIne;
+GO
+CREATE PROCEDURE ViewProfileSignedIn @aid int, @auth_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Check if the user exists
+    IF EXISTS (SELECT 1 FROM Users WHERE [authentication_id] = @auth_id)
+    BEGIN
+        -- Check if the user is active
+        IF EXISTS (SELECT 1 FROM Users WHERE [authentication_id] = @auth_id AND [is_active] = 0)
+			and @aid != @auth_id
+        BEGIN
+            RETURN;
+        END
+        
+        -- If user exists and is active, return the profile data
+        SELECT 
+            [user_full_name], 
+            [birthdate],
+            [gender],
+            [email], 
+            [phone_number],
+            [address], 
+            [date_joined],
+            [resource_url], 
+            [authentication_id],
+            [is_active] 
+        FROM Users 
+        WHERE [authentication_id] = @auth_id;
+    END
+    ELSE
+    BEGIN
+        -- Raise an error if the user is not found
+        RAISERROR('User with ID %d not found.', 16, 1, @auth_id);
+    END
+END;
+GO
+
+
 
 
 -- CREATE
@@ -113,7 +155,8 @@ CREATE PROCEDURE UpdateProfile
     @gender BIT, 
     @email NVARCHAR(MAX), 
     @phone_number NVARCHAR(30), 
-    @address NVARCHAR(MAX)
+    @address NVARCHAR(MAX),
+	@is_active bit
 AS
 BEGIN
     -- Check if the user exists before attempting an update
@@ -134,12 +177,11 @@ BEGIN
             gender = @gender, 
             email = @email, 
             phone_number = @phone_number, 
-            address = @address 
+            address = @address,
+			is_active = @is_active
         WHERE 
             user_id = @user_id and 
-            authentication_id = @aid and 
-			is_active = 1
-
+            authentication_id = @aid
 
 		select 'TRUE' as [check]
 		from Users
@@ -210,25 +252,21 @@ grant execute on dbo.[ViewProfile] to [NAV_ADMIN]
 grant execute on dbo.[ViewProfile] to [NAV_ESP]
 grant execute on dbo.[ViewProfile] to [NAV_STUDENT]
 
-grant execute on dbo.[ViewProfile] to [NAV_GUEST]
+grant execute on dbo.[ViewProfileSignedIn] to [NAV_ADMIN]
+grant execute on dbo.[ViewProfileSignedIn] to [NAV_ESP]
+grant execute on dbo.[ViewProfileSignedIn] to [NAV_STUDENT]
+
 grant execute on dbo.[CreateProfile] to [NAV_ADMIN]
 grant execute on dbo.[CreateProfile] to [NAV_ESP]
 grant execute on dbo.[CreateProfile] to [NAV_STUDENT]
 
-grant execute on dbo.[ViewProfile] to [NAV_GUEST]
 grant execute on dbo.[UpdateProfile] to [NAV_ADMIN]
 grant execute on dbo.[UpdateProfile] to [NAV_ESP]
 grant execute on dbo.[UpdateProfile] to [NAV_STUDENT]
 
-grant execute on dbo.[ViewProfile] to [NAV_GUEST]
-grant execute on dbo.[DeleteProfile] to [NAV_ADMIN]
-grant execute on dbo.[DeleteProfile] to [NAV_ESP]
-grant execute on dbo.[DeleteProfile] to [NAV_STUDENT]
-
-grant execute on dbo.[SearchProfile] to [NAV_GUEST]
-grant execute on dbo.[SearchProfile] to [NAV_ADMIN]
-grant execute on dbo.[SearchProfile] to [NAV_ESP]
-grant execute on dbo.[SearchProfile] to [NAV_STUDENT]
+grant execute on dbo.[SetStateProfile] to [NAV_ADMIN]
+grant execute on dbo.[SetStateProfile] to [NAV_ESP]
+grant execute on dbo.[SetStateProfile] to [NAV_STUDENT]
 
 
 EXECUTE AS USER = 'NAV_GUEST';

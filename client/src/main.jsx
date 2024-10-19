@@ -11,17 +11,19 @@ import SignUp from './pages/authentication/SignUp.jsx';
 
 import Search from './pages/utilities/Search.jsx';
 
-import AdminHome from './pages/administrator/AdminHome.jsx';
-import ViewAllUser from './pages/administrator/ViewAllUser.jsx';
-import ModifyUser from './pages/administrator/ModifyUser.jsx';
+import AdminHome from './pages/manageSystem/AdminHome.jsx';
+import ViewAllUser from './pages/manageSystem/ViewAllUser.jsx';
+import ModifyUser from './pages/manageSystem/ModifyUser.jsx';
 
 import CreateProfile from './pages/profile/CreateProfile.jsx';
 import UpdateProfile from './pages/profile/UpdateProfile.jsx';
 import ViewProfile from './pages/profile/ViewProfile.jsx';
 
+import ViewCourse from './pages/course/ViewCourse.jsx';
 import CreateCourse from './pages/course/CreateCourse.jsx';
 import UpdateCourse from './pages/course/UpdateCourse.jsx';
-import ViewCourse from './pages/course/ViewCourse.jsx';
+import ESPHome from './pages/course/ESPHome.jsx';
+import ViewAllCourse from './pages/course/ViewAllCourse.jsx';
 
 const Router = () => {
     return (
@@ -44,8 +46,11 @@ const Router = () => {
           <Route path="profile/create" element={<CreateProfile />} /> 
 
           <Route path="course/:course_id" element={<ViewCourse />} />
-          <Route path="course/:course_id/update" element={<UpdateCourse />} /> 
-          <Route path="course/create" element={<CreateCourse />} /> 
+
+          <Route path="esp" element={<ESPHome />} /> 
+          <Route path="esp/course/view-all" element={<ViewAllCourse />} /> 
+          <Route path="esp/course/:course_id/update" element={<UpdateCourse />} /> 
+          <Route path="esp/course/create" element={<CreateCourse />} /> 
 
         </Route>
       </Routes>

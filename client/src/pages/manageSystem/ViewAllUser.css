@@ -1,4 +1,4 @@
-.view-all-container {
+.view-all-user-container {
     padding: 20px;
 }
 
@@ -51,8 +51,8 @@
 }
 
 .view-all-actions {
-    display: flex;
-    justify-content: space-between; /* Space buttons evenly */
+    width: 200px;
+    gap: 5px; /* Reduced space between buttons */
 }
 
 .status-active {
@@ -62,3 +62,19 @@
 .status-inactive {
     color: red; /* Red for inactive status */
 }
+
+/* Additional styles for button adjustments */
+.view-all-actions button {
+    padding: 6px 10px; /* Adjust button padding */
+    font-size: 14px; /* Ensure font size is consistent */
+    border: none; /* Remove border for a cleaner look */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor for buttons */
+}
+
+.view-all-actions button:disabled {
+    background-color: #ccc; /* Grey background for disabled buttons */
+    cursor: not-allowed; /* Not allowed cursor for disabled buttons */
+}
+
+

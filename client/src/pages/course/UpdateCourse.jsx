@@ -16,18 +16,17 @@ function UpdateCourse() {
         const fetchCourseData = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/course/read?course_id=${course_id}`, { withCredentials: true });
+                console.log(response);
                 setCourseData(response.data.data);
                 setModules(response.data.data.modules || []);
             } catch (error) {
-                setErrorMessage('Failed to fetch course data. Please try again later.');
-                console.error('Failed to fetch course data:', error);
-            } finally {
-                setLoading(false);
+                alert("Cannot find course");
+                navigate(-1);
             }
         };
 
         fetchCourseData();
-    }, [course_id]);
+    }, [course_id, navigate]);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -35,12 +34,14 @@ function UpdateCourse() {
                 try {
                     const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
                     if (!response.data.sign_in_status || response.data.aid !== Number.parseInt(courseData.provider_id)) {
-                        navigate('/');
+                        navigate(-1);
+                    } else {
+                        setLoading(false);
                     }
                 } catch (err) {
                     setErrorMessage('Failed to check authentication status.');
                     console.error('Failed to check authentication status:', err);
-                    navigate('/');
+                    navigate(-1);
                 }
             }
         };

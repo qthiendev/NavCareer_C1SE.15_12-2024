@@ -27,7 +27,8 @@ function AdminHome() {
             <ul className="admin-nav">
                 <li><a href="/admin">Trang chủ Admin</a></li>
                 <li><a href="/">Trang chủ Hệ thống</a></li>
-                <li><a href="/admin/user/view-all">Thông tin người dùng</a></li>
+                <li><a href="/admin/user/view-all">Thông tin Người dùng</a></li>
+                <li><a href="/admin/course/view-all">Thông tin Khóa học</a></li>
             </ul>
             <Outlet /> {/* To render nested routes if needed */}
         </div>

@@ -9,6 +9,7 @@ const profileRouters = require('./routers/profileRouters');
 const courseRouters = require('./routers/courseRouters');
 const adminRouters = require('./routers/adminRouters');
 const utilitiesRouters = require('./routers/utilitiesRouters');
+const espRouters = require('./routers/espRouters');
 
 
 // Use routes
@@ -18,6 +19,7 @@ router.use('/profile', profileRouters);
 router.use('/course', courseRouters);
 router.use('/admin', adminRouters);
 router.use('/utl', utilitiesRouters);
+router.use('/esp', espRouters);
 
 //Self implement route
 router.use('/', serverRouters);

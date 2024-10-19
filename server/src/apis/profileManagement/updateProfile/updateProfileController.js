@@ -13,7 +13,8 @@ const updateProfile = async (req, res) => {
             birthdate,
             gender,
             phone_number,
-            address
+            address,
+            is_active
         } = req.body;
 
         console.log(req.body)
@@ -43,7 +44,8 @@ const updateProfile = async (req, res) => {
             birthdate,
             gender,
             phone_number,
-            address
+            address,
+            is_active
         };
 
         const updatedProfile = await tryUpdateProfile(profileData);

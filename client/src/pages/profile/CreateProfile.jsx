@@ -23,17 +23,17 @@ const ProfileForm = () => {
         const checkProfileStatus = async () => {
             try {
                 const authResponse = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                const { sign_in_status, aid } = authResponse.data;
-
-                setAid(aid);
-
-                if (!sign_in_status) {
+                if (!authResponse.data.sign_in_status) {
                     navigate('/signin');
                     return;
                 }
 
-                const profileResponse = await axios.get(`http://localhost:5000/profile/read?user_id=${aid}`, { withCredentials: true });
+                const { aid } = authResponse.data;
 
+                setAid(aid);
+
+                const profileResponse = await axios.get(`http://localhost:5000/profile/read?auth_id=${aid}`, { withCredentials: true });
+                console.log(profileResponse);
                 if (!Number.isNaN(profileResponse.data.data.user_id)) {
                     navigate(`/profile/${aid}`);
                 }
