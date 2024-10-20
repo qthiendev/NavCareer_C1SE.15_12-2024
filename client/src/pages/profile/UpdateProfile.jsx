@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './UpdateProfile.css';
 
 function UpdateProfile() {
     const [profile, setProfile] = useState();
     const [aid, setAid] = useState(null);
+    const [authChecked, setAuthChecked] = useState(false);
+    const [banChecked, setBanChecked] = useState(false);
+    const [profileLoaded, setProfileLoaded] = useState(false);
 
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
@@ -28,17 +31,36 @@ function UpdateProfile() {
                 }
 
                 setAid(authResponse.data.aid);
+                setAuthChecked(true); // Set authChecked to true when done
             } catch (error) {
                 console.error('Failed to check profile status:', error);
             }
         };
 
         checkAuth();
-    }, [navigate]);
+    }, []);
+
+    useEffect(() => {
+        const checkBanStatus = async () => {
+            if (!authChecked) return; // Only proceed if authChecked is true
+
+            try {
+                const response = await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateProfile', { withCredentials: true });
+                console.log(response);
+                setBanChecked(true);
+            } catch (error) {
+                console.error('Failed to check ban status:', error);
+                alert('BANNED');
+                navigate(-1);
+            }
+        };
+
+        checkBanStatus();
+    }, [authChecked]);
 
     useEffect(() => {
         const fetchProfileData = async () => {
-            if (aid === null && aid === undefined) return; // Only proceed if aid is defined
+            if (!authChecked || !banChecked) return; // Only proceed if banChecked is true and aid is set
 
             try {
                 const response = await axios.get(`http://localhost:5000/profile/read?auth_id=${aid}`, { withCredentials: true });
@@ -51,6 +73,7 @@ function UpdateProfile() {
                 setMonth(birthdate.getMonth() + 1);
                 setYear(birthdate.getFullYear());
 
+                setProfileLoaded(true); // Set profileLoaded to true when done
                 setLoading(false);
             } catch (err) {
                 setError('Failed to fetch profile data.');
@@ -59,9 +82,7 @@ function UpdateProfile() {
         };
 
         fetchProfileData();
-    }, [aid]);
-
-
+    }, [authChecked, banChecked]);
 
     // Handle form input changes
     const handleInputChange = (e) => {
@@ -89,7 +110,7 @@ function UpdateProfile() {
                 user_address: profile?.user_address,
                 user_status: Number(profile?.user_status),
             }
-        })
+        });
         try {
             await axios.put(
                 `http://localhost:5000/profile/update`,
@@ -108,12 +129,11 @@ function UpdateProfile() {
             );
 
             alert('Profile updated successfully!');
-            navigate(`/profile/${profile?.user_aid}`);
+            navigate(-1);
         } catch (err) {
-            setError('Failed to update profile?.user_');
+            setError('Failed to update profile.');
         }
     };
-
 
     if (loading) return <div>Loading...</div>;
 
@@ -200,11 +220,11 @@ function UpdateProfile() {
                             <select
                                 id="gender"
                                 name="gender"
-                                value={profile?.user_gender}
+                                value={profile?.user_gender ? "1" : "0"}
                                 onChange={handleInputChange}
                             >
-                                <option value="true">Nam</option>
-                                <option value="false">Nữ</option>
+                                <option value="1">Nam</option>
+                                <option value="0">Nữ</option>
                             </select>
                         </div>
                     </div>

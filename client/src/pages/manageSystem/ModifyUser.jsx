@@ -236,7 +236,7 @@ function ModifyUser() {
                     <label>Gender:</label>
                     <select
                         name="gender"
-                        value={userData.gender}
+                        value={userData.user_gender}
                         onChange={handleChange}
                     >
                         <option value="true">Male</option>
@@ -248,7 +248,7 @@ function ModifyUser() {
                     <input
                         type="email"
                         name="email"
-                        value={userData.email}
+                        value={userData.user_email}
                         onChange={handleChange}
                     />
                 </div>
@@ -257,7 +257,7 @@ function ModifyUser() {
                     <input
                         type="text"
                         name="phone_number"
-                        value={userData.phone_number}
+                        value={userData.user_phone_number}
                         onChange={handleChange}
                     />
                 </div>
@@ -266,7 +266,7 @@ function ModifyUser() {
                     <input
                         type="text"
                         name="address"
-                        value={userData.address}
+                        value={userData.user_address}
                         onChange={handleChange}
                     />
                 </div>

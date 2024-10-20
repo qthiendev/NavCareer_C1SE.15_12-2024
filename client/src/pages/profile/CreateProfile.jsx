@@ -29,11 +29,11 @@ const ProfileForm = () => {
                     navigate('/signin');
                     return;
                 }
-                console.log(authResponse.data.aid)
+
                 setAid(authResponse.data.aid);
 
                 const profileResponse = await axios.get(`http://localhost:5000/profile/read?auth_id=${authResponse.data.aid}`, { withCredentials: true });
-                if (profileResponse) {
+                if (profileResponse.data.user_id !== null && profileResponse.data.user_id !== undefined) {
                     navigate(`/profile/${profileResponse.data.user_id}`);
                 }
 

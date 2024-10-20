@@ -197,7 +197,22 @@ begin
 end
 go
 ------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('CheckBanned', 'P') is not null drop procedure CheckBanned;
+go
+create procedure CheckBanned @aid int, @procedure_name nvarchar(1024)
+as
+begin
+	if exists (
+		select 1 
+		from AuthProcedureBanned
+		where [authentication_id] = @aid
+			and [procedure_name] = @procedure_name
+	) begin select 'BANNED'as [check] end;
 
+	select 'UNBANNED'as [check];
+end
+go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 grant execute on dbo.ReadAllUser to [NAV_ADMIN];
@@ -209,5 +224,11 @@ go
 grant execute on dbo.CreateBanned to [NAV_ADMIN];
 go
 grant execute on dbo.RemoveBanned to [NAV_ADMIN];
+go
+grant execute on dbo.CheckBanned to [NAV_ADMIN];
+go
+grant execute on dbo.CheckBanned to [NAV_ESP];
+go
+grant execute on dbo.CheckBanned to [NAV_STUDENT];
 go
 
