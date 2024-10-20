@@ -65,7 +65,7 @@ function SignIn() {
                 <form onSubmit={handleSubmit}>
 
                     <div className="form-group">
-                        <input
+                        <input      
                             type="text"
                             placeholder="Tên tài khoản"
                             value={account}

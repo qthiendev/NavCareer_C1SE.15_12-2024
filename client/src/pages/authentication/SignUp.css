@@ -121,6 +121,8 @@
     display: flex;
     align-items: center; /* Aligns items vertically in the center */
     margin-top: 10px;
+    margin-right: 100px;
+    
 }
 
 /* Adjust checkbox style */
