@@ -38,7 +38,7 @@ function UpdateProfile() {
 
     useEffect(() => {
         const fetchProfileData = async () => {
-            if (!aid) return; // Only proceed if aid is defined
+            if (aid === null && aid === undefined) return; // Only proceed if aid is defined
 
             try {
                 const response = await axios.get(`http://localhost:5000/profile/read?auth_id=${aid}`, { withCredentials: true });
@@ -80,37 +80,37 @@ function UpdateProfile() {
         const formattedBirthdate = `${day}/${month}/${year}`;
         console.log({
             dataSend: {
-                user_full_name: profile.user_full_name,
-                user_alias: profile.user_alias,
+                user_full_name: profile?.user_full_name,
+                user_alias: profile?.user_alias,
                 user_birthdate: formattedBirthdate,
-                user_gender: Number(profile.user_gender),
-                user_email: profile.user_email,
-                user_phone_number: profile.user_phone_number,
-                user_address: profile.user_address,
-                user_status: Number(profile.user_status),
+                user_gender: Number(profile?.user_gender),
+                user_email: profile?.user_email,
+                user_phone_number: profile?.user_phone_number,
+                user_address: profile?.user_address,
+                user_status: Number(profile?.user_status),
             }
         })
         try {
             await axios.put(
                 `http://localhost:5000/profile/update`,
                 {
-                    user_full_name: profile.user_full_name,
-                    user_alias: profile.user_alias,
-                    user_bio: profile.user_bio,
+                    user_full_name: profile?.user_full_name,
+                    user_alias: profile?.user_alias,
+                    user_bio: profile?.user_bio,
                     user_birthdate: formattedBirthdate,
-                    user_gender: profile.user_gender,
-                    user_email: profile.user_email,
-                    user_phone_number: profile.user_phone_number,
-                    user_address: profile.user_address,
-                    user_status: profile.user_status,
+                    user_gender: profile?.user_gender,
+                    user_email: profile?.user_email,
+                    user_phone_number: profile?.user_phone_number,
+                    user_address: profile?.user_address,
+                    user_status: profile?.user_status,
                 },
                 { withCredentials: true }
             );
 
             alert('Profile updated successfully!');
-            navigate(`/profile/${profile.user_aid}`);
+            navigate(`/profile/${profile?.user_aid}`);
         } catch (err) {
-            setError('Failed to update profile.user_');
+            setError('Failed to update profile?.user_');
         }
     };
 
@@ -127,12 +127,12 @@ function UpdateProfile() {
             <div className="left-panel">
                 <div className="profile-header">
                     <img
-                        src="/img/student_profile/std_prf.png"             
+                        src="/img/student_profile/std_prf.png"
                         alt="Avatar"
                         className="profile-avatar"
                     />
-                    <h2 className="profile-name">huongdang123</h2>  
-                    {/* Lấy theo data người dùng đã điền khi đăng ký tài khoản */}
+                    <h2 className="profile-name">{profile?.user_alias || profile?.trim() !== '' ? profile?.user_alias : profile?.user_full_name}</h2>
+                    <p className="profile-bio">{profile?.user_bio ? profile?.user_bio : "Ở đây hơi vắng vẻ"}</p>  
                     <button className="share-profile-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" /> {/* Icon chia sẻ */}
                         Chia sẻ hồ sơ
@@ -144,57 +144,33 @@ function UpdateProfile() {
                         <li className="menu-item">Các khoá học</li>
                         <li className="menu-item">Giảng viên yêu thích</li>
                         <li className="menu-item">Tin nhắn</li>
-                        <li style={{'border':'none'}} className="menu-item">Liên hệ admin</li>
+                        <li style={{ 'border': 'none' }} className="menu-item">Liên hệ admin</li>
                     </ul>
                 </div>
             </div>
 
             <div className="right-panel">
                 <form className="user-profile-form" onSubmit={handleSubmit}>
-                <div className='form-row'>
-                        <div className="form-group">
-                            <label htmlFor="user_full_name">Họ và Tên</label>
-                            <input
-                                type="text"
-                                id="user_full_name"
-                                name="user_full_name"
-                                value={profile.user_full_name}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={profile.email}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                    </div>
                     <div className='form-row'>
                         <div className="form-group">
-                        <label htmlFor="is_active">Trạng thái tài khoản:</label>
+                            <label htmlFor="user_status">Trạng thái tài khoản:</label>
                             <select
-                                id="is_active"
-                                name="is_active"
-                                value={profile.is_active}
-                                onChange={(e) => setProfile({ ...profile, is_active: e.target.value })}
+                                id="status"
+                                name="status"
+                                value={profile?.user_status ? "true" : "false"}
+                                onChange={handleInputChange}
                             >
-                                <option value={1}>Hoạt động</option>
-                                <option value={0}>Khong hoạt động</option>
+                                <option value="true">Hoạt động</option>
+                                <option value="false">Khóa</option>
                             </select>
                         </div>
                         <div className="form-group">
                             <label>Ngày tham gia:</label>
-                            <p>{new Date(profile.date_joined).toLocaleDateString()}</p>
+                            <p>{new Date(profile?.user_created_date).toLocaleDateString()}</p>
                         </div>
                     </div>
                     <div className='form-row'>
-                        <div style={{margin: 0}} className="form-group">
+                        <div className="form-group">
                             <label>Ngày sinh</label>
                             <div className="date-selects">
                                 <select name="day" value={day} onChange={(e) => setDay(e.target.value)}>
@@ -224,7 +200,7 @@ function UpdateProfile() {
                             <select
                                 id="gender"
                                 name="gender"
-                                value={profile.gender}
+                                value={profile?.user_gender}
                                 onChange={handleInputChange}
                             >
                                 <option value="true">Nam</option>
@@ -232,7 +208,30 @@ function UpdateProfile() {
                             </select>
                         </div>
                     </div>
+                    <div className='form-row'>
+                        <div className="form-group">
+                            <label htmlFor="user_full_name">Họ và Tên</label>
+                            <input
+                                type="text"
+                                id="user_full_name"
+                                name="user_full_name"
+                                value={profile?.user_full_name}
+                                onChange={handleInputChange}
+                            />
+                        </div>
 
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={profile?.user_email}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                    </div>
                     <div className='form-row'>
                         <div className="form-group">
                             <label htmlFor="phone_number">Số điện thoại</label>
@@ -240,7 +239,7 @@ function UpdateProfile() {
                                 type="text"
                                 id="phone_number"
                                 name="phone_number"
-                                value={profile.phone_number}
+                                value={profile?.user_phone_number}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -251,7 +250,7 @@ function UpdateProfile() {
                                 type="text"
                                 id="address"
                                 name="address"
-                                value={profile.address}
+                                value={profile?.user_address}
                                 onChange={handleInputChange}
                             />
                         </div>

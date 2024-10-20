@@ -192,8 +192,8 @@ function ViewAllUser() {
                                 <td className="view-all-user-id">{user.user_id}</td>
                                 <td className="view-all-user-full-name">{user.user_full_name}</td>
                                 <td className="view-all-user-role">{user.role}</td>
-                                <td className="view-all-user-email">{user.email}</td>
-                                <td className="view-all-user-phone">{user.phone_number}</td>
+                                <td className="view-all-user-email">{user.user_email}</td>
+                                <td className="view-all-user-phone">{user.user_phone_number}</td>
                                 <td className={`view-all-user-status ${user.user_status ? 'status-active' : 'status-inactive'}`}>
                                     {user.user_status ? 'Active' : 'Inactive'}
                                 </td>

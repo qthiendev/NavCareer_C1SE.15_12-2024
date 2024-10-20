@@ -75,38 +75,40 @@ function ViewProfile() {
             <div className="view-right-panel">
                 <div className="view-user-profile-info">
                     <div className='view-information'>
+
                         <div className='view-form-row'>
                             <div className="view-form-group">
                                 <p><label htmlFor="fullname">Họ và tên: </label>{profile.user_full_name}</p>
                             </div>
                             <div className="view-form-group">
-                                <p><label htmlFor="email">Email: </label>{profile.email}</p>
+                                <p><label htmlFor="user_email">Email: </label>{profile.user_email}</p>
                             </div>
                         </div>
+
                         <div className='view-form-row'>
                             <div className="view-form-group">
-                                <p><label>Ngày sinh: </label> {new Date(profile.birthdate).toLocaleDateString()}</p>
+                                <p><label>Ngày sinh: </label> {new Date(profile.user_birthdate).toLocaleDateString()}</p>
                             </div>
                             <div className="view-form-group">
-                                <p><label htmlFor="date_joined">Ngày tham gia: </label>{new Date(profile.date_joined).toLocaleDateString()}</p>
+                                <p><label htmlFor="user_created_date">Ngày tham gia: </label>{new Date(profile.user_created_date).toLocaleDateString()}</p>
                             </div>
                         </div>
+
                         <div className='view-form-row'>
                             <div className="view-form-group">
-                                <p><label htmlFor="is_active">Trạng thái tài khoản: </label>{profile.is_active ? 'Hoạt động' : 'Không hoạt động'}</p>
-                            </div>
-                            <div className="view-form-group">
-                                <p><label htmlFor="gender">Giới tính: </label>{profile.gender === 'M' ? 'Nam' : 'Nữ'}</p>
+                                <p><label htmlFor="user_gender">Giới tính: </label>{profile.user_gender ? 'Nam' : 'Nữ'}</p>
                             </div>
                         </div>
+
                         <div className='view-form-row'>
                             <div style={{margin: 0}} className="view-form-group">
-                                <p><label htmlFor="phone_number">Số điện thoại: </label>{profile.phone_number}</p>
+                                <p><label htmlFor="user_phone_number">Số điện thoại: </label>{profile.user_phone_number}</p>
                             </div>
                             <div style={{margin: 0}} className="view-form-group">
-                                <p><label htmlFor="address">Địa chỉ: </label>{profile.address}</p>
+                                <p><label htmlFor="user_address">Địa chỉ: </label>{profile.user_address}</p>
                             </div>
                         </div>
+
                     </div>
 
 
@@ -138,7 +140,7 @@ function ViewProfile() {
                         </div>
                     </div>
                     {updatable && (
-                        <button className="view-btn-edit" onClick={() => navigate(`/profile/${user_id}/update`)}>
+                        <button className="view-btn-edit" onClick={() => navigate(`/profile/update`)}>
                             Edit Profile
                         </button>
                     )}

@@ -47,7 +47,6 @@ function UserFunctionGeneral() {
     }, [fetchBannedData]);
 
     const handleCheckboxChange = async (authentication_id, procedure_name, isChecked) => {
-        // Optimistically update the bannedData state
         setBannedData((prevData) => {
             return prevData.map((ban) => {
                 if (ban.authentication_id === authentication_id) {
@@ -55,7 +54,7 @@ function UserFunctionGeneral() {
                         ...ban,
                         procedures: {
                             ...ban.procedures,
-                            [procedure_name]: isChecked, // Update the procedure state optimistically
+                            [procedure_name]: isChecked,
                         },
                     };
                 }
@@ -79,13 +78,11 @@ function UserFunctionGeneral() {
                 }, { withCredentials: true });
             }
 
-            // Fetch banned data if needed (you can skip this if you want to keep the optimistically updated state)
             await fetchBannedData();
         } catch (err) {
             console.error('Failed to update ban:', err);
             setError('Failed to update ban');
 
-            // Revert the optimistic update if there was an error
             setBannedData((prevData) => {
                 return prevData.map((ban) => {
                     if (ban.authentication_id === authentication_id) {
@@ -93,7 +90,7 @@ function UserFunctionGeneral() {
                             ...ban,
                             procedures: {
                                 ...ban.procedures,
-                                [procedure_name]: !isChecked, // Revert the procedure state
+                                [procedure_name]: !isChecked,
                             },
                         };
                     }
