@@ -11,7 +11,7 @@ begin
 		convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[account])) as [account],
 		convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[password])) as [password],
 		convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[identifier_email])) as [identifier_email],
-		a.[is_active] as [auth_status],
+		a.[auth_state] as [auth_state],
 		az.[role],
 		u.[user_id],
 		u.[user_full_name],
@@ -37,7 +37,7 @@ create procedure ModifyUser
     @password NVARCHAR(MAX),
     @identifier_email NVARCHAR(MAX), 
     @authorization_id int,
-    @auth_status bit,
+    @auth_state bit,
 
     @user_full_name NVARCHAR(MAX),
 	@user_alias NVARCHAR(MAX),
@@ -65,7 +65,7 @@ begin
         [password] = @encoded_password,
         [identifier_email] = @encoded_identifier_email,
         [authorization_id] = @authorization_id,
-        [is_active] = @auth_status
+        [auth_state] = @auth_state
     where [authentication_id] = @authentication_id;
 
     update Users
