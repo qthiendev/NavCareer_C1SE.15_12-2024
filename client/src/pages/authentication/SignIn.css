@@ -7,11 +7,11 @@
 
 .login-box {
     background-color: rgba(255, 255, 255, 0.9);
-    padding: 40px;
+    padding: 70px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     width: 400px;
-    max-width: 90%;
+    max-width: 100%;
     text-align: center;
 }
 
@@ -21,8 +21,11 @@ h2 {
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 70px;
     text-align: left;
+    width: 100%; 
+    max-width: 500px; 
+  
 }
 
 label {
@@ -31,13 +34,17 @@ label {
     margin-bottom: 5px;
 }
 
-input {
-    width: 100%;
+.input {
+    width: 100%; /* Or a specific width like 400px */
+    max-width: 500px; /* Limit the width */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
-}
+    padding-left: 100%;
+        }
+
+
 
 .forgot-password {
     text-align: right;
