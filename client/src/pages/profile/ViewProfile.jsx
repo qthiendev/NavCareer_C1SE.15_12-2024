@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import './UpdateProfile.css';
+import './ViewProfile.css';
 
 function ViewProfile() {
     const [profile, setProfile] = useState(null);
@@ -46,105 +46,99 @@ function ViewProfile() {
         return <div>No profile data available.</div>;
     }
     return (
-        <div className="profile-container">
-            <div className="left-panel">
-                <div className="profile-header">
+        <div className="view-profile-container">
+            <div className="view-left-panel">
+                <div className="view-profile-header">
                     <img
                         src="/img/student_profile/std_prf.png"             
                         alt="Avatar"
-                        className="profile-avatar"
+                        className="view-profile-avatar"
                     />
-                    <h2 className="profile-name">{profile.user_alias || profile.trim() !== '' ? profile.user_alias : profile.user_full_name}</h2>
-                    <p className="profile-bio">{profile.user_bio ? profile.user_bio : "Ở đây hơi vắng vẻ"}</p>  
+                    <h2 className="view-profile-name">{profile.user_full_name}</h2>  
                     {/* Lấy theo data người dùng đã điền khi đăng ký tài khoản */}
-                    <button className="share-profile-btn">
+                    <button className="view-share-profile-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" /> {/* Icon chia sẻ */}
                         Chia sẻ hồ sơ
                     </button>
                 </div>
-                <div className="profile-menu">
+                <div className="view-profile-menu">
                     <ul>
-                        <li className="menu-item active">Hồ sơ người dùng</li>
-                        <li className="menu-item">Các khoá học</li>
-                        <li className="menu-item">Giảng viên yêu thích</li>
-                        <li className="menu-item">Tin nhắn</li>
-                        <li style={{'border':'none'}} className="menu-item">Liên hệ admin</li>
+                        <li className="view-menu-item active">Hồ sơ người dùng</li>
+                        <li className="view-menu-item">Các khoá học</li>
+                        <li className="view-menu-item">Giảng viên yêu thích</li>
+                        <li className="view-menu-item">Tin nhắn</li>
+                        <li style={{'border':'none'}} className="view-menu-item">Liên hệ admin</li>
                     </ul>
                 </div>
             </div>
 
-            <div className="right-panel">
-                <div className="user-profile-info">
-                    <div className='form-row'>
-                        <div className="form-group">
-                            <label>Ngày sinh:</label>
-                            <p> {new Date(profile.user_birthdate).toLocaleDateString()}</p>
+            <div className="view-right-panel">
+                <div className="view-user-profile-info">
+                    <div className='view-information'>
+                        <div className='view-form-row'>
+                            <div className="view-form-group">
+                                <p><label htmlFor="fullname">Họ và tên: </label>{profile.user_full_name}</p>
+                            </div>
+                            <div className="view-form-group">
+                                <p><label htmlFor="email">Email: </label>{profile.email}</p>
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="date_joined">Ngày tham gia:</label>
-                            <p>{new Date(profile.user_created_date).toLocaleDateString()}</p>
+                        <div className='view-form-row'>
+                            <div className="view-form-group">
+                                <p><label>Ngày sinh: </label> {new Date(profile.birthdate).toLocaleDateString()}</p>
+                            </div>
+                            <div className="view-form-group">
+                                <p><label htmlFor="date_joined">Ngày tham gia: </label>{new Date(profile.date_joined).toLocaleDateString()}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className='form-row'>
-                        <div className="form-group">
-                            <label htmlFor="is_active">Trạng thái tài khoản:</label>
-                            <p>{profile.user_status ? 'Hoạt động' : 'Không hoạt động'}</p>
+                        <div className='view-form-row'>
+                            <div className="view-form-group">
+                                <p><label htmlFor="is_active">Trạng thái tài khoản: </label>{profile.is_active ? 'Hoạt động' : 'Không hoạt động'}</p>
+                            </div>
+                            <div className="view-form-group">
+                                <p><label htmlFor="gender">Giới tính: </label>{profile.gender === 'M' ? 'Nam' : 'Nữ'}</p>
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="gender">Giới tính:</label>
-                            <p>{profile.user_gender === 'M' ? 'Nam' : 'Nữ'}</p>
-                        </div>
-                    </div>
-                    <div className='form-row'>
-                        <div className="form-group">
-                            <label htmlFor="fullname">Họ và tên:</label>
-                            <p>{profile.user_full_name}</p>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email:</label>
-                            <p>{profile.user_email}</p>
-                        </div>
-                    </div>
-                    <div className='form-row'>
-                        <div className="form-group">
-                            <label htmlFor="phone_number">Số điện thoại:</label>
-                            <p>{profile.user_phone_number}</p>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="address">Địa chỉ:</label>
-                            <p>{profile.user_address}</p>
+                        <div className='view-form-row'>
+                            <div style={{margin: 0}} className="view-form-group">
+                                <p><label htmlFor="phone_number">Số điện thoại: </label>{profile.phone_number}</p>
+                            </div>
+                            <div style={{margin: 0}} className="view-form-group">
+                                <p><label htmlFor="address">Địa chỉ: </label>{profile.address}</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="links-section">
+
+                    <div className="view-links-section">
                         <h2>Đường dẫn đính kèm</h2>
-                        <div className='link-input'>
+                        <div className='view-link-input'>
                             <label htmlFor="website">Website</label>
                             <p>Đây là link website</p>
                         </div>
 
-                        <div className='link-input'>
+                        <div className='view-link-input'>
                             <label htmlFor="twitter">X (twitter)</label>
                             <p>Đây là link twitter</p>
                         </div>
 
-                        <div className='link-input'>
+                        <div className='view-link-input'>
                             <label htmlFor="linkedin">LinkedIn</label>
                             <p>Đây là link LinkedIn</p>
                         </div>
 
-                        <div className='link-input'>
+                        <div className='view-link-input'>
                             <label htmlFor="youtube">YouTube</label>
                             <p>Đây là link YouTube</p>
                         </div>
 
-                        <div className='link-input'>
+                        <div className='view-link-input'>
                             <label htmlFor="facebook">Facebook</label>
                             <p>Đây là link Facebook</p>
                         </div>
                     </div>
                     {updatable && (
-                        <button className="btn-edit" onClick={() => navigate(`/profile/update`)}>
+                        <button className="view-btn-edit" onClick={() => navigate(`/profile/${user_id}/update`)}>
                             Edit Profile
                         </button>
                     )}

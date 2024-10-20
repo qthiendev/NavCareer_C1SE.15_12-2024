@@ -1,0 +1,283 @@
+.view-profile-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #f8f9fa; /* Màu nền nhạt tổng thể */
+    padding: 20px;
+    height: auto; /* Chiều cao toàn màn hình */
+  }
+  
+  .view-left-panel {
+    width: 39%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 20px; /* Giữ vị trí khi cuộn trang */
+  }
+  
+  .view-right-panel {
+    width: 59%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    position: sticky;
+    top: 20px; /* Giữ vị trí khi cuộn trang */
+  }
+  .view-profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Căn giữa nội dung theo chiều ngang */
+    margin-bottom: 20px;
+  }
+  
+  
+  .view-profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+  }
+  
+  .view-profile-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .view-share-profile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-share-profile-btn:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .view-share-icon {
+    margin-right: 8px; /* Khoảng cách giữa icon và text */
+    font-size: 1rem; /* Điều chỉnh kích thước icon */
+    color: #4b5563; /* Màu của icon */
+  }  
+  
+  .view-profile-menu {
+    margin-top: 20px;
+  }
+  
+  .view-profile-menu ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  
+  .view-menu-item {
+    padding: 12px 0;
+    font-size: 1rem;
+    color: #4b5563;
+    cursor: pointer;
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-menu-item.active {
+    background-color: #dbeafe;
+    border-radius: 5px;
+    color: #4F76F6;
+  }
+  
+  .view-menu-item:hover {
+    background-color: #f3f4f6;
+    border-radius: 5px;
+    color: #4F76F6;
+  }
+  
+  .view-right-panel {
+    width: 100%;
+    max-width: 69%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 20px; /* Khoảng cách giữa left-panel và right-panel */
+  }
+  .view-information{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+  }
+  /* Căn chỉnh chung cho form-row */
+  .view-form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    padding-left: 2%;
+  }
+  
+  /* Căn chỉnh chung cho form-group */
+  .view-form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Khoảng cách giữa các form-group */
+  }
+  
+  /* Căn chỉnh chung cho label */
+  .view-form-group label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    text-align: left; /* Căn trái */
+    min-width: 0;
+    padding-right: 2%;
+  }
+  
+  /* Căn chỉnh focus cho các input và select */
+  .view-form-group input:focus,
+  .view-form-group select:focus {
+    border-color: #4F76F6; /* Màu khi input được focus */
+    outline: none;
+  }
+  
+  /* Style for <p> inside .view-form-group without background and border */
+  .view-form-group p {
+    display: flex;
+    padding: 0; /* Remove padding */
+    border: none; /* Remove border */
+    background-color: transparent; /* Remove background color */
+    font-size: 16px;
+    margin: 0;
+    text-align: left; /* Align text to the left */
+  }
+  
+  
+  /* Căn chỉnh link-section */
+  .view-links-section {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+  
+  }
+  .view-link-input{
+    margin-bottom: 2%;
+  }
+  .view-links-section input {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+    text-align: left; /* Căn trái cho nội dung input */
+  }
+  
+  .view-links-section h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Căn chỉnh nút submit */
+  .view-btn-edit {
+    background-color: #212529;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%; /* Chiếm toàn bộ chiều ngang */
+    text-align: center;
+    margin-top: 20px; /* Khoảng cách trên */
+  }
+  
+  .view-btn-edit:hover {
+    background-color: #4F76F6;
+  }
+  
+  /* Căn chỉnh avatar section */
+  .view-avatar-section {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+  }
+  
+  .view-avatar-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .view-avatar-image {
+    width: 280px;
+    height: 160px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .view-avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .view-avatar-upload label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .view-avatar-upload input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #6b7280;
+  }
+  
+  .view-avatar-upload button {
+    background-color: #4F76F6;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .view-avatar-upload button:hover {
+    background-color: #4F76F6;
+  }
+  
+  .view-btn-edit:hover {
+    background-color: #4F76F6;
+  }
+  
