@@ -127,12 +127,12 @@ function UpdateProfile() {
             <div className="left-panel">
                 <div className="profile-header">
                     <img
-                        src="/img/student_profile/std_prf.png"
+                        src="/img/student_profile/std_prf.png"             
                         alt="Avatar"
                         className="profile-avatar"
                     />
-                    <h2 className="profile-name">{profile.user_alias || profile.trim() !== '' ? profile.user_alias : profile.user_full_name}</h2>
-                    <p className="profile-bio">{profile.user_bio ? profile.user_bio : "Ở đây hơi vắng vẻ"}</p>  
+                    <h2 className="profile-name">huongdang123</h2>  
+                    {/* Lấy theo data người dùng đã điền khi đăng ký tài khoản */}
                     <button className="share-profile-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" /> {/* Icon chia sẻ */}
                         Chia sẻ hồ sơ
@@ -144,33 +144,57 @@ function UpdateProfile() {
                         <li className="menu-item">Các khoá học</li>
                         <li className="menu-item">Giảng viên yêu thích</li>
                         <li className="menu-item">Tin nhắn</li>
-                        <li style={{ 'border': 'none' }} className="menu-item">Liên hệ admin</li>
+                        <li style={{'border':'none'}} className="menu-item">Liên hệ admin</li>
                     </ul>
                 </div>
             </div>
 
             <div className="right-panel">
                 <form className="user-profile-form" onSubmit={handleSubmit}>
-                    <div className='form-row'>
+                <div className='form-row'>
                         <div className="form-group">
-                            <label htmlFor="user_status">Trạng thái tài khoản:</label>
-                            <select
-                                id="status"
-                                name="status"
-                                value={profile.user_status ? "1" : "0"}
+                            <label htmlFor="user_full_name">Họ và Tên</label>
+                            <input
+                                type="text"
+                                id="user_full_name"
+                                name="user_full_name"
+                                value={profile.user_full_name}
                                 onChange={handleInputChange}
-                            >
-                                <option value="1">Hoạt động</option>
-                                <option value="0">Khóa</option>
-                            </select>
+                            />
                         </div>
+
                         <div className="form-group">
-                            <label>Ngày tham gia:</label>
-                            <p>{new Date(profile.user_created_date).toLocaleDateString()}</p>
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={profile.email}
+                                onChange={handleInputChange}
+                                required
+                            />
                         </div>
                     </div>
                     <div className='form-row'>
                         <div className="form-group">
+                        <label htmlFor="is_active">Trạng thái tài khoản:</label>
+                            <select
+                                id="is_active"
+                                name="is_active"
+                                value={profile.is_active}
+                                onChange={(e) => setProfile({ ...profile, is_active: e.target.value })}
+                            >
+                                <option value={1}>Hoạt động</option>
+                                <option value={0}>Khong hoạt động</option>
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label>Ngày tham gia:</label>
+                            <p>{new Date(profile.date_joined).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <div className='form-row'>
+                        <div style={{margin: 0}} className="form-group">
                             <label>Ngày sinh</label>
                             <div className="date-selects">
                                 <select name="day" value={day} onChange={(e) => setDay(e.target.value)}>
@@ -200,38 +224,15 @@ function UpdateProfile() {
                             <select
                                 id="gender"
                                 name="gender"
-                                value={profile.user_gender ? "1" : "0"}
+                                value={profile.gender}
                                 onChange={handleInputChange}
                             >
-                                <option value="1">Nam</option>
-                                <option value="0">Nữ</option>
+                                <option value="true">Nam</option>
+                                <option value="false">Nữ</option>
                             </select>
                         </div>
                     </div>
-                    <div className='form-row'>
-                        <div className="form-group">
-                            <label htmlFor="user_full_name">Họ và Tên</label>
-                            <input
-                                type="text"
-                                id="user_full_name"
-                                name="user_full_name"
-                                value={profile.user_full_name}
-                                onChange={handleInputChange}
-                            />
-                        </div>
 
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={profile.user_email}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                    </div>
                     <div className='form-row'>
                         <div className="form-group">
                             <label htmlFor="phone_number">Số điện thoại</label>
@@ -239,7 +240,7 @@ function UpdateProfile() {
                                 type="text"
                                 id="phone_number"
                                 name="phone_number"
-                                value={profile.user_phone_number}
+                                value={profile.phone_number}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -250,7 +251,7 @@ function UpdateProfile() {
                                 type="text"
                                 id="address"
                                 name="address"
-                                value={profile.user_address}
+                                value={profile.address}
                                 onChange={handleInputChange}
                             />
                         </div>

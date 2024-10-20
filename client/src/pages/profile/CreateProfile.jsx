@@ -152,24 +152,24 @@ const ProfileForm = () => {
                             {errors.gender && <p className="error">{errors.gender}</p>}
                         </div>
 
-                        <div className="form-group">
-                            <label>Ngày sinh*</label>
-                            <div className="date-selects">
+                        <div className="form-group" id="create-date-selects">
+                            <label>Ngày sinh</label>
+                            <div>
                                 <select name="birthDay" value={formData.birthDay} onChange={(e) => setFormData({ ...formData, birthDay: e.target.value })}>
                                     <option value="">Ngày</option>
                                     {[...Array(31).keys()].map((d) => (
-                                        <option key={d + 1} value={d + 1}>{d + 1}</option>
+                                        <option key={d+1} value={d+1}>{d+1}</option>
                                     ))}
                                 </select>
 
                                 <select name="birthMonth" value={formData.birthMonth} onChange={(e) => setFormData({ ...formData, birthMonth: e.target.value })}>
                                     <option value="">Tháng</option>
                                     {[...Array(12).keys()].map((m) => (
-                                        <option key={m + 1} value={m + 1}>{m + 1}</option>
+                                        <option key={m+1} value={m+1}>{m+1}</option>
                                     ))}
                                 </select>
 
-                                <select name="birthYear" value={formData.birthYear} onChange={(e) => setFormData({ ...formData, birthYear: e.target.value })}>
+                                <select style={{margin: 0}} name="birthYear" value={formData.birthYear} onChange={(e) => setFormData({ ...formData, birthYear: e.target.value })}>
                                     <option value="">Năm</option>
                                     {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((y) => (
                                         <option key={y} value={y}>{y}</option>
