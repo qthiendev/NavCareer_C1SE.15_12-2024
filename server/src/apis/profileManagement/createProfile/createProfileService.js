@@ -6,44 +6,21 @@ const formatDate = (birthdate) => {
     return `${year}-${month}-${day}`; // yyyy-MM-dd
 };
 
-const tryCreateProfile = async (profileData) => {
-    const {
-        aid,
-        role,
-        userFullName,
-        birthdate,
-        gender,
-        email,
-        phoneNumber,
-        address,
-    } = profileData;
-
+const tryCreateProfile = async (aid, role, user_full_name, user_birthdate, user_gender, user_email, user_phone_number, user_address) => {
     try {
         // Convert birthdate from dd/MM/yyyy to yyyy-MM-dd format
-        const formattedBirthdate = formatDate(birthdate);
-
-        // Create profile query and parameters
-        const queryString = `EXECUTE CreateProfile @aid, @user_full_name, 
-            @birthdate, @gender, @email, @phone_number, 
-            @address`;
-        const params = {
-            aid: aid,
-            user_full_name: userFullName,
-            birthdate: formattedBirthdate,
-            gender: gender,
-            email: email,
-            phone_number: phoneNumber,
-            address: address,
-        };
-
+        const formattedBirthdate = formatDate(user_birthdate);
+        
         // Insert profile data
-        const results = await ncbd.query(role, queryString, params);
+        const results = await ncbd.query(role,
+            `EXECUTE CreateProfile @aid, @user_full_name, @user_birthdate, @user_gender, @user_email, @user_phone_number, @user_address`, 
+            {aid, user_full_name, user_birthdate: formattedBirthdate, user_gender, user_email, user_phone_number, user_address});
 
 
-        return results && results.length > 0;
+        return results[0].check;
 
     } catch (err) {
-        throw Error(`createProfileService.js/tryCreateProfile() | ${err.message}`);
+        throw Error(`createProfileService.js/tryCreateProfile | ${err.message}`);
     }
 };
 

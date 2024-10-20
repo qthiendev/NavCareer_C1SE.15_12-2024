@@ -13,6 +13,7 @@ const ViewAllCourse = () => {
         const fetchCourses = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/esp/course/read-all', { withCredentials: true });
+                console.log(response)
                 setCourses(response.data.courses || []);
             } catch (err) {
                 setError('Không thể lấy danh sách khóa học. Vui lòng thử lại sau.');

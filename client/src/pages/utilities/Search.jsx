@@ -101,20 +101,15 @@ const Search = () => {
                                 onClick={() => handleCardClick(profile)}
                                 style={{ cursor: 'pointer' }}
                             >
-                                <h3>{profile.name}</h3>
-                                {profile.is_user ? (
-                                    profile.avatar ? (
-                                        <img src={profile.avatar} alt={`${profile.name}'s avatar`} className="avatar" />
-                                    ) : (
-                                        <p>No avatar available</p>
-                                    )
-                                ) : (
+                                <div className="avatar-container">
                                     <img 
                                         src={profile.avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz5VtX4a5G9hoIh9p-DKem9UHDiFXsBmF7xQ&s'} 
                                         alt={`${profile.name}'s avatar`} 
                                         className="avatar" 
                                     />
-                                )}
+                                </div>
+                                <h3 className="profile-name">{profile.name}</h3>
+                                <p className="profile-description">{profile.description}</p>
                                 <span className="profile-type">{profile.is_user ? 'User' : 'Course'}</span>
                             </div>
                         ))}

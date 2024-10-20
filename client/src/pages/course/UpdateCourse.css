@@ -33,10 +33,10 @@
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #CFD7D9; /* Light gray border */
+    border: 1px solid #CFD7D9;
     border-radius: 4px;
     font-size: 16px;
-    color: #043873; /* Dark blue text */
+    color: #043873;
 }
 
 /* Modules heading */
@@ -77,6 +77,8 @@
     align-items: center;
     justify-content: space-between;
 }
+
+
 
 /* Alternate background for odd-indexed modules */
 .update-course li:nth-child(odd) {

@@ -14,7 +14,7 @@ const signIn = async (req, res) => {
         const data = await trySignIn(role, account, password);
         const { q_aid, q_role } = data;
 
-        if (q_aid === null) {// Handle invalid credentials
+        if (q_aid === null) {
             console.log(`[${now.toLocaleString()}] at signInController.js/signIn | Invalid credentials {${account}, ${password}}`);
             req.session.role = q_role;
             return res.status(203).json({

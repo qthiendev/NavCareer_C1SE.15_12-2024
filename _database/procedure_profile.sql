@@ -1,260 +1,285 @@
 ﻿use NavCareerDB;
 
---- procedure
-IF OBJECT_ID('ViewProfile', 'P') IS NOT NULL DROP PROCEDURE ViewProfile;
-GO
-CREATE PROCEDURE ViewProfile @auth_id INT
-AS
-BEGIN
-    SET NOCOUNT ON;
+if object_id('ReadProfile', 'P') is not null drop procedure ReadProfile;
+go
+create procedure ReadProfile @user_id INT
+as
+begin
+	if (exists (select 1 from Users where [user_id] = @user_id AND [user_status] = 0))
+	begin
+		select 'INACTIVE' as [check];
+	end
 
-    -- Check if the user exists
-    IF EXISTS (SELECT 1 FROM Users WHERE [authentication_id] = @auth_id)
-    BEGIN
-        -- Check if the user is active
-        IF EXISTS (SELECT 1 FROM Users WHERE [authentication_id] = @auth_id AND [is_active] = 0)
-        BEGIN
-            RETURN;
-        END
-        
-        -- If user exists and is active, return the profile data
-        SELECT 
-            [user_full_name], 
-            [birthdate],
-            [gender],
-            [email], 
-            [phone_number],
-            [address], 
-            [date_joined],
-            [resource_url], 
-            [authentication_id],
-            [is_active] 
-        FROM Users 
-        WHERE [authentication_id] = @auth_id;
-    END
-    ELSE
-    BEGIN
-        -- Raise an error if the user is not found
-        RAISERROR('User with ID %d not found.', 16, 1, @auth_id);
-    END
-END;
-GO
+	select
+		[user_full_name], 
+		[user_alias],
+		[user_bio],
+		[user_birthdate],
+		[user_gender],
+		[user_email], 
+		[user_phone_number],
+		[user_address], 
+		[user_created_date],
+		[user_resource_url],
+		[user_status],
+		[authentication_id]
+	from Users 
+    where [user_id] = @user_id
+end
+go
+-- exec ReadProfile 0
+------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
+if object_id('ReadProfileSignedIn', 'P') is not null drop procedure ReadProfileSignedIn;
+go
+create procedure ReadProfileSignedIn @aid int, @user_id INT
+as
+begin
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ViewUserCourses');
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+	end
 
---
-IF OBJECT_ID('ViewProfileSignedIn', 'P') IS NOT NULL DROP PROCEDURE ViewProfileSignedIne;
-GO
-CREATE PROCEDURE ViewProfileSignedIn @aid int, @auth_id INT
-AS
-BEGIN
-    SET NOCOUNT ON;
+	if (exists (select 1 from Users where [user_id] = @user_id AND [user_status] = 0) and @aid != @user_id) 
+	begin
+		select 'INACTIVE' as [check];
+	end
 
-    -- Check if the user exists
-    IF EXISTS (SELECT 1 FROM Users WHERE [authentication_id] = @auth_id)
-    BEGIN
-        -- Check if the user is active
-        IF EXISTS (SELECT 1 FROM Users WHERE [authentication_id] = @auth_id AND [is_active] = 0)
-			and @aid != @auth_id
-        BEGIN
-            RETURN;
-        END
-        
-        -- If user exists and is active, return the profile data
-        SELECT 
-            [user_full_name], 
-            [birthdate],
-            [gender],
-            [email], 
-            [phone_number],
-            [address], 
-            [date_joined],
-            [resource_url], 
-            [authentication_id],
-            [is_active] 
-        FROM Users 
-        WHERE [authentication_id] = @auth_id;
-    END
-    ELSE
-    BEGIN
-        -- Raise an error if the user is not found
-        RAISERROR('User with ID %d not found.', 16, 1, @auth_id);
-    END
-END;
-GO
-
-
-
-
+	select
+		[user_full_name], 
+		[user_alias],
+		[user_bio],
+		[user_birthdate],
+		[user_gender],
+		[user_email], 
+		[user_phone_number],
+		[user_address], 
+		[user_created_date],
+		[user_resource_url],
+		[user_status]
+	from Users 
+    where [user_id] = @user_id;
+end;
+go
+-- exec ReadProfileSignedIn 1, 0
+------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
 -- CREATE
 if object_id('CreateProfile', 'P') is not null drop procedure CreateProfile;
 go
 create procedure CreateProfile 
 	@aid int,
-    @user_full_name NVARCHAR(MAX), 
-    @birthdate DATETIME, 
-    @gender BIT, 
-    @email NVARCHAR(MAX), 
-    @phone_number NVARCHAR(30), 
-    @address NVARCHAR(MAX)
-AS
-BEGIN
-    -- Declare a new ID for the user
+    @user_full_name NVARCHAR(MAX),
+    @user_birthdate DATETIME, 
+    @user_gender BIT, 
+    @user_email NVARCHAR(MAX), 
+    @user_phone_number NVARCHAR(30), 
+    @user_address NVARCHAR(MAX)
+as
+begin
 	declare @IsBanned BIT;
     set @IsBanned = dbo.IsUserBanned(@aid, 'CreateProfile');
     if @IsBanned = 1 return;
 
-	IF EXISTS (SELECT 1 FROM Users WHERE authentication_id = @aid)
-    BEGIN
-        RETURN;
-    END
-    -- Generate resource URL based on new user ID
-	declare @newID int;
-	select @newID = isnull(max([user_id]), -1) + 1 from Users;
+	if not exists (select 1 from Authentications where authentication_id = @aid)
+    begin
+		select 'U_AID' as [check]
+		return;
+    end
 
-    DECLARE @resource_url NVARCHAR(MAX) = trim('/profiles/_' + CAST(@aid AS NVARCHAR));
+	if exists (select 1 from Users where authentication_id = @aid)
+    begin
+		select 'EXISTED' as [check]
+		return;
+    end
 
-    -- Insert the new user into the Users table with the updated column order
-    INSERT INTO Users (
-        [user_id],  [user_full_name], [birthdate],  [gender],  [email], 
-        [phone_number],  [address],  [date_joined],  [resource_url], [authentication_id],[is_active]
-    )
-    VALUES (@newID,  @user_full_name,  @birthdate,  @gender, @email,  @phone_number, @address, GETDATE(), TRIM(@resource_url), @aid, 1);
+	declare @user_id int;
 
-	select 'TRUE' as [check]
-	from Users
-	where 
-		[user_full_name]=@user_full_name and 
-		[birthdate] = @birthdate and
-		[gender] = @gender and
-		[email] = @email and
-		[phone_number] = @phone_number and
-		[address] = @address and
-		[resource_url] = TRIM(@resource_url) AND
-		[authentication_id] = @aid
-END;
-GO
+    select top 1 @user_id = u1.[user_id] + 1
+    from Users u1
+		left join Users u2 on u1.[user_id] + 1 = u2.[user_id]
+    where u2.[user_id] is null
+    order by u1.[user_id];
 
---EXEC CreateProfile 
---   @aid=4,
---   @user_full_name = N'phúc đẹp trai ông trùng kéo viu số 1 việt nam ', 
---   @birthdate = '1995-05-15', 
---   @gender = 0,  -- Assuming 0 for female
---   @email = 'jane.doe@example.com', 
---   @phone_number = '0987654321', 
---   @address = '456 Another St' 
+	if @user_id is null select @user_id = isnull(max([user_id]), 0) + 1 from Users;
 
+    declare @resource_url NVARCHAR(MAX) = trim('/profiles/_' + cast(@user_id as NVARCHAR));
 
--- UPDATE
+    insert into Users ([user_id],
+		[user_full_name],
+		[user_birthdate],
+		[user_gender],
+		[user_email], 
+		[user_phone_number],
+		[user_address], 
+		[user_created_date],
+		[user_resource_url],
+		[user_status],
+		[authentication_id]
+	)
+	values(@user_id, @user_full_name, convert(datetime, @user_birthdate, 120),  @user_gender, @user_email,  @user_phone_number, @user_address, GETDATE(), TRIM(@resource_url), 1, @aid);
 
+	if @@ROWCOUNT = 1
+	begin
+		select 'SUCCESSED' as [check];
+		return;
+	end
+
+	select 'FAILED' as [check];
+end;
+go
+-- EXEC CreateProfile 6, 'Test name', 'TestAlias', '2024-10-20', 1, 'test@gmail.com', '0908777654', 'Da Nang'  
+------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
 if object_id('UpdateProfile', 'P') is not null drop procedure UpdateProfile;
 go
-CREATE PROCEDURE UpdateProfile 
+create procedure UpdateProfile 
 	@aid int,
-    @user_id INT,  -- The ID of the user to be updated
-    @user_full_name NVARCHAR(MAX), 
-    @birthdate DATETIME, 
-    @gender BIT, 
-    @email NVARCHAR(MAX), 
-    @phone_number NVARCHAR(30), 
-    @address NVARCHAR(MAX),
-	@is_active bit
-AS
-BEGIN
-    -- Check if the user exists before attempting an update
-	IF EXISTS (SELECT 1 FROM Users WHERE @user_id = @aid)
-    BEGIN
-		
-		declare @IsBanned BIT;
-		set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateProfile');
-		if @IsBanned = 1 return;
+    @user_full_name NVARCHAR(MAX),
+	@user_alias NVARCHAR(MAX),
+	@user_bio NVARCHAR(MAX),
+    @user_birthdate DATETIME, 
+    @user_gender BIT, 
+    @user_email NVARCHAR(MAX), 
+    @user_phone_number NVARCHAR(30), 
+    @user_address NVARCHAR(MAX),
+	@user_status bit
+as
+begin
+    declare @IsBanned BIT;
+    set @IsBanned = dbo.IsUserBanned(@aid, 'CreateProfile');
+    if @IsBanned = 1 return;
 
-        DECLARE @resource_url NVARCHAR(MAX) = '/profiles/_' + CAST(@user_id AS NVARCHAR);
+	if not exists (select 1 from Authentications where authentication_id = @aid)
+    begin
+		select 'U_AID' as [check]
+		return;
+    end
 
-        -- Perform the update
-        UPDATE Users
-        SET 
-            user_full_name = @user_full_name, 
-            birthdate = @birthdate, 
-            gender = @gender, 
-            email = @email, 
-            phone_number = @phone_number, 
-            address = @address,
-			is_active = @is_active
-        WHERE 
-            user_id = @user_id and 
-            authentication_id = @aid
+	declare @user_id int;
 
-		select 'TRUE' as [check]
-		from Users
-		where 
-		[user_full_name]=@user_full_name and 
-		[birthdate] = @birthdate and
-		[gender] = @gender and
-		[email] = @email and
-		[phone_number] = @phone_number and
-		[address] = @address and
-		[resource_url] = TRIM(@resource_url) AND
-		[authentication_id] = @aid
-    END
-	else
-	BEGIN
-        -- Raise an error if the user is not found
-        RAISERROR('User with ID %d not found.', 16, 1, @user_id);
-    END
-END;
-GO
+	select @user_id = [user_id]
+	from Users
+	where [authentication_id] = @aid
 
---EXEC UpdateProfile 
---    @aid = 4,                         
---	@user_id = 4,
---    @user_full_name = N'John Doe',    
---    @birthdate = '1990-01-01',        
---    @gender = 1,                      
---    @email = N'john.doe@example.com', 
---    @phone_number = N'123-456-7890',  
---    @address = N'123 Main St';        
+	if (@user_id is null)
+	begin
+		select 'U_UID' as [check]
+		return;
+	end
 
--- DELETE
+	update Users
+	set [user_full_name] = @user_full_name, 
+		[user_alias] = @user_alias,
+		[user_bio] = @user_bio,
+		[user_birthdate] = @user_birthdate, 
+		[user_gender] = @user_gender, 
+		[user_email] = @user_email, 
+		[user_phone_number] = @user_phone_number, 
+		[user_address] = @user_address,
+		[user_status] = @user_status
+	where [user_id] = @user_id
 
-if object_id('SetStateProfile', 'P') is not null drop procedure SetStateProfile;
+	if @@ROWCOUNT = 1
+	begin
+		select 'SUCCESSED' as [check];
+		return;
+	end
+
+	select 'FAILED' as [check];
+
+end;
 go
-CREATE PROCEDURE SetStateProfile @aid int, @state bit
-AS
-BEGIN
-    -- Check if the user exists before attempting a delete
-    IF EXISTS (SELECT 1 FROM Users WHERE authentication_id = @aid)
-    BEGIN
-        -- Perform the delete
-        update Users
-		set [is_active] = @state
-		where [authentication_id] = @aid;
-
-		select 'TRUE' as [check]
-		from Users
-		where [authentication_id] = @aid
-			and [is_active] = @state;
-    END
-    ELSE
-    BEGIN
-        -- Raise an error if the user is not found
-        RAISERROR('User not found with ID %d', 16, 1, @aid);
-    END
-END;
-GO
-
--- exec DeleteProfile 4
-
-
+-- EXEC UpdateProfile 6, 'Test name', 'TestAlias', '2024-10-20 01:24:25.750', 1, 'test@gmail.com', '0908777654', 'Da Nang', 1
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('ReadProfileByAuth', 'P') is not null drop procedure ReadProfileByAuth;
+go
+create procedure ReadProfileByAuth @auth_id INT
+as
+begin
+	if (exists (select 1 from Users where [authentication_id] = @auth_id AND [user_status] = 0))
+	begin
+		select 'INACTIVE' as [check];
+	end
 
-grant execute on dbo.[ViewProfile] to [NAV_GUEST]
-grant execute on dbo.[ViewProfile] to [NAV_ADMIN]
-grant execute on dbo.[ViewProfile] to [NAV_ESP]
-grant execute on dbo.[ViewProfile] to [NAV_STUDENT]
+	select
+		[user_id],
+		[user_full_name], 
+		[user_alias],
+		[user_bio],
+		[user_birthdate],
+		[user_gender],
+		[user_email], 
+		[user_phone_number],
+		[user_address], 
+		[user_created_date],
+		[user_resource_url],
+		[user_status],
+		[authentication_id]
+	from Users 
+    where [authentication_id] = @auth_id 
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadProfileSignedInByAuth', 'P') is not null drop procedure ReadProfileSignedInByAuth;
+go
+create procedure ReadProfileSignedInByAuth @aid int, @auth_id INT
+as
+begin
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ViewUserCourses');
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+	end
 
-grant execute on dbo.[ViewProfileSignedIn] to [NAV_ADMIN]
-grant execute on dbo.[ViewProfileSignedIn] to [NAV_ESP]
-grant execute on dbo.[ViewProfileSignedIn] to [NAV_STUDENT]
+	if (exists (select 1 from Users where [authentication_id] = @auth_id AND [user_status] = 0))
+	begin
+		select 'INACTIVE' as [check];
+	end
+
+	select
+		[user_id],
+		[user_full_name], 
+		[user_alias],
+		[user_bio],
+		[user_birthdate],
+		[user_gender],
+		[user_email], 
+		[user_phone_number],
+		[user_address], 
+		[user_created_date],
+		[user_resource_url],
+		[user_status],
+		[authentication_id]
+	from Users 
+    where [authentication_id] = @auth_id 
+end;
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+grant execute on dbo.[ReadProfile] to [NAV_GUEST]
+grant execute on dbo.[ReadProfile] to [NAV_ADMIN]
+grant execute on dbo.[ReadProfile] to [NAV_ESP]
+grant execute on dbo.[ReadProfile] to [NAV_STUDENT]
+
+grant execute on dbo.[ReadProfileByAuth] to [NAV_GUEST]
+grant execute on dbo.[ReadProfileByAuth] to [NAV_ADMIN]
+grant execute on dbo.[ReadProfileByAuth] to [NAV_ESP]
+grant execute on dbo.[ReadProfileByAuth] to [NAV_STUDENT]
+
+grant execute on dbo.[ReadProfileSignedIn] to [NAV_ADMIN]
+grant execute on dbo.[ReadProfileSignedIn] to [NAV_ESP]
+grant execute on dbo.[ReadProfileSignedIn] to [NAV_STUDENT]
+
+grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_GUEST]
+grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_ADMIN]
+grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_ESP]
+
 
 grant execute on dbo.[CreateProfile] to [NAV_ADMIN]
 grant execute on dbo.[CreateProfile] to [NAV_ESP]
@@ -264,14 +289,10 @@ grant execute on dbo.[UpdateProfile] to [NAV_ADMIN]
 grant execute on dbo.[UpdateProfile] to [NAV_ESP]
 grant execute on dbo.[UpdateProfile] to [NAV_STUDENT]
 
-grant execute on dbo.[SetStateProfile] to [NAV_ADMIN]
-grant execute on dbo.[SetStateProfile] to [NAV_ESP]
-grant execute on dbo.[SetStateProfile] to [NAV_STUDENT]
 
-
-EXECUTE AS USER = 'NAV_GUEST';
+EXECUTE as USER = 'NAV_GUEST';
 --EXEC dbo.SignIn @account = 'qthiendev', @password = 'qthiendev';
---EXEC ViewProfile 5;
+--EXEC ReadProfile 5;
 --select * from users
 REVERT;
 --declare @IsBanned BIT;

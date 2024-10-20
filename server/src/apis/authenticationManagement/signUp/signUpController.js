@@ -22,7 +22,7 @@ const signUp = async (req, res) => {
         const signUpStatus = await trySignUp(role, account, password, email, authz_id);
 
         if (signUpStatus === 'SUCCESSED') {
-            console.log(`[${now.toLocaleString()}] at signUpController.js/signUp | Authentication information created successfully.`);
+            console.log(`[${now.toLocaleString()}] at signUpController.js/signUp | Authentication information created successfully {${account}, ${password}}.`);
             return res.status(200).json({
                 message: `Authentication information created successfully.`,
                 time: now.toLocaleString()
@@ -30,7 +30,7 @@ const signUp = async (req, res) => {
         }
 
         if (signUpStatus === 'FAILED') {
-            console.error(`[${now.toLocaleString()}] at signUpController.js/signUp | Failed to created Authentication.`);
+            console.error(`[${now.toLocaleString()}] at signUpController.js/signUp | Failed to created Authentication {${account}, ${password}}.`);
             return res.status(203).json({
                 message: `Failed to create Authentication information.`,
                 time: now.toLocaleString()
@@ -38,7 +38,7 @@ const signUp = async (req, res) => {
         }
 
         if (signUpStatus === 'EXISTED') {
-            console.error(`[${now.toLocaleString()}] at signUpController.js/signUp | Authentication already existed.`);
+            console.warn(`[${now.toLocaleString()}] at signUpController.js/signUp | Authentication already existed {${account}, ${password}}.`);
             return res.status(201).json({
                 message: `Authentication information already existed.`,
                 time: now.toLocaleString()

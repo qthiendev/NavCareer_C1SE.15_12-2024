@@ -15,12 +15,13 @@ begin
 		az.[role],
 		u.[user_id],
 		u.[user_full_name],
-		u.[birthdate],
-		u.[gender],
-		u.[email],
-		u.[phone_number],
-		u.[address],
-		u.[is_active] as [user_status]
+		u.[user_alias],
+		u.[user_birthdate],
+		u.[user_gender],
+		u.[user_email],
+		u.[user_phone_number],
+		u.[user_address],
+		u.[user_status]
 	from Authentications a
 		left join Users u on u.authentication_id = a.authentication_id
 		left join Authorizations az on az.authorization_id = a.authorization_id
@@ -38,6 +39,7 @@ create procedure ModifyUser
     @auth_status bit,
 
     @user_full_name NVARCHAR(MAX),
+	@user_alias NVARCHAR(MAX),
     @birthdate DATETIME, 
     @gender BIT, 
     @email NVARCHAR(MAX), 
@@ -67,44 +69,28 @@ begin
 
     update Users
     set [user_full_name] = @user_full_name,
-        [birthdate] = @birthdate, 
-        [gender] = @gender, 
-        [email] = @email, 
-        [phone_number] = @phone_number, 
-        [address] = @address,
-        [is_active] = @user_status
+		[user_alias] = @user_alias,
+        [user_birthdate] = @birthdate, 
+        [user_gender] = @gender, 
+        [user_email] = @email, 
+        [user_phone_number] = @phone_number, 
+        [user_address] = @address,
+        [user_status] = @user_status
     where [authentication_id] = @authentication_id;
 
     -- Variable to hold the result
     declare @result NVARCHAR(10);
 
     -- Check if the updates are valid
-    if exists (
-        select 1
-        from Authentications a
-            join Users u on u.authentication_id = a.authentication_id
-        where a.[authentication_id] = @authentication_id
-            and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[account])) = @account
-            and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[password])) = @password
-            and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[identifier_email])) = @identifier_email
-            and a.[authorization_id] = @authorization_id
-            and a.[is_active] = @auth_status
-            and u.[user_full_name] = @user_full_name
-            and u.[birthdate] = @birthdate
-            and u.[gender] = @gender
-            and u.[email] = @email 
-            and u.[phone_number] = @phone_number 
-            and u.[address] = @address
-            and u.[is_active] = @user_status
-    )
+    if @@ROWCOUNT = 1
     begin
-        -- If the check is successful, commit the transaction
+        -- if the check is successful, commit the transaction
         commit transaction;
         set @result = 'TRUE';
     end
     else
     begin
-        -- If the check fails, rollback the transaction
+        -- if the check fails, rollback the transaction
         rollback transaction;
         set @result = 'FALSE';
     end
@@ -114,8 +100,26 @@ begin
 end
 go
 
+if object_id('ReadAllProcedure', 'P') is not null drop procedure ReadAllProcedure;
+go
+create procedure ReadAllProcedure @role nvarchar(100)
+as
+begin
+	select sp.name as [ProcedureName]
+	from sys.database_permissions dp
+		join sys.objects sp on dp.major_id = sp.object_id
+		join sys.database_principals pr on dp.grantee_principal_id = pr.principal_id
+		left join AuthProcedureBanned apb on apb.[procedure_name] = sp.[name]
+	where sp.type = 'P' AND pr.name = @role;
+end
+go
 
 grant execute on dbo.ReadAllUser to [NAV_ADMIN];
+go
 grant execute on dbo.ModifyUser to [NAV_ADMIN];
 go
+grant execute on dbo.ReadAllProcedure to [NAV_ADMIN];
+go
+
+exec ReadAllProcedure 'nav_guest'
 

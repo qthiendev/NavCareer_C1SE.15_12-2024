@@ -22,7 +22,7 @@ function ViewAllUser() {
                 if (response.status !== 200) navigate('/');
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
-                navigate('/signin');
+                navigate('/');
             }
         };
         checkAdmin();
@@ -116,10 +116,12 @@ function ViewAllUser() {
     return (
         <div className="view-all-container">
             <div className="view-all-admin-home-container">
-                <ul className="view-all-admin-nav">
+                <ul className="admin-nav">
                     <li><a href="/admin">Trang chủ Admin</a></li>
-                    <li><a href="/">Trang chủ NavCareer</a></li>
-                    <li><a href="/admin/user/view-all">Thông tin người dùng</a></li>
+                    <li><a href="/">Trang chủ Hệ thống</a></li>
+                    <li><a href="/admin/user/view-all">Thông tin Người dùng</a></li>
+                    <li><a href="/admin/user/view-all">Phân quyền Người dùng</a></li>
+                    <li><a href="/admin/course/view-all">Thông tin Khóa học</a></li>
                 </ul>
 
                 <h2>User Information</h2>
@@ -169,7 +171,7 @@ function ViewAllUser() {
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                     </select>
-                    
+
                 </div>
 
                 <table className="view-all-user-table">
@@ -202,7 +204,7 @@ function ViewAllUser() {
                                         <button disabled>View</button>
                                     )}
                                     <button onClick={() => handleModify(user.user_id)}>Modify</button>
-                                    <button onClick={() => handleDelete(user.user_id)}>Delete</button>
+                                    <button disabled onClick={() => handleDelete(user.user_id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}

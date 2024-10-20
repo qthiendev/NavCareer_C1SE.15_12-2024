@@ -22,12 +22,11 @@ function ViewProfile() {
 
         const fetchProfile = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/profile/read?auth_id=${user_id}`, { withCredentials: true });
-                console.log(response)
-                if (!response.data.data) {
+                const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
+                if (!response.data) {
                     navigate('/profile/create');
                 }
-                setProfile(response.data.data);
+                setProfile(response.data);
                 setLoading(false);
             } catch (err) {
                 navigate('/profile/create');
@@ -36,6 +35,7 @@ function ViewProfile() {
 
         fetchProfile();
         checkAuth();
+
     }, [user_id, navigate]);
 
     if (loading) {
@@ -54,7 +54,8 @@ function ViewProfile() {
                         alt="Avatar"
                         className="profile-avatar"
                     />
-                    <h2 className="profile-name">{profile.user_full_name}</h2>  
+                    <h2 className="profile-name">{profile.user_alias || profile.trim() !== '' ? profile.user_alias : profile.user_full_name}</h2>
+                    <p className="profile-bio">{profile.user_bio ? profile.user_bio : "Ở đây hơi vắng vẻ"}</p>  
                     {/* Lấy theo data người dùng đã điền khi đăng ký tài khoản */}
                     <button className="share-profile-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" /> {/* Icon chia sẻ */}
@@ -77,21 +78,21 @@ function ViewProfile() {
                     <div className='form-row'>
                         <div className="form-group">
                             <label>Ngày sinh:</label>
-                            <p> {new Date(profile.birthdate).toLocaleDateString()}</p>
+                            <p> {new Date(profile.user_birthdate).toLocaleDateString()}</p>
                         </div>
                         <div className="form-group">
                             <label htmlFor="date_joined">Ngày tham gia:</label>
-                            <p>{new Date(profile.date_joined).toLocaleDateString()}</p>
+                            <p>{new Date(profile.user_created_date).toLocaleDateString()}</p>
                         </div>
                     </div>
                     <div className='form-row'>
                         <div className="form-group">
                             <label htmlFor="is_active">Trạng thái tài khoản:</label>
-                            <p>{profile.is_active ? 'Hoạt động' : 'Không hoạt động'}</p>
+                            <p>{profile.user_status ? 'Hoạt động' : 'Không hoạt động'}</p>
                         </div>
                         <div className="form-group">
                             <label htmlFor="gender">Giới tính:</label>
-                            <p>{profile.gender === 'M' ? 'Nam' : 'Nữ'}</p>
+                            <p>{profile.user_gender === 'M' ? 'Nam' : 'Nữ'}</p>
                         </div>
                     </div>
                     <div className='form-row'>
@@ -101,17 +102,17 @@ function ViewProfile() {
                         </div>
                         <div className="form-group">
                             <label htmlFor="email">Email:</label>
-                            <p>{profile.email}</p>
+                            <p>{profile.user_email}</p>
                         </div>
                     </div>
                     <div className='form-row'>
                         <div className="form-group">
                             <label htmlFor="phone_number">Số điện thoại:</label>
-                            <p>{profile.phone_number}</p>
+                            <p>{profile.user_phone_number}</p>
                         </div>
                         <div className="form-group">
                             <label htmlFor="address">Địa chỉ:</label>
-                            <p>{profile.address}</p>
+                            <p>{profile.user_address}</p>
                         </div>
                     </div>
 
@@ -143,7 +144,7 @@ function ViewProfile() {
                         </div>
                     </div>
                     {updatable && (
-                        <button className="btn-edit" onClick={() => navigate(`/profile/${user_id}/update`)}>
+                        <button className="btn-edit" onClick={() => navigate(`/profile/update`)}>
                             Edit Profile
                         </button>
                     )}

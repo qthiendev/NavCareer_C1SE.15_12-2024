@@ -15,6 +15,7 @@ const ProfileForm = () => {
         address: ''
     });
     const [errors, setErrors] = useState({});
+    const [noti, setNoti] = useState(null);
     const [aid, setAid] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -23,20 +24,19 @@ const ProfileForm = () => {
         const checkProfileStatus = async () => {
             try {
                 const authResponse = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
+
                 if (!authResponse.data.sign_in_status) {
                     navigate('/signin');
                     return;
                 }
+                console.log(authResponse.data.aid)
+                setAid(authResponse.data.aid);
 
-                const { aid } = authResponse.data;
-
-                setAid(aid);
-
-                const profileResponse = await axios.get(`http://localhost:5000/profile/read?auth_id=${aid}`, { withCredentials: true });
-                console.log(profileResponse);
-                if (!Number.isNaN(profileResponse.data.data.user_id)) {
-                    navigate(`/profile/${aid}`);
+                const profileResponse = await axios.get(`http://localhost:5000/profile/read?auth_id=${authResponse.data.aid}`, { withCredentials: true });
+                if (profileResponse) {
+                    navigate(`/profile/${profileResponse.data.user_id}`);
                 }
+
             } catch (error) {
                 console.error('Failed to check profile status:', error);
             } finally {
@@ -50,7 +50,7 @@ const ProfileForm = () => {
     // Validation logic
     const validateForm = () => {
         const newErrors = {};
-        
+
         if (!formData.fullName.trim()) {
             newErrors.fullName = "Họ và tên không được để trống.";
         }
@@ -71,10 +71,6 @@ const ProfileForm = () => {
             newErrors.email = "Email không hợp lệ.";
         }
 
-        if (!formData.address.trim()) {
-            newErrors.address = "Địa chỉ không được để trống.";
-        }
-
         setErrors(newErrors);
 
         // Form is valid if there are no errors
@@ -88,18 +84,19 @@ const ProfileForm = () => {
             const formattedBirthdate = `${formData.birthDay}/${formData.birthMonth}/${formData.birthYear}`;
 
             const formSubmissionData = {
-                userFullName: formData.fullName,
-                email: formData.email,
-                birthdate: formattedBirthdate,
-                gender: formData.gender,
-                phoneNumber: formData.phoneNumber,
-                address: formData.address,
+                user_full_name: formData.fullName,
+                user_birthdate: formattedBirthdate,
+                user_gender: formData.gender,
+                user_email: formData.email,
+                user_phone_number: formData.phoneNumber,
+                user_address: formData.address,
             };
 
             try {
                 await axios.post('http://localhost:5000/profile/create', formSubmissionData, { withCredentials: true });
                 navigate(`/profile/${aid}`);
             } catch (error) {
+                setNoti('Tạo hồ sơ thất bại. Vui lòng thử lại.');
                 console.error('Failed to create profile:', error);
             }
         }
@@ -120,25 +117,25 @@ const ProfileForm = () => {
                 <form className="profile-form" onSubmit={handleFormSubmit}>
                     <div className="form-row">
                         <div className="form-group">
-                            <label>Họ và tên</label>
+                            <label>Họ và tên*</label>
                             <input
                                 type="text"
                                 name="fullName"
                                 value={formData.fullName}
                                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                                placeholder="Họ và tên"
+                                placeholder="Nhập họ và tên..."
                             />
                             {errors.fullName && <p className="error">{errors.fullName}</p>}
                         </div>
 
                         <div className="form-group">
-                            <label>SDT</label>
+                            <label>Số điện thoại*</label>
                             <input
                                 type="text"
                                 name="phoneNumber"
                                 value={formData.phoneNumber}
                                 onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                                placeholder="Số điện thoại"
+                                placeholder="Nhập số điện thoại..."
                             />
                             {errors.phoneNumber && <p className="error">{errors.phoneNumber}</p>}
                         </div>
@@ -146,7 +143,7 @@ const ProfileForm = () => {
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label>Giới tính</label>
+                            <label>Giới tính*</label>
                             <select name="gender" value={formData.gender} onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
                                 <option value="">Chọn giới tính</option>
                                 <option value="1">Nam</option>
@@ -156,19 +153,19 @@ const ProfileForm = () => {
                         </div>
 
                         <div className="form-group">
-                            <label>Ngày sinh</label>
+                            <label>Ngày sinh*</label>
                             <div className="date-selects">
                                 <select name="birthDay" value={formData.birthDay} onChange={(e) => setFormData({ ...formData, birthDay: e.target.value })}>
                                     <option value="">Ngày</option>
                                     {[...Array(31).keys()].map((d) => (
-                                        <option key={d+1} value={d+1}>{d+1}</option>
+                                        <option key={d + 1} value={d + 1}>{d + 1}</option>
                                     ))}
                                 </select>
 
                                 <select name="birthMonth" value={formData.birthMonth} onChange={(e) => setFormData({ ...formData, birthMonth: e.target.value })}>
                                     <option value="">Tháng</option>
                                     {[...Array(12).keys()].map((m) => (
-                                        <option key={m+1} value={m+1}>{m+1}</option>
+                                        <option key={m + 1} value={m + 1}>{m + 1}</option>
                                     ))}
                                 </select>
 
@@ -209,7 +206,8 @@ const ProfileForm = () => {
                         </div>
                     </div>
 
-                    <button type="submit" className="submit-button">Tạo hồ sơ</button>
+                    {noti && <div className="error-message" style={{ color: 'red' }}>{noti}</div>}
+                    <button type="submit" className="submit-button">Tạo hồ sơ</button>             
                 </form>
             </div>
         </div>

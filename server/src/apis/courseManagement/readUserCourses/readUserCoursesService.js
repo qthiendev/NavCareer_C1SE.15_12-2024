@@ -5,7 +5,7 @@ const tryReadUserCourses = async (role, aid) => {
         if (Number.isNaN(aid) || !role)
             throw new Error(`Missing index.`);
 
-        const result = await ncbd.query(role, `execute ReadAllCourse @aid`, { aid });
+        const result = await ncbd.query(role, `execute ReadUserCourses @aid`, { aid });
 
         return result && result.length > 0 ? result : [];
 

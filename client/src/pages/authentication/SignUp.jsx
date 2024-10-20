@@ -1,63 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './SignUp.css';
-import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
     const [account, setAccount] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [authzId, setAuthzId] = useState('');
+    const [authz_id, setAuthzId] = useState('');
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
+                if (response.data.sign_in_status) {
+                    navigate(-1);
+                }
+            } catch (err) {
+                console.error('Failed to check authentication status:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        checkAuth();
+    }, [navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess('');
-    
+
         // Check if the user type is selected and terms are accepted
-        if (!authzId) {
+        if (!authz_id) {
             setError('Please select a user type.');
             return;
         }
-    
+
         if (password !== confirmPassword) {
             setError('Passwords do not match.');
             return;
         }
-    
+
         if (!acceptedTerms) {
             setError('You must accept the terms and conditions.');
             return;
         }
-    
+
         try {
-            // Step 1: Sign up the user
-            const signupResponse = await axios.post('http://localhost:5000/auth/signup', {
-                account,
-                password,
-                email,
-                authz_id: authzId,
-            }, { withCredentials: true });
-    
-            // Check if the signup was successful
+            const signupResponse = await axios.post('http://localhost:5000/auth/signup',
+                { account, password, email, authz_id },
+                { withCredentials: true });
+
             if (signupResponse.status === 200) {
-                // Step 2: Automatically sign in the user
-                const signInResponse = await axios.post('http://localhost:5000/auth/signin', {
-                    account: account,
-                    password: password,
-                }, { withCredentials: true });
-    
-                // Step 3: Check if the sign-in was successful
-                if (signInResponse.status === 200) {
+                const signinResponse = await axios.post('http://localhost:5000/auth/signin',
+                    { account: account, password: password, },
+                    { withCredentials: true });
+
+                if (signinResponse.status === 200) {
                     setSuccess('Signup successful! Redirecting to create your profile...');
                     setTimeout(() => navigate(`/profile/create`), 1000); // Redirect to create profile after a brief pause
                 }
             }
+
+            if (signupResponse.status === 201) {
+                setError('Tên tài koản này đã tồn tại hoặc email đã được sử dụng.');
+            }
+
+            if (signupResponse.status === 203) {
+                setError('Tạo tài khoản thất bại.');
+            }
+
         } catch (err) {
             if (err.response && err.response.data) {
                 setError(err.response.data.message || 'Signup or sign-in failed. Please try again.');
@@ -66,7 +84,9 @@ function SignUp() {
             }
         }
     };
-    
+
+    if (loading)
+        return (<div>Loading...</div>);
 
     return (
         <div className="signup-container">
@@ -93,10 +113,10 @@ function SignUp() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="authzId">Loại người dùng:</label>
+                    <label htmlFor="authz_id">Loại người dùng:</label>
                     <select
-                        id="authzId"
-                        value={authzId}
+                        id="authz_id"
+                        value={authz_id}
                         onChange={(e) => setAuthzId(e.target.value)}
                         required
                     >

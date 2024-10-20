@@ -17,8 +17,8 @@ function UpdateCourse() {
             try {
                 const response = await axios.get(`http://localhost:5000/course/read?course_id=${course_id}`, { withCredentials: true });
                 console.log(response);
-                setCourseData(response.data.data);
-                setModules(response.data.data.modules || []);
+                setCourseData(response.data);
+                setModules(response.data.modules || []);
             } catch (error) {
                 alert("Cannot find course");
                 navigate(-1);
@@ -33,7 +33,7 @@ function UpdateCourse() {
             if (courseData) {
                 try {
                     const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                    if (!response.data.sign_in_status || response.data.aid !== Number.parseInt(courseData.provider_id)) {
+                    if (!response.data.sign_in_status || response.data.aid !== Number.parseInt(courseData.authentication_id)) {
                         navigate(-1);
                     } else {
                         setLoading(false);
@@ -51,20 +51,26 @@ function UpdateCourse() {
 
     const handleUpdateCourse = async (e) => {
         e.preventDefault();
-        if (!courseData.course_name || !courseData.course_description) {
+        if (!courseData.course_name || !courseData.course_short_description || !courseData.course_full_description) {
             setErrorMessage('Course name and description cannot be empty.');
             return;
         }
 
         try {
-            await axios.post(`http://localhost:5000/course/update`, {
-                course_id: course_id,
-                new_course_name: courseData.course_name,
-                new_course_description: courseData.course_description,
-                new_duration: courseData.duration,
-                modules,
-            }, { withCredentials: true });
+            await axios.post(`http://localhost:5000/course/update`,
+                {
+                    course_id: course_id,
+                    course_name: courseData.course_name,
+                    course_short_description: courseData.course_short_description,
+                    course_full_description: courseData.course_full_description,
+                    course_price: courseData.course_price,
+                    course_duration: courseData.course_duration,
+                    course_status: courseData.course_status,
+                    modules,
+                },
+                { withCredentials: true });
             alert('Course updated successfully');
+            navigate(-1);
         } catch (error) {
             setErrorMessage('Failed to update course. Please try again later.');
             console.error('Failed to update course:', error);
@@ -148,13 +154,47 @@ function UpdateCourse() {
                         onChange={(e) => setCourseData({ ...courseData, course_price: e.target.value })}
                     />
                 </div>
+
                 <div>
-                    <label>Course Description</label>
+                    <label>Course Short Description</label>
                     <textarea
-                        value={courseData?.course_description || ''}
-                        onChange={(e) => setCourseData({ ...courseData, course_description: e.target.value })}
+                        className="course-description"
+                        value={courseData?.course_short_description || ''}
+                        onChange={(e) => {
+                            setCourseData({ ...courseData, course_short_description: e.target.value });
+                            adjustHeight(e); // Adjust height on change
+                        }}
                     />
                 </div>
+
+                <div>
+                    <label>Course Full Description</label>
+                    <textarea
+                        className="course-description"
+                        value={courseData?.course_full_description || ''}
+                        onChange={(e) => {
+                            setCourseData({ ...courseData, course_full_description: e.target.value });
+                            adjustHeight(e); // Adjust height on change
+                        }}
+                    />
+                </div>
+
+                <div>
+                    <label>Course Full Description</label>
+                    <select
+                        id="status"
+                        name="status"
+                        value={courseData?.course_status}
+                        onChange={(e) => {
+                            setCourseData({ ...courseData, course_status: e.target.value });
+                            adjustHeight(e); // Adjust height on change
+                        }}
+                    >
+                        <option value="true">Hoạt động</option>
+                        <option value="false">Khóa</option>
+                    </select>
+                </div>
+
                 <div>
                     <h3>Modules</h3>
                     <button type="button" onClick={addModule}>Add Module</button>

@@ -35,7 +35,7 @@ function ModifyUser() {
                 if (response.status !== 200) navigate('/');
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
-                navigate('/signin');
+                navigate('/');
             }
         };
         checkAdmin();

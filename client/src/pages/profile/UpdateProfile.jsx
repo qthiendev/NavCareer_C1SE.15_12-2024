@@ -4,16 +4,8 @@ import axios from 'axios';
 import './UpdateProfile.css';
 
 function UpdateProfile() {
-    const [profile, setProfile] = useState({
-        user_id: null,
-        user_full_name: '',
-        email: '',
-        phone_number: '',
-        address: '',
-        gender: '',
-        date_joined: '',
-        is_active: 0, // Default as a number
-    });
+    const [profile, setProfile] = useState();
+    const [aid, setAid] = useState(null);
 
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
@@ -23,38 +15,40 @@ function UpdateProfile() {
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
-    const { user_id } = useParams();
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                if (!response.data.sign_in_status || response.data.aid !== Number.parseInt(user_id)) {
-                    navigate('/');
+                const authResponse = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
+                console.log(authResponse.data.sign_in_status);
+
+                if (!authResponse.data.sign_in_status) {
+                    navigate('/signin');
+                    return;
                 }
-            } catch (err) {
-                console.error('Failed to check authentication status:', err);
+
+                setAid(authResponse.data.aid);
+            } catch (error) {
+                console.error('Failed to check profile status:', error);
             }
         };
 
-        const fetchProfileData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:5000/profile/read?auth_id=${user_id}`, { withCredentials: true });
-                const birthdate = new Date(response.data.data.birthdate);
-                setProfile({
-                    user_id: response.data.data.authentication_id,
-                    user_full_name: response.data.data.user_full_name,
-                    email: response.data.data.email,
-                    phone_number: response.data.data.phone_number,
-                    address: response.data.data.address,
-                    gender: response.data.data.gender,
-                    date_joined: response.data.data.date_joined,
-                    is_active: response.data.data.is_active ? 1 : 0, // Convert to 1 or 0
-                });
+        checkAuth();
+    }, [navigate]);
 
-                // Set the initial day, month, and year
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            if (!aid) return; // Only proceed if aid is defined
+
+            try {
+                const response = await axios.get(`http://localhost:5000/profile/read?auth_id=${aid}`, { withCredentials: true });
+                console.log(response);
+                const birthdate = new Date(response.data.user_birthdate);
+
+                setProfile(response.data);
+
                 setDay(birthdate.getDate());
-                setMonth(birthdate.getMonth() + 1); // Month is 0-based
+                setMonth(birthdate.getMonth() + 1);
                 setYear(birthdate.getFullYear());
 
                 setLoading(false);
@@ -64,44 +58,62 @@ function UpdateProfile() {
             }
         };
 
-        checkAuth();
         fetchProfileData();
-    }, [user_id]);
+    }, [aid]);
+
+
 
     // Handle form input changes
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setProfile({
             ...profile,
-            [name]: name === 'is_active' ? Number(value) : value, // Convert is_active to a number
+            [name]: name === 'user_status' ? Number(value) : value,
         });
     };
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         // Format birthdate as day/month/year
         const formattedBirthdate = `${day}/${month}/${year}`;
-    
+        console.log({
+            dataSend: {
+                user_full_name: profile.user_full_name,
+                user_alias: profile.user_alias,
+                user_birthdate: formattedBirthdate,
+                user_gender: Number(profile.user_gender),
+                user_email: profile.user_email,
+                user_phone_number: profile.user_phone_number,
+                user_address: profile.user_address,
+                user_status: Number(profile.user_status),
+            }
+        })
         try {
             await axios.put(
-                `http://localhost:5000/profile/update`, 
+                `http://localhost:5000/profile/update`,
                 {
-                    ...profile,
-                    is_active: Number(profile.is_active), // Ensure is_active is sent as a number
-                    birthdate: formattedBirthdate,
+                    user_full_name: profile.user_full_name,
+                    user_alias: profile.user_alias,
+                    user_bio: profile.user_bio,
+                    user_birthdate: formattedBirthdate,
+                    user_gender: profile.user_gender,
+                    user_email: profile.user_email,
+                    user_phone_number: profile.user_phone_number,
+                    user_address: profile.user_address,
+                    user_status: profile.user_status,
                 },
                 { withCredentials: true }
             );
-    
+
             alert('Profile updated successfully!');
-            navigate(`/profile/${profile.user_id}`);
+            navigate(`/profile/${profile.user_aid}`);
         } catch (err) {
-            setError('Failed to update profile.');
+            setError('Failed to update profile.user_');
         }
     };
-    
+
 
     if (loading) return <div>Loading...</div>;
 
@@ -115,12 +127,12 @@ function UpdateProfile() {
             <div className="left-panel">
                 <div className="profile-header">
                     <img
-                        src="/img/student_profile/std_prf.png"             
+                        src="/img/student_profile/std_prf.png"
                         alt="Avatar"
                         className="profile-avatar"
                     />
-                    <h2 className="profile-name">huongdang123</h2>  
-                    {/* Lấy theo data người dùng đã điền khi đăng ký tài khoản */}
+                    <h2 className="profile-name">{profile.user_alias || profile.trim() !== '' ? profile.user_alias : profile.user_full_name}</h2>
+                    <p className="profile-bio">{profile.user_bio ? profile.user_bio : "Ở đây hơi vắng vẻ"}</p>  
                     <button className="share-profile-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" /> {/* Icon chia sẻ */}
                         Chia sẻ hồ sơ
@@ -132,7 +144,7 @@ function UpdateProfile() {
                         <li className="menu-item">Các khoá học</li>
                         <li className="menu-item">Giảng viên yêu thích</li>
                         <li className="menu-item">Tin nhắn</li>
-                        <li style={{'border':'none'}} className="menu-item">Liên hệ admin</li>
+                        <li style={{ 'border': 'none' }} className="menu-item">Liên hệ admin</li>
                     </ul>
                 </div>
             </div>
@@ -141,12 +153,20 @@ function UpdateProfile() {
                 <form className="user-profile-form" onSubmit={handleSubmit}>
                     <div className='form-row'>
                         <div className="form-group">
-                            <label htmlFor="is_active">Trạng thái tài khoản:</label>
-                            <p>{profile.is_active ? 'Đang hoạt động' : 'Không hoạt động'}</p>
+                            <label htmlFor="user_status">Trạng thái tài khoản:</label>
+                            <select
+                                id="status"
+                                name="status"
+                                value={profile.user_status ? "1" : "0"}
+                                onChange={handleInputChange}
+                            >
+                                <option value="1">Hoạt động</option>
+                                <option value="0">Khóa</option>
+                            </select>
                         </div>
                         <div className="form-group">
                             <label>Ngày tham gia:</label>
-                            <p>{new Date(profile.date_joined).toLocaleDateString()}</p>
+                            <p>{new Date(profile.user_created_date).toLocaleDateString()}</p>
                         </div>
                     </div>
                     <div className='form-row'>
@@ -180,11 +200,11 @@ function UpdateProfile() {
                             <select
                                 id="gender"
                                 name="gender"
-                                value={profile.gender}
+                                value={profile.user_gender ? "1" : "0"}
                                 onChange={handleInputChange}
                             >
-                                <option value="true">Nam</option>
-                                <option value="false">Nữ</option>
+                                <option value="1">Nam</option>
+                                <option value="0">Nữ</option>
                             </select>
                         </div>
                     </div>
@@ -206,7 +226,7 @@ function UpdateProfile() {
                                 type="email"
                                 id="email"
                                 name="email"
-                                value={profile.email}
+                                value={profile.user_email}
                                 onChange={handleInputChange}
                                 required
                             />
@@ -219,7 +239,7 @@ function UpdateProfile() {
                                 type="text"
                                 id="phone_number"
                                 name="phone_number"
-                                value={profile.phone_number}
+                                value={profile.user_phone_number}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -230,7 +250,7 @@ function UpdateProfile() {
                                 type="text"
                                 id="address"
                                 name="address"
-                                value={profile.address}
+                                value={profile.user_address}
                                 onChange={handleInputChange}
                             />
                         </div>

@@ -14,7 +14,7 @@ function ViewCourse() {
         const fetchCourseData = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/course/read?course_id=${course_id}`, { withCredentials: true });
-                setCourseData(response.data.data);
+                setCourseData(response.data);
             } catch (error) {
                 console.error('Failed to fetch course data:', error);
             } finally {
@@ -29,8 +29,8 @@ function ViewCourse() {
         const checkAuth = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                if (courseData && courseData.provider_id) {
-                    setUpdatable(response.data.aid === Number.parseInt(courseData.provider_id, 10));
+                if (courseData && courseData.user_id) {
+                    setUpdatable(response.data.aid === Number.parseInt(courseData.user_id, 10));
                 }
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
@@ -53,10 +53,10 @@ function ViewCourse() {
     return (
         <div className="view-course-container">
             <h1>{courseData.course_name}</h1>
-            <p><strong>Nhà cung cấp:</strong> {courseData.provider_name}</p>
-            <p><strong>Email:</strong> {courseData.provider_email}</p>
-            <p><strong>Số điện thoại:</strong> {courseData.provider_phone_number}</p>
-            <p><strong>Mô tả:</strong> {courseData.course_description}</p>
+            <p><strong>Nhà cung cấp:</strong> {courseData.user_full_name}</p>
+            <p><strong>Email:</strong> {courseData.user_email}</p>
+            <p><strong>Số điện thoại:</strong> {courseData.user_phone_number}</p>
+            <p><strong>Mô tả:</strong> {courseData.course_full_description}</p>
             <p><strong>Giá:</strong> {courseData.course_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
             <p><strong>Thời gian dự kiến:</strong> {courseData.duration}</p>
 
@@ -70,7 +70,7 @@ function ViewCourse() {
             </ul>
 
             {updatable && (
-                <button className="btn-edit" onClick={() => navigate(`/course/${course_id}/update`)}>
+                <button className="btn-edit" onClick={() => navigate(`/esp/course/${course_id}/update`)}>
                     Edit Course
                 </button>
             )}

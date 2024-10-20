@@ -9,12 +9,12 @@ const readCourse = async (req, res) => {
         if (Number.isNaN(course_id))
             throw new Error(`'course_id' is required.`);
 
-        const data = await tryReadCourse(role, course_id);
+        const course = await tryReadCourse(role, course_id);
 
-        if (data) {
+        if (course) {
             console.log(`[${now.toLocaleString()}] at readCourseController.js/readCourse | Course ${course_id} found.`);
             return res.status(200).json({
-                data,
+                ...course,
                 time: now.toLocaleString()
             });
         } else {
@@ -32,5 +32,6 @@ const readCourse = async (req, res) => {
         });
     }
 }
+
 
 module.exports = { readCourse };

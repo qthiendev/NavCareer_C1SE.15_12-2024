@@ -42,7 +42,7 @@ const Router = () => {
           <Route path="admin/user/modify" element={<ModifyUser />} />
 
           <Route path="profile/:user_id/" element={<ViewProfile />} />
-          <Route path="profile/:user_id/update" element={<UpdateProfile />} /> 
+          <Route path="profile/update" element={<UpdateProfile />} /> 
           <Route path="profile/create" element={<CreateProfile />} /> 
 
           <Route path="course/:course_id" element={<ViewCourse />} />

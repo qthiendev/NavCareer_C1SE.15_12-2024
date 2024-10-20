@@ -5,51 +5,29 @@ const formatDate = (birthdate) => {
     return `${year}-${month}-${day}`; // yyyy-MM-dd
 };
 
-const tryUpdateProfile = async (profileData) => {
-
-    const {
-        aid,
-        role,
-        user_id,
-        user_full_name,
-        email,
-        birthdate,
-        gender,
-        phone_number,
-        address,
-        is_active
-    } = profileData;
-
-    console.log(profileData)
+const tryUpdateProfile = async (aid, role, user_full_name, user_alias, user_bio, user_birthdate, user_gender, user_email, user_phone_number, user_address, user_status) => {
     try {
+        if (!user_full_name
+            || !user_alias
+            || !user_birthdate
+            || Number.isNaN(user_gender)
+            || !user_email
+            || !user_phone_number
+            || !user_address
+            || Number.isNaN(user_status)) {
+            throw new Error('missing elements', user_full_name, user_alias, user_birthdate, user_gender, user_email, user_phone_number, user_address, user_status);
+        }
 
-        // Convert birthdate from dd/MM/yyyy to yyyy-MM-dd format
-        const formattedBirthdate = formatDate(birthdate);
+        const formattedBirthdate = formatDate(user_birthdate);
 
-        // Create profile query and parameters
-        const queryString = `
-            EXEC UpdateProfile @aid, @user_id, @user_full_name, 
-            @birthdate, @gender, @email, @phone_number, 
-            @address, @is_active;`;
-        const params = {
-            aid,
-            user_id,
-            user_full_name,
-            birthdate: formattedBirthdate,
-            email,
-            gender,
-            phone_number,
-            address,
-            is_active
-        };
+        const updateProfile = await ncbd.query(role,
+            `EXEC UpdateProfile @aid, @user_full_name, @user_alias, @user_bio, @user_birthdate, @user_gender, @user_email, @user_phone_number, @user_address, @user_status`,
+            { aid, user_full_name, user_alias, user_bio, user_birthdate: formattedBirthdate, user_gender, user_email, user_phone_number, user_address, user_status });
 
-        // Insert profile data
-        const newProfile = await ncbd.query(role, queryString, params);
-
-        return newProfile && newProfile.length > 0;
+        return updateProfile[0].check;
 
     } catch (err) {
-        throw Error(`createProfileService.js/tryUpdateProfile() | ${err.message}`);
+        throw Error(`updateProfileService.js/tryUpdateProfile | ${err.message}`);
     }
 };
 

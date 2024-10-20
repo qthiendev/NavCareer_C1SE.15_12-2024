@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './SignIn.css';
 
@@ -7,18 +7,20 @@ function SignIn() {
     const [account, setAccount] = useState('');
     const [password, setPassword] = useState('');
     const [noti, setNoti] = useState(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                console.log(response)
                 if (response.data.sign_in_status) {
                     navigate(-1);
                 }
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
+            } finally {
+                setLoading(false);
             }
         };
         checkAuth();
@@ -34,25 +36,26 @@ function SignIn() {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/auth/signin', {
-                account: account,
-                password: password,
-            }, { withCredentials: true });
+            const response = await axios.post('http://localhost:5000/auth/signin',
+                { account: account, password: password },
+                { withCredentials: true });
 
             if (response.status === 200) {
-                navigate('/');
+                navigate(-1);
+            }
+            if (response.status === 201) {
+                navigate(-1);
             }
             if (response.status === 203) {
                 setNoti('Tên tài khoản hặc mật khẩu không chính xác. Vui lòng thử lại.');
             }
         } catch (err) {
-            if (err.response && err.response.status === 401) {
-                setNoti('Tên tài khoản hặc mật khẩu không chính xác. Vui lòng thử lại.');
-            } else {
-                setNoti('Tên tài khoản hặc mật khẩu không chính xác. Vui lòng thử lại.');
-            }
+            setNoti('Tên tài khoản hặc mật khẩu không chính xác. Vui lòng thử lại.');
         }
     };
+
+    if (loading)
+        return(<div>Loading...</div>);
 
     return (
         <div className="login-container">
