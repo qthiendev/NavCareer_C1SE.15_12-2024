@@ -14,6 +14,7 @@ import Search from './pages/utilities/Search.jsx';
 import AdminHome from './pages/manageSystem/AdminHome.jsx';
 import ViewAllUser from './pages/manageSystem/ViewAllUser.jsx';
 import ModifyUser from './pages/manageSystem/ModifyUser.jsx';
+import UserFunctionGeneral from './pages/manageSystem/UserFunctionGeneral.jsx';
 
 import CreateProfile from './pages/profile/CreateProfile.jsx';
 import UpdateProfile from './pages/profile/UpdateProfile.jsx';
@@ -40,6 +41,7 @@ const Router = () => {
           <Route path="admin" element={<AdminHome />} /> 
           <Route path="admin/user/view-all" element={<ViewAllUser />} />
           <Route path="admin/user/modify" element={<ModifyUser />} />
+          <Route path="admin/user/function/general" element={<UserFunctionGeneral />} />
 
           <Route path="profile/:user_id/" element={<ViewProfile />} />
           <Route path="profile/update" element={<UpdateProfile />} /> 

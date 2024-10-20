@@ -27,7 +27,8 @@ begin
 		left join Authorizations az on az.authorization_id = a.authorization_id
 end
 go
-
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 if object_id('ModifyUser', 'P') is not null drop procedure ModifyUser;
 go
 create procedure ModifyUser
@@ -99,27 +100,115 @@ begin
     select @result as [check];
 end
 go
-
-if object_id('ReadAllProcedure', 'P') is not null drop procedure ReadAllProcedure;
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadAllProcedureBanned', 'P') is not null drop procedure ReadAllProcedureBanned;
 go
-create procedure ReadAllProcedure @role nvarchar(100)
+create procedure ReadAllProcedureBanned
 as
 begin
-	select sp.name as [ProcedureName]
-	from sys.database_permissions dp
-		join sys.objects sp on dp.major_id = sp.object_id
-		join sys.database_principals pr on dp.grantee_principal_id = pr.principal_id
-		left join AuthProcedureBanned apb on apb.[procedure_name] = sp.[name]
-	where sp.type = 'P' AND pr.name = @role;
+    select auth.[authentication_id],
+        convert(nvarchar(max), decryptbypassphrase('NavCareerSecret', auth.[account])) as [account],
+        [procedure_name]
+    from Authentications auth
+    left join  AuthProcedureBanned apb on auth.[authentication_id] = apb.[authentication_id];
 end
 go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('CreateBanned', 'P') is not null drop procedure CreateBanned;
+go
+create procedure CreateBanned @authentication_id int, @procedure_name nvarchar(1024)
+as
+begin
+    if object_id(@procedure_name, 'P') is null
+    begin
+        select 'U_P_NAME' as [check], 'The specified procedure does not exist.' as [message];
+        return;
+    end
 
+    if not exists (select 1 from Authentications where authentication_id = @authentication_id)
+    begin
+        select 'U_AID' as [check], 'The specified authentication ID does not exist.' as [message];
+        return;
+    end
+
+    declare @id int;
+
+    select top 1 @id = apb1.[id] + 1
+    from AuthProcedureBanned apb1
+        left join AuthProcedureBanned apb2 on apb1.[id] + 1 = apb2.[id]
+    where apb2.[id] is null
+    order by apb1.[id];
+
+    if @id is null 
+        select @id = isnull(max([id]), 0) + 1 from AuthProcedureBanned;
+
+    insert into AuthProcedureBanned ([id], [authentication_id], [procedure_name])
+    values
+    (@id, @authentication_id, @procedure_name);
+
+    if @@ROWCOUNT = 1
+    begin
+        select 'SUCCESSED' as [check], 'The procedure has been successfully banned.' as [message];
+        return;
+    end
+
+    select 'FAILED' as [check], 'Failed to insert the procedure into AuthProcedureBanned.' as [message];
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('RemoveBanned', 'P') is not null drop procedure RemoveBanned;
+go
+create procedure RemoveBanned @authentication_id int, @procedure_name nvarchar(1024)
+as
+begin
+    if object_id(@procedure_name, 'P') is null
+    begin
+        select 'U_P_NAME' as [check], 'The specified procedure does not exist.' as [message];
+        return;
+    end
+
+    if not exists (select 1 from Authentications where authentication_id = @authentication_id)
+    begin
+        select 'U_AID' as [check], 'The specified authentication ID does not exist.' as [message];
+        return;
+    end
+
+    -- check if the banned procedure entry exists
+    if not exists (select 1 from AuthProcedureBanned where authentication_id = @authentication_id and procedure_name = @procedure_name)
+    begin
+        select 'U_BAN' as [check], 'No ban entry found for the given procedure and authentication ID.' as [message];
+        return;
+    end
+
+    delete from AuthProcedureBanned
+    where authentication_id = @authentication_id
+      and procedure_name = @procedure_name;
+
+    if @@rowcount = 1
+    begin
+        select 'SUCCESSED' as [check], 'The ban entry has been successfully removed.' as [message];
+        return;
+    end
+
+    select 'FAILED' as [check], 'Failed to remove the ban entry from AuthProcedureBanned.' as [message];
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 grant execute on dbo.ReadAllUser to [NAV_ADMIN];
 go
 grant execute on dbo.ModifyUser to [NAV_ADMIN];
 go
-grant execute on dbo.ReadAllProcedure to [NAV_ADMIN];
+grant execute on dbo.ReadAllProcedureBanned to [NAV_ADMIN];
 go
-
-exec ReadAllProcedure 'nav_guest'
+grant execute on dbo.CreateBanned to [NAV_ADMIN];
+go
+grant execute on dbo.RemoveBanned to [NAV_ADMIN];
+go
 

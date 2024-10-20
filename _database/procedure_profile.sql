@@ -36,7 +36,7 @@ create procedure ReadProfileSignedIn @aid int, @user_id INT
 as
 begin
 	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'ViewUserCourses');
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadProfileSignedIn');
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
@@ -149,7 +149,7 @@ create procedure UpdateProfile
 as
 begin
     declare @IsBanned BIT;
-    set @IsBanned = dbo.IsUserBanned(@aid, 'CreateProfile');
+    set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateProfile');
     if @IsBanned = 1 return;
 
 	if not exists (select 1 from Authentications where authentication_id = @aid)
@@ -231,7 +231,7 @@ create procedure ReadProfileSignedInByAuth @aid int, @auth_id INT
 as
 begin
 	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'ViewUserCourses');
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadProfileSignedInByAuth');
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
@@ -262,39 +262,62 @@ end;
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
-grant execute on dbo.[ReadProfile] to [NAV_GUEST]
-grant execute on dbo.[ReadProfile] to [NAV_ADMIN]
-grant execute on dbo.[ReadProfile] to [NAV_ESP]
-grant execute on dbo.[ReadProfile] to [NAV_STUDENT]
+grant execute on dbo.[ReadProfile] to [NAV_GUEST]                     
+go
+grant execute on dbo.[ReadProfile] to [NAV_ADMIN]					  
+go
+grant execute on dbo.[ReadProfile] to [NAV_ESP]						  
+go
+grant execute on dbo.[ReadProfile] to [NAV_STUDENT]					  
+go
 
-grant execute on dbo.[ReadProfileByAuth] to [NAV_GUEST]
-grant execute on dbo.[ReadProfileByAuth] to [NAV_ADMIN]
-grant execute on dbo.[ReadProfileByAuth] to [NAV_ESP]
-grant execute on dbo.[ReadProfileByAuth] to [NAV_STUDENT]
+grant execute on dbo.[ReadProfileByAuth] to [NAV_GUEST]				  
+go
+grant execute on dbo.[ReadProfileByAuth] to [NAV_ADMIN]				  
+go
+grant execute on dbo.[ReadProfileByAuth] to [NAV_ESP]				  
+go
+grant execute on dbo.[ReadProfileByAuth] to [NAV_STUDENT]			  
+go
+																	  
+grant execute on dbo.[ReadProfileSignedIn] to [NAV_ADMIN]			  
+go
+grant execute on dbo.[ReadProfileSignedIn] to [NAV_ESP]				  
+go
+grant execute on dbo.[ReadProfileSignedIn] to [NAV_STUDENT]			  
+go
+																	  
+grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_GUEST]		  
+go
+grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_ADMIN]		  
+go
+grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_ESP]		  
+go
+																	  
+grant execute on dbo.[CreateProfile] to [NAV_ADMIN]					  
+go
+grant execute on dbo.[CreateProfile] to [NAV_ESP]					  
+go
+grant execute on dbo.[CreateProfile] to [NAV_STUDENT]				  
+go
 
-grant execute on dbo.[ReadProfileSignedIn] to [NAV_ADMIN]
-grant execute on dbo.[ReadProfileSignedIn] to [NAV_ESP]
-grant execute on dbo.[ReadProfileSignedIn] to [NAV_STUDENT]
-
-grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_GUEST]
-grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_ADMIN]
-grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_ESP]
-
-
-grant execute on dbo.[CreateProfile] to [NAV_ADMIN]
-grant execute on dbo.[CreateProfile] to [NAV_ESP]
-grant execute on dbo.[CreateProfile] to [NAV_STUDENT]
-
-grant execute on dbo.[UpdateProfile] to [NAV_ADMIN]
-grant execute on dbo.[UpdateProfile] to [NAV_ESP]
-grant execute on dbo.[UpdateProfile] to [NAV_STUDENT]
+grant execute on dbo.[UpdateProfile] to [NAV_ADMIN]					  
+go
+grant execute on dbo.[UpdateProfile] to [NAV_ESP]					  
+go
+grant execute on dbo.[UpdateProfile] to [NAV_STUDENT]				  
+go
 
 
-EXECUTE as USER = 'NAV_GUEST';
+EXECUTE as USER = 'NAV_STUDENT';
+go
 --EXEC dbo.SignIn @account = 'qthiendev', @password = 'qthiendev';
 --EXEC ReadProfile 5;
 --select * from users
+exec ReadProfileSignedInByAuth 2, 2
+go
 REVERT;
+go
 --declare @IsBanned BIT;
 --set @IsBanned = dbo.IsUserBanned(@aid, 'CreateAuthorization');
 --if @IsBanned = 1 return;

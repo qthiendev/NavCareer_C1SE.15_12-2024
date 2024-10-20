@@ -6,6 +6,9 @@ const authzMiddleware = require('../middlewares/authorization');
 
 const { readAll } = require('../apis/systemManagement/userManagement/readAll/readAllController');
 const { modifyUser } = require('../apis/systemManagement/userManagement/modifyUser/modifyUserController');
+const { readBan } = require('../apis/systemManagement/userManagement/ban/readBan/readBanController');
+const { createBan } = require('../apis/systemManagement/userManagement/ban/createBan/createBanController');
+const { removeBan } = require('../apis/systemManagement/userManagement/ban/removeBan/removeBanController')
 
 router.get('', async (req, res) => {
     const htmlResponse = `
@@ -68,5 +71,8 @@ router.get('', async (req, res) => {
 
 router.get('/user/read', authMiddleware.isSignedIn, authzMiddleware.admin, readAll);
 router.post('/user/modify', authMiddleware.isSignedIn, authzMiddleware.admin, modifyUser);
+router.get('/user/ban/read', authMiddleware.isSignedIn, authzMiddleware.admin, readBan);
+router.post('/user/ban/create', authMiddleware.isSignedIn, authzMiddleware.admin, createBan);
+router.post('/user/ban/remove', authMiddleware.isSignedIn, authzMiddleware.admin, removeBan);
 
 module.exports = router;

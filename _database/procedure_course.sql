@@ -19,6 +19,7 @@ begin
 	end
 
 	select u.[user_id],
+		u.[authentication_id],
 		u.[user_full_name],
 		u.[user_address],
 		u.[user_birthdate],
@@ -30,6 +31,7 @@ begin
 		c.[course_price],
 		c.[course_duration],
 		c.[course_piority_index],
+		c.[course_status],
 		m.[module_ordinal],
 		m.[module_name]
 	from Courses c
@@ -302,4 +304,4 @@ grant execute on dbo.ReadCourse to [NAV_STUDENT];
 grant execute on dbo.CreateCourse to [NAV_ESP];
 grant execute on dbo.UpdateCourse to [NAV_ESP];
 grant execute on dbo.DeleteCourse to [NAV_ESP];
-grant execute on dbo.ViewUserCourses to [NAV_ESP];
+grant execute on dbo.ReadUserCourses to [NAV_ESP];

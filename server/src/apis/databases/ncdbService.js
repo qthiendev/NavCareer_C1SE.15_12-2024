@@ -46,9 +46,9 @@ const query = async (role, queryString, params = {}) => {
             request.input(key, value);
         }
 
-        const results = await request.query(queryString);
+        console.log(`[${new Date().toLocaleString()}] at ncbdService.js/queryDB | Querying NavCareerDB: ${queryString} -> ${JSON.stringify(params)}`);
 
-        console.log(`[${new Date().toLocaleString()}] at ncbdService.js/queryDB | Queried NavCareerDB: ${queryString} -> ${JSON.stringify(params)}`);
+        const results = await request.query(queryString);
 
         await closeConnect();
 
