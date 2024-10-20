@@ -287,7 +287,7 @@ go
 grant execute on dbo.[ReadProfileSignedIn] to [NAV_STUDENT]			  
 go
 																	  
-grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_GUEST]		  
+grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_STUDENT]		  
 go
 grant execute on dbo.[ReadProfileSignedInByAuth] to [NAV_ADMIN]		  
 go
