@@ -8,7 +8,6 @@ function UpdateProfile() {
     const [aid, setAid] = useState(null);
     const [authChecked, setAuthChecked] = useState(false);
     const [banChecked, setBanChecked] = useState(false);
-    const [profileLoaded, setProfileLoaded] = useState(false);
 
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
@@ -73,7 +72,6 @@ function UpdateProfile() {
                 setMonth(birthdate.getMonth() + 1);
                 setYear(birthdate.getFullYear());
 
-                setProfileLoaded(true); // Set profileLoaded to true when done
                 setLoading(false);
             } catch (err) {
                 setError('Failed to fetch profile data.');

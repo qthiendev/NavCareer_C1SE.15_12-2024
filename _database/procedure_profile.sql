@@ -307,7 +307,7 @@ grant execute on dbo.[UpdateProfile] to [NAV_STUDENT]
 go
 
 
-EXECUTE as USER = 'NAV_STUDENT';
+EXECUTE as USER = 'NAV_ADMIN';
 go
 --EXEC dbo.SignIn @account = 'qthiendev', @password = 'qthiendev';
 --EXEC ReadProfile 5;
