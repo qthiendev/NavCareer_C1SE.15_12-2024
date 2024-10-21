@@ -11,7 +11,7 @@ begin
 		convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[account])) as [account],
 		convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[password])) as [password],
 		convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[identifier_email])) as [identifier_email],
-		a.[auth_state] as [auth_state],
+		a.[auth_status],
 		az.[role],
 		u.[user_id],
 		u.[user_full_name],
@@ -37,7 +37,7 @@ create procedure ModifyUser
     @password NVARCHAR(MAX),
     @identifier_email NVARCHAR(MAX), 
     @authorization_id int,
-    @auth_state bit,
+    @auth_status bit,
 
     @user_full_name NVARCHAR(MAX),
 	@user_alias NVARCHAR(MAX),
@@ -65,7 +65,7 @@ begin
         [password] = @encoded_password,
         [identifier_email] = @encoded_identifier_email,
         [authorization_id] = @authorization_id,
-        [auth_state] = @auth_state
+        [auth_status] = @auth_status
     where [authentication_id] = @authentication_id;
 
     update Users
@@ -215,6 +215,8 @@ end
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+grant execute on dbo.CreateAuthentication to [NAV_ADMIN];
+go
 grant execute on dbo.ReadAllUser to [NAV_ADMIN];
 go
 grant execute on dbo.ModifyUser to [NAV_ADMIN];

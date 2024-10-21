@@ -118,7 +118,7 @@ go
 
 if object_id('CreateAuthentication', 'P') is not null drop procedure CreateAuthentication;
 go
-create procedure CreateAuthentication @account nvarchar(max), @password nvarchar(max), @identifier_email nvarchar(max), @authorization_id int, @is_active bit
+create procedure CreateAuthentication @account nvarchar(max), @password nvarchar(max), @identifier_email nvarchar(max), @authorization_id int, @auth_status bit
 as
 begin
     declare @authentication_id int;
@@ -131,8 +131,8 @@ begin
     set @encoded_password = EncryptByPassPhrase('NavCareerSecret', @password);
 	set @encoded_identifier_email = EncryptByPassPhrase('NavCareerSecret', @identifier_email);
     
-    insert into Authentications([authentication_id], [account], [password], [identifier_email], [created_date], [authorization_id], [is_active])
-    values (@authentication_id, @encoded_account, @encoded_password, @encoded_identifier_email, getdate(), @authorization_id, @is_active);
+    insert into Authentications([authentication_id], [account], [password], [identifier_email], [created_date], [authorization_id], [auth_status])
+    values (@authentication_id, @encoded_account, @encoded_password, @encoded_identifier_email, getdate(), @authorization_id, @auth_status);
 end
 go
 

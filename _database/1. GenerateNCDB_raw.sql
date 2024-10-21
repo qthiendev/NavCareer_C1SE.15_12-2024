@@ -97,7 +97,7 @@ create table Authentications (
     [identifier_email] varbinary(700) not null unique,
     [created_date] datetime default getdate() not null,
     [authorization_id] int null,
-	[auth_state] bit default 1 not null,
+	[auth_status] bit default 1 not null,
     constraint fk_authentication_authorization_id foreign key ([authorization_id]) references Authorizations([authorization_id]) on delete set null
 );
 go

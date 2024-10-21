@@ -31,7 +31,7 @@ function UpdateProfile() {
                 }
 
                 setAid(authResponse.data.aid);
-                setAuthChecked(true); // Set authChecked to true when done
+                setAuthChecked(true);
             } catch (error) {
                 console.error('Failed to check profile status:', error);
             }
@@ -42,7 +42,7 @@ function UpdateProfile() {
 
     useEffect(() => {
         const checkBanStatus = async () => {
-            if (!authChecked) return; // Only proceed if authChecked is true
+            if (!authChecked) return;
 
             try {
                 const response = await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateProfile', { withCredentials: true });

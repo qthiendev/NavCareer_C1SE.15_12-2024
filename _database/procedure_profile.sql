@@ -271,8 +271,6 @@ go
 grant execute on dbo.[ReadProfile] to [NAV_STUDENT]					  
 go
 
-grant execute on dbo.[ReadProfileByAuth] to [NAV_GUEST]				  
-go
 grant execute on dbo.[ReadProfileByAuth] to [NAV_ADMIN]				  
 go
 grant execute on dbo.[ReadProfileByAuth] to [NAV_ESP]				  

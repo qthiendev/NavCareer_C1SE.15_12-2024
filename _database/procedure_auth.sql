@@ -9,13 +9,13 @@ go
 create procedure SignIn  @account nvarchar(max), @password nvarchar(max)
 as
 begin
-	declare @auth_state bit;
-	select @auth_state = [auth_state]
+	declare @auth_status bit;
+	select @auth_status = [auth_status]
 	from Authentications
 	where convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [account])) = @account
 		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', [password])) = @password;
 
-	if (@auth_state = 0)
+	if (@auth_status = 0)
 		return;
 
 	select auth.[authentication_id], authz.[role]
@@ -52,7 +52,7 @@ begin
     set @encoded_password = EncryptByPassPhrase('NavCareerSecret', @password);
 	set @encoded_identifier_email = EncryptByPassPhrase('NavCareerSecret', @identifier_email);
     
-    insert into Authentications([authentication_id], [account], [password], [identifier_email], [created_date], [authorization_id], [auth_state])
+    insert into Authentications([authentication_id], [account], [password], [identifier_email], [created_date], [authorization_id], [auth_status])
     values (@authentication_id, @encoded_account, @encoded_password, @encoded_identifier_email, getdate(), @authorization_id, 1);
 
 	if @@ROWCOUNT = 1
