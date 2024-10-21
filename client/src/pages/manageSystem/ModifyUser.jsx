@@ -7,6 +7,7 @@ function ModifyUser() {
     const navigate = useNavigate();
     const location = useLocation();
     const userDataFromState = location.state?.userData || {};
+    const [isAuthz, setAuthz] = useState(false);
 
     const [userData, setUserData] = useState({
         authentication_id: '',
@@ -16,23 +17,27 @@ function ModifyUser() {
         role: 'NAV_STUDENT', // Default role if not set
         auth_status: 'true', // Set to true by default
         user_full_name: '',
-        gender: 'true', // Set gender to male (true) by default
-        email: '',
-        phone_number: '',
-        address: '',
+        user_alias: '',
+        user_bio: '',
+        user_gender: 'true', // Set gender to male (true) by default
+        user_email: '',
+        user_phone_number: '',
+        user_address: '',
         user_status: 'true', // Set to active by default
     });
 
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
-    const [showPassword, setShowPassword] = useState(false); // Step 1: Password visibility state
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false); // Loading state
 
     useEffect(() => {
         const checkAdmin = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/authz/adm', { withCredentials: true });
                 if (response.status !== 200) navigate('/');
+                setAuthz(true);
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
                 navigate('/');
@@ -42,24 +47,23 @@ function ModifyUser() {
     }, [navigate]);
 
     useEffect(() => {
-        if (userDataFromState) {
-            const birthdate = new Date(userDataFromState.birthdate);
+        if (userDataFromState && isAuthz) {
+            const birthdate = new Date(userDataFromState.user_birthdate);
             const initialRole = userDataFromState.role || (userDataFromState.authorization_id === 1 ? 'NAV_ADMIN' :
                 userDataFromState.authorization_id === 2 ? 'NAV_ESP' : 'NAV_STUDENT');
             setUserData({
                 ...userDataFromState,
-                role: initialRole, // Use role from state or map from authorization_id
-                auth_status: userDataFromState.auth_status ? 'true' : 'false', // Convert boolean to string
-                gender: userDataFromState.gender ? 'true' : 'false', // Convert boolean to string
-                user_status: userDataFromState.user_status ? 'true' : 'false', // Set status
+                role: initialRole,
+                auth_status: userDataFromState.auth_status ? 'true' : 'false',
+                user_gender: userDataFromState.user_gender ? 'true' : 'false',
+                user_status: userDataFromState.user_status ? 'true' : 'false',
             });
 
-            // Set initial day, month, and year
             setDay(birthdate.getDate());
-            setMonth(birthdate.getMonth() + 1); // Month is 0-based
+            setMonth(birthdate.getMonth() + 1);
             setYear(birthdate.getFullYear());
         }
-    }, [userDataFromState]);
+    }, [isAuthz, userDataFromState]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -69,52 +73,61 @@ function ModifyUser() {
         });
     };
 
+    const validatePassword = (password) => {
+        return password.length >= 6; // Example validation rule
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formattedBirthdate = `${day}/${month}/${year}`;
+        
+        if (!validatePassword(userData.password)) {
+            alert('Password must be at least 6 characters long.');
+            return;
+        }
+
+        const formattedBirthdate = `${year}-${month}-${day}`; // Change to YYYY-MM-DD format
         const authorization_id = userData.role === 'NAV_ADMIN' ? 1 :
             userData.role === 'NAV_ESP' ? 2 : 3;
 
-        // Convert boolean-like values to 1 or 0
         const dataToSend = {
             ...userData,
-            birthdate: formattedBirthdate,
+            user_birthdate: formattedBirthdate,
             authorization_id,
-            authentication_id: Number(userData.authentication_id), // Ensure authentication_id is a number
-            auth_status: userData.auth_status === 'true' ? 1 : 0, // Convert to 1 or 0
-            gender: userData.gender === 'true' ? 1 : 0, // Convert to 1 or 0
-            user_status: userData.user_status === 'true' ? 1 : 0, // Convert to 1 or 0
+            authentication_id: Number(userData.authentication_id),
+            auth_status: userData.auth_status === 'true' ? 1 : 0,
+            user_gender: userData.user_gender === 'true' ? 1 : 0,
+            user_status: userData.user_status === 'true' ? 1 : 0,
         };
 
+        console.log(dataToSend);
+
+        setLoading(true); // Set loading to true
         try {
             const response = await axios.post(
                 'http://localhost:5000/admin/user/modify',
                 dataToSend,
                 { withCredentials: true }
             );
-            if (response.status === 200) {
-                alert(response.data.message);
-            } else {
-                alert(response.data.message);
-            }
+            alert(response.data.message);
+            navigate('/admin/user/view-all');
         } catch (error) {
             console.error('Failed to update user:', error);
-            alert('Failed to update user.');
+            alert(`Failed to update user: ${error.response?.data?.message || error.message}`);
+        } finally {
+            setLoading(false);
         }
     };
 
-    // Generate arrays for dropdowns
     const days = Array.from({ length: 31 }, (_, i) => i + 1);
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
     const years = Array.from({ length: (new Date().getFullYear() - 1900 + 1) }, (_, i) => 1900 + i);
 
-    // Step 2: Create toggle function
     const toggleShowPassword = () => {
         setShowPassword((prev) => !prev);
     };
 
     return (
-        <div className="modify-user-container"> {/* Apply the CSS class */}
+        <div className="modify-user-container">
             <h2>Modify User</h2>
             <form onSubmit={handleSubmit}>
                 <div className="field-row">
@@ -133,16 +146,18 @@ function ModifyUser() {
                         name="account"
                         value={userData.account}
                         onChange={handleChange}
+                        required
                     />
                 </div>
                 <div className="field-row">
                     <label>Password:</label>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <input
-                            type={showPassword ? 'text' : 'password'} // Step 3: Conditional input type
+                            type={showPassword ? 'text' : 'password'}
                             name="password"
                             value={userData.password}
                             onChange={handleChange}
+                            required
                         />
                         <button
                             type="button"
@@ -153,6 +168,7 @@ function ModifyUser() {
                         </button>
                     </div>
                 </div>
+
                 <div className="field-row">
                     <label>Identifier Email:</label>
                     <input
@@ -160,8 +176,10 @@ function ModifyUser() {
                         name="identifier_email"
                         value={userData.identifier_email}
                         onChange={handleChange}
+                        required
                     />
                 </div>
+
                 <div className="field-row">
                     <label>Role:</label>
                     <select
@@ -174,6 +192,7 @@ function ModifyUser() {
                         <option value="NAV_STUDENT">NAV_STUDENT</option>
                     </select>
                 </div>
+
                 <div className="field-row">
                     <label>Auth Status:</label>
                     <select
@@ -185,6 +204,7 @@ function ModifyUser() {
                         <option value="false">Inactive</option>
                     </select>
                 </div>
+
                 <div className="field-row">
                     <label>Full Name:</label>
                     <input
@@ -192,15 +212,37 @@ function ModifyUser() {
                         name="user_full_name"
                         value={userData.user_full_name}
                         onChange={handleChange}
+                        required
                     />
                 </div>
+
+                <div className="field-row">
+                    <label>Alias:</label>
+                    <input
+                        type="text"
+                        name="user_alias"
+                        value={userData.user_alias}
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="field-row">
+                    <label>Bio:</label>
+                    <input
+                        type="text"
+                        name="user_bio"
+                        value={userData.user_bio}
+                        onChange={handleChange}
+                    />
+                </div>
+
                 <div className="field-row">
                     <label>Birthdate:</label>
                     <div className="birthdate-fields">
                         <select
                             name="day"
                             value={day}
-                            onChange={(e) => setDay(e.target.value)}
+                            onChange={(e) => setDay(parseInt(e.target.value, 10))}
                             required
                         >
                             <option value="">Day</option>
@@ -211,7 +253,7 @@ function ModifyUser() {
                         <select
                             name="month"
                             value={month}
-                            onChange={(e) => setMonth(e.target.value)}
+                            onChange={(e) => setMonth(parseInt(e.target.value, 10))}
                             required
                         >
                             <option value="">Month</option>
@@ -222,7 +264,7 @@ function ModifyUser() {
                         <select
                             name="year"
                             value={year}
-                            onChange={(e) => setYear(e.target.value)}
+                            onChange={(e) => setYear(parseInt(e.target.value, 10))}
                             required
                         >
                             <option value="">Year</option>
@@ -232,10 +274,11 @@ function ModifyUser() {
                         </select>
                     </div>
                 </div>
+
                 <div className="field-row">
                     <label>Gender:</label>
                     <select
-                        name="gender"
+                        name="user_gender"
                         value={userData.user_gender}
                         onChange={handleChange}
                     >
@@ -243,33 +286,40 @@ function ModifyUser() {
                         <option value="false">Female</option>
                     </select>
                 </div>
+
                 <div className="field-row">
                     <label>Email:</label>
                     <input
                         type="email"
-                        name="email"
+                        name="user_email"
                         value={userData.user_email}
                         onChange={handleChange}
+                        required
                     />
                 </div>
+
                 <div className="field-row">
                     <label>Phone Number:</label>
                     <input
-                        type="text"
-                        name="phone_number"
+                        type="tel"
+                        name="user_phone_number"
                         value={userData.user_phone_number}
                         onChange={handleChange}
+                        required
                     />
                 </div>
+
                 <div className="field-row">
                     <label>Address:</label>
                     <input
                         type="text"
-                        name="address"
+                        name="user_address"
                         value={userData.user_address}
                         onChange={handleChange}
+                        required
                     />
                 </div>
+
                 <div className="field-row">
                     <label>User Status:</label>
                     <select
@@ -281,8 +331,11 @@ function ModifyUser() {
                         <option value="false">Inactive</option>
                     </select>
                 </div>
+
                 <div className="field-row">
-                    <button type="submit">Modify User</button>
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Updating...' : 'Update User'}
+                    </button>
                 </div>
             </form>
         </div>
