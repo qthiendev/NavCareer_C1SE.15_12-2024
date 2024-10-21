@@ -13,7 +13,7 @@ reset password: x
 read profile: v
 create profile: v
 update profile: v
-delete profile: x
+delete profile: v
 
 read course: v
 create course: v
