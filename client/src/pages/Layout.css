@@ -93,13 +93,13 @@ header {
 .dropdown-menu {
   position: absolute;
   top: 60px;
-  right: 410px;
-  background: linear-gradient(145deg, #ffffff, #afbbfd);
+  right: 75px;
+  background: linear-gradient(145deg, #ffffff, #7187ff);
   border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 15%);
   z-index: 1000;
-  width: 180px;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  width: 139px;
+  transition: opacity 0.3s cubic-bezier(0.95, 0.09, 0, 0.84), transform 0.3s ease;
 }
 
 .dropdown-menu.show {
