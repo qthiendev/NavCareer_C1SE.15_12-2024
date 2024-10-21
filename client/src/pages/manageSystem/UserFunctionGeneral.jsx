@@ -118,6 +118,15 @@ function UserFunctionGeneral() {
 
     return (
         <div className="user-function-container">
+            <ul className="admin-nav">
+                <li><a href="/admin">Trang chủ Admin</a></li>
+                <li><a href="/">Trang chủ Hệ thống</a></li>
+                <li><a href="/admin/user/view-all">Thông tin Người dùng</a></li>
+                <li><a href="/admin/user/function/general">Phân quyền Chung</a></li>
+                <li><a href="/admin/user/function/esp">Phân quyền ESP</a></li>
+                <li><a href="/admin/user/view-all">Phân quyền Student</a></li>
+                <li><a href="/admin/course/view-all">Thông tin Khóa học</a></li>
+            </ul>
             <h1>User Function Management</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {loading ? ( // Loading state

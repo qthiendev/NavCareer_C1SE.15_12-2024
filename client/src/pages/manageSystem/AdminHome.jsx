@@ -32,7 +32,7 @@ function AdminHome() {
                 <li><a href="/admin/user/view-all">Phân quyền Student</a></li>
                 <li><a href="/admin/course/view-all">Thông tin Khóa học</a></li>
             </ul>
-            <h1 className="admin-home-title">Admin Dashboard</h1> {/* Optional Title */}
+            <h1 className="admin-home-title">Admin Dashboard</h1>
         </div>
     );
 }

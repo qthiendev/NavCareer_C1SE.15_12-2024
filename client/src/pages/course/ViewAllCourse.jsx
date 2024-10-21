@@ -55,10 +55,13 @@ const ViewAllCourse = () => {
                 withCredentials: true
             });
 
-            if (respone !== 200) throw new Error();
+            if (respone.status === 200) {
+                alert('Xóa khóa học thành công!');
+            } else {
+                alert('Xóa khóa học thất bại!');
+            }
 
             setCourses(courses.filter(course => course.course_id !== course_id));
-            alert(`Course with ID: ${course_id} deleted successfully.`);
         } catch (err) {
             alert(`Failed to delete course: ${err.message}`);
         } finally {
@@ -73,6 +76,9 @@ const ViewAllCourse = () => {
     return (
         <div id="view-all-course">
             <h2>Danh sách Khóa học</h2>
+            <button className="btn-add" onClick={() => navigate(`/esp/course/create`)}>
+                    Add Course
+            </button>
             <table className="course-table">
                 <thead>
                     <tr>

@@ -16,7 +16,7 @@ function UpdateCourse() {
     useEffect(() => {
         const checkBanStatus = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=ReadUserCourses', { withCredentials: true });
+                const response = await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateCourse', { withCredentials: true });
                 console.log(response);
                 setBanChecked(true);
             } catch (error) {
@@ -27,10 +27,34 @@ function UpdateCourse() {
         };
 
         checkBanStatus();
-    }, []);
+    }, [navigate]);
+
+    const [espChecked, setESPChecked] = useState(false);
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            if(!banChecked) return;
+            try {  
+                const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
+                if (response.status !== 200) {
+                    navigate('/'); // Redirect if not authorized
+                }
+                setESPChecked(true);
+            } catch (error) {
+                console.error('Authorization check failed:', error);
+                navigate('/');
+            } finally {
+                setLoading(false); // Set loading to false after the check
+            }
+        };
+
+        checkAuthorization();
+    }, [banChecked]);
+
+
 
     useEffect(() => {
         const fetchCourseData = async () => {
+            if(!banChecked || !espChecked) return;
             try {
                 const response = await axios.get(`http://localhost:5000/course/read?course_id=${course_id}`, { withCredentials: true });
                 console.log(response);
@@ -43,28 +67,7 @@ function UpdateCourse() {
         };
 
         fetchCourseData();
-    }, [course_id, banChecked]);
-
-    useEffect(() => {
-        const checkAuth = async () => {
-            if (courseData || banChecked) {
-                try {
-                    const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                    if (!response.data.sign_in_status || response.data.aid !== Number.parseInt(courseData.authentication_id)) {
-                        navigate(-1);
-                    } else {
-                        setLoading(false);
-                    }
-                } catch (err) {
-                    setErrorMessage('Failed to check authentication status.');
-                    console.error('Failed to check authentication status:', err);
-                    navigate(-1);
-                }
-            }
-        };
-
-        checkAuth();
-    }, [courseData, banChecked]);
+    }, [course_id, banChecked, espChecked]);
 
     const handleUpdateCourse = async (e) => {
         e.preventDefault();

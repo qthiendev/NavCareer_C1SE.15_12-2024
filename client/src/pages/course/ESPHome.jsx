@@ -11,10 +11,10 @@ function ESPHome() {
             try {
                 const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
                 if (response.status !== 200)
-                    navigate('/signin');
+                    navigate('/');
             } catch (err) {
                 console.error('Failed to check authentication status:', err);
-                navigate('/signin');
+                navigate('/');
             }
         };
 
