@@ -15,6 +15,7 @@ import AdminHome from './pages/manageSystem/AdminHome.jsx';
 import ViewAllUser from './pages/manageSystem/ViewAllUser.jsx';
 import ModifyUser from './pages/manageSystem/ModifyUser.jsx';
 import UserFunctionGeneral from './pages/manageSystem/UserFunctionGeneral.jsx';
+import UserFunctionESP from './pages/manageSystem/UserFunctionESP.jsx';
 
 import CreateProfile from './pages/profile/CreateProfile.jsx';
 import UpdateProfile from './pages/profile/UpdateProfile.jsx';
@@ -42,6 +43,7 @@ const Router = () => {
           <Route path="admin/user/view-all" element={<ViewAllUser />} />
           <Route path="admin/user/modify" element={<ModifyUser />} />
           <Route path="admin/user/function/general" element={<UserFunctionGeneral />} />
+          <Route path="admin/user/function/esp" element={<UserFunctionESP />} />
 
           <Route path="profile/:user_id/" element={<ViewProfile />} />
           <Route path="profile/update" element={<UpdateProfile />} /> 

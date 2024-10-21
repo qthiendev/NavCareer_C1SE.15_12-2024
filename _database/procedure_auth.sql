@@ -78,10 +78,11 @@ create procedure UpdateAuth
 as
 begin
 	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'ViewUserCourses');
+	set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateAuth');
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
+		return;
 	end
 
 	declare @encoded_new_account varbinary(max);

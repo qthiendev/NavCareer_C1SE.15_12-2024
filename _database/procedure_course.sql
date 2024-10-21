@@ -56,10 +56,11 @@ create procedure CreateCourse
 as
 begin
     declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'ViewUserCourses');
+	set @IsBanned = dbo.IsUserBanned(@aid, 'CreateCourse');
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
+		return;
 	end
 
     declare @course_id int;
@@ -145,10 +146,11 @@ create procedure UpdateCourse
 as
 begin
 	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'ViewUserCourses');
+	set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
+		return;
 	end
 
 	declare @user_id int;
@@ -211,10 +213,11 @@ create procedure DeleteCourse @aid int, @course_id int
 as
 begin
 	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'ViewUserCourses');
+	set @IsBanned = dbo.IsUserBanned(@aid, 'DeleteCourse');
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
+		return;
 	end
 
 	declare @user_id int;
@@ -269,10 +272,11 @@ create procedure ReadUserCourses @aid int
 as
 begin
 	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'ViewUserCourses');
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadUserCourses');
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
+		return;
 	end
 
 	declare @user_id int;
@@ -305,3 +309,8 @@ grant execute on dbo.CreateCourse to [NAV_ESP];
 grant execute on dbo.UpdateCourse to [NAV_ESP];
 grant execute on dbo.DeleteCourse to [NAV_ESP];
 grant execute on dbo.ReadUserCourses to [NAV_ESP];
+
+grant execute on dbo.CreateCourse to [NAV_ADMIN];
+grant execute on dbo.UpdateCourse to [NAV_ADMIN];
+grant execute on dbo.DeleteCourse to [NAV_ADMIN];
+grant execute on dbo.ReadUserCourses to [NAV_ADMIN];

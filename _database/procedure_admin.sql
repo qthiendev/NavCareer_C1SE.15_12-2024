@@ -30,6 +30,35 @@ end
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('ReadUser', 'P') is not null drop procedure ReadUser;
+go
+create procedure ReadUser @aid int
+as
+begin
+	select a.[authentication_id],
+		convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[account])) as [account],
+		convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[password])) as [password],
+		convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', a.[identifier_email])) as [identifier_email],
+		a.[auth_status],
+		az.[role],
+		u.[user_id],
+		u.[user_full_name],
+		u.[user_alias],
+		u.[user_bio],
+		u.[user_birthdate],
+		u.[user_gender],
+		u.[user_email],
+		u.[user_phone_number],
+		u.[user_address],
+		u.[user_status]
+	from Authentications a
+		left join Users u on u.authentication_id = a.authentication_id
+		left join Authorizations az on az.authorization_id = a.authorization_id
+	where a.[authentication_id] = @aid
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 if object_id('ModifyUser', 'P') is not null drop procedure ModifyUser;
 go
 create procedure ModifyUser
@@ -169,6 +198,21 @@ end
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('ReadAllProcedureBannedESP', 'P') is not null drop procedure ReadAllProcedureBannedESP;
+go
+create procedure ReadAllProcedureBannedESP
+as
+begin
+    select auth.[authentication_id],
+        convert(nvarchar(max), decryptbypassphrase('NavCareerSecret', auth.[account])) as [account],
+        [procedure_name]
+    from Authentications auth
+    left join  AuthProcedureBanned apb on auth.[authentication_id] = apb.[authentication_id]
+	where auth.[authorization_id] = 2;
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 if object_id('CreateBanned', 'P') is not null drop procedure CreateBanned;
 go
 create procedure CreateBanned @authentication_id int, @procedure_name nvarchar(1024)
@@ -230,9 +274,9 @@ begin
     end
 
     -- check if the banned procedure entry exists
-    if not exists (select 1 from AuthProcedureBanned where authentication_id = @authentication_id and procedure_name = @procedure_name)
+    if not exists (select 1 from AuthProcedureBanned where [authentication_id] = @authentication_id and [procedure_name] = @procedure_name)
     begin
-        select 'U_BAN' as [check], 'No ban entry found for the given procedure and authentication ID.' as [message];
+        select 'E_BAN' as [check], 'Ban existed.' as [message];
         return;
     end
 
@@ -272,9 +316,13 @@ grant execute on dbo.CreateAuthentication to [NAV_ADMIN];
 go
 grant execute on dbo.ReadAllUser to [NAV_ADMIN];
 go
+grant execute on dbo.ReadUser to [NAV_ADMIN];
+go
 grant execute on dbo.ModifyUser to [NAV_ADMIN];
 go
 grant execute on dbo.ReadAllProcedureBanned to [NAV_ADMIN];
+go
+grant execute on dbo.ReadAllProcedureBannedESP to [NAV_ADMIN];
 go
 grant execute on dbo.CreateBanned to [NAV_ADMIN];
 go

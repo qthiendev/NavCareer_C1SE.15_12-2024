@@ -142,7 +142,7 @@ create table Users (
     [user_birthdate] datetime,
     [user_gender] bit,
 	[user_email] nvarchar(512), 
-    [user_phone_number] nvarchar(20),
+    [user_phone_number] nvarchar(50),
     [user_address] nvarchar(512), 
     [user_created_date] datetime default getdate() not null,
     [user_resource_url] nvarchar(128) unique,

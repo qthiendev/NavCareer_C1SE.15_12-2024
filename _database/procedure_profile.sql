@@ -8,6 +8,7 @@ begin
 	if (exists (select 1 from Users where [user_id] = @user_id AND [user_status] = 0))
 	begin
 		select 'INACTIVE' as [check];
+		return;
 	end
 
 	select
@@ -40,11 +41,13 @@ begin
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
+		return;
 	end
 
 	if (exists (select 1 from Users where [user_id] = @user_id AND [user_status] = 0) and @aid != @user_id) 
 	begin
 		select 'INACTIVE' as [check];
+		return;
 	end
 
 	select
@@ -235,11 +238,13 @@ begin
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
+		return;
 	end
 
 	if (exists (select 1 from Users where [authentication_id] = @auth_id AND [user_status] = 0))
 	begin
 		select 'INACTIVE' as [check];
+		return;
 	end
 
 	select

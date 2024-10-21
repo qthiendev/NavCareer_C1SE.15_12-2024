@@ -43,23 +43,25 @@ function ViewAllUser() {
         fetchUsers();
     }, []);
 
-    const handleSearch = (e) => {
-        const query = e.target.value.toLowerCase();
-        setSearchQuery(query);
-        filterUsers(query, idFilter, emailFilter, phoneFilter, roleFilter, statusFilter);
-    };
+    const normalizeString = (str) => (str || '').toString().toLowerCase();
 
     const filterUsers = (search, id, email, phone, role, status) => {
         const filtered = users.filter(user => {
-            const matchesName = user.user_full_name.toLowerCase().includes(search);
-            const matchesId = user.user_id.toString().includes(id);
-            const matchesEmail = user.email.toLowerCase().includes(email.toLowerCase());
-            const matchesPhone = user.phone_number.includes(phone);
+            const matchesName = normalizeString(user.user_full_name).includes(normalizeString(search));
+            const matchesId = normalizeString(user.user_id).includes(normalizeString(id));
+            const matchesEmail = normalizeString(user.user_email).includes(normalizeString(email));
+            const matchesPhone = normalizeString(user.user_phone_number).includes(normalizeString(phone));
             const matchesRole = role ? user.role === role : true;
             const matchesStatus = status ? (status === 'Active' ? user.user_status : !user.user_status) : true;
             return matchesName && matchesId && matchesEmail && matchesPhone && matchesRole && matchesStatus;
         });
         setFilteredUsers(filtered);
+    };
+
+    const handleSearch = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+        filterUsers(query, idFilter, emailFilter, phoneFilter, roleFilter, statusFilter);
     };
 
     const handleIdFilterChange = (e) => {
@@ -123,9 +125,7 @@ function ViewAllUser() {
                     <li><a href="/admin/user/view-all">Phân quyền Người dùng</a></li>
                     <li><a href="/admin/course/view-all">Thông tin Khóa học</a></li>
                 </ul>
-
                 <h2>User Information</h2>
-
                 <div className="view-all-search-filters">
                     <input
                         type="text"
@@ -134,7 +134,6 @@ function ViewAllUser() {
                         onChange={handleIdFilterChange}
                         className="view-all-filter-input"
                     />
-
                     <input
                         type="text"
                         placeholder="Search by name..."
@@ -142,7 +141,6 @@ function ViewAllUser() {
                         onChange={handleSearch}
                         className="view-all-filter-input"
                     />
-
                     <input
                         type="text"
                         placeholder="Filter by Email..."
@@ -150,7 +148,6 @@ function ViewAllUser() {
                         onChange={handleEmailFilterChange}
                         className="view-all-filter-input"
                     />
-
                     <input
                         type="text"
                         placeholder="Filter by Phone Number..."
@@ -158,22 +155,18 @@ function ViewAllUser() {
                         onChange={handlePhoneFilterChange}
                         className="view-all-filter-input"
                     />
-
                     <select value={roleFilter} onChange={handleRoleFilterChange} className="view-all-filter-dropdown">
                         <option value="">Select Role</option>
                         {uniqueRoles.map((role, index) => (
                             <option key={index} value={role}>{role}</option>
                         ))}
                     </select>
-
                     <select value={statusFilter} onChange={handleStatusFilterChange} className="view-all-filter-dropdown">
                         <option value="">Select Status</option>
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                     </select>
-
                 </div>
-
                 <table className="view-all-user-table">
                     <thead>
                         <tr>
@@ -187,8 +180,8 @@ function ViewAllUser() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredUsers.map(user => (
-                            <tr key={user.user_id}>
+                        {filteredUsers.map((user, index) => (
+                            <tr key={user.user_id ? `${user.user_id}-${index}` : index}>
                                 <td className="view-all-user-id">{user.user_id}</td>
                                 <td className="view-all-user-full-name">{user.user_full_name}</td>
                                 <td className="view-all-user-role">{user.role}</td>
@@ -204,11 +197,12 @@ function ViewAllUser() {
                                         <button disabled>View</button>
                                     )}
                                     <button onClick={() => handleModify(user.user_id)}>Modify</button>
-                                    <button disabled onClick={() => handleDelete(user.user_id)}>Delete</button>
+                                    <button onClick={() => handleDelete(user.user_id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
+
                 </table>
             </div>
         </div>

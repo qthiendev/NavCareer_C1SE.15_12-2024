@@ -12,6 +12,23 @@ function UpdateCourse() {
     const [errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
 
+    const [banChecked, setBanChecked] = useState(false);
+    useEffect(() => {
+        const checkBanStatus = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=ReadUserCourses', { withCredentials: true });
+                console.log(response);
+                setBanChecked(true);
+            } catch (error) {
+                console.error('Failed to check ban status:', error);
+                alert('BANNED');
+                navigate(-1);
+            }
+        };
+
+        checkBanStatus();
+    }, []);
+
     useEffect(() => {
         const fetchCourseData = async () => {
             try {
@@ -26,11 +43,11 @@ function UpdateCourse() {
         };
 
         fetchCourseData();
-    }, [course_id, navigate]);
+    }, [course_id, banChecked]);
 
     useEffect(() => {
         const checkAuth = async () => {
-            if (courseData) {
+            if (courseData || banChecked) {
                 try {
                     const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
                     if (!response.data.sign_in_status || response.data.aid !== Number.parseInt(courseData.authentication_id)) {
@@ -47,7 +64,7 @@ function UpdateCourse() {
         };
 
         checkAuth();
-    }, [courseData, navigate]);
+    }, [courseData, banChecked]);
 
     const handleUpdateCourse = async (e) => {
         e.preventDefault();

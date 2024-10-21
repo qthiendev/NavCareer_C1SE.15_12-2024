@@ -55,7 +55,7 @@ function ViewProfile() {
                         className="view-profile-avatar"
                     />
                     <h2 className="view-profile-name">{profile.user_full_name}</h2>  
-                    <p className="view-profile-bio">{profile.user_bio}</p>  
+                    <p className="view-profile-bio">{profile.user_bio ? profile.user_bio : 'Have no bio.'}</p>  
                     {/* Lấy theo data người dùng đã điền khi đăng ký tài khoản */}
                     <button className="view-share-profile-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" /> {/* Icon chia sẻ */}

@@ -20,9 +20,33 @@ const createBan = async (req, res) => {
             });
         }
 
+        if (createBanResult === 'U_P_NAME') {
+            console.error(`[${now.toLocaleString()}] at createBanController.js/createBan | The specified procedure does not exist.`);
+            return res.status(203).json({
+                message: 'The specified procedure does not exist.',
+                time: now.toLocaleString()
+            });
+        }
+
+        if (createBanResult === 'U_AID') {
+            console.error(`[${now.toLocaleString()}] at createBanController.js/createBan | The specified authentication ID does not exist.`);
+            return res.status(203).json({
+                message: 'The specified authentication ID does not exist.',
+                time: now.toLocaleString()
+            });
+        }
+
+        if (createBanResult === 'E_BAN') {
+            console.warn(`[${now.toLocaleString()}] at createBanController.js/createBan | Ban existed.`);
+            return res.status(201).json({
+                message: 'Ban existed.',
+                time: now.toLocaleString()
+            });
+        }
+
         console.log(`[${now.toLocaleString()}] at createBanController.js/createBan | Ban information failed to create.`);
         return res.status(203).json({
-            message: createBanResult[0]?.message || 'Ban information failed to create',
+            message: 'Ban information failed to create',
             time: now.toLocaleString()
         });
 

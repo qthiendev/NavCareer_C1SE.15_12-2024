@@ -9,8 +9,27 @@ const ViewAllCourse = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    const [banChecked, setBanChecked] = useState(false);
+    useEffect(() => {
+        const checkBanStatus = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=ReadUserCourses', { withCredentials: true });
+                console.log(response);
+                setBanChecked(true);
+            } catch (error) {
+                console.error('Failed to check ban status:', error);
+                alert('BANNED');
+                navigate(-1);
+            }
+        };
+
+        checkBanStatus();
+    }, []);
+
     useEffect(() => {
         const fetchCourses = async () => {
+            if (!banChecked) return;
+
             try {
                 const response = await axios.get('http://localhost:5000/esp/course/read-all', { withCredentials: true });
                 console.log(response)
@@ -23,22 +42,27 @@ const ViewAllCourse = () => {
         };
 
         fetchCourses();
-    }, []);
+    }, [banChecked]);
 
     const handleEdit = (course_id) => {
         navigate(`/esp/course/${course_id}/update`);
     };
 
     const handleDelete = async (course_id) => {
-        try {
-            await axios.delete('http://localhost:5000/course/delete', {
+        try {     
+            const respone = await axios.delete('http://localhost:5000/course/delete', {
                 data: { course_id },
                 withCredentials: true
             });
+
+            if (respone !== 200) throw new Error();
+
             setCourses(courses.filter(course => course.course_id !== course_id));
             alert(`Course with ID: ${course_id} deleted successfully.`);
         } catch (err) {
             alert(`Failed to delete course: ${err.message}`);
+        } finally {
+            window.location.reload();
         }
     };
     
