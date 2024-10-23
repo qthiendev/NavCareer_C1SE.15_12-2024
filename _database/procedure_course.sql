@@ -161,7 +161,7 @@ begin
 
 	if (@user_id is null)
 	begin
-		select 'U_UID' as [check]
+		select 'U_UID' as [check];
 		return;
 	end
 
@@ -170,7 +170,7 @@ begin
 		from Courses
 		where [course_id] = @course_id)
 	begin
-		select 'U_CID' as [check]
+		select 'U_CID' as [check];
 		return;
 	end
 
@@ -179,7 +179,7 @@ begin
 		from Authentications auth join Authorizations authz on authz.authorization_id = auth.authorization_id
 		where auth.authentication_id = @aid and authz.role = 'NAV_ESP')
 	begin
-		select 'U_ROLE' as [check]
+		select 'U_ROLE' as [check];
 		return;
 	end
 
@@ -193,7 +193,6 @@ begin
 	where [user_id] = @user_id
 		and [course_id] = @course_id
 	
-
 	if @@ROWCOUNT = 1
 	begin
 		select 'SUCCESSED' as [check];
@@ -203,6 +202,7 @@ begin
 	select 'FAILED' as [check];
 end
 go
+
 -- exec UpdateCourse 1, 2, 'Test course name1', 'Test short decrisption1', 'Test full decrisption1', 300000, '3 months', 1
 -- exec ReadCourse 2
 ------------------------------------------------------------------------------------------------------------
@@ -300,17 +300,299 @@ go
 -- exec ViewUserCourses 1
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('UpdateModule', 'P') is not null drop procedure UpdateModule;
+go
+
+create procedure UpdateModule
+    @aid int, 
+    @course_id int, 
+    @modules nvarchar(max)
+as
+begin
+    declare @isbanned bit;
+    set @isbanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
+    
+    if @isbanned = 1 
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    declare @user_id int;
+
+    select @user_id = [user_id]
+    from Users
+    where [authentication_id] = @aid;
+
+    if (@user_id is null)
+    begin
+        select 'U_UID' as [check];
+        return;
+    end
+
+    if not exists (
+        select 1
+        from Courses
+        where [course_id] = @course_id)
+    begin
+        select 'U_CID' as [check];
+        return;
+    end
+
+    if not exists (
+        select 1
+        from Authentications auth 
+        join Authorizations authz on authz.authorization_id = auth.authorization_id
+        where auth.authentication_id = @aid and authz.role = 'NAV_ESP')
+    begin
+        select 'U_ROLE' as [check];
+        return;
+    end
+
+    begin try
+        begin transaction;
+
+        -- Delete existing modules for the course
+        delete from [Modules]
+        where course_id = @course_id;
+
+        -- Check if deletion was successful
+        if @@rowcount = 0
+        begin
+            rollback transaction;
+            select 'U_MODULE' as [check];
+            return;
+        end
+
+        declare @json nvarchar(max) = @modules;
+        declare @available_id int;
+        declare @inserted_count int = 0;
+
+        -- Temporary table to hold new modules
+        create table #NewModules (
+            module_ordinal int,
+            module_name nvarchar(255)
+        );
+
+        -- Insert the JSON data into the temporary table
+        insert into #NewModules (module_ordinal, module_name)
+        select 
+            ordinal,
+            modulename
+        from openjson(@json)
+        with (
+            ordinal int '$.module_ordinal',
+            modulename nvarchar(255) '$.module_name'
+        );
+
+        -- Get the count of new modules
+        declare @count int = (select count(*) from #NewModules);
+
+        -- Find the first missing module_id starting from 0
+        set @available_id = (
+            select min(missing_id)
+            from (
+                select n.number as missing_id
+                from master.dbo.spt_values n
+                where n.type = 'P' and n.number >= 0 and n.number <= (select isnull(max(module_id), -1) from [Modules])
+                and not exists (
+                    select 1
+                    from [Modules] m
+                    where m.module_id = n.number
+                )
+            ) as MissingIDs
+        );
+
+        -- If no missing ID is found, get the next ID based on the max existing module_id
+        if @available_id is null
+        begin
+            set @available_id = (
+                select isnull(max(module_id), -1) + 1 from [Modules]
+            );
+        end
+
+        -- Loop to insert new modules based on the available IDs
+        while @inserted_count < @count
+        begin
+            -- Check if the available module_id already exists in the existing modules
+            if not exists (select 1 from [Modules] where module_id = @available_id)
+            begin
+                -- Insert the new module with this ID
+                insert into [Modules] (module_id, module_ordinal, module_name, course_id)
+                select 
+                    @available_id,
+                    nm.module_ordinal,
+                    nm.module_name,
+                    @course_id
+                from #NewModules nm
+                where nm.module_ordinal = @inserted_count;
+
+                set @inserted_count = @inserted_count + 1;
+            end
+
+            set @available_id = @available_id + 1; -- Move to the next ID
+        end
+
+        -- Check the total number of inserted records after the loop
+        declare @actual_inserted_count int = (select count(*) from [Modules] where course_id = @course_id);
+
+        if @actual_inserted_count < @count
+        begin
+            rollback transaction;
+            select 'FAILED' as [check];
+            return;
+        end
+
+        commit transaction;
+    end try
+    begin catch
+        rollback transaction;
+        throw;
+    end catch
+
+    select 'SUCCESSED' as [check];
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadFullCourse', 'P') is not null drop procedure ReadFullCourse;
+go
+create procedure ReadFullCourse @course_id int
+as
+begin
+    if not exists (
+        select 1
+        from Courses
+        where [course_id] = @course_id)
+    begin
+        select 'U_CID' as [check]
+        return;
+    end
+
+    select u.[user_id],
+		u.[authentication_id],
+		u.[user_full_name],
+        c.[course_name], 
+        c.[course_short_description],
+        c.[course_full_description],
+        c.[course_price],
+        c.[course_duration],
+        c.[course_status],
+		m.[module_id],
+        m.[module_ordinal],
+        m.[module_name],
+        clt.[collection_type_name],
+		cl.[collection_id],
+        cl.[collection_ordinal],
+        cl.[collection_name],
+        mat.[material_type_name],
+		ma.[material_id],
+        ma.[material_ordinal],
+        ma.[material_content],
+        qt.[question_type_name],
+		q.[question_id],
+        q.[question_ordinal],
+        q.[question_description],
+		a.[answer_id],
+        a.[answer_ordinal],
+        a.[answer_description],
+        a.[answer_is_right]
+    from Courses c
+        left join Modules m on m.[course_id] = c.[course_id]
+        left join Users u on u.[user_id] = c.[user_id]
+        left join Collections cl on cl.[module_id] = m.[module_id]
+        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_id]
+        left join Materials ma on ma.[collection_id] = cl.[collection_id]
+        left join MaterialType mat on mat.[material_type_id] = ma.[material_type_id]
+        left join Questions q on q.[material_id] = ma.[material_id]
+        left join QuestionTypes qt on qt.[question_type_id] = q.[question_type_id]
+        left join Answers a on a.[question_id] = q.[question_id]
+    where c.course_id = @course_id
+    order by m.[module_ordinal], cl.[collection_ordinal], ma.[material_ordinal], q.[question_ordinal], a.[answer_ordinal];
+end
+go
+
+-- ReadFullCourse 0
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadCollection', 'P') is not null drop procedure ReadCollection;
+go
+create procedure ReadCollection @course_id int, @module_ordinal int, @collection_ordinal int
+as
+begin
+	select clt.[collection_type_name],
+		cl.[collection_id],
+        cl.[collection_name],
+        mat.[material_type_name],
+        ma.[material_ordinal],
+        ma.[material_content],
+        qt.[question_type_name],
+        q.[question_ordinal],
+        q.[question_description],
+        a.[answer_ordinal],
+        a.[answer_description],
+        a.[answer_is_right]
+    from Courses c
+        left join Modules m on m.[course_id] = c.[course_id]
+        left join Collections cl on cl.[module_id] = m.[module_id]
+        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_id]
+        left join Materials ma on ma.[collection_id] = cl.[collection_id]
+        left join MaterialType mat on mat.[material_type_id] = ma.[material_type_id]
+        left join Questions q on q.[material_id] = ma.[material_id]
+        left join QuestionTypes qt on qt.[question_type_id] = q.[question_type_id]
+        left join Answers a on a.[question_id] = q.[question_id]
+    where c.[course_id] = @course_id and cl.[collection_ordinal] = @collection_ordinal and m.[module_ordinal] = @module_ordinal
+    order by m.[module_ordinal], cl.[collection_ordinal], ma.[material_ordinal], q.[question_ordinal], a.[answer_ordinal];
+end
+go
+-- ReadCollection 0, 0, 0
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadFrame', 'P') is not null drop procedure ReadFrame;
+go
+create procedure ReadFrame @course_id int
+as
+begin
+	select m.[module_id],
+		m.[module_ordinal],
+		m.[module_name],
+		clt.[collection_type_name],
+		cl.[collection_id],
+        cl.[collection_name]
+    from Courses c
+        left join Modules m on m.[course_id] = c.[course_id]
+        left join Collections cl on cl.[module_id] = m.[module_id]
+        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_id]
+    where c.[course_id] = @course_id
+    order by m.[module_ordinal], cl.[collection_ordinal];
+end
+go
+-- ReadFrame 0
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 grant execute on dbo.ReadCourse to [NAV_GUEST];
 grant execute on dbo.ReadCourse to [NAV_ADMIN];
 grant execute on dbo.ReadCourse to [NAV_ESP];
 grant execute on dbo.ReadCourse to [NAV_STUDENT];
 
+grant execute on dbo.ReadCollection to [NAV_ADMIN];
+grant execute on dbo.ReadCollection to [NAV_ESP];
+grant execute on dbo.ReadCollection to [NAV_STUDENT];
+
+grant execute on dbo.ReadFrame to [NAV_ADMIN];
+grant execute on dbo.ReadFrame to [NAV_ESP];
+grant execute on dbo.ReadFrame to [NAV_STUDENT];
+
 grant execute on dbo.CreateCourse to [NAV_ESP];
 grant execute on dbo.UpdateCourse to [NAV_ESP];
 grant execute on dbo.DeleteCourse to [NAV_ESP];
 grant execute on dbo.ReadUserCourses to [NAV_ESP];
+grant execute on dbo.UpdateModule to [NAV_ESP];
+grant execute on dbo.ReadFullCourse to [NAV_ESP];
 
 grant execute on dbo.CreateCourse to [NAV_ADMIN];
 grant execute on dbo.UpdateCourse to [NAV_ADMIN];
 grant execute on dbo.DeleteCourse to [NAV_ADMIN];
 grant execute on dbo.ReadUserCourses to [NAV_ADMIN];
+grant execute on dbo.UpdateModule to [NAV_ADMIN];
+grant execute on dbo.ReadFullCourse to [NAV_ADMIN];

@@ -14,10 +14,6 @@ delete from UserTracking;
 go
 delete from Enrollments;	 
 go
-delete from MaterialQuestion;
-go
-delete from Materials;		 
-go
 delete from MaterialType;	 
 go
 delete from Answers;		 
@@ -25,6 +21,8 @@ go
 delete from Questions;		 
 go
 delete from QuestionTypes;	 
+go
+delete from Materials;		 
 go
 delete from Collections;	 
 go
@@ -2511,33 +2509,6 @@ values
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
-insert into QuestionTypes ([question_type_id], [question_type_name])
-values
-(0, N'Multiple choice'),
-(1, N'Multiple response');
-go
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
-insert into Questions ([question_id], [question_description], [question_type_id])
-values
-(0, N'Câu lệnh nào dùng để in ra màn hình trong C?', 0),
-(1, N'Những thành phần nào dưới đây là kiểu dữ liệu trong C?', 1);
-go
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
-insert into Answers ([answer_id], [answer_description], [answer_is_right], [question_id])
-values
-(0, N'printf()', 1, 0),
-(1, N'scanf()', 0, 0),
-(2, N'cout', 0, 0),
-(3, N'echo', 0, 0),
-(4, N'int', 1, 1),
-(5, N'float', 1, 1),
-(6, N'string', 1, 1),
-(7, N'object', 0, 1);
-go
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
 insert into MaterialType ([material_type_id], [material_type_name])
 values
 (0, 'Text'),
@@ -2566,10 +2537,31 @@ values
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
-insert into MaterialQuestion ([id], [material_id], [question_id])
+insert into QuestionTypes ([question_type_id], [question_type_name])
 values
-(0, 12, 0),
-(1, 13, 1);
+(0, N'Multiple choice'),
+(1, N'Multiple response');
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+insert into Questions ([question_id], [question_description], [question_ordinal], [question_type_id], [material_id])
+values
+(0, N'Câu lệnh nào dùng để in ra màn hình trong C?', 0, 0, 12),
+(1, N'Những thành phần nào dưới đây là kiểu dữ liệu trong C?', 1, 1, 13);
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+insert into Answers ([answer_id], [answer_description], [answer_ordinal], [answer_is_right], [question_id])
+values
+(0, N'printf()', 0, 1, 0),
+(1, N'scanf()', 1, 0, 0),
+(2, N'cout', 2, 0, 0),
+(3, N'echo', 3, 0, 0),
+(4, N'int', 0, 1, 1),
+(5, N'float', 1, 1, 1),
+(6, N'string', 2, 1, 1),
+(7, N'object', 3, 0, 1);
+go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 insert into Enrollments([enrollment_id], [enrollment_date], [enrollment_is_complete], [user_id], [course_id])

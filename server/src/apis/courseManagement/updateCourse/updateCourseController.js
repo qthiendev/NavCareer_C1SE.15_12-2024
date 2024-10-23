@@ -1,4 +1,4 @@
-const { tryCreateCourse } = require('./updateCourseService');
+const { tryUpdateCourse } = require('./updateCourseService');
 const now = new Date();
 
 const updateCourse = async (req, res) => {
@@ -12,7 +12,8 @@ const updateCourse = async (req, res) => {
             course_full_description,
             course_price,
             course_duration,
-            course_status
+            course_status,
+            modules
         } = req.body;
 
         console.log(req.body);
@@ -41,9 +42,9 @@ const updateCourse = async (req, res) => {
         if (Number.isNaN(course_status))
             throw new Error(`'aid' is required.`);
 
-        const data = await tryCreateCourse(aid, role, course_id, course_name, course_short_description, course_full_description, course_price, course_duration, course_status);
+        const result = await tryUpdateCourse(aid, role, course_id, course_name, course_short_description, course_full_description, course_price, course_duration, course_status, modules);
 
-        if (data === 'U_CID') {
+        if (result === 'U_CID') {
             console.error(`[${now.toLocaleString()}] at updateCourseController.js/updateCourse | Course ${course_id} not exist.`);
             return res.status(403).json({
                 message: `Course ${course_id} not exist.`,
@@ -51,7 +52,7 @@ const updateCourse = async (req, res) => {
             });
         }
 
-        if (data === 'U_UID' || data === 'U_ROLE') {
+        if (result === 'U_UID' || result === 'U_ROLE') {
             console.error(`[${now.toLocaleString()}] at updateCourseController.js/updateCourse | User ${aid} not allow to update Course ${course_id}.`);
             return res.status(403).json({
                 message: `User ${aid} not allow to update Course ${course_id}.`,
@@ -59,7 +60,7 @@ const updateCourse = async (req, res) => {
             });
         }
 
-        if (data === 'SUCCESSED') {
+        if (result === 'SUCCESSED') {
             console.log(`[${now.toLocaleString()}] at updateCourseController.js/updateCourse | Course ${course_id} edited successfuly.`);
             return res.status(200).json({
                 message: `Course ${course_id} edited successfuly.`,

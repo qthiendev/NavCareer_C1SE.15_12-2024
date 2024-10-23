@@ -1,0 +1,118 @@
+.collection-container {
+    display: flex;
+    justify-content: center; /* Center the container */
+    margin: 0 auto; /* Center the container horizontally */
+    background-color: #f9f9f9;
+}
+
+.read-collection {
+    display: flex; /* Flexbox layout */
+    margin-right: 100px; /* Space to the right */
+    width: 100%; /* Make it full width */
+}
+
+.read-collection__sidebar {
+    width: 400px; /* Fixed width for sidebar */
+    border-right: 1px solid #ccc; /* Optional border for separation */
+    padding-right: 15px; /* Padding on the right */
+    font-size: 3px; /* Adjust font size */
+}
+
+.read-collection__content {
+    flex-grow: 1; /* Allow content area to take the remaining space */
+    padding-left: 15px; /* Padding on the left */
+    max-width: 1280px; /* Maximum width to ensure it stays centered */
+    margin-right: 160px; /* Center the content */
+}
+
+.read-collection__loading {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.read-collection__module {
+    margin-bottom: 20px; /* Space between modules */
+    border: 1px solid #ccc; /* Optional border for visibility */
+    border-radius: 5px; /* Slight rounding of corners */
+    background-color: #f9f9f9; /* Background for modules */
+}
+
+.read-collection__module-header {
+    cursor: pointer; /* Show cursor as pointer for clickable header */
+    display: flex; /* Align items within header */
+    justify-content: space-between; /* Space between title and arrow */
+    align-items: center; /* Center align items */
+    padding: 3px 15px; /* Padding for better spacing */
+    font-size: 12px; /* Font size */
+    font-weight: normal; /* Font weight */
+}
+
+.read-collection__arrow {
+    transition: transform 0.3s; 
+}
+
+.read-collection__arrow.expanded {
+    transform: rotate(90deg); /* Rotate arrow when expanded */
+}
+
+.read-collection__collection {
+    padding: 10px 15px; /* Padding for collections */
+    font-size: 16px; /* Font size for collection links */
+    color: #007bff; /* Link color */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.read-collection__collection:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.read-collection__no-collection {
+    padding: 10px; /* Padding for no collection message */
+    color: #999; /* Text color */
+}
+
+.read-collection__item {
+    margin-bottom: 30px; /* Space below items */
+    text-align: left; /* Align text to the left for items */
+}
+
+.read-collection__title {
+    font-size: 28px; /* Title font size */
+    color: #333; /* Title color */
+    margin-bottom: 15px; /* Margin below title */
+}
+
+.read-collection__image {
+    max-width: 100%; /* Maximum width for images */
+    border-radius: 8px; /* Rounded corners for images */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for images */
+}
+
+.read-collection__video {
+    max-width: 100%; /* Maximum width for videos */
+    border-radius: 8px; /* Rounded corners for videos */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for videos */
+}
+
+.read-collection__text {
+    margin: 10px 0; /* Margin above and below text */
+    font-size: 1px; /* Font size for text */
+    color: black
+}
+
+.read-collection__question {
+    margin: 20px 0; /* Margin above and below questions */
+    border: 1px solid #ddd; /* Border for questions */
+    border-radius: 5px; /* Rounded corners for questions */
+    padding: 15px; /* Padding for questions */
+    background-color: #fff; /* Background for question */
+}
+
+.read-collection__answer {
+    margin: 5px 0; /* Margin above and below answers */
+}
+
+.read-collection__answer input {
+    margin-right: 8px; /* Space between checkbox and label */
+}

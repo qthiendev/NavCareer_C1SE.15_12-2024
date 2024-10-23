@@ -11,14 +11,16 @@ function UpdateCourse() {
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
+    
+    // Check for ban status and authorization
+    const [isBanned, setIsBanned] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);
 
-    const [banChecked, setBanChecked] = useState(false);
     useEffect(() => {
         const checkBanStatus = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateCourse', { withCredentials: true });
-                console.log(response);
-                setBanChecked(true);
+                await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateCourse', { withCredentials: true });
+                setIsBanned(true);
             } catch (error) {
                 console.error('Failed to check ban status:', error);
                 alert('BANNED');
@@ -29,37 +31,35 @@ function UpdateCourse() {
         checkBanStatus();
     }, [navigate]);
 
-    const [espChecked, setESPChecked] = useState(false);
     useEffect(() => {
         const checkAuthorization = async () => {
-            if(!banChecked) return;
-            try {  
+            if (!isBanned) return;
+            try {
                 const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
-                if (response.status !== 200) {
-                    navigate('/'); // Redirect if not authorized
+                if (response.status === 200) {
+                    setIsAuthorized(true);
+                } else {
+                    navigate('/');
                 }
-                setESPChecked(true);
             } catch (error) {
                 console.error('Authorization check failed:', error);
                 navigate('/');
             } finally {
-                setLoading(false); // Set loading to false after the check
+                setLoading(false);
             }
         };
 
         checkAuthorization();
-    }, [banChecked]);
-
-
+    }, [isBanned, navigate]);
 
     useEffect(() => {
         const fetchCourseData = async () => {
-            if(!banChecked || !espChecked) return;
+            if (!isBanned || !isAuthorized) return;
             try {
-                const response = await axios.get(`http://localhost:5000/course/read?course_id=${course_id}`, { withCredentials: true });
-                console.log(response);
-                setCourseData(response.data);
-                setModules(response.data.modules || []);
+                const response = await axios.get(`http://localhost:5000/course/read-full?course_id=${course_id}`, { withCredentials: true });
+                const data = response.data;
+                setCourseData(data);
+                setModules(data.modules || []);
             } catch (error) {
                 alert("Cannot find course");
                 navigate(-1);
@@ -67,7 +67,7 @@ function UpdateCourse() {
         };
 
         fetchCourseData();
-    }, [course_id, banChecked, espChecked]);
+    }, [course_id, isBanned, isAuthorized, navigate]);
 
     const handleUpdateCourse = async (e) => {
         e.preventDefault();
@@ -77,18 +77,11 @@ function UpdateCourse() {
         }
 
         try {
-            await axios.post(`http://localhost:5000/course/update`,
-                {
-                    course_id: course_id,
-                    course_name: courseData.course_name,
-                    course_short_description: courseData.course_short_description,
-                    course_full_description: courseData.course_full_description,
-                    course_price: courseData.course_price,
-                    course_duration: courseData.course_duration,
-                    course_status: courseData.course_status,
-                    modules,
-                },
-                { withCredentials: true });
+            await axios.post(`http://localhost:5000/course/update`, {
+                course_id: Number(course_id),
+                ...courseData,
+                modules,
+            }, { withCredentials: true });
             alert('Course updated successfully');
             navigate(-1);
         } catch (error) {
@@ -101,14 +94,17 @@ function UpdateCourse() {
         const newModule = {
             module_ordinal: modules.length,
             module_name: '',
+            collections: [],
         };
-        setModules([...modules, newModule]);
+        setModules(prevModules => [...prevModules, newModule]);
     };
 
     const handleModuleChange = (index, value) => {
-        const newModules = [...modules];
-        newModules[index].module_name = value;
-        setModules(newModules);
+        setModules(prevModules => {
+            const updatedModules = [...prevModules];
+            updatedModules[index].module_name = value;
+            return updatedModules;
+        });
     };
 
     const onDragEnd = (result) => {
@@ -124,14 +120,6 @@ function UpdateCourse() {
         }));
 
         setModules(updatedModules);
-    };
-
-    const navigateToViewModule = (module) => {
-        navigate(`/course/${course_id}/module/${module.module_ordinal}`);
-    };
-
-    const navigateToEditModule = (module) => {
-        navigate(`/course/${course_id}/module/${module.module_ordinal}/update`);
     };
 
     const deleteModule = async (index) => {
@@ -174,47 +162,30 @@ function UpdateCourse() {
                         onChange={(e) => setCourseData({ ...courseData, course_price: e.target.value })}
                     />
                 </div>
-
                 <div>
                     <label>Course Short Description</label>
                     <textarea
-                        className="course-description"
                         value={courseData?.course_short_description || ''}
-                        onChange={(e) => {
-                            setCourseData({ ...courseData, course_short_description: e.target.value });
-                            adjustHeight(e); // Adjust height on change
-                        }}
+                        onChange={(e) => setCourseData({ ...courseData, course_short_description: e.target.value })}
                     />
                 </div>
-
                 <div>
                     <label>Course Full Description</label>
                     <textarea
-                        className="course-description"
                         value={courseData?.course_full_description || ''}
-                        onChange={(e) => {
-                            setCourseData({ ...courseData, course_full_description: e.target.value });
-                            adjustHeight(e); // Adjust height on change
-                        }}
+                        onChange={(e) => setCourseData({ ...courseData, course_full_description: e.target.value })}
                     />
                 </div>
-
                 <div>
-                    <label>Course Full Description</label>
+                    <label>Status</label>
                     <select
-                        id="status"
-                        name="status"
-                        value={courseData?.course_status}
-                        onChange={(e) => {
-                            setCourseData({ ...courseData, course_status: e.target.value });
-                            adjustHeight(e); // Adjust height on change
-                        }}
+                        value={String(courseData?.course_status)}
+                        onChange={(e) => setCourseData({ ...courseData, course_status: e.target.value === 'true' })}
                     >
-                        <option value="true">Hoạt động</option>
-                        <option value="false">Khóa</option>
+                        <option value="true">Active</option>
+                        <option value="false">Locked</option>
                     </select>
                 </div>
-
                 <div>
                     <h3>Modules</h3>
                     <button type="button" onClick={addModule}>Add Module</button>
@@ -232,8 +203,6 @@ function UpdateCourse() {
                                                         onChange={(e) => handleModuleChange(index, e.target.value)}
                                                         placeholder={`Module ${module.module_ordinal + 1}`}
                                                     />
-                                                    <button type="button" onClick={() => navigateToViewModule(module)}>View</button>
-                                                    <button type="button" onClick={() => navigateToEditModule(module)}>Edit</button>
                                                     <button type="button" onClick={() => deleteModule(index)}>Delete</button>
                                                 </li>
                                             )}

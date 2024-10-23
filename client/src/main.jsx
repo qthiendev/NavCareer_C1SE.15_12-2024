@@ -27,6 +27,8 @@ import UpdateCourse from './pages/course/UpdateCourse.jsx';
 import ESPHome from './pages/course/ESPHome.jsx';
 import ViewAllCourse from './pages/course/ViewAllCourse.jsx';
 
+import ReadCollection from './pages/learning/ReadCollection.jsx';
+
 const Router = () => {
     return (
       <Routes>
@@ -55,6 +57,8 @@ const Router = () => {
           <Route path="esp/course/view-all" element={<ViewAllCourse />} /> 
           <Route path="esp/course/:course_id/update" element={<UpdateCourse />} /> 
           <Route path="esp/course/create" element={<CreateCourse />} /> 
+
+          <Route path="edu/collection" element={<ReadCollection />} /> 
 
         </Route>
       </Routes>
