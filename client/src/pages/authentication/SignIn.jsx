@@ -55,7 +55,7 @@ function SignIn() {
     };
 
     if (loading)
-        return(<div>Loading...</div>);
+        return (<div>Loading...</div>);
 
     return (
         <div className="login-container">
@@ -64,25 +64,25 @@ function SignIn() {
 
                 <form onSubmit={handleSubmit}>
 
-                <div className="SignIn-form-group">
-    <input
-        type="text"
-        placeholder="Tên tài khoản"
-        value={account}
-        onChange={(e) => setAccount(e.target.value)}
-        required
-    />
-</div>
+                    <div className="SignIn-form-group">
+                        <input
+                            type="text"
+                            placeholder="Tên tài khoản"
+                            value={account}
+                            onChange={(e) => setAccount(e.target.value)}
+                            required
+                        />
+                    </div>
 
-<div className="SignIn-form-group">
-    <input
-        type="password"
-        placeholder="Mật khẩu"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-    />
-</div>
+                    <div className="SignIn-form-group">
+                        <input
+                            type="password"
+                            placeholder="Mật khẩu"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
 
                     <div className="forgot-password">
                         <a href="#">Quên mật khẩu?</a>

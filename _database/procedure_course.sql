@@ -558,6 +558,7 @@ begin
 		m.[module_name],
 		clt.[collection_type_name],
 		cl.[collection_id],
+		cl.[collection_ordinal],
         cl.[collection_name]
     from Courses c
         left join Modules m on m.[course_id] = c.[course_id]
