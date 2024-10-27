@@ -1,10 +1,10 @@
 const now = new Date();
 require('dotenv').config();
 
-const isSignedIn = async (req, res, next) => { // Pass when user already signed in
+const isSignedIn = async (req, res, next) => {
     try {
         if (Number.isNaN(Number.parseInt(req.session.aid))) {
-            console.log(`[${now.toLocaleString()}] at authentication.js/isSignedIn | Triggered`);
+            console.warn(`[${now.toLocaleString()}] at authentication.js/isSignedIn | auth[${req.session.aid}], role[${req.session.role}], user[${req.session.uid}] triggred`);
             return res.status(203).json({
                 message: 'Must Sign In to Access.',
                 sign_in_status: false,
@@ -23,14 +23,13 @@ const isSignedIn = async (req, res, next) => { // Pass when user already signed 
     }
 };
 
-const isNotSignedIn = async (req, res, next) => { // Pass when user not sign in yet
+const isNotSignedIn = async (req, res, next) => {
     try {
         if (!Number.isNaN(Number.parseInt(req.session.aid))) {
-            console.error(`[${now.toLocaleString()}] at authentication.js/isNotSignedIn | Triggered`);
+            console.warn(`[${now.toLocaleString()}] at authentication.js/isNotSignedIn | auth[${req.session.aid}], role[${req.session.role}], user[${req.session.uid}] triggred`);
             return res.status(203).json({
                 message: 'Must Not Sign In to Access.',
                 sign_in_status: true,
-                aid: req.session.aid,
                 time: now.toLocaleString(),
             });
         }

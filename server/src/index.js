@@ -4,6 +4,7 @@ const session = require('express-session');
 const cors = require('cors');
 const mainRouter = require('./mainRouter');
 const path = require('path');
+const now = new Date();
 
 const app = express();
 const PORT = 5000;
@@ -44,5 +45,12 @@ app.use('/', mainRouter);
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.clear();
+    console.log('\x1b[32m%s\x1b[0m', `[${now.toLocaleString()}] at index.js | SERVER running on http://localhost:${PORT}`);
+    console.log('\x1b[32m%s\x1b[0m', `[${now.toLocaleString()}] at index.js | CLIENT running on ${corsOptions.origin}`);
+    //console.log('\x1b[31m%s\x1b[0m', 'This is red text');
+    //console.log('\x1b[32m%s\x1b[0m', 'This is green text');
+    //console.log('\x1b[34m%s\x1b[0m', 'This is blue text');
+    //console.log('\x1b[33m%s\x1b[0m', 'This is yellow text');
+    //console.log('\x1b[1m%s\x1b[0m', 'This is bold text');
 });

@@ -55,49 +55,60 @@ function SignIn() {
     };
 
     if (loading)
-        return(<div>Loading...</div>);
+        return (<div>Loading...</div>);
 
     return (
         <div className="login-container">
+            
             <div className="login-box">
-                <h2>Chào mừng bạn đến với NavCareer</h2>
+                <div className='Header-Nav-Carrer'>
+                    <img src="./assets/Header-Nav.svg" alt="" />
+                </div>
+                <h2 className='Tieude'>Chào mừng bạn đến với NavCareer</h2>
 
                 <form onSubmit={handleSubmit}>
 
-                <div className="SignIn-form-group">
-    <input
-        type="text"
-        placeholder="Tên tài khoản"
-        value={account}
-        onChange={(e) => setAccount(e.target.value)}
-        required
-    />
-</div>
+                    <div className="SignIn-form-group">
+                        <label className='label' htmlFor="">Tên tài khoản</label>
+                        <input className='inputtext1'
+                            type="text"
+                            placeholder="Tên tài khoản"
+                            value={account}
+                            onChange={(e) => setAccount(e.target.value)}
+                            required
+                        />
+                    </div>
 
-<div className="SignIn-form-group">
-    <input
-        type="password"
-        placeholder="Mật khẩu"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-    />
-</div>
+                    <div className="SignIn-form-group">
+                    <label className='label' htmlFor="">Mật khẩu</label>
+                        <input className='inputtext1'
+                            type="password"
+                            placeholder="Mật khẩu"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                    <div className="forgot-password">
-                        <a href="#">Quên mật khẩu?</a>
+                    <div className='form-links'>
+                        <a href="#" className="forgot-password">Quên mật khẩu?</a>
+                       
                     </div>
 
                     <button type="submit" className="login-btn">Đăng nhập</button>
                 </form>
 
                 {noti && <div className="error-message" style={{ color: 'red' }}>{noti}</div>}
-
+                
                 <div className="signup-link">
                     <span>Chưa có tài khoản? </span><a href="/signup">Đăng ký</a>
                 </div>
             </div>
-        </div>
+            <div className='picture-side'>
+                <img src="./assets/Picture-Side.svg" alt="" />
+            </div>
+            </div>
+       
     );
 }
 

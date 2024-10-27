@@ -128,11 +128,9 @@ begin
 
 			if @user_id is null select @user_id = isnull(max([user_id]), 0) + 1 from Users;
 
-			declare @resource_url NVARCHAR(MAX) = trim('/profiles/_' + cast(@user_id as NVARCHAR));
-
-			insert into Users ([user_id], [user_full_name], [user_alias], [user_email], [user_birthdate], [user_gender], [user_phone_number], [user_address], [user_created_date], [user_resource_url], [authentication_id])
+			insert into Users ([user_id], [user_full_name], [user_alias], [user_email], [user_birthdate], [user_gender], [user_phone_number], [user_address], [user_created_date], [authentication_id])
 			values
-			(@user_id, @user_full_name, @user_alias, @user_email, @user_birthdate, @user_gender, @user_phone_number, @user_address, getdate(), @resource_url, @authentication_id);
+			(@user_id, @user_full_name, @user_alias, @user_email, @user_birthdate, @user_gender, @user_phone_number, @user_address, getdate(), @authentication_id);
 
 			if @@ROWCOUNT = 0
 			begin

@@ -17,7 +17,7 @@ const tryConnect = async (role) => {
         await connection.connect();
 
     } catch (err) {
-        throw new Error(`tryConnect() | ${err.message}`);
+        throw new Error(`tryConnect | ${err.message}`);
     }
 };
 
@@ -29,7 +29,7 @@ const closeConnect = async () => {
             throw new Error(`There is no NavCareerDB connection to close.`);
         }
     } catch (err) {
-        throw new Error(`closeConnect() | ${err.message}`);
+        throw new Error(`closeConnect | ${err.message}`);
     }
 };
 
@@ -46,7 +46,7 @@ const query = async (role, queryString, params = {}) => {
             request.input(key, value);
         }
 
-        console.log(`[${new Date().toLocaleString()}] at ncbdService.js/queryDB | Querying NavCareerDB: ${queryString} -> ${JSON.stringify(params)}`);
+        console.log('\x1b[34m%s\x1b[0m', `[${new Date().toLocaleString()}] at ncbdService.js/queryDB | Querying NavCareerDB: ${queryString} => ${JSON.stringify(params)}`);
 
         const results = await request.query(queryString);
 

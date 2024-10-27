@@ -5,8 +5,6 @@ import './UpdateProfile.css';
 
 function UpdateProfile() {
     const [profile, setProfile] = useState();
-    const [aid, setAid] = useState(null);
-    const [authChecked, setAuthChecked] = useState(false);
     const [banChecked, setBanChecked] = useState(false);
 
     const [day, setDay] = useState('');
@@ -19,30 +17,7 @@ function UpdateProfile() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const authResponse = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                console.log(authResponse.data.sign_in_status);
-
-                if (!authResponse.data.sign_in_status) {
-                    navigate('/signin');
-                    return;
-                }
-
-                setAid(authResponse.data.aid);
-                setAuthChecked(true);
-            } catch (error) {
-                console.error('Failed to check profile status:', error);
-            }
-        };
-
-        checkAuth();
-    }, []);
-
-    useEffect(() => {
         const checkBanStatus = async () => {
-            if (!authChecked) return;
-
             try {
                 const response = await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateProfile', { withCredentials: true });
                 console.log(response);
@@ -55,15 +30,18 @@ function UpdateProfile() {
         };
 
         checkBanStatus();
-    }, [authChecked]);
+    }, []);
 
     useEffect(() => {
         const fetchProfileData = async () => {
-            if (!authChecked || !banChecked) return; // Only proceed if banChecked is true and aid is set
-
+            if (!banChecked) return;
             try {
-                const response = await axios.get(`http://localhost:5000/profile/read?auth_id=${aid}`, { withCredentials: true });
-                console.log(response);
+                const response = await axios.get(`http://localhost:5000/profile/read?user_id=self`, { withCredentials: true });
+                if (!response.data.user_full_name) {
+                    navigate('/profile/create');
+                    return;
+                }
+                
                 const birthdate = new Date(response.data.user_birthdate);
 
                 setProfile(response.data);
@@ -80,7 +58,7 @@ function UpdateProfile() {
         };
 
         fetchProfileData();
-    }, [authChecked, banChecked]);
+    }, [banChecked]);
 
     // Handle form input changes
     const handleInputChange = (e) => {
@@ -145,7 +123,7 @@ function UpdateProfile() {
             <div className="left-panel">
                 <div className="profile-header">
                     <img
-                        src="/img/student_profile/std_prf.png"
+                        src={profile?.avatar}
                         alt="Avatar"
                         className="profile-avatar"
                     />

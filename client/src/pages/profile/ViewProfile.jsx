@@ -11,21 +11,14 @@ function ViewProfile() {
     const { user_id } = useParams();
 
     useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
-                setUpdatable(response.data.aid === Number.parseInt(user_id));
-            } catch (err) {
-                console.error('Failed to check authentication status:', err);
-            }
-        };
-
         const fetchProfile = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
                 if (!response.data.user_full_name) {
                     navigate('/profile/create');
+                    return;
                 }
+                setUpdatable(user_id === 'self' || Number.parseInt(user_id) === response.data.user_id);
                 setProfile(response.data);
                 setLoading(false);
             } catch (err) {
@@ -34,9 +27,7 @@ function ViewProfile() {
         };
 
         fetchProfile();
-        checkAuth();
-
-    }, [user_id, navigate]);
+    }, [user_id]);
 
     if (loading) {
         return <div className="loading">Loading...</div>;
@@ -50,7 +41,7 @@ function ViewProfile() {
             <div className="view-left-panel">
                 <div className="view-profile-header">
                     <img
-                        src="/img/student_profile/std_prf.png"             
+                        src={profile.avatar}            
                         alt="Avatar"
                         className="view-profile-avatar"
                     />

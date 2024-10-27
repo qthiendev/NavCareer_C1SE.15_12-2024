@@ -32,9 +32,9 @@ const ProfileForm = () => {
 
                 setAid(authResponse.data.aid);
 
-                const profileResponse = await axios.get(`http://localhost:5000/profile/read?auth_id=${authResponse.data.aid}`, { withCredentials: true });
-                if (profileResponse.data.user_id !== null && profileResponse.data.user_id !== undefined) {
-                    navigate(`/profile/${profileResponse.data.user_id}`);
+                const profileResponse = await axios.get(`http://localhost:5000/profile/read?user_id=self`, { withCredentials: true });
+                if (profileResponse.data.user_full_name) {
+                    navigate(`/profile/self`);
                 }
 
             } catch (error) {
