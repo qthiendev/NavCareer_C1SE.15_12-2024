@@ -1,8 +1,111 @@
-go
+﻿go
 use master;
 go
 use NavCareerDB;
 go
+
+--phúc viết để làm chatbot
+if object_id('GetAllCourses', 'P') is not null drop procedure GetAllCourses;
+go
+create procedure GetAllCourses
+as
+begin
+	select
+		c.[course_id],
+		c.[course_name], 
+		c.[course_short_description],
+		c.[course_price],
+		c.[course_duration],
+		c.[course_resource_url]
+	from Courses c
+end
+go
+ --exec GetAllCourses
+ --lọc giá: từ khoảng đến khoảng
+ if object_id('GetCoursesByPriceRange', 'P') is not null drop procedure GetCoursesByPriceRange;
+go
+create procedure GetCoursesByPriceRange @min_price decimal(10, 2), @max_price decimal(10, 2)
+as
+begin
+	select
+		c.[course_id],
+		c.[course_name], 
+		c.[course_short_description],
+		c.[course_price],
+		c.[course_duration],
+		c.[course_resource_url]
+	from Courses c
+	where c.[course_price] between @min_price and @max_price
+	order by c.course_price
+end
+go
+--exec GetCoursesByPriceRange 1500000, 3000000
+--lọc giá lớn hơn khoảng 
+if object_id('GetCoursesAbovePrice', 'P') is not null drop procedure GetCoursesAbovePrice;
+go
+create procedure GetCoursesAbovePrice @min_price decimal(10, 2)
+as
+begin
+	select
+		c.[course_id],
+		c.[course_name], 
+		c.[course_short_description],
+		c.[course_price],
+		c.[course_duration],
+		c.[course_resource_url]
+	from Courses c
+	where c.[course_price] > @min_price
+	order by c.course_price
+end
+go
+-- exec GetCoursesAbovePrice 2000000
+-- lọc giá bé hơn khoảng
+if object_id('GetCoursesBelowPrice', 'P') is not null drop procedure GetCoursesBelowPrice;
+go
+create procedure GetCoursesBelowPrice @max_price decimal(10, 2)
+as
+begin
+	select
+		c.[course_id],
+		c.[course_name], 
+		c.[course_short_description],
+		c.[course_price],
+		c.[course_duration],
+		c.[course_resource_url]
+	from Courses c
+	where c.[course_price] < @max_price
+	order by c.course_price
+end
+go
+-- exec GetCoursesBelowPrice 2500000
+
+if object_id('selectTop5Course', 'P') is not null drop procedure selectTop5Course;
+go
+create proc selectTop5Course
+as
+begin
+	select top 5 
+    c.[course_id],
+    c.[course_name],
+    c.[course_short_description],
+    c.[course_price],
+    c.[course_duration],
+    c.[course_resource_url],
+    count(e.[user_id]) as [enrollment_count]
+from Courses c
+left join Enrollments e on c.[course_id] = e.[course_id]
+group by 
+    c.[course_id],
+    c.[course_name],
+    c.[course_short_description],
+    c.[course_price],
+    c.[course_duration],
+    c.[course_resource_url]
+order by [enrollment_count] desc;
+end;
+go
+
+--exec selectTop5Course
 
 if object_id('ReadCourse', 'P') is not null drop procedure ReadCourse;
 go
@@ -596,3 +699,29 @@ grant execute on dbo.DeleteCourse to [NAV_ADMIN];
 grant execute on dbo.ReadUserCourses to [NAV_ADMIN];
 grant execute on dbo.UpdateModule to [NAV_ADMIN];
 grant execute on dbo.ReadFullCourse to [NAV_ADMIN];
+
+
+grant execute on dbo.GetAllCourses to [NAV_ADMIN];
+grant execute on dbo.GetAllCourses to [NAV_ESP];
+grant execute on dbo.GetAllCourses to [NAV_STUDENT];
+grant execute on dbo.GetAllCourses to [NAV_GUEST];
+
+grant execute on dbo.[GetCoursesByPriceRange] to [NAV_ADMIN];
+grant execute on dbo.[GetCoursesByPriceRange] to [NAV_ESP];
+grant execute on dbo.[GetCoursesByPriceRange] to [NAV_STUDENT];
+grant execute on dbo.[GetCoursesByPriceRange] to [NAV_GUEST];
+
+grant execute on dbo.GetCoursesAbovePrice to [NAV_ADMIN];
+grant execute on dbo.GetCoursesAbovePrice to [NAV_ESP];
+grant execute on dbo.GetCoursesAbovePrice to [NAV_STUDENT];
+grant execute on dbo.GetCoursesAbovePrice to [NAV_GUEST];
+
+grant execute on dbo.GetCoursesBelowPrice to [NAV_ADMIN];
+grant execute on dbo.GetCoursesBelowPrice to [NAV_ESP];
+grant execute on dbo.GetCoursesBelowPrice to [NAV_STUDENT];
+grant execute on dbo.GetCoursesBelowPrice to [NAV_GUEST];
+
+grant execute on dbo.selectTop5Course to [NAV_ADMIN];
+grant execute on dbo.selectTop5Course to [NAV_ESP];
+grant execute on dbo.selectTop5Course to [NAV_STUDENT];
+grant execute on dbo.selectTop5Course to [NAV_GUEST];
