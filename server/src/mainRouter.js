@@ -11,6 +11,7 @@ const adminRouters = require('./routers/adminRouters');
 const utilitiesRouters = require('./routers/utilitiesRouters');
 const espRouters = require('./routers/espRouters');
 const educationRouters = require('./routers/educationRouters');
+const chatbot = require('./routers/chatbot');
 
 // Use routes
 router.use('/auth', authRouters);
@@ -21,6 +22,7 @@ router.use('/admin', adminRouters);
 router.use('/utl', utilitiesRouters);
 router.use('/esp', espRouters);
 router.use('/edu', educationRouters);
+router.use('/chatbot', chatbot);
 
 //Self implement route
 router.use('/', serverRouters);

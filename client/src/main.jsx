@@ -24,10 +24,13 @@ import ViewProfile from './pages/profile/ViewProfile.jsx';
 import ViewCourse from './pages/course/ViewCourse.jsx';
 import CreateCourse from './pages/course/CreateCourse.jsx';
 import UpdateCourse from './pages/course/UpdateCourse.jsx';
+
 import ESPHome from './pages/course/ESPHome.jsx';
 import ViewAllCourse from './pages/course/ViewAllCourse.jsx';
 
 import ReadCollection from './pages/learning/ReadCollection.jsx';
+
+import Chatbot from './pages/chatbot/chatbot.jsx';
 
 const Router = () => {
     return (
@@ -59,6 +62,7 @@ const Router = () => {
           <Route path="esp/course/create" element={<CreateCourse />} /> 
 
           <Route path="edu/collection" element={<ReadCollection />} /> 
+          <Route path='chatbot' element={<Chatbot />} />
 
         </Route>
       </Routes>

@@ -141,7 +141,7 @@ function ModifyUser() {
             <form onSubmit={handleSubmit}>
                 <div className="field-row">
                     <label>Authentication ID:</label>
-                    <input
+                    <input className='input1'
                         type="text"
                         name="authentication_id"
                         value={userData.authentication_id}
@@ -150,7 +150,7 @@ function ModifyUser() {
                 </div>
                 <div className="field-row">
                     <label>Account:</label>
-                    <input
+                    <input className='input1'
                         type="text"
                         name="account"
                         value={userData.account}
@@ -161,7 +161,7 @@ function ModifyUser() {
                 <div className="field-row">
                     <label>Password:</label>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <input
+                        <input className='input1'
                             type={showPassword ? 'text' : 'password'}
                             name="password"
                             value={userData.password}
@@ -180,7 +180,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>Identifier Email:</label>
-                    <input
+                    <input className='input1'
                         type="text"
                         name="identifier_email"
                         value={userData.identifier_email}
@@ -216,7 +216,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>Full Name:</label>
-                    <input
+                    <input className='input1'
                         type="text"
                         name="user_full_name"
                         value={userData.user_full_name}
@@ -227,7 +227,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>Alias:</label>
-                    <input
+                    <input className='input1'
                         type="text"
                         name="user_alias"
                         value={userData.user_alias}
@@ -237,7 +237,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>Bio:</label>
-                    <input
+                    <input className='input1'
                         type="text"
                         name="user_bio"
                         value={userData.user_bio}
@@ -298,7 +298,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>Email:</label>
-                    <input
+                    <input className='input1'
                         type="email"
                         name="user_email"
                         value={userData.user_email}
@@ -309,7 +309,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>Phone Number:</label>
-                    <input
+                    <input className='input1'
                         type="tel"
                         name="user_phone_number"
                         value={userData.user_phone_number}
@@ -320,7 +320,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>Address:</label>
-                    <input
+                    <input className='input1'
                         type="text"
                         name="user_address"
                         value={userData.user_address}
