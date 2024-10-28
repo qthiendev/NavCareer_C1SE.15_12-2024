@@ -69,6 +69,10 @@ function ViewCourse() {
                 ))}
             </ul>
 
+            <button className="btn-edit" onClick={() => navigate(`/esp/course/${course_id}/update`)}>
+                    Tham gia ngay
+            </button>
+
             {updatable && (
                 <button className="btn-edit" onClick={() => navigate(`/esp/course/${course_id}/update`)}>
                     Edit Course

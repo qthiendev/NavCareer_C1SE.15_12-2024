@@ -56,6 +56,67 @@ go
 -- ReadFrame 0
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('CreateEnrollment', 'P') is not null drop procedure CreateEnrollment;
+go
+create procedure CreateEnrollment @aid int, @course_id int
+as
+begin
+	
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'CreateEnrollment');
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	declare @user_id int;
+
+	select @user_id = [user_id]
+	from Users
+	where [authentication_id] = @aid
+
+	if not exists (select 1 from Users where [user_id] = @user_id)
+	begin
+		select 'U_UID' as [check];
+		return;
+	end
+
+	if not exists ( select 1 from Courses where [course_id] = @course_id)
+	begin
+		select 'U_CID' as [check]
+		return;
+	end
+
+	if (exists (select 1 from Users where [user_id] = @user_id AND [user_status] = 0)) and @aid != @user_id 
+	begin
+		select 'INACTIVE' as [check];
+		return;
+	end
+
+	if exists (select 1 from Enrollments where [user_id] = @user_id and [course_id] = @course_id)
+	begin
+		select 'E_EID' as [check];
+		return;
+	end
+
+	insert into Enrollments([enrollment_date], [enrollment_is_complete], [user_id], [course_id])
+	values
+	(getdate(), 0, @user_id, @course_id);
+
+	if @@ROWCOUNT = 1
+	begin
+		select 'SUCCESSED' as [check]
+		return;
+	end
+
+	select 'FAILED' as [check]
+
+end
+go
+
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 grant execute on dbo.ReadCollection to [NAV_ADMIN];
 grant execute on dbo.ReadCollection to [NAV_ESP];
 grant execute on dbo.ReadCollection to [NAV_STUDENT];
@@ -63,3 +124,7 @@ grant execute on dbo.ReadCollection to [NAV_STUDENT];
 grant execute on dbo.ReadFrame to [NAV_ADMIN];
 grant execute on dbo.ReadFrame to [NAV_ESP];
 grant execute on dbo.ReadFrame to [NAV_STUDENT];
+
+grant execute on dbo.CreateEnrollment to [NAV_ADMIN];
+grant execute on dbo.CreateEnrollment to [NAV_ESP];
+grant execute on dbo.CreateEnrollment to [NAV_STUDENT];
