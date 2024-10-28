@@ -18,7 +18,6 @@ begin
         [user_id] as [id], 
         [user_full_name] as [name],
 		[user_bio] as [description],
-        [user_resource_url] as [resource],
         1 as [is_user]
     from Users
     where (lower([user_full_name]) collate sql_latin1_general_cp1_ci_ai like '%' + @normalizedindex + '%'
@@ -31,7 +30,6 @@ begin
         [course_id] as [id], 
         [course_name] as [name],
 		[course_short_description] as [description],
-        [course_resource_url]  as [resource],
         0 as [is_user]
     from Courses
     where lower([course_name]) collate sql_latin1_general_cp1_ci_ai like '%' + @normalizedindex + '%'
