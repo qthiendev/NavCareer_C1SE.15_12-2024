@@ -63,16 +63,7 @@ begin
 		return;
 	end
 
-    declare @course_id int;
 	declare @user_id int;
-
-    select top 1 @course_id = t1.course_id + 1
-    from Courses t1
-		left join Courses t2 on t1.course_id + 1 = t2.course_id
-    where t2.course_id is null
-    order by t1.course_id;
-
-    if @course_id is null select @course_id = isnull(max(course_id), 0) + 1 from Courses;
 
 	select @user_id = [user_id]
 	from Users
@@ -102,22 +93,18 @@ begin
 		return;
 	end
 
-	declare @resource_url nvarchar(max) = '/courses/_' + cast(@course_id as nvarchar);
-
-    insert into Courses ([course_id],
-		[course_name],
+    insert into Courses ([course_name],
 		[course_short_description],
 		[course_full_description],
 		[course_price],
 		[course_duration], 
 		[course_created_date],
-		[course_resource_url],
 		[course_piority_index],
 		[course_status],
 		[user_id]
 	)
     values
-    (@course_id, @course_name, @course_short_description, @course_full_description, @course_price, @course_duration, getdate(), @resource_url, 1, 1, @user_id);
+    (@course_name, @course_short_description, @course_full_description, @course_price, @course_duration, getdate(), 1, 1, @user_id);
 
 	if @@ROWCOUNT = 1
 	begin
@@ -205,65 +192,6 @@ go
 
 -- exec UpdateCourse 1, 2, 'Test course name1', 'Test short decrisption1', 'Test full decrisption1', 300000, '3 months', 1
 -- exec ReadCourse 2
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
-if object_id('DeleteCourse', 'P') is not null drop procedure DeleteCourse;
-go
-create procedure DeleteCourse @aid int, @course_id int
-as
-begin
-	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'DeleteCourse');
-    if @IsBanned = 1 
-	begin
-		select 'BANNED' as [check];
-		return;
-	end
-
-	declare @user_id int;
-
-	select @user_id = [user_id]
-	from Users
-	where [authentication_id] = @aid
-
-	if (@user_id is null)
-	begin
-		select 'U_UID' as [check]
-		return;
-	end
-
-	if not exists (
-		select 1
-		from Courses
-		where [course_id] = @course_id)
-	begin
-		select 'U_CID' as [check]
-		return;
-	end
-
-	if not exists (
-		select 1
-		from Authentications auth join Authorizations authz on authz.authorization_id = auth.authorization_id
-		where auth.authentication_id = @aid and authz.role = 'NAV_ESP')
-	begin
-		select 'U_ROLE' as [check]
-		return;
-	end
-
-	delete from Courses
-	where [course_id] = @course_id
-		and [user_id] = @user_id
-
-	if @@ROWCOUNT = 1
-	begin
-		select 'SUCCESSED' as [check];
-		return;
-	end
-
-	select 'FAILED' as [check];
-end
-go
--- exec DeleteCourse 1, 2
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 if object_id('ReadUserCourses', 'P') is not null drop procedure ReadUserCourses;
@@ -586,14 +514,12 @@ grant execute on dbo.ReadFrame to [NAV_STUDENT];
 
 grant execute on dbo.CreateCourse to [NAV_ESP];
 grant execute on dbo.UpdateCourse to [NAV_ESP];
-grant execute on dbo.DeleteCourse to [NAV_ESP];
 grant execute on dbo.ReadUserCourses to [NAV_ESP];
 grant execute on dbo.UpdateModule to [NAV_ESP];
 grant execute on dbo.ReadFullCourse to [NAV_ESP];
 
 grant execute on dbo.CreateCourse to [NAV_ADMIN];
 grant execute on dbo.UpdateCourse to [NAV_ADMIN];
-grant execute on dbo.DeleteCourse to [NAV_ADMIN];
 grant execute on dbo.ReadUserCourses to [NAV_ADMIN];
 grant execute on dbo.UpdateModule to [NAV_ADMIN];
 grant execute on dbo.ReadFullCourse to [NAV_ADMIN];

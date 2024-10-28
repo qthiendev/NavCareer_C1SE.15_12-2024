@@ -132,9 +132,6 @@ const ReadCollection = () => {
                         <div className="read-collection__module" key={module.module_id}>
                             <h2 onClick={() => toggleModule(module.module_id)} className="read-collection__module-header">
                                 {`${moduleIndex + 1}. ${module.module_name}`}
-                                <span className={`read-collection__arrow ${expandedModules[module.module_id] ? 'expanded' : ''}`}>
-                                    ➤
-                                </span>
                             </h2>
                             {expandedModules[module.module_id] && (
                                 module.collections.length > 0 ? (
@@ -188,7 +185,7 @@ const ReadCollection = () => {
 
                                         case 'Text':
                                             return (
-                                                <p key={index} className="read-collection__text">{material.material_content}</p>
+                                                <pre key={index} className="read-collection__text">{material.material_content}</pre>
                                             );
 
                                         case 'Question':

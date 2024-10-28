@@ -1,28 +1,27 @@
 .collection-container {
     display: flex;
-    justify-content: center; /* Center the container */
-    margin: 0 auto; /* Center the container horizontally */
+    justify-content: center;
+    margin: 0 auto;
     background-color: #f9f9f9;
 }
 
 .read-collection {
-    display: flex; /* Flexbox layout */
-    margin-right: 100px; /* Space to the right */
-    width: 100%; /* Make it full width */
+    display: flex;
+    margin-right: 100px;
+    width: 100%;
 }
 
 .read-collection__sidebar {
-    width: 400px; /* Fixed width for sidebar */
-    border-right: 1px solid #ccc; /* Optional border for separation */
-    padding-right: 15px; /* Padding on the right */
-    font-size: 3px; /* Adjust font size */
+    width: 400px;
+    border-right: 1px solid #ccc;
+    padding-right: 15px;
+    font-size: 24px;
 }
 
 .read-collection__content {
-    flex-grow: 1; /* Allow content area to take the remaining space */
-    padding-left: 15px; /* Padding on the left */
-    max-width: 1280px; /* Maximum width to ensure it stays centered */
-    margin-right: 160px; /* Center the content */
+    flex-grow: 1;
+    margin-left: 100px;
+    max-width: 1440px;
 }
 
 .read-collection__loading {
@@ -32,87 +31,95 @@
 }
 
 .read-collection__module {
-    margin-bottom: 20px; /* Space between modules */
-    border: 1px solid #ccc; /* Optional border for visibility */
-    border-radius: 5px; /* Slight rounding of corners */
-    background-color: #f9f9f9; /* Background for modules */
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
 }
 
 .read-collection__module-header {
-    cursor: pointer; /* Show cursor as pointer for clickable header */
-    display: flex; /* Align items within header */
-    justify-content: space-between; /* Space between title and arrow */
-    align-items: center; /* Center align items */
-    padding: 3px 15px; /* Padding for better spacing */
-    font-size: 12px; /* Font size */
-    font-weight: normal; /* Font weight */
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 15px;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: left;
 }
 
 .read-collection__arrow {
-    transition: transform 0.3s; 
+    transition: transform 0.3s;
 }
 
 .read-collection__arrow.expanded {
-    transform: rotate(90deg); /* Rotate arrow when expanded */
+    transform: rotate(90deg);
 }
 
 .read-collection__collection {
-    padding: 10px 15px; /* Padding for collections */
-    font-size: 16px; /* Font size for collection links */
-    color: #007bff; /* Link color */
-    text-decoration: none; /* Remove underline from links */
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #007bff;
+    text-decoration: none;
 }
 
 .read-collection__collection:hover {
-    text-decoration: underline; /* Underline on hover */
+    text-decoration: underline;
 }
 
 .read-collection__no-collection {
-    padding: 10px; /* Padding for no collection message */
-    color: #999; /* Text color */
+    padding: 10px;
+    color: #999;
 }
 
 .read-collection__item {
-    margin-bottom: 30px; /* Space below items */
-    text-align: left; /* Align text to the left for items */
+    margin-bottom: 30px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .read-collection__title {
-    font-size: 28px; /* Title font size */
-    color: #333; /* Title color */
-    margin-bottom: 15px; /* Margin below title */
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%;
 }
 
-.read-collection__image {
-    max-width: 100%; /* Maximum width for images */
-    border-radius: 8px; /* Rounded corners for images */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for images */
-}
-
+.read-collection__image,
 .read-collection__video {
-    max-width: 100%; /* Maximum width for videos */
-    border-radius: 8px; /* Rounded corners for videos */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for videos */
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
+    margin-bottom: 15px;
 }
 
 .read-collection__text {
-    margin: 10px 0; /* Margin above and below text */
-    font-size: 1px; /* Font size for text */
-    color: black
+    margin: 10px 0;
+    font-size: 16px;
+    color: black;
+    text-align: left;
+    width: 100%;
+    white-space: pre-wrap;
+    font-family: inherit;
 }
 
 .read-collection__question {
-    margin: 20px 0; /* Margin above and below questions */
-    border: 1px solid #ddd; /* Border for questions */
-    border-radius: 5px; /* Rounded corners for questions */
-    padding: 15px; /* Padding for questions */
-    background-color: #fff; /* Background for question */
+    margin: 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #fff;
+    text-align: left;
 }
 
 .read-collection__answer {
-    margin: 5px 0; /* Margin above and below answers */
+    margin: 5px 0;
 }
 
 .read-collection__answer input {
-    margin-right: 8px; /* Space between checkbox and label */
+    margin-right: 8px;
 }

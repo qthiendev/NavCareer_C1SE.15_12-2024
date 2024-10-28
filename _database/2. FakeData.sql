@@ -279,7 +279,7 @@ go
 insert into Materials ([material_content], [material_ordinal], [material_type_id], [collection_id])
 values
 (N'Linear-Programming.mp4',
-0, 3, 0),
+0, 2, 0),
 
 (N'Đặc trưng cơ bản của lập trình tuyến tính là tư duy theo lối tuần tự. Chương trình sẽ được thực hiện theo thứ tự từ đầu đến cuối, lệnh này kế tiếp lệnh kia cho đến khi kết thúc chương trình.
 - Lập trình tuyến tính có hai đặc trưng:
