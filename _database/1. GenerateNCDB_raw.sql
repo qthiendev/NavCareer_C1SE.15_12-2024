@@ -98,7 +98,7 @@ create table Authentications (
     [created_date] datetime default getdate() not null,
 	[auth_status] bit default 1 not null,
     [authorization_id] int null,
-    constraint fk_authentication_authorization_id foreign key ([authorization_id]) references Authorizations([authorization_id]) on delete cascade on update cascade
+    constraint fk_authentication_authorization_id foreign key ([authorization_id]) references Authorizations([authorization_id]) on delete set null on update cascade
 );
 go
 
@@ -106,8 +106,8 @@ go
 create table AuthProcedureBanned (
 	[id] int identity(0, 1) primary key,
 	[procedure_name] nvarchar(512) not null,
-	[authentication_id] int not null,
-	constraint fk_auth_procedure_authentication_id foreign key ([authentication_id]) references Authentications([authentication_id]) on delete cascade on update cascade
+	[authentication_id] int null,
+	constraint fk_auth_procedure_authentication_id foreign key ([authentication_id]) references Authentications([authentication_id]) on delete set null on update cascade
 );
 go
 
@@ -173,7 +173,7 @@ create table Courses (
 	[course_piority_index] int not null,
 	[course_status] bit default 1 not null,
     [user_id] int null,
-    constraint fk_course_provider_id foreign key ([user_id]) references Users([user_id]) on delete cascade on update cascade
+    constraint fk_course_provider_id foreign key ([user_id]) references Users([user_id]) on delete set null on update cascade
 );
 go
 
@@ -184,7 +184,7 @@ create table Modules (
     [module_created_date] datetime default getdate() not null,
     [module_ordinal] int not null,
     [course_id] int null,
-    constraint fk_module_course_id foreign key ([course_id]) references Courses([course_id]) on delete cascade on update cascade
+    constraint fk_module_course_id foreign key ([course_id]) references Courses([course_id]) on delete set null on update cascade
 );
 go
 
@@ -203,8 +203,8 @@ create table Collections (
     [collection_ordinal] int not null,
     [collection_type_id] int null,
     [module_id] int null,
-    constraint fk_collection_collection_type_id foreign key ([collection_type_id]) references CollectionTypes([collection_type_id]) on delete cascade on update cascade,
-    constraint fk_collection_module_id foreign key ([module_id]) references Modules([module_id]) on delete cascade on update cascade 
+    constraint fk_collection_collection_type_id foreign key ([collection_type_id]) references CollectionTypes([collection_type_id]) on delete set null on update cascade,
+    constraint fk_collection_module_id foreign key ([module_id]) references Modules([module_id]) on delete set null on update cascade 
 );
 go
 
@@ -220,10 +220,10 @@ create table Materials (
     [material_id] int identity(0, 1) primary key,
     [material_content] nvarchar(max), 
     [material_ordinal] int not null,
-    [material_type_id] int not null,
+    [material_type_id] int null,
     [collection_id] int null,
-    constraint fk_material_material_type_id foreign key ([material_type_id]) references MaterialType([material_type_id]) on delete cascade on update cascade, 
-    constraint fk_material_collection_id foreign key ([collection_id]) references Collections([collection_id]) on delete cascade on update cascade,
+    constraint fk_material_material_type_id foreign key ([material_type_id]) references MaterialType([material_type_id]) on delete set null on update cascade, 
+    constraint fk_material_collection_id foreign key ([collection_id]) references Collections([collection_id]) on delete set null on update cascade,
 );
 
 -- Question Types - type for server render
@@ -238,10 +238,10 @@ create table Questions (
     [question_id] int identity(0, 1) primary key,
     [question_description] nvarchar(max) not null, 
 	[question_ordinal] int not null, 
-    [question_type_id] int not null,
-	[material_id] int not null,
-    constraint fk_question_question_type_id foreign key ([question_type_id]) references QuestionTypes([question_type_id]) on delete cascade on update cascade,
-	constraint fk_question_material_id foreign key ([material_id]) references Materials([material_id]) on delete cascade on update cascade,
+    [question_type_id] int null,
+	[material_id] int null,
+    constraint fk_question_question_type_id foreign key ([question_type_id]) references QuestionTypes([question_type_id]) on delete set null on update cascade,
+	constraint fk_question_material_id foreign key ([material_id]) references Materials([material_id]) on delete set null on update cascade,
 );
 go
 
@@ -252,7 +252,7 @@ create table Answers (
 	[answer_ordinal] int not null, 
     [answer_is_right] bit not null,
     [question_id] int null,
-    constraint fk_answer_question_id foreign key ([question_id]) references Questions([question_id]) on delete cascade on update cascade
+    constraint fk_answer_question_id foreign key ([question_id]) references Questions([question_id]) on delete set null on update cascade
 );
 go
 
@@ -273,8 +273,8 @@ create table UserTracking (
     [tracking_id] int identity(0, 1) primary key,
     [enrollment_id] int null,
     [collection_id] int null,
-    constraint fk_tracking_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete cascade on update cascade,
-    constraint fk_tracking_collection_id foreign key ([collection_id]) references Collections([collection_id]) on delete cascade on update cascade
+    constraint fk_tracking_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null on update cascade,
+    constraint fk_tracking_collection_id foreign key ([collection_id]) references Collections([collection_id]) on delete set null on update cascade
 );
 go
 
@@ -285,8 +285,8 @@ create table Grades (
     [graded_date] datetime default getdate() not null,
     [enrollment_id] int null,
     [module_id] int null,
-    constraint fk_grade_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete cascade on update cascade,
-    constraint fk_grade_module_id foreign key ([module_id]) references Modules([module_id]) on delete cascade on update cascade
+    constraint fk_grade_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null on update cascade,
+    constraint fk_grade_module_id foreign key ([module_id]) references Modules([module_id]) on delete set null on update cascade
 );
 go
 
@@ -296,8 +296,8 @@ create table Accomplishments (
     [accomplishment_completion_date] datetime default getdate() not null,
     [accomplishment_overall_grade] int not null,
     [accomplishment_certificate_id] nvarchar(512) not null unique, 
-    [enrollment_id] int not null,
-    constraint fk_accomplishment_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete cascade on update cascade,
+    [enrollment_id] int null,
+    constraint fk_accomplishment_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null on update cascade,
 );
 go
 
@@ -306,8 +306,8 @@ create table CourseFeedbacks (
     [feedback_id] int identity(0, 1) primary key,
     [feedback_description] nvarchar(max) not null, 
     [feedback_date] datetime default getdate() not null,
-    [enrollment_id] int not null,
-    constraint fk_course_feedback_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete cascade on update cascade
+    [enrollment_id] int null,
+    constraint fk_course_feedback_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null on update cascade
 );
 go
 
@@ -321,9 +321,9 @@ go
 -- Course Field
 create table CourseField (
     [course_field_id] int identity(0, 1) primary key,
-    [course_id] int not null,
-    [field_id] int not null,
-    constraint fk_course_field_course_id foreign key (course_id) references Courses(course_id) on delete cascade on update cascade,
-    constraint fk_course_field_field_id foreign key (field_id) references Fields(field_id) on delete cascade on update cascade
+    [course_id] int null,
+    [field_id] int null,
+    constraint fk_course_field_course_id foreign key (course_id) references Courses(course_id) on delete set null on update cascade,
+    constraint fk_course_field_field_id foreign key (field_id) references Fields(field_id) on delete set null on update cascade
 );
 go

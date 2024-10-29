@@ -1,4 +1,4 @@
-const ncdb = require('../../databases/ncdbService');
+const ncdb = require('../../../databases/ncdbService');
 
 const tryEnroll = async (aid, role, course_id) => {
     try {

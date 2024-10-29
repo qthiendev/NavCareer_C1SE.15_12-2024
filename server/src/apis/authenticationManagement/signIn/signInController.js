@@ -34,8 +34,9 @@ const signIn = async (req, res) => {
         req.session.role = data.role;
         req.session.uid = data.user_id;
 
-        console.log(`[${now.toLocaleString()}] at signInController.js/signIn | Signed in successfully {${account}, ${password}} 
-            => auth[${data.authentication_id}], role[${data.role}], user[${data.user_id}]`);
+        const logSt = `Signed in successfully {${account}, ${password}} => auth[${data.authentication_id}], role[${data.role}], user[${data.user_id}]`;
+
+        console.log(`[${now.toLocaleString()}] at signInController.js/signIn | ${logSt}`);
         res.status(200).json({
             message: `Signed in successfully.`,
             time: now.toLocaleString()
