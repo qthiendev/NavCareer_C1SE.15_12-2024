@@ -400,10 +400,10 @@
 
 @media (max-width: 600px) {
     .esp-nav {
-        width: 100%; /* Full width on smaller screens */
+        width: 100%; 
     }
     
     .esp-nav a {
-        font-size: 1.2em; /* Increase font size for mobile */
+        font-size: 1.2em; 
     }
 }
