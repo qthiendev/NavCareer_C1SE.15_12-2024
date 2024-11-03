@@ -5,7 +5,8 @@ const GetCourseController = async(req, res)=> {
 
   try {
     const {role} = req.session;
-    const result = await tryGetCourse(role);
+    const {fieldName} = req.body;
+    const result = await tryGetCourse(role, fieldName);
 
     // Phản hồi lại cho chatbot.js
     if (Array.isArray(result)) {

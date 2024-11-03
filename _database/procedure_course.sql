@@ -5,75 +5,84 @@ use NavCareerDB;
 go
 
 --phúc viết để làm chatbot
-if object_id('GetAllCourses', 'P') is not null drop procedure GetAllCourses;
+if object_id('GetAllCoursesByFieldName', 'P') is not null drop procedure GetAllCoursesByFieldName;
 go
-create procedure GetAllCourses
-as
-begin
-	select
-		c.[course_id],
-		c.[course_name], 
-		c.[course_short_description],
-		c.[course_price],
-		c.[course_duration]
-	from Courses c
-end
-go
+   
+CREATE PROCEDURE GetAllCoursesByFieldName  @fieldName NVARCHAR(50)
+
+AS
+BEGIN
+    SELECT
+        c.course_name, 
+        f.field_name,
+        c.course_short_description,
+        c.course_price,
+        c.course_duration
+    FROM 
+        Courses c
+    INNER JOIN 
+        CourseField cf ON c.course_id = cf.course_id
+    INNER JOIN 
+        Fields f ON cf.field_id = f.field_id
+    WHERE 
+        f.field_name = @fieldName;
+END;
+GO
+-- exec GetAllCoursesByFieldName @fieldName
  --exec GetAllCourses
  --lọc giá: từ khoảng đến khoảng
- if object_id('GetCoursesByPriceRange', 'P') is not null drop procedure GetCoursesByPriceRange;
+
+--select tên cái field
+ if object_id('getField', 'P') is not null drop procedure getField;
 go
-create procedure GetCoursesByPriceRange @min_price decimal(10, 2), @max_price decimal(10, 2)
+create proc getField 
 as
 begin
-	select
-		c.[course_id],
-		c.[course_name], 
-		c.[course_short_description],
-		c.[course_price],
-		c.[course_duration]
-	from Courses c
-	where c.[course_price] between @min_price and @max_price
-	order by c.course_price
-end
+	select Fields.field_name
+	from Fields
+end;
 go
---exec GetCoursesByPriceRange 1500000, 3000000
---lọc giá lớn hơn khoảng 
-if object_id('GetCoursesAbovePrice', 'P') is not null drop procedure GetCoursesAbovePrice;
+exec getField
+
+
+ --lọc giá: từ khoảng đến khoảng
+
+ if object_id('SortCoursesByFieldAndPrice', 'P') is not null drop procedure SortCoursesByFieldAndPrice;
 go
-create procedure GetCoursesAbovePrice @min_price decimal(10, 2)
-as
-begin
-	select
-		c.[course_id],
-		c.[course_name], 
-		c.[course_short_description],
-		c.[course_price],
-		c.[course_duration]
-	from Courses c
-	where c.[course_price] > @min_price
-	order by c.course_price
-end
-go
--- exec GetCoursesAbovePrice 2000000
--- lọc giá bé hơn khoảng
-if object_id('GetCoursesBelowPrice', 'P') is not null drop procedure GetCoursesBelowPrice;
-go
-create procedure GetCoursesBelowPrice @max_price decimal(10, 2)
-as
-begin
-	select
-		c.[course_id],
-		c.[course_name], 
-		c.[course_short_description],
-		c.[course_price],
-		c.[course_duration]
-	from Courses c
-	where c.[course_price] < @max_price
-	order by c.course_price
-end
-go
--- exec GetCoursesBelowPrice 2500000
+CREATE PROCEDURE SortCoursesByFieldAndPrice
+    @fieldName NVARCHAR(50) = NULL, 
+    @min_price int = NULL,  
+    @max_price int = NULL   -- Ensure @max_price is also nullable
+AS
+BEGIN
+    SELECT
+        c.course_name, 
+        f.field_name,
+        c.course_short_description,
+        c.course_price,
+        c.course_duration
+    FROM 
+        Courses c
+    INNER JOIN 
+        CourseField cf ON c.course_id = cf.course_id
+    INNER JOIN 
+        Fields f ON cf.field_id = f.field_id
+    WHERE 
+        (f.field_name = @fieldName
+        AND (@min_price IS NULL OR c.course_price >= @min_price)  -- Lọc theo giá tối thiểu
+        AND (@max_price IS NULL OR c.course_price <= @max_price)) 
+		or ((@min_price IS NULL OR c.course_price >= @min_price)  -- Lọc theo giá tối thiểu
+        AND (@max_price IS NULL OR c.course_price <= @max_price)) -- Lọc theo giá tối đa
+	order by course_price 
+END;
+GO
+
+
+
+
+--EXEC SortCoursesByFieldAndPrice @fieldname='Arts', @max_price = 600 ;
+
+
 
 if object_id('selectTop5Course', 'P') is not null drop procedure selectTop5Course;
 go
@@ -100,6 +109,7 @@ end;
 go
 
 --exec selectTop5Course
+--cái này là recomment 
 
 if object_id('ReadCourse', 'P') is not null drop procedure ReadCourse;
 go
@@ -559,27 +569,23 @@ grant execute on dbo.UpdateModule to [NAV_ADMIN];
 grant execute on dbo.ReadFullCourse to [NAV_ADMIN];
 
 
-grant execute on dbo.GetAllCourses to [NAV_ADMIN];
-grant execute on dbo.GetAllCourses to [NAV_ESP];
-grant execute on dbo.GetAllCourses to [NAV_STUDENT];
-grant execute on dbo.GetAllCourses to [NAV_GUEST];
+grant execute on dbo.GetAllCoursesByFieldName to [NAV_ADMIN];
+grant execute on dbo.GetAllCoursesByFieldName to [NAV_ESP];
+grant execute on dbo.GetAllCoursesByFieldName to [NAV_STUDENT];
+grant execute on dbo.GetAllCoursesByFieldName to [NAV_GUEST];
 
-grant execute on dbo.[GetCoursesByPriceRange] to [NAV_ADMIN];
-grant execute on dbo.[GetCoursesByPriceRange] to [NAV_ESP];
-grant execute on dbo.[GetCoursesByPriceRange] to [NAV_STUDENT];
-grant execute on dbo.[GetCoursesByPriceRange] to [NAV_GUEST];
-
-grant execute on dbo.GetCoursesAbovePrice to [NAV_ADMIN];
-grant execute on dbo.GetCoursesAbovePrice to [NAV_ESP];
-grant execute on dbo.GetCoursesAbovePrice to [NAV_STUDENT];
-grant execute on dbo.GetCoursesAbovePrice to [NAV_GUEST];
-
-grant execute on dbo.GetCoursesBelowPrice to [NAV_ADMIN];
-grant execute on dbo.GetCoursesBelowPrice to [NAV_ESP];
-grant execute on dbo.GetCoursesBelowPrice to [NAV_STUDENT];
-grant execute on dbo.GetCoursesBelowPrice to [NAV_GUEST];
 
 grant execute on dbo.selectTop5Course to [NAV_ADMIN];
 grant execute on dbo.selectTop5Course to [NAV_ESP];
 grant execute on dbo.selectTop5Course to [NAV_STUDENT];
 grant execute on dbo.selectTop5Course to [NAV_GUEST];
+
+grant execute on dbo.getField to [NAV_ADMIN];
+grant execute on dbo.getField to [NAV_ESP];
+grant execute on dbo.getField to [NAV_STUDENT];
+grant execute on dbo.getField to [NAV_GUEST];
+
+grant execute on dbo.SortCoursesByFieldAndPrice to [NAV_ADMIN];
+grant execute on dbo.SortCoursesByFieldAndPrice to [NAV_ESP];
+grant execute on dbo.SortCoursesByFieldAndPrice to [NAV_STUDENT];
+grant execute on dbo.SortCoursesByFieldAndPrice to [NAV_GUEST];

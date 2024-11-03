@@ -242,6 +242,43 @@ VALUES
     1
 )
 go
+
+-- Insert courses 
+INSERT INTO [dbo].[Courses] 
+(course_name, course_short_description, course_full_description, course_price, course_duration, course_piority_index, course_status)
+VALUES 
+(N'Lập Trình Cơ Bản', N'Khóa học nhập môn lập trình', N'Học cách lập trình từ cơ bản với các ngôn ngữ phổ biến như Python, Java.', 300, '20 hours', 1, 1),
+(N'Lập Trình Web', N'Phát triển trang web', N'Khám phá cách xây dựng trang web sử dụng HTML, CSS, JavaScript.', 450, '30 hours', 2, 1),
+(N'Cấu Trúc Dữ Liệu', N'Học cấu trúc dữ liệu cơ bản', N'Hiểu về cấu trúc dữ liệu như mảng, danh sách, hàng đợi, cây.', 400, '25 hours', 3, 1),
+(N'Thuật Toán', N'Nhập môn thuật toán', N'Tìm hiểu thuật toán sắp xếp, tìm kiếm, đồ thị và ứng dụng.', 500, '35 hours', 4, 1),
+(N'Phát Triển Ứng Dụng Di Động', N'Ứng dụng di động cơ bản', N'Thiết kế và phát triển ứng dụng trên hệ điều hành Android.', 600, '40 hours', 5, 1),
+(N'Phương Pháp Nghiên Cứu', N'Nhập môn phương pháp nghiên cứu', N'Các phương pháp nghiên cứu và thu thập dữ liệu.', 350, '20 hours', 1, 1),
+(N'Phân Tích Dữ Liệu', N'Học phân tích dữ liệu', N'Phân tích dữ liệu lớn và trích xuất thông tin có ý nghĩa.', 500, '30 hours', 2, 1),
+(N'Khoa Học Xã Hội', N'Nghiên cứu khoa học xã hội', N'Phân tích các vấn đề xã hội từ góc độ khoa học.', 400, '25 hours', 3, 1),
+(N'Phân Tích Định Lượng', N'Kỹ năng phân tích định lượng', N'Áp dụng toán học trong phân tích dữ liệu thực nghiệm.', 450, '30 hours', 4, 1),
+(N'Viết Báo Cáo Nghiên Cứu', N'Viết báo cáo', N'Hướng dẫn cách viết báo cáo nghiên cứu chuyên nghiệp.', 300, '20 hours', 5, 1),
+(N'Vẽ Căn Bản', N'Học vẽ từ cơ bản', N'Tìm hiểu về các kỹ thuật vẽ và nghệ thuật cơ bản.', 250, '15 hours', 1, 1),
+(N'Thiết Kế Đồ Họa', N'Thiết kế đồ họa', N'Học các kỹ năng và phần mềm thiết kế như Photoshop.', 450, '30 hours', 2, 1),
+(N'Lịch Sử Nghệ Thuật', N'Nghiên cứu lịch sử nghệ thuật', N'Khám phá lịch sử của nghệ thuật qua các thời kỳ.', 400, '25 hours', 3, 1),
+(N'Nhiếp Ảnh', N'Khóa học nhiếp ảnh', N'Hướng dẫn nhiếp ảnh cơ bản và xử lý hình ảnh.', 350, '20 hours', 4, 1),
+(N'Mỹ Thuật Đương Đại', N'Khám phá mỹ thuật đương đại', N'Khám phá các phong trào mỹ thuật hiện đại và đương đại.', 500, '35 hours', 5, 1),
+(N'Xã Hội Học Cơ Bản', N'Nhập môn xã hội học', N'Hiểu các cấu trúc xã hội và hành vi con người.', 400, '25 hours', 1, 1),
+(N'Tâm Lý Học', N'Nhập môn tâm lý học', N'Khám phá tâm lý con người và các yếu tố ảnh hưởng.', 450, '30 hours', 2, 1),
+(N'Khoa Học Chính Trị', N'Giới thiệu về chính trị', N'Nghiên cứu về các hệ thống chính trị và quản lý nhà nước.', 500, '35 hours', 3, 1),
+(N'Nhân Quyền', N'Hiểu về nhân quyền', N'Nghiên cứu các quyền cơ bản của con người và luật pháp.', 300, '20 hours', 4, 1),
+(N'Giới và Xã Hội', N'Nghiên cứu giới', N'Phân tích vai trò giới trong xã hội hiện đại.', 350, '20 hours', 5, 1),
+(N'Quản Lý Dự Án', N'Khóa học quản lý dự án', N'Kỹ năng quản lý dự án từ lập kế hoạch đến hoàn thành.', 600, '40 hours', 1, 1),
+(N'Quản Trị Kinh Doanh', N'Quản lý doanh nghiệp', N'Các nguyên tắc cơ bản của quản trị kinh doanh.', 550, '35 hours', 2, 1),
+(N'Lãnh Đạo và Quản Lý', N'Kỹ năng lãnh đạo', N'Phát triển kỹ năng lãnh đạo và quản lý nhóm.', 500, '30 hours', 3, 1),
+(N'Quản Trị Nhân Sự', N'Khóa học quản trị nhân sự', N'Tuyển dụng, đào tạo và phát triển nhân sự.', 450, '25 hours', 4, 1),
+(N'Chiến Lược Kinh Doanh', N'Chiến lược kinh doanh', N'Phát triển và thực hiện chiến lược kinh doanh.', 600, '40 hours', 5, 1),
+(N'Vật Lý Cơ Bản', N'Nhập môn vật lý', N'Tìm hiểu về vật lý cơ bản và các nguyên lý chính.', 400, '25 hours', 1, 1),
+(N'Hóa Học Cơ Bản', N'Giới thiệu hóa học', N'Khám phá các nguyên lý và phản ứng hóa học.', 450, '30 hours', 2, 1),
+(N'Sinh Học Cơ Bản', N'Khóa học sinh học', N'Hiểu các khái niệm cơ bản về sinh học.', 500, '35 hours', 3, 1),
+(N'Toán Học Cao Cấp', N'Toán học nâng cao', N'Phân tích và giải các bài toán phức tạp.', 600, '40 hours', 4, 1),
+(N'Khoa Học Môi Trường', N'Giới thiệu về môi trường', N'Nghiên cứu về các vấn đề môi trường và sinh thái.', 350, '20 hours', 5, 1);
+
+go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 insert into Modules ([module_name], [module_created_date], [module_ordinal], [course_id])
@@ -452,21 +489,47 @@ go
 ------------------------------------------------------------------------------------------------------------
 insert into Fields ([field_name])
 values
-(N'Programming'),
-(N'C'),
-(N'C++'),
-(N'Python'),
-(N'Automation'),
-(N'Object-oriented'),
-(N'Virtual machine');
+(N'Lập Trình'),
+(N'Nghiên cứu'),
+(N'Nghệ Thật'),
+(N'Xã Hội'),
+(N'Quản Lý'),
+(N'Khoa Học');
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 insert into CourseField ([course_id], [field_id])
 values
-(0, 0),
-(0, 1),
-(0, 2);
+(1, 0),
+(2, 0),
+(3, 0),
+(4, 0),
+(5, 0),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 2),
+(12, 2),
+(13, 2),
+(14, 2),
+(15, 2),
+(16, 3),
+(17, 3),
+(18, 3),
+(19, 3),
+(20, 3),
+(21, 4),
+(22, 4),
+(23, 4),
+(24, 4),
+(25, 4),
+(26, 5),
+(27, 5),
+(28, 5),
+(29, 5),
+(30, 5);
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------

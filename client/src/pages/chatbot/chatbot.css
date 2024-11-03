@@ -1,12 +1,12 @@
 /* Container chính của chatbot */
 .chatbot-container {
-    width: 350px;
-    height: 400px;
+    width: 480px;
+    height: 550px;
     border: 1px solid #ccc;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* float: right; */
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
@@ -72,3 +72,24 @@
     background-color: #0056b3;
   }
   
+
+  .courseChat {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .courseChat h1 {
+    font-size: 16px;
+    font-weight: normal !important;
+    color: #333;
+    margin:  0 !important;
+  }
+  .linkServey a {
+    font-size: 16px;
+    font-weight: normal !important;
+    color: #333;
+    margin:  0 !important;
+  }

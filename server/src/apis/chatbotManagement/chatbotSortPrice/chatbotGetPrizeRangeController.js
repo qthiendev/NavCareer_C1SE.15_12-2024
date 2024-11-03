@@ -1,12 +1,12 @@
-const { tryGetPrizeLower } = require('./chatbotGetPrizeLoweService');
+const { trySortCoursesByFieldAndPrice } = require('./chatbotGetPrizeRangeService');
 
 
-const GetPrizeLower = async(req, res)=> {
+const SortCoursesByFieldAndPrice = async(req, res)=> {
 
   try {
     const {role} = req.session;
-    const {maxPrize} = req.body;
-    const result = await tryGetPrizeLower(role, maxPrize);
+    const {fieldName, minPrize, maxPrize} = req.body;
+    const result = await trySortCoursesByFieldAndPrice(role,fieldName, minPrize, maxPrize);
 
     // Phản hồi lại cho chatbot.js
     if (Array.isArray(result)) {
@@ -22,4 +22,4 @@ const GetPrizeLower = async(req, res)=> {
   }
 }
 
-module.exports = { GetPrizeLower };
+module.exports = { SortCoursesByFieldAndPrice };

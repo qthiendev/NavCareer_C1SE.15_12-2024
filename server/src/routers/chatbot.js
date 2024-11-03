@@ -2,18 +2,15 @@ const express = require('express');
 const router = express.Router();
 
 const { GetCourseController } = require('../apis/chatbotManagement/chatbotGetCourse/chatbotGetCourseControler');
-const { GetPrizeRange} = require('../apis/chatbotManagement/chatbotSortPrice/range/chatbotGetPrizeRangeController');
-const { GetPrizeAbove} = require('../apis/chatbotManagement/chatbotSortPrice/higher/chatbotGetPrizeAboveControler');
-const { GetPrizeLower} = require('../apis/chatbotManagement/chatbotSortPrice/lower/chatbotGetPrizeLowerControler');
+const { SortCoursesByFieldAndPrice} = require('../apis/chatbotManagement/chatbotSortPrice/chatbotGetPrizeRangeController');
 const { RecommentCourseController } = require('../apis/chatbotManagement/chatbotRecomment/chatbotRecommentControler');
+const { GetFieldController } = require('../apis/chatbotManagement/chatbotGetFieldName/chatbotGetFieldControler');
 
 
-router.get('/GetCourse', GetCourseController);
-router.post('/PrizeRange', GetPrizeRange);
-router.post('/PrizeAbove', GetPrizeAbove);
-router.post('/PrizeLower', GetPrizeLower);
+router.post('/GetCourse', GetCourseController);
+router.post('/PrizeRange', SortCoursesByFieldAndPrice);
 router.get('/Recomment', RecommentCourseController);
-
+router.get('/getfield', GetFieldController);
 
 
 module.exports = router;

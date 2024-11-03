@@ -34,7 +34,7 @@ import ReadEnrollment from './pages/learning/ReadEnrollment.jsx';
 import ReadCollection from './pages/learning/ReadCollection.jsx';
 
 import Chatbot from './pages/chatbot/chatbot.jsx';
-
+import Servey from './pages/servey/servey.jsx';
 const Router = () => {
     return (
       <Routes>
@@ -69,6 +69,7 @@ const Router = () => {
           <Route path="edu/payment/check" element={<PaymentCheck />} /> 
           <Route path="edu/collection" element={<ReadCollection />} /> 
           <Route path='chatbot' element={<Chatbot />} />
+          <Route path='servey' element={<Servey />} />
 
         </Route>
       </Routes>

@@ -1,16 +1,15 @@
-const { tryGetPrizeRange } = require('./chatbotGetPrizeRangeService');
+const { tryGetField } = require('./chatbotGetFieldService');
 
 
-const GetPrizeRange = async(req, res)=> {
+const GetFieldController = async(req, res)=> {
 
   try {
     const {role} = req.session;
-    const {minPrize, maxPrize} = req.body;
-    const result = await tryGetPrizeRange(role, minPrize, maxPrize);
+    const result = await tryGetField(role);
 
     // Phản hồi lại cho chatbot.js
     if (Array.isArray(result)) {
-      res.status(200).json({ courses: result });
+      res.status(200).json({ Fields: result });
     } else {
       res.status(200).json({ message: result });
     }
@@ -22,4 +21,4 @@ const GetPrizeRange = async(req, res)=> {
   }
 }
 
-module.exports = { GetPrizeRange };
+module.exports = { GetFieldController };

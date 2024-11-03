@@ -1,9 +1,9 @@
 const ncbd = require('../../databases/ncdbService');
 
-const tryGetCourse = async (role) => {
+const tryGetCourse = async (role, fieldName) => {
   try {
     // Gọi truy vấn để lấy tất cả khóa học từ database
-    const dataCourse = await ncbd.query(role, 'exec GetAllCourses');
+    const dataCourse = await ncbd.query(role, 'exec GetAllCoursesByFieldName @fieldName', {fieldName});
 
     return dataCourse;
   } catch (error) {
