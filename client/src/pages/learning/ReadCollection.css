@@ -1,83 +1,105 @@
+/* ReadCollection.css */
+
+/* General container */
 .collection-container {
     display: flex;
     justify-content: center;
     margin: 0 auto;
     background-color: #f9f9f9;
+    padding: 20px;
 }
 
 .read-collection {
     display: flex;
-    margin-right: 100px;
     width: 100%;
-}
-
-.read-collection__sidebar {
-    width: 400px;
-    border-right: 1px solid #ccc;
-    padding-right: 15px;
-    font-size: 24px;
-}
-
-.read-collection__content {
-    flex-grow: 1;
-    margin-left: 100px;
     max-width: 1440px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.read-collection__loading {
-    font-size: 24px;
-    text-align: center;
-    margin-top: 50px;
+/* Sidebar styling */
+.read-collection__sidebar {
+    width: 350px;
+    background-color: #f0f0f0; /* Light background */
+    color: #333; /* Dark text color */
+    padding: 20px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    border-radius: 8px 0 0 8px;
+    overflow-y: auto;
+    border-right: 1px solid #ddd;
 }
 
 .read-collection__module {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    padding: 10px 15px;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: #e7e7e7; /* Slightly darker light color */
+    transition: background-color 0.3s;
+}
+
+.read-collection__module:hover {
+    background-color: #d9d9d9; /* Darker shade on hover */
 }
 
 .read-collection__module-header {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
-    padding: 3px 15px;
-    font-size: 16px;
-    font-weight: normal;
-    text-align: left;
+    align-items: center;
 }
 
 .read-collection__arrow {
     transition: transform 0.3s;
+    color: #666; /* Dark grey for arrow */
 }
 
 .read-collection__arrow.expanded {
     transform: rotate(90deg);
 }
 
+/* Collection links within modules */
 .read-collection__collection {
-    padding: 10px 15px;
+    padding: 8px 15px;
     font-size: 16px;
-    color: #007bff;
+    color: #007bff; /* Blue color for links */
     text-decoration: none;
+    display: block;
+    border-radius: 4px;
+    margin-top: 5px;
+    transition: color 0.3s, background-color 0.3s;
 }
 
 .read-collection__collection:hover {
-    text-decoration: underline;
+    color: #0056b3; /* Darker blue on hover */
+    background-color: #f0f0f0; /* Light background on hover */
 }
 
 .read-collection__no-collection {
     padding: 10px;
     color: #999;
+    font-style: italic;
 }
 
-.read-collection__item {
-    margin-bottom: 30px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Content section styling */
+.read-collection__content {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 1080px;
 }
 
+.read-collection__loading {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 50px;
+    color: #666; /* Dark grey */
+}
+
+/* Collection title and media content */
 .read-collection__title {
     font-size: 28px;
     color: #333;
@@ -93,26 +115,24 @@
     height: auto;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    object-fit: contain;
     margin-bottom: 15px;
 }
 
 .read-collection__text {
     margin: 10px 0;
     font-size: 16px;
-    color: black;
-    text-align: left;
-    width: 100%;
+    color: #333;
     white-space: pre-wrap;
     font-family: inherit;
 }
 
+/* Question section */
 .read-collection__question {
     margin: 20px 0;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 15px;
-    background-color: #fff;
+    background-color: #f5f5f5;
     text-align: left;
 }
 

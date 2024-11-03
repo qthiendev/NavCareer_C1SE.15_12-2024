@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import './ReadCollection.css'; // Import your unique CSS file
 
 const ReadCollection = () => {
+    const navigate = useNavigate();
     const [collectionData, setCollectionData] = useState(null);
     const [frameData, setFrameData] = useState(null);
     const [mediaFiles, setMediaFiles] = useState({});
@@ -15,6 +16,24 @@ const ReadCollection = () => {
     const c = searchParams.get('c');
     const m = searchParams.get('m');
     const co = searchParams.get('co');
+
+    useEffect(() => {
+        const fetchEnrollmentData = async () => {
+            if (!c) return;
+            try {
+                const response = await axios.get(`http://localhost:5000/edu/read-enroll-of?course_id=${c}`, { withCredentials: true });
+                if (response.status !== 200) {
+                    alert('Bạn chưa tham gia khóa học này!');
+                    navigate(`/course/${c}`);
+                }
+            } catch (error) {
+                console.error('Failed to fetch enrollment data:', error);
+                navigate(`/course/${c}`);
+            }
+        };
+
+        fetchEnrollmentData();
+    }, [c]);
 
     useEffect(() => {
         const fetchCollection = async () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import './Payment.css';
+import './PaymentCheck.css';
 
 function PaymentCheck() {
     const navigate = useNavigate();
@@ -61,7 +61,12 @@ function PaymentCheck() {
         fetchCheck();
     }, [authCheck, course_id, apptransid, navigate]);
 
-    return <div className="payment__loading">Đang tải...</div>;
+    return (
+        <div className="payment__loading">
+            <div className="spinner"></div>
+            <div className="loading-text">Đang tải, vui lòng chờ...</div>
+        </div>
+    );
 }
 
 export default PaymentCheck;
