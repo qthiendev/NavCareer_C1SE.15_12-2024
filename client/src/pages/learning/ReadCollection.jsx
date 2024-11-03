@@ -8,6 +8,7 @@ const ReadCollection = () => {
     const [collectionData, setCollectionData] = useState(null);
     const [frameData, setFrameData] = useState(null);
     const [mediaFiles, setMediaFiles] = useState({});
+    const [enrollmentCheck, setErollmentCheck] = useState(false);
     const [loading, setLoading] = useState(true);
     const [modules, setModules] = useState([]); // State to hold modules
     const [searchParams] = useSearchParams();
@@ -28,7 +29,8 @@ const ReadCollection = () => {
                 }
             } catch (error) {
                 console.error('Failed to fetch enrollment data:', error);
-                navigate(`/course/${c}`);
+            } finally {
+                setErollmentCheck(true);
             }
         };
 
@@ -37,37 +39,32 @@ const ReadCollection = () => {
 
     useEffect(() => {
         const fetchCollection = async () => {
-            if (
-                c !== null && Number.isFinite(Number(c)) &&
-                m !== null && Number.isFinite(Number(m)) &&
-                co !== null && Number.isFinite(Number(co))
-            ) {
-                try {
-                    const responseData = await axios.get(`http://localhost:5000/edu/collection`, {
-                        params: { c, m, co },
-                        withCredentials: true
-                    });
-                    const collections = responseData.data.collections;
-                    setCollectionData(collections);
+            if (!c, !m, !co, !enrollmentCheck)
+                return;
+            try {
+                const responseData = await axios.get(`http://localhost:5000/edu/collection`, {
+                    params: { c, m, co },
+                    withCredentials: true
+                });
+                const collections = responseData.data.collections;
+                setCollectionData(collections);
 
-                    const responseFrame = await axios.get(`http://localhost:5000/edu/frame`, {
-                        params: { c },
-                        withCredentials: true
-                    });
-                    const modules = responseFrame.data.modules;
-                    setFrameData(modules);
-                    setModules(modules); // Store modules data
+                const responseFrame = await axios.get(`http://localhost:5000/edu/frame`, {
+                    params: { c },
+                    withCredentials: true
+                });
+                const modules = responseFrame.data.modules;
+                setFrameData(modules);
+                setModules(modules); // Store modules data
 
-                } catch (error) {
-                    console.error('Error fetching collection:', error);
-                }
-            } else {
-                console.warn('Invalid parameters:', { c, m, co });
+            } catch (error) {
+                console.error('Error fetching collection:', error);
             }
-        };
-
+        }
+        
         fetchCollection();
-    }, [c, m, co]);
+    }, [enrollmentCheck, c, m, co]);
+
 
     const toggleModule = (moduleId) => {
         setExpandedModules((prev) => ({
