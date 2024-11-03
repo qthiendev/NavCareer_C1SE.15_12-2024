@@ -263,12 +263,12 @@ go
 ------------------------------------------------------------------------------------------------------------
 if object_id('ReadPayment', 'P') is not null drop procedure ReadPayment;
 go
-create procedure ReadPayment @payment_transaction_id nvarchar(max)
+create procedure ReadPayment @aid int, @payment_transaction_id nvarchar(max)
 as
 begin
 	select [payment_id], [payment_description], [payment_transaction_id], [payment_date], [authentication_id]
 	from Payments
-	where [payment_transaction_id] = @payment_transaction_id
+	where [payment_transaction_id] = @payment_transaction_id and [authentication_id] = @aid
 end
 go
 ------------------------------------------------------------------------------------------------------------
