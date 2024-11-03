@@ -8,9 +8,12 @@ function Layout() {
     const [isCheckAdmin, setIsCheckAdmin] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
 
+    const [isCheckESP, setIsCheckESP] = useState(false);
     const [isESP, setIsESP] = useState(false);
-    const [isLoading, setLoading] = useState(true);
 
+    const [isStudent, setIsStudent] = useState(false);
+
+    const [isLoading, setLoading] = useState(true);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [searchIndex, setSearchIndex] = useState('');
 
@@ -24,7 +27,6 @@ function Layout() {
                 if (response.status === 200) {
                     setIsAdmin(response.status === 200);
                     console.log('Admin is loggin');
-                    setLoading(false);
                 }
             } catch (err) {
                 setIsCheckAdmin(true);
@@ -46,7 +48,7 @@ function Layout() {
                     console.log('ESP is loggin');
                 }
             } catch (err) {
-                console.log('No one is loggin');
+                setIsCheckESP(true);
                 setIsESP(false);
             } finally {
                 setLoading(false);
@@ -55,6 +57,26 @@ function Layout() {
 
         checkESP();
     }, [isCheckAdmin]);
+
+    useEffect(() => {
+        const checkESP = async () => {
+            if (!isCheckESP) return;
+            try {
+                const response = await axios.get('http://localhost:5000/authz/stu', { withCredentials: true });
+                if (response.status === 200) {
+                    setIsStudent(response.status === 200);
+                    console.log('Student is loggin');
+                }
+            } catch (err) {
+                console.log('No one is loggin');
+                setIsESP(false);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        checkESP();
+    }, [isCheckESP]);
 
     const handleSearch = () => {
         if (searchIndex.trim()) {
@@ -83,9 +105,9 @@ function Layout() {
 
     if (isLoading) {
         return (
-        <div className="layout-container">
-            Loading...
-        </div>);
+            <div className="layout-container">
+                Loading...
+            </div>);
     } else {
         return (
             <div className="layout-container">
@@ -122,9 +144,10 @@ function Layout() {
                         {dropdownOpen && (
                             <div className="dropdown-menu show">
                                 <ul>
-                                    {isAdmin || isESP ? (
+                                    {isAdmin || isESP || isStudent ? (
                                         <>
                                             <li><a href="/profile/self">Hồ sơ người dùng</a></li>
+                                            <li><a href="/edu">Học tập</a></li>
                                             <li><a href="/settings">Thiết lập cá nhân</a></li>
                                             {isAdmin && (
                                                 <li><a href="/admin">Dành cho nhà quản trị</a></li>

@@ -122,6 +122,7 @@ begin
 		u.[user_birthdate],
 		u.[user_email],
 		u.[user_phone_number],
+		c.[course_id],
 		c.[course_name], 
 		c.[course_short_description],
 		c.[course_full_description],

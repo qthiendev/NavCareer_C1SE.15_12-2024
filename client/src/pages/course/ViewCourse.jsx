@@ -21,10 +21,10 @@ function ViewCourse() {
                 setLoading(false);
             }
         };
-    
+
         fetchCourseData();
     }, [course_id]);
-    
+
     useEffect(() => {
         const checkAuth = async () => {
             try {
@@ -36,7 +36,7 @@ function ViewCourse() {
                 console.error('Failed to check authentication status:', err);
             }
         };
-    
+
         if (courseData) {
             checkAuth();
         }
@@ -69,8 +69,8 @@ function ViewCourse() {
                 ))}
             </ul>
 
-            <button className="btn-edit" onClick={() => navigate(`/esp/course/${course_id}/update`)}>
-                    Tham gia ngay
+            <button className="btn-join" onClick={() => navigate(`/edu/payment?course_id=${course_id}`)}>
+                Tham gia ngay
             </button>
 
             {updatable && (

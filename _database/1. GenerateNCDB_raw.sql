@@ -53,6 +53,8 @@ if object_id('Courses', 'U') is not null drop table Courses;
 go
 if object_id('SystemFeedbacks', 'U') is not null drop table SystemFeedbacks;   
 go
+if object_id('Payments', 'U') is not null drop table Payments;					   
+go
 if object_id('Users', 'U') is not null drop table Users;					   
 go
 if object_id('AuthProcedureBanned', 'U') is not null drop table AuthProcedureBanned;		   
@@ -148,6 +150,18 @@ create table Users (
 	[user_status] bit default 1 not null,
     [authentication_id] int null,
     constraint fk_user_authentication_id foreign key ([authentication_id]) references Authentications([authentication_id]) on delete set null on update cascade 
+);
+go
+
+-- Payment info
+create table Payments (
+    [payment_id] int identity(0, 1) primary key,
+    [payment_transaction_id] nvarchar(255) not null unique,
+	[payment_description] nvarchar(512) not null,
+	[payment_date] datetime not null,
+	[payment_state] bit not null default 0,
+	[authentication_id] int null,
+    constraint fk_payment_authentication_id foreign key ([authentication_id]) references Authentications([authentication_id]) on delete set null on update cascade 
 );
 go
 

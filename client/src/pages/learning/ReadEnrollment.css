@@ -1,0 +1,74 @@
+.read-enrollment {
+    padding: 20px;
+}
+
+.read-enrollment h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.read-enrollment__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.read-enrollment__card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.read-enrollment__card:hover {
+    background-color: #f1f1f1;
+}
+
+.read-enrollment__course-name {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+}
+
+.read-enrollment__details {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.read-enrollment__price,
+.read-enrollment__date,
+.read-enrollment__status {
+    white-space: nowrap;
+}
+
+.read-enrollment__status.complete {
+    color: blue;
+}
+
+.read-enrollment__status.in-progress {
+    color: green;
+}
+
+.read-enrollment__loading {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 50px;
+}
+
+.read-enrollment__no-enrollments {
+    text-align: center;
+    font-size: 1.2em;
+    color: #666;
+    margin-top: 20px;
+}

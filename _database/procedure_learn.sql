@@ -172,12 +172,134 @@ go
 --ReadEnrollment 1
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
-if object_id('UpdateEnrollment', 'P') is not null drop procedure UpdateEnrollment;
+if object_id('ReadEnrollmentOf', 'P') is not null drop procedure ReadEnrollmentOf;
 go
-create procedure UpdateEnrollment @aid int
+create procedure ReadEnrollmentOf @aid int, @course_id int
+as
+begin
+	
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadEnrollmentOf');
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	declare @user_id int;
+
+	select @user_id = [user_id]
+	from Users
+	where [authentication_id] = @aid
+
+	if (exists (select 1 from Users where [user_id] = @user_id AND [user_status] = 0)) and @aid != @user_id 
+	begin
+		select 'INACTIVE' as [check];
+		return;
+	end
+
+	if not exists (select 1 from Users where [user_id] = @user_id)
+	begin
+		select 'U_UID' as [check];
+		return;
+	end
+
+	if not exists ( select 1 from Courses where [course_id] = @course_id)
+	begin
+		select 'U_CID' as [check]
+		return;
+	end
+
+	if not exists (select 1 from Enrollments where [user_id] = @user_id and [course_id] = @course_id)
+	begin
+		select 'U_EID' as [check];
+		return;
+	end
+
+	select e.[enrollment_id],
+		e.[enrollment_date],
+		e.[enrollment_is_complete],
+		u.[user_id],
+		c.[course_id],
+		c.[course_name],
+		c.[course_short_description],
+		c.[course_price]
+	from Enrollments e
+		join Users u on u.[user_id] = e.[user_id]
+		join Courses c on c.[course_id] = e.[course_id]
+	where e.[user_id] = @user_id
+		and e.[course_id] = @course_id
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('CreatePayment', 'P') is not null drop procedure CreatePayment;
+go
+create procedure CreatePayment @aid int, @payment_transaction_id nvarchar(max), @payment_description nvarchar(max)
+as
 begin
 
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadProfileSignedIn');
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	insert into Payments ([payment_transaction_id], [payment_description], [payment_date], [authentication_id])
+	values (@payment_transaction_id, @payment_description, getdate(), @aid);
+
+	if @@ROWCOUNT = 1
+	begin
+		select 'SUCCESSED' as [check];
+		return;
+	end
+
+	select 'FAILED' as [check];
 end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadPayment', 'P') is not null drop procedure ReadPayment;
+go
+create procedure ReadPayment @payment_transaction_id nvarchar(max)
+as
+begin
+	select [payment_id], [payment_description], [payment_transaction_id], [payment_date], [authentication_id]
+	from Payments
+	where [payment_transaction_id] = @payment_transaction_id
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('UpdatePayment', 'P') is not null drop procedure UpdatePayment;
+go
+create procedure UpdatePayment @aid int, @payment_transaction_id nvarchar(max)
+as
+begin
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadProfileSignedIn');
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	update Payments
+	set [payment_state] = 1
+	where [payment_transaction_id] = @payment_transaction_id and [authentication_id] = @aid
+
+
+	if @@ROWCOUNT = 1
+	begin
+		select 'SUCCESSED' as [check];
+		return;
+	end
+
+	select 'FAILED' as [check];
+end
+go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 grant execute on dbo.ReadCollection to [NAV_ADMIN];
@@ -195,3 +317,19 @@ grant execute on dbo.CreateEnrollment to [NAV_STUDENT];
 grant execute on dbo.ReadEnrollment to [NAV_ADMIN];
 grant execute on dbo.ReadEnrollment to [NAV_ESP];
 grant execute on dbo.ReadEnrollment to [NAV_STUDENT];
+
+grant execute on dbo.ReadEnrollmentOf to [NAV_ADMIN];
+grant execute on dbo.ReadEnrollmentOf to [NAV_ESP];
+grant execute on dbo.ReadEnrollmentOf to [NAV_STUDENT];
+
+grant execute on dbo.CreatePayment to [NAV_ADMIN];
+grant execute on dbo.CreatePayment to [NAV_ESP];
+grant execute on dbo.CreatePayment to [NAV_STUDENT];
+
+grant execute on dbo.ReadPayment to [NAV_ADMIN];
+grant execute on dbo.ReadPayment to [NAV_ESP];
+grant execute on dbo.ReadPayment to [NAV_STUDENT];
+
+grant execute on dbo.UpdatePayment to [NAV_ADMIN];
+grant execute on dbo.UpdatePayment to [NAV_ESP];
+grant execute on dbo.UpdatePayment to [NAV_STUDENT];

@@ -28,6 +28,9 @@ import UpdateCourse from './pages/course/UpdateCourse.jsx';
 import ESPHome from './pages/course/ESPHome.jsx';
 import ViewAllCourse from './pages/course/ViewAllCourse.jsx';
 
+import Payment from './pages/learning/Payment.jsx';
+import PaymentCheck from './pages/learning/PaymentCheck.jsx';
+import ReadEnrollment from './pages/learning/ReadEnrollment.jsx';
 import ReadCollection from './pages/learning/ReadCollection.jsx';
 
 import Chatbot from './pages/chatbot/chatbot.jsx';
@@ -61,6 +64,9 @@ const Router = () => {
           <Route path="esp/course/:course_id/update" element={<UpdateCourse />} /> 
           <Route path="esp/course/create" element={<CreateCourse />} /> 
 
+          <Route path="edu/" element={<ReadEnrollment />} /> 
+          <Route path="edu/payment" element={<Payment />} /> 
+          <Route path="edu/payment/check" element={<PaymentCheck />} /> 
           <Route path="edu/collection" element={<ReadCollection />} /> 
           <Route path='chatbot' element={<Chatbot />} />
 

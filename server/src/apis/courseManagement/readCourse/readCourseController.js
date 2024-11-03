@@ -11,7 +11,7 @@ const readCourse = async (req, res) => {
 
         const course = await tryReadCourse(role, course_id);
 
-        if (course) {
+        if (!course.check) {
             console.log(`[${now.toLocaleString()}] at readCourseController.js/readCourse | Course ${course_id} found.`);
             return res.status(200).json({
                 ...course,
