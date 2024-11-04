@@ -89,12 +89,19 @@ function SignUp() {
         return (<div>Loading...</div>);
 
     return (
+        <div className="signup-page">
+            
         <div className="signup-container">
-            <h2>Đăng ký tài khoản</h2>
+            
+            <div className='Header-Nav-Carrer2'>
+                    <img src="./assets/Header-Nav.svg" alt="" />
+                </div>
+            <h2 className='Tieude2'>Đăng ký tài khoản</h2>
             <form onSubmit={handleSubmit}>
-                <div>
+            <div className="form-row">
+                <div className="SignUp-form-group1">
                     <label htmlFor="account">Tên tài khoản:</label>
-                    <input
+                    <input className='input-signup'
                         type="text"
                         id="account"
                         value={account}
@@ -102,19 +109,9 @@ function SignUp() {
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
+                <div className="SignUp-form-group3">
                     <label htmlFor="authz_id">Loại người dùng:</label>
-                    <select
+                    <select className='select-signup'
                         id="authz_id"
                         value={authz_id}
                         onChange={(e) => setAuthzId(e.target.value)}
@@ -125,9 +122,21 @@ function SignUp() {
                         <option value="3">Học sinh, sinh viên</option>
                     </select>
                 </div>
-                <div>
+                </div>
+                <div className="SignUp-form-group2">
+                    <label htmlFor="email">Email:</label>
+                    <input className='input-signup'
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-row">
+                <div className="SignUp-form-group1">
                     <label htmlFor="password">Mật khẩu:</label>
-                    <input
+                    <input className='input-signup'
                         type="password"
                         id="password"
                         value={password}
@@ -135,15 +144,16 @@ function SignUp() {
                         required
                     />
                 </div>
-                <div>
+                <div className="SignUp-form-group1">
                     <label htmlFor="confirmPassword">Nhập lại mật khẩu:</label>
-                    <input
+                    <input className='input-signup'
                         type="password"
                         id="confirmPassword"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
+                </div>
                 </div>
                 <div className="checkbox-container">
                     <input
@@ -152,17 +162,28 @@ function SignUp() {
                         checked={acceptedTerms}
                         onChange={(e) => setAcceptedTerms(e.target.checked)}
                     />
-                    <label htmlFor="acceptTerms">
+                    <label  htmlFor="acceptTerms">
                         Tôi đồng ý với <a href="">Điều khoản</a> và <a href="">Điều kiện</a>
                     </label>
                 </div>
-                <button type="submit">Sign Up</button>
+                <button className='btn-signup' type="submit">Tạo Tài Khoản </button>
             </form>
             {error && <p className="error">{error}</p>}
             {success && <p className="success">{success}</p>}
-            <p>
+            <p className="login-link">
                 Bạn đã có tài khoản? <a href="/signin">Đăng nhập ngay</a>
             </p>
+            <div className="signup-notes">
+    <h3>Lưu ý</h3>
+    <ul>
+        <li><strong>Tên người dùng:</strong> Viết thường, không dấu, chỉ bao gồm chữ cái và số, tối đa 12 ký tự.</li>
+        <li><strong>Mật khẩu:</strong> Bao gồm chữ in hoa, chữ in thường, số và ký tự đặc biệt, dài từ 6-12 ký tự.</li>
+    </ul>
+</div>
+        </div>
+        <div className="picture-side1">
+            <img src="./assets/Picture-Side.svg" alt="Description" className="login-image" />
+            </div>
         </div>
     );
 }

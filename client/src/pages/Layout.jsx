@@ -142,25 +142,25 @@ function Layout() {
                         </div>
 
                         {dropdownOpen && (
-                            <div className="dropdown-menu show">
+                            <div className="dropdown-menu show1">
                                 <ul>
                                     {isAdmin || isESP || isStudent ? (
                                         <>
-                                            <li><a href="/profile/self">Hồ sơ người dùng</a></li>
-                                            <li><a href="/edu">Học tập</a></li>
-                                            <li><a href="/settings">Thiết lập cá nhân</a></li>
+                                            <li className='li1'><a href="/profile/self">Hồ sơ người dùng</a></li>
+                                            <li className='li1'><a href="/edu">Học tập</a></li>
+                                            <li className='li1'><a href="/settings">Thiết lập cá nhân</a></li>
                                             {isAdmin && (
-                                                <li><a href="/admin">Dành cho nhà quản trị</a></li>
+                                                <li className='li1'><a href="/admin">Dành cho nhà quản trị</a></li>
                                             )}
                                             {isESP && (
-                                                <li><a href="/esp">Dành cho nhà cung cấp</a></li>
+                                                <li className='li1'><a href="/esp">Dành cho nhà cung cấp</a></li>
                                             )}
-                                            <li id="signout-btn" onClick={handleSignOut}>Đăng xuất</li>
+                                            <li className='li1' id="signout-btn" onClick={handleSignOut}>Đăng xuất</li>
                                         </>
                                     ) : (
                                         <>
-                                            <li><a className="signin" href="/signin">Đăng nhập </a></li>
-                                            <li><a className="signup" href="/signup">Đăng ký</a></li>
+                                            <li className='li1'><a className="signin" href="/signin">Đăng nhập </a></li>
+                                            <li className='li1'><a className="signup" href="/signup">Đăng ký</a></li>
                                         </>
                                     )
                                     }
