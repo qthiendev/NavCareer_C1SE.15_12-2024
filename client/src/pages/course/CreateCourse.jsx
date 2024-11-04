@@ -4,7 +4,7 @@ import axios from 'axios';
 import './CreateCourse.css';
 import PropTypes from 'prop-types';
 
-// MentorCourse Component
+
 const MentorCourse = ({
   property1,
   className,
