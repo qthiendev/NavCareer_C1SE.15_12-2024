@@ -22,7 +22,7 @@ label {
     min-width: 150px; /* Set a minimum width for labels to align fields */
 }
 
-.input1, select {
+.input1 .User-Select {
     padding: 10px; /* Add padding inside input fields */
     margin-left: 10px; /* Space between label and input */
     border: 1px solid #ccc; /* Light border */

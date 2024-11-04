@@ -52,16 +52,15 @@ function ViewCourse() {
 
     return (
         <div className="view-course-container">
-            <h1>{courseData.course_name}</h1>
+            <h1 className='Tieude3'>{courseData.course_name}</h1>
             <p><strong>Nhà cung cấp:</strong> {courseData.user_full_name}</p>
             <p><strong>Email:</strong> {courseData.user_email}</p>
             <p><strong>Số điện thoại:</strong> {courseData.user_phone_number}</p>
             <p><strong>Mô tả:</strong> {courseData.course_full_description}</p>
-            <p><strong>Giá:</strong> {courseData.course_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
             <p><strong>Thời gian dự kiến:</strong> {courseData.duration}</p>
 
             <h3>Các module:</h3>
-            <ul>
+            <ul className='ulblabla'>
                 {courseData.modules.map((module, index) => (
                     <li key={`${module.module_ordinal}-${module.module_name}-${index}`}>
                         {module.module_ordinal + 1}. {module.module_name}
@@ -70,7 +69,10 @@ function ViewCourse() {
             </ul>
 
             <button className="btn-join" onClick={() => navigate(`/edu/payment?course_id=${course_id}`)}>
-                Tham gia ngay
+            <span className="price">
+        {courseData.course_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+    </span>
+    <span className="button-text">Tham Gia Ngay</span>
             </button>
 
             {updatable && (
