@@ -44,7 +44,6 @@ end;
 go
 exec getField
 
-
  --lọc giá: từ khoảng đến khoảng
 
  if object_id('SortCoursesByFieldAndPrice', 'P') is not null drop procedure SortCoursesByFieldAndPrice;
@@ -52,7 +51,7 @@ go
 CREATE PROCEDURE SortCoursesByFieldAndPrice
     @fieldName NVARCHAR(50) = NULL, 
     @min_price int = NULL,  
-    @max_price int = NULL   -- Ensure @max_price is also nullable
+    @max_price int = NULL  
 AS
 BEGIN
     SELECT
@@ -77,10 +76,7 @@ BEGIN
 END;
 GO
 
-
-
-
---EXEC SortCoursesByFieldAndPrice @fieldname='Arts', @max_price = 600 ;
+--EXEC SortCoursesByFieldAndPrice @fieldname='Lập Trình',@min_price=500, @max_price = 600 ;
 
 
 

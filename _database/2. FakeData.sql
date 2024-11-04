@@ -491,7 +491,7 @@ insert into Fields ([field_name])
 values
 (N'Lập Trình'),
 (N'Nghiên cứu'),
-(N'Nghệ Thật'),
+(N'Nghệ Thuật'),
 (N'Xã Hội'),
 (N'Quản Lý'),
 (N'Khoa Học');

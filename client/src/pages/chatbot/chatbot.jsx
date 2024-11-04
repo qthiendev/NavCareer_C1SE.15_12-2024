@@ -177,7 +177,7 @@ const handleCourseConsultation = async (input) => {
                 return (
                   <div className='courseChat'>
                     <h1>Khóa học: {course.course_name}</h1>
-                    <h1>Lĩnh vực: {course.course_name}</h1>
+                    <h1>Lĩnh vực: {course.field_name}</h1>
                     <h1>Mô tả: {course.course_short_description}</h1>
                     <h1>Giá: {course.course_price}$ </h1>
                   </div>);
@@ -251,8 +251,8 @@ const handleCourseConsultation = async (input) => {
              catch (error) {
               console.error('Error fetching courses by price range:', error);
               setMessages(prev => [...prev, { sender: 'bot', text: 'Đã xảy ra lỗi khi lấy thông tin khóa học. Vui lòng thử lại sau.' }]);
+             changeStage();
             }
-           changeStage();
           }
           else if (prices && prices.length == 1) {
             const prize = prices[0];
@@ -313,7 +313,6 @@ const handleCourseConsultation = async (input) => {
                 setMessages(prev => [...prev, { sender: 'bot', text: 'Đã xảy ra lỗi khi lấy thông tin khóa học. Vui lòng thử lại sau.' }]);
               }
             }     
-           changeStage();
           }
           else {
             setMessages(prev => [...prev, { sender: 'bot', text: 'Vui lòng cung cấp khoảng giá rõ ràng hơn để tôi có thể tìm khóa học phù hợp.' }]);
@@ -372,7 +371,6 @@ const handleCourseConsultation = async (input) => {
                 </div>);
             }
             displayCourses(matchedCourses,defaultFormatCourseText);
-            setMessages(prev => [...prev, { sender: 'bot', text: 'Trên đây là một số khóa học tôi đề xuất đến bạn! Bạn muốn hỏi đáp thêm gì không'}]);
           } else {
             setMessages(prev => [...prev, { sender: 'bot', text: 'lỗi không tìm thấy khóa học'}]);
           }
