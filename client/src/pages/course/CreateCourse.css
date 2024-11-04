@@ -600,7 +600,7 @@
   
   .frame .image {
     align-items: center;
-    background-image: url(./image.png);
+    background-image: url(.client\public\assets\CourseImage.svg);
     background-position: 50% 50%;
     background-size: cover;
     border-radius: 8px;
@@ -815,7 +815,7 @@
   
   .frame .image {
     align-items: center;
-    background-image: url(./image.png);
+    background-image: url(.client\public\assets\CourseImage.svg);
     background-position: 50% 50%;
     background-size: cover;
     border-radius: 8px;
