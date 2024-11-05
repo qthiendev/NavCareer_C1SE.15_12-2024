@@ -87,12 +87,12 @@ function CreateCourse() {
             <div className="view-left-panel">
                 <div className="view-profile-header">
                     <img
-                        src="/path/to/avatar" // Adjust to your avatar source
+                        src="/path/to/avatar" 
                         alt="Avatar"
                         className="view-profile-avatar"
                     />
-                    <h2 className="view-profile-name">User Full Name</h2> {/* Adjust to your user's name */}
-                    <p className="view-profile-bio">User Bio Here</p> {/* Adjust to your user's bio */}
+                    <h2 className="view-profile-name">User Full Name</h2> 
+                    <p className="view-profile-bio">User Bio Here</p> 
                     <button className="view-share-profile-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" />
                         Chia sẻ hồ sơ
