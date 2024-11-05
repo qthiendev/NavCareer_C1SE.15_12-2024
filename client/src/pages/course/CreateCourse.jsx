@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CreateCourse.css';
-import './ViewCourse.jsx';
+
 function CreateCourse() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -14,8 +14,7 @@ function CreateCourse() {
     const [error, setError] = useState(null);
     const [banChecked, setBanChecked] = useState(false);
     const [espChecked, setESPChecked] = useState(false);
-    
-    // Check ban status
+
     useEffect(() => {
         const checkBanStatus = async () => {
             try {
@@ -31,15 +30,13 @@ function CreateCourse() {
         checkBanStatus();
     }, [navigate]);
 
-    // Check authorization
     useEffect(() => {
         const checkAuthorization = async () => {
             if (!banChecked) return;
+
             try {
                 const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
-                if (response.status !== 200) {
-                    navigate('/'); // Redirect if not authorized
-                }
+                if (response.status !== 200) navigate('/');
                 setESPChecked(true);
             } catch (error) {
                 console.error('Authorization check failed:', error);
@@ -52,7 +49,6 @@ function CreateCourse() {
         checkAuthorization();
     }, [banChecked, navigate]);
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -71,25 +67,19 @@ function CreateCourse() {
             }
         } catch (error) {
             console.error('Course creation failed:', error);
-            setError('Failed to create course. Please try again.'); // Set error message
+            setError('Failed to create course. Please try again.');
         }
     };
 
-    if (loading) {
-        return <p>Loading...</p>; // Show loading state
-    }
+    if (loading) return <p>Loading...</p>;
 
     return (
         <div className="create-course-container">
             <div className="view-left-panel">
                 <div className="view-profile-header">
-                    <img
-                        src="/path/to/avatar" 
-                        alt="Avatar"
-                        className="view-profile-avatar"
-                    />
-                    <h2 className="view-profile-name">User Full Name</h2> 
-                    <p className="view-profile-bio">User Bio Here</p> 
+                    <img src="/path/to/avatar" alt="Avatar" className="view-profile-avatar" />
+                    <h2 className="view-profile-name">User Full Name</h2>
+                    <p className="view-profile-bio">User Bio Here</p>
                     <button className="view-share-profile-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" />
                         Chia sẻ hồ sơ
@@ -101,7 +91,7 @@ function CreateCourse() {
                         <li className="view-menu-item">Các khoá học</li>
                         <li className="view-menu-item">Giảng viên yêu thích</li>
                         <li className="view-menu-item">Tin nhắn</li>
-                        <li style={{ border: 'none' }} className="view-menu-item">Liên hệ admin</li>
+                        <li className="view-menu-item" style={{ border: 'none' }}>Liên hệ admin</li>
                     </ul>
                 </div>
             </div>
@@ -112,7 +102,7 @@ function CreateCourse() {
                         <div className="view-information">
                             <div className="view-form-row">
                                 <div className="view-form-group">
-                                    <label htmlFor="course_name">Tên khóa học: </label>
+                                    <label htmlFor="course_name">Tên khóa học:</label>
                                     <input
                                         type="text"
                                         id="course_name"
@@ -122,7 +112,7 @@ function CreateCourse() {
                                     />
                                 </div>
                                 <div className="view-form-group">
-                                    <label htmlFor="course_short_description">Mô tả khóa học: </label>
+                                    <label htmlFor="course_short_description">Mô tả khóa học:</label>
                                     <input
                                         type="text"
                                         id="course_short_description"
@@ -134,7 +124,7 @@ function CreateCourse() {
                             </div>
                             <div className="view-form-row">
                                 <div className="view-form-group">
-                                    <label htmlFor="course_full_description">Thông tin khóa học: </label>
+                                    <label htmlFor="course_full_description">Thông tin khóa học:</label>
                                     <textarea
                                         id="course_full_description"
                                         value={courseFullDescription}
@@ -145,7 +135,7 @@ function CreateCourse() {
                             </div>
                             <div className="view-form-row">
                                 <div className="view-form-group">
-                                    <label htmlFor="course_price">Giá: </label>
+                                    <label htmlFor="course_price">Giá:</label>
                                     <input
                                         type="number"
                                         id="course_price"
@@ -155,7 +145,7 @@ function CreateCourse() {
                                     />
                                 </div>
                                 <div className="view-form-group">
-                                    <label htmlFor="course_duration">Số giờ học: </label>
+                                    <label htmlFor="course_duration">Số giờ học:</label>
                                     <input
                                         type="text"
                                         id="course_duration"
@@ -170,17 +160,14 @@ function CreateCourse() {
                             </div>
                             <div className="view-form-row">
                                 <button className="black-button" onClick={() => navigate('/esp/course/view-all')}>
-                                Tạo hồ sơ
-                            </button>
+                                    Tạo hồ sơ
+                                </button>
                             </div>
-                            {error && <p className="error-message">{error}</p>} {/* Display error message if any */}
+                            {error && <p className="error-message">{error}</p>}
                         </div>
                     </form>
-                   
-                    
                 </div>
             </div>
-            
         </div>
     );
 }

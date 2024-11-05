@@ -90,12 +90,10 @@ function UpdateCourse() {
     };
 
     const addModule = () => {
-        const newModule = {
-            module_ordinal: modules.length,
-            module_name: '',
-            collections: [],
-        };
-        setModules(prevModules => [...prevModules, newModule]);
+        setModules(prevModules => [
+            ...prevModules,
+            { module_ordinal: prevModules.length, module_name: '', collections: [] },
+        ]);
     };
 
     const handleModuleChange = (index, value) => {
@@ -122,16 +120,16 @@ function UpdateCourse() {
     };
 
     const deleteModule = async (index) => {
-        if (window.confirm("Are you sure you want to delete this module?")) {
-            const updatedModules = modules.filter((_, i) => i !== index);
-            setModules(updatedModules);
-            try {
-                await axios.delete(`http://localhost:5000/course/${course_id}/module/${modules[index].module_ordinal}`, { withCredentials: true });
-                alert('Module deleted successfully');
-            } catch (error) {
-                setErrorMessage('Failed to delete module. Please try again later.');
-                console.error('Failed to delete module:', error);
-            }
+        if (!window.confirm("Are you sure you want to delete this module?")) return;
+
+        const updatedModules = modules.filter((_, i) => i !== index);
+        setModules(updatedModules);
+        try {
+            await axios.delete(`http://localhost:5000/course/${course_id}/module/${modules[index].module_ordinal}`, { withCredentials: true });
+            alert('Module deleted successfully');
+        } catch (error) {
+            setErrorMessage('Failed to delete module. Please try again later.');
+            console.error('Failed to delete module:', error);
         }
     };
 
@@ -221,26 +219,16 @@ function UpdateCourse() {
                                 </div>
                             </div>
                             <div className="view-form-row">
-                                <div className="view-form-group">
-                                    <h3>Khóa Học</h3>
-                                </div>
+                                <h3>Khóa Học</h3>
                             </div>
                             <DragDropContext onDragEnd={onDragEnd}>
                                 <Droppable droppableId="droppable">
                                     {(provided) => (
-                                        <div
-                                            {...provided.droppableProps}
-                                            ref={provided.innerRef}
-                                        >
+                                        <div {...provided.droppableProps} ref={provided.innerRef}>
                                             {modules.map((module, index) => (
                                                 <Draggable key={module.module_ordinal} draggableId={String(module.module_ordinal)} index={index}>
                                                     {(provided) => (
-                                                        <div
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                            className="module-item"
-                                                        >
+                                                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className="module-item">
                                                             <input
                                                                 type="text"
                                                                 value={module.module_name}
