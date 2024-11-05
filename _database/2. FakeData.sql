@@ -244,41 +244,41 @@ VALUES
 go
 
 -- Insert courses 
+-- Lĩnh vực 'Kỹ thuật'
 INSERT INTO [dbo].[Courses] 
-(course_name, course_short_description, course_full_description, course_price, course_duration, course_piority_index, course_status)
+(course_name, course_short_description, course_full_description, course_price, course_duration, course_piority_index, course_status) 
 VALUES 
-(N'Lập Trình Cơ Bản', N'Khóa học nhập môn lập trình', N'Học cách lập trình từ cơ bản với các ngôn ngữ phổ biến như Python, Java.', 300, '20 hours', 1, 1),
-(N'Lập Trình Web', N'Phát triển trang web', N'Khám phá cách xây dựng trang web sử dụng HTML, CSS, JavaScript.', 450, '30 hours', 2, 1),
-(N'Cấu Trúc Dữ Liệu', N'Học cấu trúc dữ liệu cơ bản', N'Hiểu về cấu trúc dữ liệu như mảng, danh sách, hàng đợi, cây.', 400, '25 hours', 3, 1),
-(N'Thuật Toán', N'Nhập môn thuật toán', N'Tìm hiểu thuật toán sắp xếp, tìm kiếm, đồ thị và ứng dụng.', 500, '35 hours', 4, 1),
-(N'Phát Triển Ứng Dụng Di Động', N'Ứng dụng di động cơ bản', N'Thiết kế và phát triển ứng dụng trên hệ điều hành Android.', 600, '40 hours', 5, 1),
-(N'Phương Pháp Nghiên Cứu', N'Nhập môn phương pháp nghiên cứu', N'Các phương pháp nghiên cứu và thu thập dữ liệu.', 350, '20 hours', 1, 1),
-(N'Phân Tích Dữ Liệu', N'Học phân tích dữ liệu', N'Phân tích dữ liệu lớn và trích xuất thông tin có ý nghĩa.', 500, '30 hours', 2, 1),
-(N'Khoa Học Xã Hội', N'Nghiên cứu khoa học xã hội', N'Phân tích các vấn đề xã hội từ góc độ khoa học.', 400, '25 hours', 3, 1),
-(N'Phân Tích Định Lượng', N'Kỹ năng phân tích định lượng', N'Áp dụng toán học trong phân tích dữ liệu thực nghiệm.', 450, '30 hours', 4, 1),
-(N'Viết Báo Cáo Nghiên Cứu', N'Viết báo cáo', N'Hướng dẫn cách viết báo cáo nghiên cứu chuyên nghiệp.', 300, '20 hours', 5, 1),
-(N'Vẽ Căn Bản', N'Học vẽ từ cơ bản', N'Tìm hiểu về các kỹ thuật vẽ và nghệ thuật cơ bản.', 250, '15 hours', 1, 1),
-(N'Thiết Kế Đồ Họa', N'Thiết kế đồ họa', N'Học các kỹ năng và phần mềm thiết kế như Photoshop.', 450, '30 hours', 2, 1),
-(N'Lịch Sử Nghệ Thuật', N'Nghiên cứu lịch sử nghệ thuật', N'Khám phá lịch sử của nghệ thuật qua các thời kỳ.', 400, '25 hours', 3, 1),
-(N'Nhiếp Ảnh', N'Khóa học nhiếp ảnh', N'Hướng dẫn nhiếp ảnh cơ bản và xử lý hình ảnh.', 350, '20 hours', 4, 1),
-(N'Mỹ Thuật Đương Đại', N'Khám phá mỹ thuật đương đại', N'Khám phá các phong trào mỹ thuật hiện đại và đương đại.', 500, '35 hours', 5, 1),
-(N'Xã Hội Học Cơ Bản', N'Nhập môn xã hội học', N'Hiểu các cấu trúc xã hội và hành vi con người.', 400, '25 hours', 1, 1),
-(N'Tâm Lý Học', N'Nhập môn tâm lý học', N'Khám phá tâm lý con người và các yếu tố ảnh hưởng.', 450, '30 hours', 2, 1),
-(N'Khoa Học Chính Trị', N'Giới thiệu về chính trị', N'Nghiên cứu về các hệ thống chính trị và quản lý nhà nước.', 500, '35 hours', 3, 1),
-(N'Nhân Quyền', N'Hiểu về nhân quyền', N'Nghiên cứu các quyền cơ bản của con người và luật pháp.', 300, '20 hours', 4, 1),
-(N'Giới và Xã Hội', N'Nghiên cứu giới', N'Phân tích vai trò giới trong xã hội hiện đại.', 350, '20 hours', 5, 1),
-(N'Quản Lý Dự Án', N'Khóa học quản lý dự án', N'Kỹ năng quản lý dự án từ lập kế hoạch đến hoàn thành.', 600, '40 hours', 1, 1),
-(N'Quản Trị Kinh Doanh', N'Quản lý doanh nghiệp', N'Các nguyên tắc cơ bản của quản trị kinh doanh.', 550, '35 hours', 2, 1),
-(N'Lãnh Đạo và Quản Lý', N'Kỹ năng lãnh đạo', N'Phát triển kỹ năng lãnh đạo và quản lý nhóm.', 500, '30 hours', 3, 1),
-(N'Quản Trị Nhân Sự', N'Khóa học quản trị nhân sự', N'Tuyển dụng, đào tạo và phát triển nhân sự.', 450, '25 hours', 4, 1),
-(N'Chiến Lược Kinh Doanh', N'Chiến lược kinh doanh', N'Phát triển và thực hiện chiến lược kinh doanh.', 600, '40 hours', 5, 1),
-(N'Vật Lý Cơ Bản', N'Nhập môn vật lý', N'Tìm hiểu về vật lý cơ bản và các nguyên lý chính.', 400, '25 hours', 1, 1),
-(N'Hóa Học Cơ Bản', N'Giới thiệu hóa học', N'Khám phá các nguyên lý và phản ứng hóa học.', 450, '30 hours', 2, 1),
-(N'Sinh Học Cơ Bản', N'Khóa học sinh học', N'Hiểu các khái niệm cơ bản về sinh học.', 500, '35 hours', 3, 1),
-(N'Toán Học Cao Cấp', N'Toán học nâng cao', N'Phân tích và giải các bài toán phức tạp.', 600, '40 hours', 4, 1),
-(N'Khoa Học Môi Trường', N'Giới thiệu về môi trường', N'Nghiên cứu về các vấn đề môi trường và sinh thái.', 350, '20 hours', 5, 1);
+(N'Kỹ thuật Cơ khí', N'Giới thiệu về cơ khí', N'Khóa học bao gồm các nguyên lý cơ bản về cơ khí và ứng dụng', 500, N'30 Giờ', 1, 1),
+(N'Kỹ thuật Điện', N'Nhập môn kỹ thuật điện', N'Khóa học cung cấp kiến thức cơ bản về kỹ thuật điện và ứng dụng thực tiễn', 450, N'28 Giờ', 2, 1),
+(N'Kỹ thuật Ô tô', N'Giới thiệu về kỹ thuật ô tô', N'Tìm hiểu về cấu tạo và nguyên lý hoạt động của ô tô', 550, N'35 Giờ', 3, 1),
+(N'Kỹ thuật Hóa học', N'Cơ bản về kỹ thuật hóa học', N'Khóa học cung cấp kiến thức nền tảng về kỹ thuật hóa học', 600, N'32 Giờ', 4, 1),
+(N'Kỹ thuật Điện tử', N'Nhập môn kỹ thuật điện tử', N'Khóa học này sẽ giới thiệu về các mạch điện tử và ứng dụng', 480, N'30 Giờ', 5, 1),
+(N'Nghiên cứu Xã hội học', N'Cơ bản về xã hội học', N'Tìm hiểu về cấu trúc và hành vi xã hội', 400, N'25 Giờ', 1, 1),
+(N'Nghiên cứu Kinh tế học', N'Giới thiệu về kinh tế học', N'Khóa học cung cấp kiến thức nền tảng về kinh tế học và các nguyên tắc cơ bản', 500, N'30 Giờ', 2, 1),
+(N'Nghiên cứu Lịch sử', N'Tìm hiểu lịch sử thế giới', N'Khóa học cung cấp cái nhìn tổng quan về các sự kiện lịch sử quan trọng', 350, N'20 Giờ', 3, 1),
+(N'Nghiên cứu Văn hóa', N'Khám phá văn hóa thế giới', N'Giới thiệu về các nền văn hóa và sự đa dạng văn hóa', 450, N'28 Giờ', 4, 1),
+(N'Nghiên cứu Chính trị', N'Nhập môn khoa học chính trị', N'Khóa học này sẽ giới thiệu về các hệ thống chính trị và tư tưởng chính trị', 400, N'25 Giờ', 5, 1),
+(N'Hội họa cơ bản', N'Khóa học về hội họa', N'Tìm hiểu các kỹ thuật hội họa cơ bản', 300, N'20 Giờ', 1, 1),
+(N'Nhạc lý cơ bản', N'Giới thiệu về nhạc lý', N'Khóa học cung cấp kiến thức nhạc lý cơ bản', 320, N'18 Giờ', 2, 1),
+(N'Nhiếp ảnh', N'Khám phá nhiếp ảnh', N'Tìm hiểu các kỹ thuật nhiếp ảnh và bố cục hình ảnh', 350, N'22 Giờ', 3, 1),
+(N'Điêu khắc', N'Giới thiệu về điêu khắc', N'Khóa học bao gồm các kỹ thuật và lịch sử điêu khắc', 380, N'25 Giờ', 4, 1),
+(N'Vẽ kỹ thuật số', N'Thế giới của vẽ kỹ thuật số', N'Khóa học này giúp bạn tìm hiểu về vẽ kỹ thuật số và công cụ hỗ trợ', 400, N'30 Giờ', 5, 1),
+(N'Tâm lý học cơ bản', N'Nhập môn tâm lý học', N'Tìm hiểu về các khái niệm và lý thuyết tâm lý học', 420, N'27 Giờ', 1, 1),
+(N'Xã hội học', N'Khám phá xã hội học', N'Giới thiệu về các nguyên lý xã hội học và hành vi xã hội', 390, N'24 Giờ', 2, 1),
+(N'Tư vấn xã hội', N'Cơ bản về tư vấn xã hội', N'Khóa học này giúp phát triển kỹ năng tư vấn trong lĩnh vực xã hội', 370, N'22 Giờ', 3, 1),
+(N'Công tác xã hội', N'Nhập môn công tác xã hội', N'Tìm hiểu các kỹ năng và nguyên lý trong công tác xã hội', 400, N'26 Giờ', 4, 1),
+(N'Quan hệ quốc tế', N'Tìm hiểu quan hệ quốc tế', N'Khóa học cung cấp cái nhìn tổng quan về quan hệ quốc tế và ngoại giao', 450, N'30 Giờ', 5, 1),
+(N'Quản lý dự án', N'Nhập môn quản lý dự án', N'Tìm hiểu các bước và kỹ thuật quản lý dự án hiệu quả', 600, N'40 Giờ', 1, 1),
+(N'Quản trị doanh nghiệp', N'Cơ bản về quản trị doanh nghiệp', N'Khóa học cung cấp kiến thức quản trị doanh nghiệp', 550, N'35 Giờ', 2, 1),
+(N'Quản lý nhân sự', N'Giới thiệu về quản lý nhân sự', N'Tìm hiểu các phương pháp và kỹ thuật quản lý nhân sự', 500, N'30 Giờ', 3, 1),
+(N'Quản lý tài chính', N'Khám phá tài chính doanh nghiệp', N'Khóa học bao gồm các kiến thức cơ bản về tài chính doanh nghiệp', 620, N'42 Giờ', 4, 1),
+(N'Quản lý chuỗi cung ứng', N'Nhập môn quản lý chuỗi cung ứng', N'Khóa học cung cấp kiến thức về chuỗi cung ứng và logistic', 590, N'38 Giờ', 5, 1),
+(N'Kế toán cơ bản', N'Nhập môn kế toán', N'Khóa học cung cấp kiến thức kế toán cơ bản', 450, N'30 Giờ', 1, 1),
+(N'Phân tích tài chính', N'Giới thiệu phân tích tài chính', N'Tìm hiểu cách phân tích tài chính và báo cáo', 470, N'32 Giờ', 2, 1),
+(N'Kiểm toán', N'Cơ bản về kiểm toán', N'Khóa học cung cấp kiến thức cơ bản về kiểm toán', 500, N'34 Giờ', 3, 1),
+(N'Tài chính ngân hàng', N'Nhập môn tài chính ngân hàng', N'Tìm hiểu về hoạt động tài chính ngân hàng', 550, N'36 Giờ', 4, 1),
+(N'Quản lý rủi ro', N'Khám phá quản lý rủi ro', N'Khóa học cung cấp kiến thức về quản lý và kiểm soát rủi ro', 600, N'40 Giờ', 5, 1);
 
-go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 insert into Modules ([module_name], [module_created_date], [module_ordinal], [course_id])
