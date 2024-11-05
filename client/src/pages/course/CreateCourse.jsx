@@ -14,9 +14,6 @@ function CreateCourse() {
     const [error, setError] = useState(null);
     const [banChecked, setBanChecked] = useState(false);
     const [espChecked, setESPChecked] = useState(false);
-    const [profile, setProfile] = useState(null);
-    
-    
     
     // Check ban status
     useEffect(() => {
@@ -179,6 +176,8 @@ function CreateCourse() {
                             {error && <p className="error-message">{error}</p>} {/* Display error message if any */}
                         </div>
                     </form>
+                   
+                    
                 </div>
             </div>
             
