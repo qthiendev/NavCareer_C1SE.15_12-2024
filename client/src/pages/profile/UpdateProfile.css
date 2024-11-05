@@ -2,7 +2,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  background-color: #f8f9fa; /* Màu nền nhạt tổng thể */
+  background-color: #CFD7D9; /* Màu nền nhạt tổng thể */
   padding: 20px;
   height: auto; /* Chiều cao toàn màn hình */
 }
@@ -48,7 +48,7 @@
   font-size: 1.4rem;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #333;
+  color: #043873;
 }
 
 .share-profile-btn {
@@ -134,15 +134,17 @@
 /* Căn chỉnh chung cho label */
 .form-group label {
   font-size: 14px;
+  font-family: 'Inter', sans-serif;
   margin-bottom: 8px;
   font-weight: bold;
-  color: #333;
+  color: #043873;
   text-align: left; /* Căn trái */
 }
 
 /* Căn chỉnh chung cho các input và select */
 .form-group input,
 .form-group select {
+  font-family: 'Inter', sans-serif;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -164,16 +166,21 @@
 /* Căn chỉnh p trong form-group */
 .form-group p {
   padding: 10px;
+  font-family: 'Inter', sans-serif;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 16px;
-  margin: 0;
-  width: 95%; /* Đảm bảo chiếm đủ chiều ngang */
-  background-color: #f9f9f9; /* Màu nền nhạt */
-  text-align: left; /* Căn trái */
+  font-size: 100%;
+  width: 100%; /* Chiếm đủ chiều ngang */
+  box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+  text-align: left; /* Căn trái cho nội dung */
+  background-color: #f8f9fa;
   max-width: 100%;
+  margin: 0;
 }
-
+#update-date-selects {
+  display: flex;
+  justify-content: space-between;
+}
 /* Căn chỉnh link-section */
 .links-section {
   margin-top: 20px;
@@ -189,8 +196,8 @@
 .links-section input {
   width: 100%;
   max-width: 100%;
-  margin: 0;
   padding: 10px;
+  margin-top: 1%;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
@@ -198,15 +205,21 @@
   text-align: left; /* Căn trái cho nội dung input */
 }
 
+.links-section label{
+  font-family: 'Inter', sans-serif;
+  color:#043873;
+}
+
 .links-section h2 {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 20px;
+  color: #043873;
 }
 
 /* Căn chỉnh nút submit */
 .save-profile-btn {
-  background-color: #212529;
+  background-color: #043873;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -227,8 +240,8 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 20px;
-  margin-top: 20px;
   background-color: #fff;
+  color:#043873
 }
 
 .avatar-preview {
@@ -257,7 +270,7 @@
 .avatar-upload label {
   font-size: 14px;
   font-weight: bold;
-  color: #333;
+  color: #043873;
 }
 
 .avatar-upload input[type="text"] {

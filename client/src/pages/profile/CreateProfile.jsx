@@ -71,6 +71,10 @@ const ProfileForm = () => {
             newErrors.email = "Email không hợp lệ.";
         }
 
+        if (!formData.address || formData.address.trim() === "") {
+            newErrors.address = "Địa chỉ không được để trống.";
+        }
+        
         setErrors(newErrors);
 
         // Form is valid if there are no errors
@@ -117,7 +121,7 @@ const ProfileForm = () => {
                 <form className="profile-form" onSubmit={handleFormSubmit}>
                     <div className="form-row">
                         <div className="form-group">
-                            <label>Họ và tên*</label>
+                            <label>Họ và tên</label>
                             <input
                                 type="text"
                                 name="fullName"
@@ -129,7 +133,7 @@ const ProfileForm = () => {
                         </div>
 
                         <div className="form-group">
-                            <label>Số điện thoại*</label>
+                            <label>Số điện thoại</label>
                             <input
                                 type="text"
                                 name="phoneNumber"
@@ -143,7 +147,7 @@ const ProfileForm = () => {
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label>Giới tính*</label>
+                            <label>Giới tính</label>
                             <select name="gender" value={formData.gender} onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
                                 <option value="">Chọn giới tính</option>
                                 <option value="1">Nam</option>
@@ -152,7 +156,7 @@ const ProfileForm = () => {
                             {errors.gender && <p className="error">{errors.gender}</p>}
                         </div>
 
-                        <div className="form-group" id="create-date-selects">
+                        <div className="form-group" id='create-date-selects'>
                             <label>Ngày sinh</label>
                             <div>
                                 <select name="birthDay" value={formData.birthDay} onChange={(e) => setFormData({ ...formData, birthDay: e.target.value })}>

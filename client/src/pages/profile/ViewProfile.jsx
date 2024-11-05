@@ -57,7 +57,6 @@ function ViewProfile() {
                     <ul>
                         <li className="view-menu-item active">Hồ sơ người dùng</li>
                         <li className="view-menu-item">Các khoá học</li>
-                        <li className="view-menu-item">Giảng viên yêu thích</li>
                         <li className="view-menu-item">Tin nhắn</li>
                         <li style={{'border':'none'}} className="view-menu-item">Liên hệ admin</li>
                     </ul>
@@ -72,6 +71,9 @@ function ViewProfile() {
                             <div className="view-form-group">
                                 <p><label htmlFor="fullname">Họ và tên: </label>{profile.user_full_name}</p>
                             </div>
+                        </div>
+
+                        <div className='view-form-row'>
                             <div className="view-form-group">
                                 <p><label htmlFor="user_email">Email: </label>{profile.user_email}</p>
                             </div>
@@ -81,6 +83,9 @@ function ViewProfile() {
                             <div className="view-form-group">
                                 <p><label>Ngày sinh: </label> {new Date(profile.user_birthdate).toLocaleDateString()}</p>
                             </div>
+                        </div>
+
+                        <div className='view-form-row'>
                             <div className="view-form-group">
                                 <p><label htmlFor="user_created_date">Ngày tham gia: </label>{new Date(profile.user_created_date).toLocaleDateString()}</p>
                             </div>
@@ -93,11 +98,14 @@ function ViewProfile() {
                         </div>
 
                         <div className='view-form-row'>
+                            <div className="view-form-group">
+                                <p><label htmlFor="user_address">Địa chỉ: </label>{profile.user_address}</p>
+                            </div>
+                        </div>
+
+                        <div className='view-form-row'>
                             <div style={{margin: 0}} className="view-form-group">
                                 <p><label htmlFor="user_phone_number">Số điện thoại: </label>{profile.user_phone_number}</p>
-                            </div>
-                            <div style={{margin: 0}} className="view-form-group">
-                                <p><label htmlFor="user_address">Địa chỉ: </label>{profile.user_address}</p>
                             </div>
                         </div>
 
