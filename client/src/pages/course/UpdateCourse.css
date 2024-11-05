@@ -1,100 +1,361 @@
-/* Main container for the update course form */
-.update-course {
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #FFFFFF; /* Secondary color - White */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    font-family: 'Arial', sans-serif;
+/* Global Styles */
+body {
+    font-family: 'Inter', sans-serif; /* Use the Inter font */
+    background-color: white; /* Changed to white background */
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove default padding */
+    min-height: 100vh; /* Ensure minimum height is full viewport height */
 }
 
-/* Heading style */
-.update-course h2 {
-    color: #043873; /* Primary color - Dark blue */
+/* Create Course Container */
+.update-course {
+    display: flex; /* Use flexbox for layout */
+    justify-content: flex-start; /* Align children to the start */
+    padding: 20px;
+    height: auto; /* Full height based on content */
+}
+
+/* Left Panel Styles */
+.view-left-panel {
+    width: 39%; /* Fixed width for left panel */
+    background-color: #fff; /* Background remains white */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 20px; /* Sticky positioning */
+    margin-right: 20px; /* Space between panels */
+}
+
+/* Right Panel Styles */
+.view-right-panel {
+    width: 59%; /* Fixed width for right panel */
+    background-color: #fff; /* Background remains white */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    position: sticky;
+    top: 20px; /* Sticky positioning */
+}
+
+/* Profile Header */
+.view-profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center contents horizontally */
     margin-bottom: 20px;
 }
 
-/* Error message style */
-.error-message {
-    color: #D9534F; /* Bootstrap danger color for error messages */
-}
-
-/* Form labels */
-.update-course label {
-    display: block;
-    margin-bottom: 5px;
-    color: #4F76F6; /* Primary light blue */
-}
-
-/* Input fields and textarea */
-.update-course input,
-.update-course textarea {
-    width: 100%;
-    padding: 10px;
+/* Avatar Styles */
+.view-profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
     margin-bottom: 15px;
-    border: 1px solid #CFD7D9;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #043873;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
 
-/* Modules heading */
-.update-course h3 {
+/* Profile Name */
+.view-profile-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333; /* Darker text color */
+}
+
+/* Share Profile Button */
+.view-share-profile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-share-profile-btn:hover {
+    background-color: #f3f4f6;
+}
+
+/* Profile Menu */
+.view-profile-menu {
     margin-top: 20px;
-    color: #4F76F6; /* Primary light blue */
+}
+
+.view-profile-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Menu Item Styles */
+.view-menu-item {
+    padding: 12px 0;
+    font-size: 1rem;
+    color: #4b5563;
+    cursor: pointer;
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.3s ease;
+}
+
+.view-menu-item.active {
+    background-color: #dbeafe;
+    border-radius: 5px;
+    color: #4F76F6;
+}
+
+.view-menu-item:hover {
+    background-color: #f3f4f6;
+    border-radius: 5px;
+    color: #4F76F6;
+}
+
+/* Form Styles */
+.view-course-info {
+    margin-top: 20px; /* Space above the form */
+}
+
+/* Style for form rows */
+.view-form-row {
+    margin-bottom: 20px; /* Increased space between rows */
+}
+
+/* Style for form groups */
+.view-form-group {
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+}
+
+/* Label styles */
+label {
+    margin-bottom: 5px; /* Space between label and input */
+    font-weight: 500; /* Bold labels */
+    color: #333; /* Darker color for visibility */
+}
+
+/* New styles for form group labels */
+.view-form-group label {
+    width: 200px; /* Set the desired width for the label */
+    display: inline-block; /* Ensure the label takes up the defined width */
+}
+
+/* Adjust input styles for better alignment */
+.view-form-group input[type="text"],
+.view-form-group input[type="number"],
+.view-form-group textarea {
+    margin-left: 10px; /* Add some space between the label and the input */
+}
+
+/* Input and Textarea styles */
+input[type="text"],
+input[type="number"],
+textarea {
+    padding: 10px; /* Inner padding */
+    border: 1px solid #d1d5db; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1rem; /* Font size */
+    color: #333; /* Darker text for input */
+    transition: border-color 0.3s; /* Transition for focus */
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    border-color: #4F76F6; /* Highlight border on focus */
+    outline: none; /* Remove default outline */
 }
 
 /* Button styles */
-.update-course button {
-    background-color: #4F76F6; /* Primary light blue */
-    color: #FFFFFF; /* White text */
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+button {
+    padding: 10px 15px; /* Inner padding */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #4F76F6; /* Primary button color */
+    color: white; /* White text */
+    font-size: 1rem; /* Font size */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s; /* Transition for hover */
 }
 
-/* Button hover state */
-.update-course button:hover {
-    background-color: #043873; /* Darker blue for hover effect */
+button:hover {
+    background-color: #3e63d2; /* Darker on hover */
 }
 
-/* List items for modules */
-.update-course ul {
-    list-style-type: none;
-    padding-left: 0;
+/* Error message styles */
+.error-message {
+    color: red; /* Red color for errors */
+    margin-top: 10px; /* Space above error message */
 }
 
-.update-course li {
-    background-color: #CFD7D9; /* Light gray background */
-    border-radius: 4px;
-    padding: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+/* Module item button spacing */
+.module-item button {
+    margin-left: 10px; /* Space between module name input and delete button */
 }
 
-
-
-/* Alternate background for odd-indexed modules */
-.update-course li:nth-child(odd) {
-    background-color: #77F2A1; /* Light green for alternating rows */
+/* Submit button spacing */
+.view-course-info button[type="submit"] {
+    margin-top: 20px; /* Space between the form and the submit button */
 }
 
 /* Responsive design for smaller screens */
+.update-course {
+    display: flex;
+}
+
+.view-left-panel {
+    width: 25%;
+    padding: 20px;
+    background-color: #f7f7f7;
+}
+
+.view-profile-header {
+    text-align: center;
+}
+
+.view-profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.view-profile-name {
+    margin: 10px 0;
+}
+
+.view-profile-bio {
+    font-size: 14px;
+    color: #666;
+}
+
+.view-share-profile-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.view-profile-menu {
+    margin-top: 20px;
+}
+
+.view-menu-item {
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.view-menu-item.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.view-right-panel {
+    width: 75%;
+    padding: 20px;
+}
+
+.view-course-info {
+    background-color: white; /* Background remains white */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.view-form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.view-form-group {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.view-form-group:last-child {
+    margin-right: 0;
+}
+
+/* Increased padding and font size for input, textarea, and select elements */
+input[type="text"], 
+input[type="number"], 
+textarea, 
+select {
+    width: 100%;
+    padding: 12px; /* Increased padding for larger text box */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px; /* Increased font size */
+}
+
+.module-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px; /* Space below each module item */
+}
+
+/* Increased font size for module input */
+.module-item input {
+    flex: 1;
+    margin-right: 10px; /* Space between input and delete button */
+    font-size: 16px; /* Increased font size */
+}
+
+.add-module-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px; /* Increased font size for buttons */
+}
+
+.update-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px; /* Increased font size for buttons */
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-size: 16px; /* Increased font size for error messages */
+}
+
+/* Media query for responsive design */
 @media (max-width: 768px) {
     .update-course {
-        padding: 15px;
+        flex-direction: column; /* Stack panels vertically on small screens */
+        padding: 15px; /* Reduced padding */
+    }
+
+    .view-left-panel,
+    .view-right-panel {
+        width: 100%; /* Full width on small screens */
+        margin-right: 0; /* Reset right margin */
+        margin-bottom: 20px; /* Add space between panels */
     }
 
     .update-course h2 {
-        font-size: 24px;
+        font-size: 20px; /* Adjusted heading size */
     }
 
-    .update-course label, .update-course button {
-        font-size: 14px;
+    .update-course label,
+    .update-course button {
+        font-size: 14px; /* Smaller font size for buttons and labels */
     }
 }

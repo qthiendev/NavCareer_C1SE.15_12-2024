@@ -149,6 +149,30 @@ function UpdateProfile() {
                 <form className="user-profile-form" onSubmit={handleSubmit}>
                     <div className='form-row'>
                         <div className="form-group">
+                            <label htmlFor="user_full_name">Họ và Tên</label>
+                            <input
+                                type="text"
+                                id="user_full_name"
+                                name="user_full_name"
+                                value={profile?.user_full_name}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={profile?.user_email}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className='form-row'>
+                        <div className="form-group">
                             <label htmlFor="user_status">Trạng thái tài khoản:</label>
                             <select
                                 id="status"
@@ -204,30 +228,7 @@ function UpdateProfile() {
                             </select>
                         </div>
                     </div>
-                    <div className='form-row'>
-                        <div className="form-group">
-                            <label htmlFor="user_full_name">Họ và Tên</label>
-                            <input
-                                type="text"
-                                id="user_full_name"
-                                name="user_full_name"
-                                value={profile?.user_full_name}
-                                onChange={handleInputChange}
-                            />
-                        </div>
 
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={profile?.user_email}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                    </div>
                     <div className='form-row'>
                         <div className="form-group">
                             <label htmlFor="phone_number">Số điện thoại</label>

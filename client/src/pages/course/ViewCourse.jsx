@@ -52,35 +52,51 @@ function ViewCourse() {
 
     return (
         <div className="view-course-container">
-            <h1 className='Tieude3'>{courseData.course_name}</h1>
-            <p><strong>Nhà cung cấp:</strong> {courseData.user_full_name}</p>
-            <p><strong>Email:</strong> {courseData.user_email}</p>
-            <p><strong>Số điện thoại:</strong> {courseData.user_phone_number}</p>
-            <p><strong>Mô tả:</strong> {courseData.course_full_description}</p>
-            <p><strong>Thời gian dự kiến:</strong> {courseData.duration}</p>
-
-            <h3>Các module:</h3>
-            <ul className='ulblabla'>
-                {courseData.modules.map((module, index) => (
-                    <li key={`${module.module_ordinal}-${module.module_name}-${index}`}>
-                        {module.module_ordinal + 1}. {module.module_name}
-                    </li>
-                ))}
-            </ul>
-
-            <button className="btn-join" onClick={() => navigate(`/edu/payment?course_id=${course_id}`)}>
-            <span className="price">
-        {courseData.course_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-    </span>
-    <span className="button-text">Tham Gia Ngay</span>
-            </button>
-
-            {updatable && (
-                <button className="btn-edit" onClick={() => navigate(`/esp/course/${course_id}/update`)}>
-                    Edit Course
+            <div className='view-course-left'>
+                <div className='view-course-infor'>
+                    <h3>{courseData.course_name}</h3>
+                    <p>Thêm giới thiệu ngắn gọn cho khoá học tại đây!!!</p>
+                </div>
+                <div className='view-course-intro'>
+                    <img src="/img/main_content/courses/Course1_1.svg" alt="" />
+                </div>
+                <div className='view-course-description'>
+                    <h3>Thông tin khoá học:</h3>
+                    <p>{courseData.course_full_description}</p>
+                </div>
+                <div className='view-course-esp'>
+                    <p>Thông tin nhà cung cấp khoá học:</p>
+                    <ul className='view-course-detail'>
+                        <li>Tên tài khoản: {courseData.user_full_name}</li>
+                        <li>Email: {courseData.user_email}</li>
+                        <li>Số điện thoại: {courseData.user_phone_number}</li>
+                    </ul>
+                </div>
+                <div className='view-course-duration'>
+                    <p>Thời gian dự kiến: {courseData.duration}</p>
+                </div>
+                <div className='view-course-lesson'>
+                    <h3>Giáo trình:</h3>
+                    <ul>
+                        {courseData.modules.map((module, index) => (
+                            <li key={`${module.module_ordinal}-${module.module_name}-${index}`}>
+                                {module.module_ordinal + 1}. {module.module_name}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+            <div className='view-course-right'>
+                {/* <img src={courseData.course_image} alt="Hình ảnh khóa học" /> */}
+                <img className='course-image' src="/img/main_content/courses/Course1_1.svg" alt="" />
+                <div className="course-price">
+                    <label htmlFor="joinCourse">Giá: {courseData.course_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</label>
+                </div>
+                <button id="joinCourse" className="view-course-btn-join" onClick={() => navigate(`/edu/payment?course_id=${course_id}`)}>
+                    Tham Gia Ngay
                 </button>
-            )}
-        </div>
+            </div>
+        </div>   
     );
 }
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CreateCourse.css';
-import './ViewCourse.jsx';
+
 function CreateCourse() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -14,10 +14,8 @@ function CreateCourse() {
     const [error, setError] = useState(null);
     const [banChecked, setBanChecked] = useState(false);
     const [espChecked, setESPChecked] = useState(false);
-    const [profile, setProfile] = useState(null);
     
-    
-    
+
     // Check ban status
     useEffect(() => {
         const checkBanStatus = async () => {
@@ -179,6 +177,8 @@ function CreateCourse() {
                             {error && <p className="error-message">{error}</p>} {/* Display error message if any */}
                         </div>
                     </form>
+                   
+                    
                 </div>
             </div>
             
