@@ -137,121 +137,80 @@ function UpdateCourse() {
 
     return (
         <div className="update-course">
-            <div className="view-left-panel">
-                <div className="view-profile-header">
-                    <img src="/path/to/avatar" alt="Avatar" className="view-profile-avatar" />
-                    <h2 className="view-profile-name">User Full Name</h2>
-                    <p className="view-profile-bio">User Bio Here</p>
-                    <button className="view-share-profile-btn">
-                        <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" />
-                        Chia sẻ hồ sơ
-                    </button>
+            <h2>
+                Update Course: <a href={`/course/${course_id}`}>{courseData?.course_name}</a>
+            </h2>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <form onSubmit={handleUpdateCourse}>
+                <div>
+                    <label>Course Name</label>
+                    <input
+                        type="text"
+                        value={courseData?.course_name || ''}
+                        onChange={(e) => setCourseData({ ...courseData, course_name: e.target.value })}
+                    />
                 </div>
-                <div className="view-profile-menu">
-                    <ul>
-                        <li className="view-menu-item active">Hồ sơ người dùng</li>
-                        <li className="view-menu-item">Các khoá học</li>
-                        <li className="view-menu-item">Giảng viên yêu thích</li>
-                        <li className="view-menu-item">Tin nhắn</li>
-                        <li style={{ border: 'none' }} className="view-menu-item">Liên hệ admin</li>
-                    </ul>
+                <div>
+                    <label>Course Price</label>
+                    <input
+                        type="number"
+                        value={courseData?.course_price || ''}
+                        onChange={(e) => setCourseData({ ...courseData, course_price: e.target.value })}
+                    />
                 </div>
-            </div>
-
-            <div className="view-right-panel">
-                <div className="view-course-info">
-                    <form onSubmit={handleUpdateCourse}>
-                        <div className="view-information">
-                            <div className="view-form-row">
-                                <div className="view-form-group">
-                                    <label htmlFor="course_name">Tên Khóa Học:</label>
-                                    <input
-                                        type="text"
-                                        id="course_name"
-                                        value={courseData?.course_name || ''}
-                                        onChange={(e) => setCourseData({ ...courseData, course_name: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div className="view-form-group">
-                                    <label htmlFor="course_price">Giá:</label>
-                                    <input
-                                        type="number"
-                                        id="course_price"
-                                        value={courseData?.course_price || ''}
-                                        onChange={(e) => setCourseData({ ...courseData, course_price: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="view-form-row">
-                                <div className="view-form-group">
-                                    <label htmlFor="course_short_description">Mô Tả Khóa Học:</label>
-                                    <textarea
-                                        id="course_short_description"
-                                        value={courseData?.course_short_description || ''}
-                                        onChange={(e) => setCourseData({ ...courseData, course_short_description: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="view-form-row">
-                                <div className="view-form-group">
-                                    <label htmlFor="course_full_description">Thông Tin Khóa Học:</label>
-                                    <textarea
-                                        id="course_full_description"
-                                        value={courseData?.course_full_description || ''}
-                                        onChange={(e) => setCourseData({ ...courseData, course_full_description: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="view-form-row">
-                                <div className="view-form-group">
-                                    <label htmlFor="course_status">Trạng Thái:</label>
-                                    <select
-                                        id="course_status"
-                                        value={String(courseData?.course_status)}
-                                        onChange={(e) => setCourseData({ ...courseData, course_status: e.target.value === 'true' })}>
-                                        <option value="true">Active</option>
-                                        <option value="false">Locked</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="view-form-row">
-                                <h3>Khóa Học</h3>
-                            </div>
-                            <DragDropContext onDragEnd={onDragEnd}>
-                                <Droppable droppableId="droppable">
-                                    {(provided) => (
-                                        <div {...provided.droppableProps} ref={provided.innerRef}>
-                                            {modules.map((module, index) => (
-                                                <Draggable key={module.module_ordinal} draggableId={String(module.module_ordinal)} index={index}>
-                                                    {(provided) => (
-                                                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className="module-item">
-                                                            <input
-                                                                type="text"
-                                                                value={module.module_name}
-                                                                onChange={(e) => handleModuleChange(index, e.target.value)}
-                                                                placeholder="Module Name"
-                                                            />
-                                                            <button type="button" onClick={() => deleteModule(index)}>Xóa</button>
-                                                        </div>
-                                                    )}
-                                                </Draggable>
-                                            ))}
-                                            {provided.placeholder}
-                                        </div>
-                                    )}
-                                </Droppable>
-                            </DragDropContext>
-                            <button type="button" className="add-module-button" onClick={addModule}>Thêm Khóa Học</button>
-                        </div>
-                        {errorMessage && <div className="error-message">{errorMessage}</div>}
-                        <button type="submit" className="update-button">Cập Nhật Khóa Học</button>
-                    </form>
+                <div>
+                    <label>Course Short Description</label>
+                    <textarea
+                        value={courseData?.course_short_description || ''}
+                        onChange={(e) => setCourseData({ ...courseData, course_short_description: e.target.value })}
+                    />
                 </div>
-            </div>
+                <div>
+                    <label>Course Full Description</label>
+                    <textarea
+                        value={courseData?.course_full_description || ''}
+                        onChange={(e) => setCourseData({ ...courseData, course_full_description: e.target.value })}
+                    />
+                </div>
+                <div>
+                    <label>Status</label>
+                    <select
+                        value={String(courseData?.course_status)}
+                        onChange={(e) => setCourseData({ ...courseData, course_status: e.target.value === 'true' })}>
+                        <option value="true">Active</option>
+                        <option value="false">Locked</option>
+                    </select>
+                </div>
+                <div>
+                    <h3>Modules</h3>
+                    <button type="button" onClick={addModule}>Add Module</button>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="modules">
+                            {(provided) => (
+                                <ul {...provided.droppableProps} ref={provided.innerRef}>
+                                    {modules.map((module, index) => (
+                                        <Draggable key={index} draggableId={String(index)} index={index}>
+                                            {(provided) => (
+                                                <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                    <input
+                                                        type="text"
+                                                        value={module.module_name || ''}
+                                                        onChange={(e) => handleModuleChange(index, e.target.value)}
+                                                        placeholder={`Module ${module.module_ordinal + 1}`}
+                                                    />
+                                                    <button type="button" onClick={() => deleteModule(index)}>Delete</button>
+                                                </li>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </ul>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+                </div>
+                <button type="submit">Update Course</button>
+            </form>
         </div>
     );
 }

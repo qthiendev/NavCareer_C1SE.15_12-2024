@@ -1,219 +1,308 @@
-/* Create Course Container */
-.create-course-container {
+.create-course {
+  background-color: #ffffff;
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 20px;
-  height: auto; /* Full height based on content */
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
 }
 
-/* Left Panel Styles */
-.view-left-panel {
-  width: 35%;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
-  position: sticky;
-  top: 20px; /* Sticky positioning */
-  margin-right: 20px; /* Add margin to separate from right panel */
+.create-course .div {
+  background-color: var(--white);
+  height: 3043px;
+  position: relative;
+  width: 1440px;
 }
 
-/* Right Panel Styles */
-.view-right-panel {
-  width: 65%;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  position: sticky;
-  top: 20px; /* Sticky positioning */
+.create-course .footer-dark-mode {
+  height: 329px;
+  left: 0;
+  position: absolute;
+  top: 2714px;
+  width: 1440px;
 }
 
-/* Profile Header */
-.view-profile-header {
+.create-course .header-dark-mode {
+  height: 92px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.create-course .frame {
+  height: 560px;
+  left: 410px;
+  position: absolute;
+  top: 105px;
+  width: 950px;
+}
+
+.create-course .img {
+  height: 528px;
+  left: 410px;
+  position: absolute;
+  top: 699px;
+  width: 950px;
+}
+
+.create-course .frame-2 {
+  height: 792px;
+  left: 410px;
+  position: absolute;
+  top: 1266px;
+  width: 950px;
+}
+
+.create-course .group {
+  height: 583px;
+  left: 37px;
+  position: absolute;
+  top: 128px;
+  width: 290px;
+}
+
+.create-course .overlap-group {
+  border-radius: 16px;
+  height: 583px;
+  position: relative;
+}
+
+.create-course .frontend-profile {
+  align-items: center;
+  background-color: var(--greybackground);
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center contents horizontally */
-  margin-bottom: 20px;
+  gap: 24px;
+  height: 583px;
+  left: 0;
+  overflow: hidden;
+  padding: 24px 0px;
+  position: absolute;
+  top: 0;
+  width: 290px;
 }
 
-/* Avatar Styles */
-.view-profile-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+.create-course .frame-3 {
+  flex: 0 0 auto;
+  position: relative;
+}
+
+.create-course .line {
+  height: 1px;
   object-fit: cover;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  position: relative;
+  width: 274px;
 }
 
-/* Profile Name */
-.view-profile-name {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333; /* Darker text color */
+.create-course .group-2 {
+  height: 265px;
+  left: 0;
+  position: absolute;
+  top: 318px;
+  width: 290px;
 }
 
-/* Share Profile Button */
-.view-share-profile-btn {
-  display: flex;
+.create-course .profile-wrapper {
   align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  border: 1px solid #d1d5db;
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  border-radius: 5px;
-  color: #4b5563;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.view-share-profile-btn:hover {
-  background-color: #f3f4f6;
-}
-
-/* Profile Menu */
-.view-profile-menu {
-  margin-top: 20px;
-}
-
-.view-profile-menu ul {
-  list-style: none;
-  padding: 0;
-}
-
-/* Menu Item Styles */
-.view-menu-item {
-  padding: 12px 0;
-  font-size: 1rem;
-  color: #4b5563;
-  cursor: pointer;
-  border-bottom: 1px solid #e5e7eb;
-  transition: background-color 0.3s ease;
-}
-
-.view-menu-item.active {
-  background-color: #dbeafe;
-  border-radius: 5px;
-  color: #4F76F6;
-}
-
-.view-menu-item:hover {
-  background-color: #f3f4f6;
-  border-radius: 5px;
-  color: #4F76F6;
-}
-
-/* Form Styles */
-.view-course-info {
-  margin-top: 20px; /* Space above the form */
-}
-
-/* Style for form rows */
-.view-form-row {
-  margin-bottom: 20px; /* Increased space between rows */
-}
-
-/* Style for form groups */
-.view-form-group {
+  background-color: #4f76f685;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: #cfd7d9;
   display: flex;
-  flex-direction: column; /* Stack label and input vertically */
-  width: 100%; /* Make the group full width */
+  gap: 8px;
+  left: 0;
+  padding: 16px;
+  position: absolute;
+  top: 0;
+  width: 290px;
 }
 
-/* Label styles */
-label {
-  margin-bottom: 5px; /* Space between label and input */
-  font-weight: 500; /* Bold labels */
-  color: #333; /* Darker color for visibility */
-  font-size: 0.8rem; /* Smaller font size for labels */
-  max-width: 80%; /* Limit the width of labels */
-  overflow: hidden; /* Hide overflow text */
-  text-overflow: ellipsis; /* Add ellipsis for long labels */
-  white-space: nowrap; /* Prevent line breaks */
+.create-course .profile {
+  color: #4c4c4c;
+  font-family: var(--small-text-font-family);
+  font-size: var(--small-text-font-size);
+  font-style: var(--small-text-font-style);
+  font-weight: var(--small-text-font-weight);
+  letter-spacing: var(--small-text-letter-spacing);
+  line-height: var(--small-text-line-height);
+  margin-top: -1.00px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
 }
 
-/* Input and Textarea styles */
-input[type="text"],
-input[type="number"],
-textarea {
-  padding: 8px; /* Inner padding */
-  border: 1px solid #d1d5db; /* Border color */
-  border-radius: 5px; /* Rounded corners */
-  font-size: 0.9rem; /* Slightly smaller font size for inputs */
-  color: #333; /* Darker text for input */
-  transition: border-color 0.3s; /* Transition for focus */
+.create-course .mentor-course {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: #cfd7d9;
+  height: 53px;
+  left: 0;
+  position: absolute;
+  top: 53px;
+  width: 290px;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-textarea:focus {
-  border-color: #4F76F6; /* Highlight border on focus */
-  outline: none; /* Remove default outline */
+.create-course .text-wrapper {
+  color: var(--grey-700);
+  font-family: var(--small-text-font-family);
+  font-size: var(--small-text-font-size);
+  font-style: var(--small-text-font-style);
+  font-weight: var(--small-text-font-weight);
+  height: 21px;
+  left: 16px;
+  letter-spacing: var(--small-text-letter-spacing);
+  line-height: var(--small-text-line-height);
+  position: absolute;
+  top: 15px;
+  white-space: nowrap;
+}
+
+.create-course .vector {
+  height: 7px;
+  left: 243px;
+  position: absolute;
+  top: 25px;
+  width: 15px;
+}
+
+.create-course .my-reviews-wrapper {
+  align-items: center;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: #cfd7d9;
+  display: flex;
+  gap: 8px;
+  left: 0;
+  padding: 16px;
+  position: absolute;
+  top: 106px;
+  width: 290px;
+}
+
+.create-course .text-wrapper-2 {
+  color: var(--grey-700);
+  font-family: var(--small-text-font-family);
+  font-size: var(--small-text-font-size);
+  font-style: var(--small-text-font-style);
+  font-weight: var(--small-text-font-weight);
+  letter-spacing: var(--small-text-letter-spacing);
+  line-height: var(--small-text-line-height);
+  margin-top: -1.00px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.create-course .div-wrapper {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  left: 0;
+  padding: 16px;
+  position: absolute;
+  top: 212px;
+  width: 290px;
+}
+
+.create-course .frame-4 {
+  align-items: center;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: #cfd7d9;
+  display: flex;
+  gap: 8px;
+  left: 0;
+  padding: 16px;
+  position: absolute;
+  top: 159px;
+  width: 290px;
+}
+
+.create-course .button {
+  align-items: center;
+  background-color: var(--greytext-dark);
+  border-radius: 8px;
+  display: inline-flex;
+  gap: 6px;
+  height: 48px;
+  justify-content: center;
+  left: 1217px;
+  padding: 10px 24px;
+  position: absolute;
+  top: 2078px;
+}
+
+.create-course .label {
+  color: var(--white);
+  font-family: var(--button-text-font-family);
+  font-size: var(--button-text-font-size);
+  font-style: var(--button-text-font-style);
+  font-weight: var(--button-text-font-weight);
+  letter-spacing: var(--button-text-letter-spacing);
+  line-height: var(--button-text-line-height);
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.create-course .icon-arrow-narrow {
+  height: 24px !important;
+  position: relative !important;
+  width: 24px !important;
+}
+/* Error message style */
+.error {
+    color: #D9534F; /* Bootstrap danger color for error messages */
+}
+
+/* Form labels */
+.create-course label {
+    display: block;
+    margin-bottom: 5px;
+    color: #4F76F6; /* Primary light blue */
+}
+
+/* Input fields and textarea */
+.create-course input,
+.create-course textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #CFD7D9; /* Light gray border */
+    border-radius: 4px;
+    font-size: 16px;
+    color: #043873; /* Dark blue text */
 }
 
 /* Button styles */
-button {
-  padding: 10px 15px; /* Inner padding */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners */
-  background-color: #4F76F6; /* Primary button color */
-  color: white; /* White text */
-  font-size: 1rem; /* Font size */
-  cursor: pointer; /* Pointer cursor */
-  transition: background-color 0.3s; /* Transition for hover */
+.create-course button {
+    background-color: #4F76F6; /* Primary light blue */
+    color: #FFFFFF; /* White text */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #3e63d2; /* Darker on hover */
-}
-
-/* Black Button styles */
-.black-button {
-  padding: 10px 15px; /* Inner padding */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners */
-  background-color: black; /* Black button color */
-  color: white; /* White text */
-  font-size: 1rem; /* Font size */
-  cursor: pointer; /* Pointer cursor */
-  transition: background-color 0.3s; /* Transition for hover */
-  margin-top: 20px; /* Add margin for spacing */
-}
-
-.black-button:hover {
-  background-color: #333; /* Darker on hover */
-}
-
-/* Error message styles */
-.error-message {
-  color: red; /* Red color for errors */
-  margin-top: 10px; /* Space above error message */
+/* Button hover state */
+.create-course button:hover {
+    background-color: #043873; /* Darker blue for hover effect */
 }
 
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
-  .create-course-container {
-      padding: 15px;
-  }
+    .create-course {
+        padding: 15px;
+    }
 
-  .view-left-panel,
-  .view-right-panel {
-      width: 100%; /* Full width on small screens */
-      margin-right: 0; /* Reset right margin */
-      margin-bottom: 20px; /* Add space between panels */
-  }
+    .create-course h1 {
+        font-size: 24px;
+    }
 
-  .view-course-info {
-      margin-top: 10px; /* Reduce space above the form */
-  }
-
-  label,
-  button {
-      font-size: 14px; /* Adjust font size for smaller screens */
-  }
+    .create-course label, .create-course button {
+        font-size: 14px;
+    }
 }

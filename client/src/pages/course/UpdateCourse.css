@@ -1,24 +1,16 @@
 /* Global Styles */
-body {
-    font-family: 'Inter', sans-serif; /* Use the Inter font */
-    background-color: white; /* Changed to white background */
-    margin: 0; /* Remove default margins */
-    padding: 0; /* Remove default padding */
-    min-height: 100vh; /* Ensure minimum height is full viewport height */
-}
 
-/* Create Course Container */
-.update-course {
+/* Update Course Container */
+.update-course-container {
     display: flex; /* Use flexbox for layout */
     justify-content: flex-start; /* Align children to the start */
     padding: 20px;
-    height: auto; /* Full height based on content */
 }
 
 /* Left Panel Styles */
-.view-left-panel {
+.update-course-left-panel {
     width: 39%; /* Fixed width for left panel */
-    background-color: #fff; /* Background remains white */
+    background-color: #fff; /* White background */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -29,9 +21,9 @@ body {
 }
 
 /* Right Panel Styles */
-.view-right-panel {
+.update-course-right-panel {
     width: 59%; /* Fixed width for right panel */
-    background-color: #fff; /* Background remains white */
+    background-color: #fff; /* White background */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -40,7 +32,7 @@ body {
 }
 
 /* Profile Header */
-.view-profile-header {
+.update-course-profile-header {
     display: flex;
     flex-direction: column;
     align-items: center; /* Center contents horizontally */
@@ -48,7 +40,7 @@ body {
 }
 
 /* Avatar Styles */
-.view-profile-avatar {
+.update-course-profile-avatar {
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -58,7 +50,7 @@ body {
 }
 
 /* Profile Name */
-.view-profile-name {
+.update-course-profile-name {
     font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 10px;
@@ -66,7 +58,7 @@ body {
 }
 
 /* Share Profile Button */
-.view-share-profile-btn {
+.update-course-share-profile-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,22 +72,22 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.view-share-profile-btn:hover {
-    background-color: #f3f4f6;
+.update-course-share-profile-btn:hover {
+    background-color: #f3f4f6; /* Light grey on hover */
 }
 
 /* Profile Menu */
-.view-profile-menu {
+.update-course-profile-menu {
     margin-top: 20px;
 }
 
-.view-profile-menu ul {
+.update-course-profile-menu ul {
     list-style: none;
     padding: 0;
 }
 
 /* Menu Item Styles */
-.view-menu-item {
+.update-course-menu-item {
     padding: 12px 0;
     font-size: 1rem;
     color: #4b5563;
@@ -104,30 +96,30 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.view-menu-item.active {
-    background-color: #dbeafe;
+.update-course-menu-item.active {
+    background-color: #dbeafe; /* Active background */
     border-radius: 5px;
-    color: #4F76F6;
+    color: #4F76F6; /* Active text color */
 }
 
-.view-menu-item:hover {
-    background-color: #f3f4f6;
+.update-course-menu-item:hover {
+    background-color: #f3f4f6; /* Light grey on hover */
     border-radius: 5px;
-    color: #4F76F6;
+    color: #4F76F6; /* Change text color on hover */
 }
 
 /* Form Styles */
-.view-course-info {
+.update-course-info {
     margin-top: 20px; /* Space above the form */
 }
 
 /* Style for form rows */
-.view-form-row {
+.update-course-form-row {
     margin-bottom: 20px; /* Increased space between rows */
 }
 
 /* Style for form groups */
-.view-form-group {
+.update-course-form-group {
     display: flex;
     flex-direction: column; /* Stack label and input vertically */
 }
@@ -140,15 +132,15 @@ label {
 }
 
 /* New styles for form group labels */
-.view-form-group label {
+.update-course-form-group label {
     width: 200px; /* Set the desired width for the label */
     display: inline-block; /* Ensure the label takes up the defined width */
 }
 
 /* Adjust input styles for better alignment */
-.view-form-group input[type="text"],
-.view-form-group input[type="number"],
-.view-form-group textarea {
+.update-course-form-group input[type="text"],
+.update-course-form-group input[type="number"],
+.update-course-form-group textarea {
     margin-left: 10px; /* Add some space between the label and the input */
 }
 
@@ -188,163 +180,30 @@ button:hover {
 }
 
 /* Error message styles */
-.error-message {
+.update-course-error-message {
     color: red; /* Red color for errors */
     margin-top: 10px; /* Space above error message */
 }
 
 /* Module item button spacing */
-.module-item button {
+.update-course-module-item button {
     margin-left: 10px; /* Space between module name input and delete button */
 }
 
 /* Submit button spacing */
-.view-course-info button[type="submit"] {
+.update-course-right-panel button[type="submit"] {
     margin-top: 20px; /* Space between the form and the submit button */
 }
 
 /* Responsive design for smaller screens */
-.update-course {
-    display: flex;
-}
-
-.view-left-panel {
-    width: 25%;
-    padding: 20px;
-    background-color: #f7f7f7;
-}
-
-.view-profile-header {
-    text-align: center;
-}
-
-.view-profile-avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
-
-.view-profile-name {
-    margin: 10px 0;
-}
-
-.view-profile-bio {
-    font-size: 14px;
-    color: #666;
-}
-
-.view-share-profile-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.view-profile-menu {
-    margin-top: 20px;
-}
-
-.view-menu-item {
-    padding: 10px 15px;
-    cursor: pointer;
-}
-
-.view-menu-item.active {
-    background-color: #007bff;
-    color: white;
-}
-
-.view-right-panel {
-    width: 75%;
-    padding: 20px;
-}
-
-.view-course-info {
-    background-color: white; /* Background remains white */
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.view-form-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-}
-
-.view-form-group {
-    flex: 1;
-    margin-right: 10px;
-}
-
-.view-form-group:last-child {
-    margin-right: 0;
-}
-
-/* Increased padding and font size for input, textarea, and select elements */
-input[type="text"], 
-input[type="number"], 
-textarea, 
-select {
-    width: 100%;
-    padding: 12px; /* Increased padding for larger text box */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px; /* Increased font size */
-}
-
-.module-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px; /* Space below each module item */
-}
-
-/* Increased font size for module input */
-.module-item input {
-    flex: 1;
-    margin-right: 10px; /* Space between input and delete button */
-    font-size: 16px; /* Increased font size */
-}
-
-.add-module-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 16px; /* Increased font size for buttons */
-}
-
-.update-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-    font-size: 16px; /* Increased font size for buttons */
-}
-
-.error-message {
-    color: red;
-    margin-top: 10px;
-    font-size: 16px; /* Increased font size for error messages */
-}
-
-/* Media query for responsive design */
 @media (max-width: 768px) {
-    .update-course {
+    .update-course-container {
         flex-direction: column; /* Stack panels vertically on small screens */
         padding: 15px; /* Reduced padding */
     }
 
-    .view-left-panel,
-    .view-right-panel {
+    .update-course-left-panel,
+    .update-course-right-panel {
         width: 100%; /* Full width on small screens */
         margin-right: 0; /* Reset right margin */
         margin-bottom: 20px; /* Add space between panels */
