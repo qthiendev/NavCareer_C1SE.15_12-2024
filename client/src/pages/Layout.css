@@ -102,8 +102,9 @@ header {
   transition: opacity 0.3s cubic-bezier(0.95, 0.09, 0, 0.84), transform 0.3s ease;
 }
 
-.dropdown-menu.show {
+.dropdown-menu.show1 {
   transform: translateY(0);
+  margin-right: 350px;
 }
 
 .dropdown-menu ul {
@@ -111,17 +112,20 @@ header {
   margin: 0;
   padding: 0;
   opacity: 1;
+  
 }
 
-.dropdown-menu li {
+.dropdown-menu .li1 {
   padding: 10px;
+  
 }
 
-.dropdown-menu li a {
+.dropdown-menu .li1  a {
   text-decoration: none;
   text-align: center;
   color: rgb(0, 0, 0);
   display: block;
+ 
 }
 
 #signout-btn {

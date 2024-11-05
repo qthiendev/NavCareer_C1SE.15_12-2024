@@ -191,7 +191,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>Role:</label>
-                    <select
+                    <select className='User-Select'
                         name="role"
                         value={userData.role}
                         onChange={handleChange}
@@ -204,7 +204,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>Auth Status:</label>
-                    <select
+                    <select className='User-Select'
                         name="auth_status"
                         value={userData.auth_status}
                         onChange={handleChange}
@@ -248,7 +248,7 @@ function ModifyUser() {
                 <div className="field-row">
                     <label>Birthdate:</label>
                     <div className="birthdate-fields">
-                        <select
+                        <select className='User-Select'
                             name="day"
                             value={day}
                             onChange={(e) => setDay(parseInt(e.target.value, 10))}
@@ -259,7 +259,7 @@ function ModifyUser() {
                                 <option key={d} value={d}>{d}</option>
                             ))}
                         </select>
-                        <select
+                        <select className='User-Select'
                             name="month"
                             value={month}
                             onChange={(e) => setMonth(parseInt(e.target.value, 10))}
@@ -270,7 +270,7 @@ function ModifyUser() {
                                 <option key={m} value={m}>{m}</option>
                             ))}
                         </select>
-                        <select
+                        <select className='User-Select'
                             name="year"
                             value={year}
                             onChange={(e) => setYear(parseInt(e.target.value, 10))}
@@ -286,7 +286,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>Gender:</label>
-                    <select
+                    <select className='User-Select'
                         name="user_gender"
                         value={userData.user_gender}
                         onChange={handleChange}
@@ -331,7 +331,7 @@ function ModifyUser() {
 
                 <div className="field-row">
                     <label>User Status:</label>
-                    <select
+                    <select className='User-Select'
                         name="user_status"
                         value={userData.user_status}
                         onChange={handleChange}
