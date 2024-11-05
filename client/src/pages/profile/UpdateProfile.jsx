@@ -168,7 +168,7 @@ function UpdateProfile() {
                     <div className='form-row'>
                         <div className="form-group">
                             <label>Ngày sinh</label>
-                            <div className="date-selects">
+                            <div id='update-date-selects'>
                                 <select name="day" value={day} onChange={(e) => setDay(e.target.value)}>
                                     <option value="">Ngày</option>
                                     {days.map((d) => (
@@ -241,7 +241,7 @@ function UpdateProfile() {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="address">Địa chỉ:</label>
+                            <label htmlFor="address">Địa chỉ</label>
                             <input
                                 type="text"
                                 id="address"

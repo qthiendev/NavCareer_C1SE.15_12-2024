@@ -2,7 +2,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    background-color: #f8f9fa; /* Màu nền nhạt tổng thể */
+    background-color: #CFD7D9; /* Màu nền nhạt tổng thể */
     padding: 20px;
     height: auto; /* Chiều cao toàn màn hình */
   }
@@ -48,7 +48,7 @@
     font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #333;
+    color: #043873;
   }
   
   .view-share-profile-btn {
@@ -118,7 +118,7 @@
   .view-information{
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 20px;
+    padding: 2%;
     background-color: #fff;
   }
   /* Căn chỉnh chung cho form-row */
@@ -140,10 +140,10 @@
   
   /* Căn chỉnh chung cho label */
   .view-form-group label {
-    font-size: 14px;
+    font-size: 100%;
     margin-bottom: 8px;
     font-weight: bold;
-    color: #333;
+    color: #043873;
     text-align: left; /* Căn trái */
     min-width: 0;
     padding-right: 2%;
@@ -162,7 +162,7 @@
     padding: 0; /* Remove padding */
     border: none; /* Remove border */
     background-color: transparent; /* Remove background color */
-    font-size: 16px;
+    font-size: 100%;
     margin: 0;
     text-align: left; /* Align text to the left */
   }
@@ -173,18 +173,19 @@
     margin-top: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 20px;
+    padding: 0 4%;
     background-color: #fff;
-  
   }
-  .view-link-input{
+  .view-link-input label{
     margin-bottom: 2%;
+    color: #043873;
   }
   .view-links-section input {
     width: 100%;
     max-width: 100%;
     margin: 0;
     padding: 10px;
+    color: #CFD7D9;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
@@ -196,11 +197,12 @@
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 20px;
+    color: #043873;
   }
   
   /* Căn chỉnh nút submit */
   .view-btn-edit {
-    background-color: #212529;
+    background-color: #043873;
     color: white;
     padding: 10px 20px;
     border: none;
