@@ -17,8 +17,6 @@ const updateProfile = async (req, res) => {
             user_status
         } = req.body;
 
-        console.log(req.body)
-
         if (!user_full_name
             || !user_alias
             || !user_birthdate

@@ -110,19 +110,10 @@ begin
 		return;
     end
 
-	declare @user_id int;
 
-    select top 1 @user_id = u1.[user_id] + 1
-    from Users u1
-		left join Users u2 on u1.[user_id] + 1 = u2.[user_id]
-    where u2.[user_id] is null
-    order by u1.[user_id];
-
-	if @user_id is null select @user_id = isnull(max([user_id]), 0) + 1 from Users;
-
-    insert into Users ([user_id],
-		[user_full_name],
+    insert into Users ([user_full_name],
 		[user_birthdate],
+		[user_alias],
 		[user_gender],
 		[user_email], 
 		[user_phone_number],
@@ -131,7 +122,7 @@ begin
 		[user_status],
 		[authentication_id]
 	)
-	values(@user_id, @user_full_name, convert(datetime, @user_birthdate, 120),  @user_gender, @user_email,  @user_phone_number, @user_address, GETDATE(), 1, @aid);
+	values(@user_full_name, convert(datetime, @user_birthdate, 120), STR(@aid),  @user_gender, @user_email,  @user_phone_number, @user_address, GETDATE(), 1, @aid);
 
 	if @@ROWCOUNT = 1
 	begin

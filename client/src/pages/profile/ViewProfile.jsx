@@ -14,6 +14,7 @@ function ViewProfile() {
         const fetchProfile = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/profile/read?user_id=${user_id}`, { withCredentials: true });
+                console.log(response);
                 if (!response.data.user_full_name) {
                     navigate('/profile/create');
                     return;

@@ -43,6 +43,12 @@ const createProfile = async (req, res) => {
 
         if (result === 'SUCCESSED') {
             console.log(`[${now.toLocaleString()}] at createProfileController.js/createProfile | Profile created succesfuly.`);
+            req.session.destroy((err) => {
+                if (err)
+                    throw new Error(err);
+
+                console.log(`[${new Date().toLocaleString()}] at signOutController.js/signOut | Signed out successfully`);
+            });
             return res.status(200).json({
                 message: `Profile created succesfuly.`,
                 time: now.toLocaleString()
