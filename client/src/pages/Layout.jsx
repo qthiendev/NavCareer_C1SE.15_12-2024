@@ -130,7 +130,7 @@ function Layout() {
                         </div>
 
                         <ul className="nav-list">
-                            <li><a href="/tests">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
+                            <li><a href="/servey">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
                             <li><a href="/course/view">KHÓA HỌC</a></li>
                             <li><a href="/about">VỀ CHÚNG TÔI</a></li>
                         </ul>

@@ -30,8 +30,9 @@ const readProfile = async (req, res) => {
         if (fs.existsSync(avatarPath)) {
             const avatarImage = fs.readFileSync(avatarPath);
             avatarBase64 = `data:image/png;base64,${avatarImage.toString('base64')}`;
+            console.log('\x1b[32m%s\x1b[0m', `[${now.toLocaleString()}] at readProfileContoller.js/readProfile | Avatar image found at: ${avatarPath}`);
         } else {
-            console.warn(`Avatar image not found at: ${avatarPath}`);
+            console.warn(`[${now.toLocaleString()}] at readProfileContoller.js/readProfile | Avatar image not found at: ${avatarPath}`);
             avatarBase64 = null;
         }
 
@@ -40,11 +41,11 @@ const readProfile = async (req, res) => {
             avatar: avatarBase64,
         };
 
-        console.log(`[${now.toLocaleString()}] readProfileContoller.js/readProfile | Profile data retrieved for '${user_id}'.`);
+        console.log(`[${now.toLocaleString()}] at readProfileContoller.js/readProfile | Profile data retrieved for '${user_id}'.`);
         return res.status(200).json({ ...profileData, time: now.toLocaleString() });
 
     } catch (err) {
-        console.error(`[${now.toLocaleString()}] readProfileContoller.js/readProfile | ${err.message}`);
+        console.error(`[${now.toLocaleString()}] at readProfileContoller.js/readProfile | ${err.message}`);
         res.status(500).json({
             message: 'Server Error',
             time: now.toLocaleString()
