@@ -1,308 +1,169 @@
-.create-course {
-  background-color: #ffffff;
+/* Main container for the Create Course page */
+.create-course-container {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  background-color: #f0f0f0;
+  padding: 20px;
   width: 100%;
+  height: auto;
 }
 
-.create-course .div {
-  background-color: var(--white);
-  height: 3043px;
-  position: relative;
-  width: 1440px;
+/* Left Panel (adjusted to 30%) */
+.create-course-left-panel {
+  width: 30%; /* Adjusted to 30% */
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
-.create-course .footer-dark-mode {
-  height: 329px;
-  left: 0;
-  position: absolute;
-  top: 2714px;
-  width: 1440px;
-}
-
-.create-course .header-dark-mode {
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 1440px;
-}
-
-.create-course .frame {
-  height: 560px;
-  left: 410px;
-  position: absolute;
-  top: 105px;
-  width: 950px;
-}
-
-.create-course .img {
-  height: 528px;
-  left: 410px;
-  position: absolute;
-  top: 699px;
-  width: 950px;
-}
-
-.create-course .frame-2 {
-  height: 792px;
-  left: 410px;
-  position: absolute;
-  top: 1266px;
-  width: 950px;
-}
-
-.create-course .group {
-  height: 583px;
-  left: 37px;
-  position: absolute;
-  top: 128px;
-  width: 290px;
-}
-
-.create-course .overlap-group {
-  border-radius: 16px;
-  height: 583px;
-  position: relative;
-}
-
-.create-course .frontend-profile {
-  align-items: center;
-  background-color: var(--greybackground);
-  border-radius: 16px;
+.create-course-header {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  height: 583px;
-  left: 0;
-  overflow: hidden;
-  padding: 24px 0px;
-  position: absolute;
-  top: 0;
-  width: 290px;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.create-course .frame-3 {
-  flex: 0 0 auto;
-  position: relative;
-}
-
-.create-course .line {
-  height: 1px;
+.create-course-avatar {
+  width: 120px; /* Slightly larger avatar */
+  height: 120px;
+  border-radius: 50%;
   object-fit: cover;
-  position: relative;
-  width: 274px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.create-course .group-2 {
-  height: 265px;
-  left: 0;
-  position: absolute;
-  top: 318px;
-  width: 290px;
+.create-course-name {
+  font-size: 1.4rem; /* Slightly larger name */
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #043873;
 }
 
-.create-course .profile-wrapper {
-  align-items: center;
-  background-color: #4f76f685;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-color: #cfd7d9;
+.create-course-share-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  border: none;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.create-course-share-btn:hover {
+  background-color: #0056b3;
+}
+
+.create-course-menu {
+  margin-top: 30px;
+}
+
+.create-course-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.create-course-menu-item {
+  padding: 12px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.create-course-menu-item.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.create-course-menu-item:hover {
+  background-color: #f3f4f6;
+}
+
+/* Right Panel (adjusted to 70%) */
+.create-course-right-panel {
+  width: 70%; /* Adjusted to 70% */
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+/* Form Container Styles */
+.create-course-info {
+  background-color: white;
+  padding: 40px; /* Increased padding for spacious feel */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Rows */
+.create-course-form-row {
   display: flex;
-  gap: 8px;
-  left: 0;
-  padding: 16px;
-  position: absolute;
-  top: 0;
-  width: 290px;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-.create-course .profile {
-  color: #4c4c4c;
-  font-family: var(--small-text-font-family);
-  font-size: var(--small-text-font-size);
-  font-style: var(--small-text-font-style);
-  font-weight: var(--small-text-font-weight);
-  letter-spacing: var(--small-text-letter-spacing);
-  line-height: var(--small-text-line-height);
-  margin-top: -1.00px;
-  position: relative;
-  white-space: nowrap;
-  width: fit-content;
+.create-course-form-group {
+  width: 100%;
+  margin-bottom: 25px; /* Increased spacing for better readability */
 }
 
-.create-course .mentor-course {
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-color: #cfd7d9;
-  height: 53px;
-  left: 0;
-  position: absolute;
-  top: 53px;
-  width: 290px;
+.create-course-form-group label {
+  font-weight: bold;
+  margin-bottom: 8px; /* Slightly increased margin for clarity */
+  display: block;
+  color: #043873;
+  font-size: 1.1rem; /* Slightly larger font size for labels */
 }
 
-.create-course .text-wrapper {
-  color: var(--grey-700);
-  font-family: var(--small-text-font-family);
-  font-size: var(--small-text-font-size);
-  font-style: var(--small-text-font-style);
-  font-weight: var(--small-text-font-weight);
-  height: 21px;
-  left: 16px;
-  letter-spacing: var(--small-text-letter-spacing);
-  line-height: var(--small-text-line-height);
-  position: absolute;
-  top: 15px;
-  white-space: nowrap;
-}
-
-.create-course .vector {
-  height: 7px;
-  left: 243px;
-  position: absolute;
-  top: 25px;
-  width: 15px;
-}
-
-.create-course .my-reviews-wrapper {
-  align-items: center;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-color: #cfd7d9;
-  display: flex;
-  gap: 8px;
-  left: 0;
-  padding: 16px;
-  position: absolute;
-  top: 106px;
-  width: 290px;
-}
-
-.create-course .text-wrapper-2 {
-  color: var(--grey-700);
-  font-family: var(--small-text-font-family);
-  font-size: var(--small-text-font-size);
-  font-style: var(--small-text-font-style);
-  font-weight: var(--small-text-font-weight);
-  letter-spacing: var(--small-text-letter-spacing);
-  line-height: var(--small-text-line-height);
-  margin-top: -1.00px;
-  position: relative;
-  white-space: nowrap;
-  width: fit-content;
-}
-
-.create-course .div-wrapper {
-  align-items: center;
-  display: flex;
-  gap: 8px;
-  left: 0;
-  padding: 16px;
-  position: absolute;
-  top: 212px;
-  width: 290px;
-}
-
-.create-course .frame-4 {
-  align-items: center;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-color: #cfd7d9;
-  display: flex;
-  gap: 8px;
-  left: 0;
-  padding: 16px;
-  position: absolute;
-  top: 159px;
-  width: 290px;
-}
-
-.create-course .button {
-  align-items: center;
-  background-color: var(--greytext-dark);
-  border-radius: 8px;
-  display: inline-flex;
-  gap: 6px;
-  height: 48px;
-  justify-content: center;
-  left: 1217px;
-  padding: 10px 24px;
-  position: absolute;
-  top: 2078px;
-}
-
-.create-course .label {
-  color: var(--white);
-  font-family: var(--button-text-font-family);
-  font-size: var(--button-text-font-size);
-  font-style: var(--button-text-font-style);
-  font-weight: var(--button-text-font-weight);
-  letter-spacing: var(--button-text-letter-spacing);
-  line-height: var(--button-text-line-height);
-  position: relative;
-  white-space: nowrap;
-  width: fit-content;
-}
-
-.create-course .icon-arrow-narrow {
-  height: 24px !important;
-  position: relative !important;
-  width: 24px !important;
-}
-/* Error message style */
-.error {
-    color: #D9534F; /* Bootstrap danger color for error messages */
-}
-
-/* Form labels */
-.create-course label {
-    display: block;
-    margin-bottom: 5px;
-    color: #4F76F6; /* Primary light blue */
-}
-
-/* Input fields and textarea */
 .create-course input,
+.create-course select,
 .create-course textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #CFD7D9; /* Light gray border */
-    border-radius: 4px;
-    font-size: 16px;
-    color: #043873; /* Dark blue text */
+  width: 100%;
+  padding: 12px; /* Increased padding for a more comfortable input area */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 12px; /* Increased margin for better separation */
 }
 
-/* Button styles */
+.create-course textarea {
+  height: 300px; /* Increased height for textarea */
+}
+
+.create-course input:focus,
+.create-course select:focus,
+.create-course textarea:focus {
+  border-color: #4F76F6;
+  outline: none;
+}
+
 .create-course button {
-    background-color: #4F76F6; /* Primary light blue */
-    color: #FFFFFF; /* White text */
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+  background-color: #28a745;
+  color: white;
+  padding: 12px; /* Increased padding for buttons */
+  border: none;
+  width: 100%;
+  margin-top: 20px;
+  cursor: pointer;
 }
 
-/* Button hover state */
 .create-course button:hover {
-    background-color: #043873; /* Darker blue for hover effect */
+  background-color: #218838;
 }
 
-/* Responsive design for smaller screens */
+/* Error Message */
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 12px; /* Slightly increased margin */
+}
+
+/* Responsive for smaller screens */
 @media (max-width: 768px) {
-    .create-course {
-        padding: 15px;
-    }
+  .create-course-container {
+    flex-direction: column;
+  }
 
-    .create-course h1 {
-        font-size: 24px;
-    }
-
-    .create-course label, .create-course button {
-        font-size: 14px;
-    }
+  .create-course-left-panel,
+  .create-course-right-panel {
+    width: 100%;
+    max-width: 100%;
+  }
 }
