@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Outlet, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { FaSearch, FaBell } from 'react-icons/fa'; // Import FaBell and FaSearch
+import { FaSearch, FaBell, FaFacebookMessenger } from 'react-icons/fa';
 import './Layout.css';
+// import Chatbot from './chatbot/chatbot';
 
 function Layout() {
     const [isCheckAdmin, setIsCheckAdmin] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
-
     const [isCheckESP, setIsCheckESP] = useState(false);
     const [isESP, setIsESP] = useState(false);
-
     const [isStudent, setIsStudent] = useState(false);
-
     const [isLoading, setLoading] = useState(true);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [searchIndex, setSearchIndex] = useState('');
+    // const [isChatbotVisible, setIsChatbotVisible] = useState(false);
 
     const navigate = useNavigate();
-    const location = useLocation();
 
+    // const location = useLocation();
     useEffect(() => {
         const checkAdmin = async () => {
             try {
@@ -29,6 +29,7 @@ function Layout() {
                     console.log('Admin is loggin');
                 }
             } catch (err) {
+                console.log(err);
                 setIsCheckAdmin(true);
                 setIsAdmin(false);
             } finally {
@@ -48,13 +49,13 @@ function Layout() {
                     console.log('ESP is loggin');
                 }
             } catch (err) {
+                console.log(err);
                 setIsCheckESP(true);
                 setIsESP(false);
             } finally {
                 setLoading(false);
             }
         };
-
         checkESP();
     }, [isCheckAdmin]);
 
@@ -68,13 +69,13 @@ function Layout() {
                     console.log('Student is loggin');
                 }
             } catch (err) {
+                console.log(err);
                 console.log('No one is loggin');
                 setIsESP(false);
             } finally {
                 setLoading(false);
             }
         };
-
         checkESP();
     }, [isCheckESP]);
 
@@ -92,6 +93,8 @@ function Layout() {
 
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
+    // const toggleChatbot = () => setIsChatbotVisible(!isChatbotVisible);
+
     const handleSignOut = async () => {
         try {
             await axios.post('http://localhost:5000/auth/signout', {}, { withCredentials: true });
@@ -107,7 +110,8 @@ function Layout() {
         return (
             <div className="layout-container">
                 Loading...
-            </div>);
+            </div>
+        );
     } else {
         return (
             <div className="layout-container">
@@ -133,6 +137,7 @@ function Layout() {
                             <li><a href="/servey">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
                             <li><a href="/course/view">KHÓA HỌC</a></li>
                             <li><a href="/about">VỀ CHÚNG TÔI</a></li>
+                            <li><FaFacebookMessenger className="notification-icon" onClick={() => navigate('/chatbot')} /></li>
                         </ul>
 
                         <FaBell className="notification-icon" />
@@ -162,8 +167,7 @@ function Layout() {
                                             <li className='li1'><a className="signin" href="/signin">Đăng nhập </a></li>
                                             <li className='li1'><a className="signup" href="/signup">Đăng ký</a></li>
                                         </>
-                                    )
-                                    }
+                                    )}
                                 </ul>
                             </div>
                         )}
@@ -171,7 +175,13 @@ function Layout() {
                 </header>
 
                 <main className="main-content">
+                {/* {isChatbotVisible && (
+                        <div className="chatbot-overlay">
+                            <Chatbot />
+                        </div>
+                    )} */}
                     <Outlet />
+                    
                 </main>
 
                 <footer className="footer">

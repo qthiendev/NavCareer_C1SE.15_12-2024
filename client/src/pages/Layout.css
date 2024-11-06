@@ -170,9 +170,23 @@ header {
   cursor: pointer;
   padding-right: 10px;
   transition: transform 0.3s ease;
+  
 }
 
 .notification-icon:hover {
+  transform: scale(1.2);
+}
+
+.messenger-icon {
+  text-decoration: none;
+  font-size: 20px;
+  color: rgb(211, 12, 12);
+  cursor: pointer;
+  padding-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.messenger-icon:hover {
   transform: scale(1.2);
 }
 
@@ -227,4 +241,18 @@ header {
   .auth-links a {
       text-align: center;
   }
+  .chatbot-overlay {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
 }
