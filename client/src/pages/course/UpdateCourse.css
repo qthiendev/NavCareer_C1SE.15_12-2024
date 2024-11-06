@@ -104,9 +104,9 @@
 }
 
 /* Input and Textarea styles */
-input[type="text"],
-input[type="number"],
-textarea {
+.input[type="text"],
+.input[type="number"],
+.textarea1 {
     padding: 10px; /* Inner padding */
     border: 1px solid #d1d5db; /* Border color */
     border-radius: 5px; /* Rounded corners */
