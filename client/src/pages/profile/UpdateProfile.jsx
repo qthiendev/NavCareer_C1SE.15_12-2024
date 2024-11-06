@@ -5,6 +5,7 @@ import './UpdateProfile.css';
 
 function UpdateProfile() {
     const [profile, setProfile] = useState({});
+    const [avatarPreview, setAvatarPreview] = useState('');
     const [banChecked, setBanChecked] = useState(false);
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
@@ -16,7 +17,7 @@ function UpdateProfile() {
     useEffect(() => {
         const checkBanStatus = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateProfile', { withCredentials: true });
+                await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateProfile', { withCredentials: true });
                 setBanChecked(true);
             } catch (error) {
                 alert('BANNED');
@@ -38,6 +39,7 @@ function UpdateProfile() {
 
                 const birthdate = new Date(response.data.user_birthdate);
                 setProfile(response.data);
+                setAvatarPreview(response.data.avatar); // Set initial avatar preview
                 setDay(birthdate.getDate());
                 setMonth(birthdate.getMonth() + 1);
                 setYear(birthdate.getFullYear());
@@ -57,6 +59,33 @@ function UpdateProfile() {
             [name]: value === 'true' ? true : value === 'false' ? false : value,
         }));
     };
+
+    const handleAvatarChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Check file size (30 KB = 30 * 1024 bytes)
+            if (file.size > 50 * 1024) {
+                alert('File size should not exceed 50 KB. Please choose a smaller image.');
+                return;
+            }
+    
+            // Check file type (only allow PNG and JPEG)
+            if (file.type === 'image/png' || file.type === 'image/jpeg') {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setAvatarPreview(reader.result);
+                    setProfile((prevProfile) => ({
+                        ...prevProfile,
+                        avatar: reader.result, // Update the profile with the new avatar
+                    }));
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select a valid PNG or JPEG image.');
+            }
+        }
+    };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -88,7 +117,7 @@ function UpdateProfile() {
         <div className='profile-container'>
             <div className='left-panel'>
                 <div className='profile-header'>
-                    <img src={profile?.avatar} alt='Avatar' className='profile-avatar' />
+                    <img src={avatarPreview || profile?.avatar} alt='Avatar' className='profile-avatar' />
                     <h2 className='profile-name'>{profile?.user_alias || profile?.user_full_name}</h2>
                     <p className='profile-bio'>{profile?.user_bio || 'Ở đây hơi vắng vẻ'}</p>
                     <button className='share-profile-btn'>
@@ -210,12 +239,10 @@ function UpdateProfile() {
                     </div>
                     <div className='avatar-section'>
                         <h3>Ảnh đại diện</h3>
-                        <div className='avatar-preview'>
-                            <div className='avatar-placeholder'>Chọn ảnh</div>
-                        </div>
+                        {avatarPreview && <img src={avatarPreview} alt='Avatar Preview' className='avatar-preview' />}
                         <div className='avatar-upload'>
                             <label htmlFor='avatarUpload'>Thêm/thay đổi ảnh đại diện của bạn</label>
-                            <input type='file' id='avatarUpload' name='avatarUpload' />
+                            <input type='file' id='avatarUpload' name='avatarUpload' accept='image/png, image/jpeg' onChange={handleAvatarChange} />
                         </div>
                     </div>
                     <div className='links-section'>

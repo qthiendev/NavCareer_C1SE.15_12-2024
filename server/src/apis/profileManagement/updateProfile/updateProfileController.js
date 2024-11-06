@@ -14,7 +14,8 @@ const updateProfile = async (req, res) => {
             user_email, 
             user_phone_number, 
             user_address, 
-            user_status
+            user_status,
+            avatar, // send at base64
         } = req.body;
 
         if (!user_full_name
