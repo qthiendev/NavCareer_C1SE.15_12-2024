@@ -84,7 +84,7 @@ function CreateCourse() {
             <div className="create-course-left-panel">
                 <div className="create-course-header">
                     <img
-                        src="/path/to/avatar" // Adjust to your avatar source
+                        src="/path/to/avatar" 
                         alt="Avatar"
                         className="create-course-avatar"
                     />
