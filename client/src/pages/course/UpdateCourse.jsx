@@ -160,14 +160,14 @@ function UpdateCourse() {
                 </div>
                 <div>
                     <label>Course Short Description</label>
-                    <textarea className='textarea1'
+                    <textarea
                         value={courseData?.course_short_description || ''}
                         onChange={(e) => setCourseData({ ...courseData, course_short_description: e.target.value })}
                     />
                 </div>
                 <div>
                     <label>Course Full Description</label>
-                    <textarea className='textarea1'
+                    <textarea
                         value={courseData?.course_full_description || ''}
                         onChange={(e) => setCourseData({ ...courseData, course_full_description: e.target.value })}
                     />
@@ -209,8 +209,7 @@ function UpdateCourse() {
                         </Droppable>
                     </DragDropContext>
                 </div>
-                <button type="submit">Update Course</button>
-            </form>
+            </div>
         </div>
     );
 }

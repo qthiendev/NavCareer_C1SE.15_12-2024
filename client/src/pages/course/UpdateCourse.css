@@ -1,153 +1,112 @@
-/* Global Styles */
-
-/* Update Course Container */
-.update-course-container {
-    display: flex; /* Use flexbox for layout */
-    justify-content: flex-start; /* Align children to the start */
-    padding: 20px;
-}
-
-/* Left Panel Styles */
-.update-course-left-panel {
-    width: 39%; /* Fixed width for left panel */
-    background-color: #fff; /* White background */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
-    position: sticky;
-    top: 20px; /* Sticky positioning */
-    margin-right: 20px; /* Space between panels */
-}
-
-/* Right Panel Styles */
-.update-course-right-panel {
-    width: 59%; /* Fixed width for right panel */
-    background-color: #fff; /* White background */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    position: sticky;
-    top: 20px; /* Sticky positioning */
-}
-
-/* Profile Header */
-.update-course-profile-header {
+/* update-course-main-container */
+.update-course-main-container {
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Center contents horizontally */
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+/* update-course-sidebar */
+.update-course-sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.update-course-profile-header {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-/* Avatar Styles */
 .update-course-profile-avatar {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
 
-/* Profile Name */
 .update-course-profile-name {
-    font-size: 1.4rem;
-    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.update-course-profile-bio {
+    color: gray;
+    font-size: 0.9em;
     margin-bottom: 10px;
-    color: #333; /* Darker text color */
 }
 
-/* Share Profile Button */
-.update-course-share-profile-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    border: 1px solid #d1d5db;
-    padding: 8px 16px;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    color: #4b5563;
+.update-course-profile-share-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    width: 100%;
+    margin-top: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-.update-course-share-profile-btn:hover {
-    background-color: #f3f4f6; /* Light grey on hover */
+.update-course-profile-share-btn:hover {
+    background-color: #0056b3;
 }
 
-/* Profile Menu */
 .update-course-profile-menu {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
-.update-course-profile-menu ul {
-    list-style: none;
-    padding: 0;
-}
-
-/* Menu Item Styles */
 .update-course-menu-item {
-    padding: 12px 0;
-    font-size: 1rem;
-    color: #4b5563;
+    padding: 10px;
     cursor: pointer;
-    border-bottom: 1px solid #e5e7eb;
-    transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 .update-course-menu-item.active {
-    background-color: #dbeafe; /* Active background */
-    border-radius: 5px;
-    color: #4F76F6; /* Active text color */
+    background-color: #007bff;
+    color: white;
 }
 
-.update-course-menu-item:hover {
-    background-color: #f3f4f6; /* Light grey on hover */
-    border-radius: 5px;
-    color: #4F76F6; /* Change text color on hover */
+.update-course-content {
+    flex: 1;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
-/* Form Styles */
-.update-course-info {
-    margin-top: 20px; /* Space above the form */
+.update-course-form-container {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
 }
 
-/* Style for form rows */
-.update-course-form-row {
-    margin-bottom: 20px; /* Increased space between rows */
-}
-
-/* Style for form groups */
-.update-course-form-group {
+.update-course-form-section {
     display: flex;
-    flex-direction: column; /* Stack label and input vertically */
+    flex-direction: column;
 }
 
-/* Label styles */
-label {
-    margin-bottom: 5px; /* Space between label and input */
-    font-weight: 500; /* Bold labels */
-    color: #333; /* Darker color for visibility */
+.update-course-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-/* New styles for form group labels */
+.update-course-form-group {
+    width: 100%;
+}
+
 .update-course-form-group label {
-    width: 200px; /* Set the desired width for the label */
-    display: inline-block; /* Ensure the label takes up the defined width */
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-/* Adjust input styles for better alignment */
-.update-course-form-group input[type="text"],
-.update-course-form-group input[type="number"],
+.update-course-form-group input,
+.update-course-form-group select,
 .update-course-form-group textarea {
     margin-left: 10px; /* Add some space between the label and the input */
 }
 
 /* Input and Textarea styles */
-.input[type="text"],
-.input[type="number"],
- .textarea1 {
+input[type="text"],
+input[type="number"],
+textarea {
     padding: 10px; /* Inner padding */
     border: 1px solid #d1d5db; /* Border color */
     border-radius: 5px; /* Rounded corners */
