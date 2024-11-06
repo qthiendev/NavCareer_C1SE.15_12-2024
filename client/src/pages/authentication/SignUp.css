@@ -156,3 +156,9 @@ background: var(--grey-text-dark, #020617);
     margin-bottom: 8px;
     line-height: 1.6;
 }
+.error {
+    color: red; /* Màu chữ cảnh báo */
+    font-size: 30px; /* Tăng kích thước chữ (bạn có thể điều chỉnh số này để phù hợp hơn) */
+    font-weight: bold; /* Tùy chọn: Làm đậm chữ */
+    margin-top: 10px; /* Tạo khoảng cách với phần tử phía trên */
+}

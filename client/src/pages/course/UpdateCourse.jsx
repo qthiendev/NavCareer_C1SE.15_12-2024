@@ -160,14 +160,14 @@ function UpdateCourse() {
                 </div>
                 <div>
                     <label>Course Short Description</label>
-                    <textarea
+                    <textarea className='textarea1'
                         value={courseData?.course_short_description || ''}
                         onChange={(e) => setCourseData({ ...courseData, course_short_description: e.target.value })}
                     />
                 </div>
                 <div>
                     <label>Course Full Description</label>
-                    <textarea
+                    <textarea className='textarea1'
                         value={courseData?.course_full_description || ''}
                         onChange={(e) => setCourseData({ ...courseData, course_full_description: e.target.value })}
                     />

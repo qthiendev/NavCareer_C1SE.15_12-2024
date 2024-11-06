@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 80vh;
     gap: 10px; 
     margin-right: 300px;
     border-radius: 10px;
@@ -42,7 +42,7 @@
    
 }
 
-.label {
+.label1 {
     color: var(--grey-900, #0F172A);
     font-family: Inter, sans-serif;
     font-size: 18px;
@@ -50,9 +50,9 @@
     line-height: 160%;
 }
 
-.inputtext1 {
-    width: 700px;
-    height: 58px;
+.inputtext12 {
+    width: 500px;
+    height: 59px;
     border-radius: 10px;
     border: 1px solid #CFD7D9;
     background: #FFF;
