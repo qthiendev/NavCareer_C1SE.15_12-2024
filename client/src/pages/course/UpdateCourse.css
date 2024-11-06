@@ -100,68 +100,80 @@
 .update-course-form-group input,
 .update-course-form-group select,
 .update-course-form-group textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    margin-left: 10px; /* Add some space between the label and the input */
 }
 
-.update-course-form-group textarea {
-    height: 150px;
+/* Input and Textarea styles */
+input[type="text"],
+input[type="number"],
+textarea {
+    padding: 10px; /* Inner padding */
+    border: 1px solid #d1d5db; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1rem; /* Font size */
+    color: #333; /* Darker text for input */
+    transition: border-color 0.3s; /* Transition for focus */
 }
 
-.update-course-module-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    border-color: #4F76F6; /* Highlight border on focus */
+    outline: none; /* Remove default outline */
 }
 
-.update-course-module-item input {
-    flex: 1;
-    padding: 5px;
+/* Button styles */
+button {
+    padding: 10px 15px; /* Inner padding */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #4F76F6; /* Primary button color */
+    color: white; /* White text */
+    font-size: 1rem; /* Font size */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s; /* Transition for hover */
 }
 
-.delete-module-button {
-    background-color: red;
-    color: white;
-    padding: 5px;
-    border: none;
-    cursor: pointer;
+button:hover {
+    background-color: #3e63d2; /* Darker on hover */
 }
 
-.delete-module-button:hover {
-    background-color: darkred;
+/* Error message styles */
+.update-course-error-message {
+    color: red; /* Red color for errors */
+    margin-top: 10px; /* Space above error message */
 }
 
-.add-module-button {
-    background-color: green;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
+/* Module item button spacing */
+.update-course-module-item button {
+    margin-left: 10px; /* Space between module name input and delete button */
 }
 
-.add-module-button:hover {
-    background-color: darkgreen;
+/* Submit button spacing */
+.update-course-right-panel button[type="submit"] {
+    margin-top: 20px; /* Space between the form and the submit button */
 }
 
-.update-course-submit-btn {
-    background-color: #28a745;
-    color: white;
-    padding: 10px;
-    border: none;
-    width: 100%;
-    margin-top: 20px;
-    cursor: pointer;
-}
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .update-course-container {
+        flex-direction: column; /* Stack panels vertically on small screens */
+        padding: 15px; /* Reduced padding */
+    }
 
-.update-course-submit-btn:hover {
-    background-color: #218838;
-}
+    .update-course-left-panel,
+    .update-course-right-panel {
+        width: 100%; /* Full width on small screens */
+        margin-right: 0; /* Reset right margin */
+        margin-bottom: 20px; /* Add space between panels */
+    }
 
-.error-message {
-    color: red;
-    margin-top: 10px;
+    .update-course h2 {
+        font-size: 20px; /* Adjusted heading size */
+    }
+
+    .update-course label,
+    .update-course button {
+        font-size: 14px; /* Smaller font size for buttons and labels */
+    }
 }
