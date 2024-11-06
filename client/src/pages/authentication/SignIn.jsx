@@ -65,9 +65,9 @@ function SignIn() {
                 <h2 className='Tieude'>Đăng nhập vào tài khoản của bạn</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="SignIn-form-group">
-                        <label className='label' htmlFor="">Email</label>
+                        <label className='label1' htmlFor="">Email</label>
                         <input
-                            className='inputtext1'
+                            className='inputtext12'
                             type="text"
                             placeholder="Nhập tên người dùng/email"
                             value={account}
@@ -76,9 +76,9 @@ function SignIn() {
                         />
                     </div>
                     <div className="SignIn-form-group">
-                        <label className='label' htmlFor="">Mật khẩu</label>
+                        <label className='label1' htmlFor="">Mật khẩu</label>
                         <input
-                            className='inputtext1'
+                            className='inputtext12'
                             type="password"
                             placeholder="Nhập mật khẩu"
                             value={password}
