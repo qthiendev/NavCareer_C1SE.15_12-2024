@@ -136,38 +136,36 @@ function UpdateCourse() {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <div className="update-course">
-            <h2>
-                Update Course: <a href={`/course/${course_id}`}>{courseData?.course_name}</a>
-            </h2>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <form onSubmit={handleUpdateCourse}>
-                <div>
-                    <label>Course Name</label>
-                    <input
-                        type="text"
-                        value={courseData?.course_name || ''}
-                        onChange={(e) => setCourseData({ ...courseData, course_name: e.target.value })}
-                    />
+        <div className="update-course-main-container">
+            <div className="update-course-sidebar">
+                <div className="update-course-profile-header">
+                    <img src="/path/to/avatar" alt="Avatar" className="update-course-profile-avatar" />
+                    <h2 className="update-course-profile-name">User Full Name</h2>
+                    <p className="update-course-profile-bio">User Bio Here</p>
+                    <button className="update-course-profile-share-btn">
+                        <img src="/img/student_profile/share_icon.svg" alt="Share" className="update-course-share-icon" />
+                        Chia sẻ hồ sơ
+                    </button>
                 </div>
-                <div>
-                    <label>Course Price</label>
-                    <input
-                        type="number"
-                        value={courseData?.course_price || ''}
-                        onChange={(e) => setCourseData({ ...courseData, course_price: e.target.value })}
-                    />
+                <div className="update-course-profile-menu">
+                    <ul>
+                        <li className="update-course-menu-item active">Hồ sơ người dùng</li>
+                        <li className="update-course-menu-item">Các khoá học</li>
+                        <li className="update-course-menu-item">Giảng viên yêu thích</li>
+                        <li className="update-course-menu-item">Tin nhắn</li>
+                        <li style={{ border: 'none' }} className="update-course-menu-item">Liên hệ admin</li>
+                    </ul>
                 </div>
                 <div>
                     <label>Course Short Description</label>
-                    <textarea
+                    <textarea className='textarea1'
                         value={courseData?.course_short_description || ''}
                         onChange={(e) => setCourseData({ ...courseData, course_short_description: e.target.value })}
                     />
                 </div>
                 <div>
                     <label>Course Full Description</label>
-                    <textarea
+                    <textarea className='textarea1'
                         value={courseData?.course_full_description || ''}
                         onChange={(e) => setCourseData({ ...courseData, course_full_description: e.target.value })}
                     />
@@ -209,6 +207,7 @@ function UpdateCourse() {
                         </Droppable>
                     </DragDropContext>
                 </div>
+                <button type="submit">Update Course</button>
             </div>
         </div>
     );
