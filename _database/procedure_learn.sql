@@ -240,7 +240,7 @@ as
 begin
 
 	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadProfileSignedIn');
+	set @IsBanned = dbo.IsUserBanned(@aid, 'CreatePayment');
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
@@ -279,7 +279,7 @@ create procedure UpdatePayment @aid int, @payment_transaction_id nvarchar(max)
 as
 begin
 	declare @IsBanned BIT;
-	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadProfileSignedIn');
+	set @IsBanned = dbo.IsUserBanned(@aid, 'UpdatePayment');
     if @IsBanned = 1 
 	begin
 		select 'BANNED' as [check];
@@ -302,7 +302,69 @@ end
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('CreateTracking', 'P') is not null drop procedure CreateTracking;
+go
+create procedure CreateTracking @aid int, @enrollment_id int, @collection_id int
+as
+begin
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'CreateTracking');
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
 
+	if not exists (select 1 from Enrollments where [enrollment_id] = @enrollment_id)
+	begin
+		select 'U_EID' as [check];
+		return;
+	end
+
+	if exists (select 1 from UserTracking where [enrollment_id] = @enrollment_id and [collection_id] = @collection_id)
+	begin
+		select 'E_TID' as [check];
+		return;
+	end
+
+	insert into UserTracking ([enrollment_id], [collection_id])
+	values (@enrollment_id, @collection_id);
+
+	if @@ROWCOUNT = 1
+	begin
+		select 'SUCCESSED' as [check];
+		return;
+	end
+
+	select 'FAILED' as [check];
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadTracking', 'P') is not null drop procedure ReadTracking;
+go
+create procedure ReadTracking @aid int, @enrollment_id int
+as
+begin
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadTracking');
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	if not exists (select 1 from Enrollments where [enrollment_id] = @enrollment_id)
+	begin
+		select 'U_EID' as [check];
+		return;
+	end
+
+	select [tracking_id], [enrollment_id], [collection_id]
+	from UserTracking
+	where [enrollment_id] = @enrollment_id
+end
+go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 grant execute on dbo.ReadCollection to [NAV_ADMIN];
@@ -336,3 +398,11 @@ grant execute on dbo.ReadPayment to [NAV_STUDENT];
 grant execute on dbo.UpdatePayment to [NAV_ADMIN];
 grant execute on dbo.UpdatePayment to [NAV_ESP];
 grant execute on dbo.UpdatePayment to [NAV_STUDENT];
+
+grant execute on dbo.CreateTracking to [NAV_ADMIN];
+grant execute on dbo.CreateTracking to [NAV_ESP];
+grant execute on dbo.CreateTracking to [NAV_STUDENT];
+
+grant execute on dbo.ReadTracking to [NAV_ADMIN];
+grant execute on dbo.ReadTracking to [NAV_ESP];
+grant execute on dbo.ReadTracking to [NAV_STUDENT];

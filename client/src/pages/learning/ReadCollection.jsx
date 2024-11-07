@@ -1,18 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import './ReadCollection.css'; // Import your unique CSS file
+import './ReadCollection.css';
+
+const renderQuestions = (material) => {
+    return (
+        <div className="read-collection__question">
+            <h3>
+                Question {material.material_ordinal}: {material.material_content}
+            </h3>
+            <p>{material.question_description}</p>
+            {material.answers.map((answer) => (
+                <div key={answer.answer_ordinal} className="read-collection__answer">
+                    <input
+                        type={material.question_type_name === 'Multiple choice' ? 'radio' : 'checkbox'}
+                        id={`answer-${material.material_ordinal}-${answer.answer_ordinal}`}
+                        name={`question-${material.material_ordinal}`}
+                    />
+                    <label htmlFor={`answer-${material.material_ordinal}-${answer.answer_ordinal}`}>
+                        {answer.answer_ordinal}. {answer.answer_description}
+                    </label>
+                </div>
+            ))}
+        </div>
+    );
+};
 
 const ReadCollection = () => {
     const navigate = useNavigate();
     const [collectionData, setCollectionData] = useState(null);
-    const [frameData, setFrameData] = useState(null);
+    const [eid, setEid] = useState(null);
     const [mediaFiles, setMediaFiles] = useState({});
-    const [enrollmentCheck, setErollmentCheck] = useState(false);
+    const [enrollmentCheck, setEnrollmentCheck] = useState(false);
+    const [resourceCheck, setResourceCheck] = useState(false);
+    const [tracking, setTracking] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [modules, setModules] = useState([]); // State to hold modules
-    const [searchParams] = useSearchParams();
-    const [expandedModules, setExpandedModules] = useState({}); // Track expanded/collapsed state
+    const [modules, setModules] = useState([]);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [expandedModules, setExpandedModules] = useState({});
 
     const c = searchParams.get('c');
     const m = searchParams.get('m');
@@ -27,10 +52,13 @@ const ReadCollection = () => {
                     alert('Bạn chưa tham gia khóa học này!');
                     navigate(`/course/${c}`);
                 }
+                setEid(response.data.enrollment_id);
             } catch (error) {
                 console.error('Failed to fetch enrollment data:', error);
+                alert('Bạn chưa tham gia khóa học này!');
+                navigate(`/course/${c}`);
             } finally {
-                setErollmentCheck(true);
+                setEnrollmentCheck(true);
             }
         };
 
@@ -39,37 +67,32 @@ const ReadCollection = () => {
 
     useEffect(() => {
         const fetchCollection = async () => {
-            if (!c, !m, !co, !enrollmentCheck)
-                return;
+            if (!c || !m || !co || !enrollmentCheck) return;
             try {
+                setLoading(true);
                 const responseData = await axios.get(`http://localhost:5000/edu/collection`, {
                     params: { c, m, co },
                     withCredentials: true
                 });
-                const collections = responseData.data.collections;
-                setCollectionData(collections);
+                setCollectionData(responseData.data.collections);
 
                 const responseFrame = await axios.get(`http://localhost:5000/edu/frame`, {
                     params: { c },
                     withCredentials: true
                 });
-                const modules = responseFrame.data.modules;
-                setFrameData(modules);
-                setModules(modules); // Store modules data
-
+                setModules(responseFrame.data.modules);
             } catch (error) {
                 console.error('Error fetching collection:', error);
             }
-        }
-        
-        fetchCollection();
-    }, [enrollmentCheck, c, m, co]);
+        };
 
+        fetchCollection();
+    }, [c, m, co, enrollmentCheck]);
 
     const toggleModule = (moduleId) => {
         setExpandedModules((prev) => ({
             ...prev,
-            [moduleId]: !prev[moduleId], // Toggle the current module's expanded state
+            [moduleId]: !prev[moduleId],
         }));
     };
 
@@ -87,7 +110,6 @@ const ReadCollection = () => {
                         const material = materials[i];
                         await delay(500);
 
-                        // Only fetch media for Image and Video types
                         if (material.material_type_name === 'Image' || material.material_type_name === 'Video') {
                             const mediaResponse = await axios.get(`http://localhost:5000/edu/media`, {
                                 params: { c, m, co, filePath: material.material_content },
@@ -104,46 +126,64 @@ const ReadCollection = () => {
                     }
                 }
                 setLoading(false);
+                setResourceCheck(true);
             } catch (error) {
                 console.error('Error fetching resources:', error);
+                setLoading(false);
             }
         };
 
         fetchResources();
     }, [c, m, co, collectionData]);
 
-    const renderQuestions = (material) => {
-        return (
-            <div className="read-collection__question">
-                <h3>
-                    Question {material.material_ordinal}: {material.material_content}
-                </h3>
-                <p>{material.question_description}</p>
-                {material.answers.map((answer) => (
-                    <div key={answer.answer_ordinal} className="read-collection__answer">
-                        <input
-                            type={material.question_type_name === 'Multiple choice' ? 'radio' : 'checkbox'}
-                            id={`answer-${material.material_ordinal}-${answer.answer_ordinal}`}
-                            name={`question-${material.material_ordinal}`}
-                        />
-                        <label htmlFor={`answer-${material.material_ordinal}-${answer.answer_ordinal}`}>
-                            {answer.answer_ordinal}. {answer.answer_description}
-                        </label>
-                    </div>
-                ))}
-            </div>
-        );
+    useEffect(() => {
+        const fetchTracking = async () => {
+            try {
+                if (!resourceCheck || eid === null || eid === undefined) return;
+                const response = await axios.get(`http://localhost:5000/edu/read-tracking?eid=${eid}`, { withCredentials: true });
+                setTracking(response.data || {});
+            } catch (error) {
+                console.error('Error fetching tracking:', error);
+            }
+        };
+
+        fetchTracking();
+    }, [resourceCheck, eid]);
+
+    const handleCollectionClick = (moduleOrdinal, collectionOrdinal) => {
+        setSearchParams({ c, m: moduleOrdinal, co: collectionOrdinal });
+        window.location.reload();
+    };
+
+    const trackingArray = Object.values(tracking || {}).filter(
+        (item) => typeof item === 'object' && item !== null && 'collection_id' in item
+    );
+
+    const handleMarkAsViewed = async () => {
+        try {
+            const response = await axios.post(`http://localhost:5000/edu/create-tracking?eid=${eid}&cid=${co}`, null, { withCredentials: true });
+            if (response.status === 200) {
+                alert("Đánh dấu thành công");
+            } else if (response.status === 201) {
+                alert("Đã đánh dấu");
+            } else if (response.status === 203) {
+                alert("Đánh dấu thất bại");
+            }
+            window.location.reload();
+        } catch (error) {
+            console.error("Error marking as viewed:", error);
+            alert("Failed to mark as viewed.");
+        }
     };
 
     if (loading) {
-        return <div className="read-collection__loading">Loading...</div>;
+        return <div className="read-collection__loading">Loading resources...</div>;
     }
 
     return (
         <div className="collection-container">
             <div className="read-collection">
                 <div className="read-collection__sidebar">
-                    {/* Render the structured list for modules and collections */}
                     {modules.map((module, moduleIndex) => (
                         <div className="read-collection__module" key={module.module_id}>
                             <h2 onClick={() => toggleModule(module.module_id)} className="read-collection__module-header">
@@ -151,13 +191,20 @@ const ReadCollection = () => {
                             </h2>
                             {expandedModules[module.module_id] && (
                                 module.collections.length > 0 ? (
-                                    module.collections.map((collection) => (
-                                        <div className="read-collection__collection" key={collection.collection_id}>
-                                            <a href={`/edu/collection?c=${c}&m=${module.module_ordinal}&co=${collection.collection_ordinal}`}>
+                                    module.collections.map((collection) => {
+                                        const isTracked = trackingArray.some(item => item.collection_id === collection.collection_id);
+                                        const isActive = collection.collection_ordinal === parseInt(co) && module.module_ordinal === parseInt(m);
+
+                                        return (
+                                            <div
+                                                className={`read-collection__collection ${isTracked ? 'tracked' : ''} ${isActive ? 'active' : ''}`}
+                                                key={collection.collection_id}
+                                                onClick={() => handleCollectionClick(module.module_ordinal, collection.collection_ordinal)}
+                                            >
                                                 {`${moduleIndex + 1}.${collection.collection_ordinal + 1}. ${collection.collection_name}`}
-                                            </a>
-                                        </div>
-                                    ))
+                                            </div>
+                                        );
+                                    })
                                 ) : (
                                     <div className="read-collection__no-collection">
                                         <p>No collections available for this module.</p>
@@ -176,7 +223,6 @@ const ReadCollection = () => {
                             <div className="read-collection__item" key={key}>
                                 <h2 className="read-collection__title">{collection_name}</h2>
                                 {materials.map((material, index) => {
-                                    // Handle different material types
                                     switch (material.material_type_name) {
                                         case 'Image':
                                             return (
@@ -205,10 +251,10 @@ const ReadCollection = () => {
                                             );
 
                                         case 'Question':
-                                            return renderQuestions(material); // Render questions and answers
+                                            return renderQuestions(material);
 
                                         default:
-                                            return null; // Handle unsupported material types
+                                            return null;
                                     }
                                 })}
                             </div>
@@ -216,6 +262,9 @@ const ReadCollection = () => {
                     })}
                 </div>
             </div>
+            <button className="mark-as-viewed-button" onClick={handleMarkAsViewed}>
+                Đã xem
+            </button>
         </div>
     );
 };

@@ -8,6 +8,7 @@ const { createOrder } = require('../apis/educationManagement/enrollment/payment/
 const { enroll } = require('../apis/educationManagement/enrollment/enrollCourse/enrollController');
 const { readEnroll, readEnrollOf } = require('../apis/educationManagement/enrollment/readEnrollment/readEnrollmentController');
 const { getCollection, serveMedia, getFrame } = require('../apis/educationManagement/learning/getLearn/getLearnController');
+const { createTracking, readTracking } = require('../apis/educationManagement/learning/tracking/trackingController');
 
 router.post('/payment/create', authMiddleware.isSignedIn, createOrder);
 
@@ -18,5 +19,8 @@ router.get('/read-enroll-of', authMiddleware.isSignedIn, readEnrollOf);
 router.get('/collection', authMiddleware.isSignedIn, getCollection);
 router.get('/frame', authMiddleware.isSignedIn, getFrame);
 router.get('/media', authMiddleware.isSignedIn, serveMedia);
+
+router.post('/create-tracking', authMiddleware.isSignedIn, createTracking);
+router.get('/read-tracking', authMiddleware.isSignedIn, readTracking);
 
 module.exports = router;

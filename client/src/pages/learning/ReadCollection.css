@@ -1,9 +1,7 @@
-/* ReadCollection.css */
-
-/* General container */
 .collection-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin: 0 auto;
     background-color: #f9f9f9;
     padding: 20px;
@@ -16,13 +14,13 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
-/* Sidebar styling */
 .read-collection__sidebar {
     width: 350px;
-    background-color: #f0f0f0; /* Light background */
-    color: #333; /* Dark text color */
+    background-color: #f0f0f0;
+    color: #333;
     padding: 20px;
     font-size: 16px;
     font-family: Arial, sans-serif;
@@ -35,12 +33,12 @@
     margin-bottom: 15px;
     padding: 10px 15px;
     border-radius: 5px;
-    background-color: #e7e7e7; /* Slightly darker light color */
+    background-color: #e7e7e7;
     transition: background-color 0.3s;
 }
 
 .read-collection__module:hover {
-    background-color: #d9d9d9; /* Darker shade on hover */
+    background-color: #d9d9d9;
 }
 
 .read-collection__module-header {
@@ -48,35 +46,33 @@
     font-weight: bold;
     color: #333;
     cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
-.read-collection__arrow {
-    transition: transform 0.3s;
-    color: #666; /* Dark grey for arrow */
-}
-
-.read-collection__arrow.expanded {
-    transform: rotate(90deg);
-}
-
-/* Collection links within modules */
 .read-collection__collection {
-    padding: 8px 15px;
+    padding: 12px 15px;
     font-size: 16px;
-    color: #007bff; /* Blue color for links */
+    color: #333;
     text-decoration: none;
     display: block;
     border-radius: 4px;
     margin-top: 5px;
-    transition: color 0.3s, background-color 0.3s;
+    background-color: #e7e7e7;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.read-collection__collection.tracked {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.read-collection__collection.active {
+    background-color: #007bff;
+    color: #fff;
 }
 
 .read-collection__collection:hover {
-    color: #0056b3; /* Darker blue on hover */
-    background-color: #f0f0f0; /* Light background on hover */
+    background-color: #d9d9d9;
 }
 
 .read-collection__no-collection {
@@ -85,7 +81,6 @@
     font-style: italic;
 }
 
-/* Content section styling */
 .read-collection__content {
     flex-grow: 1;
     padding: 20px;
@@ -96,10 +91,9 @@
     font-size: 24px;
     text-align: center;
     margin-top: 50px;
-    color: #666; /* Dark grey */
+    color: #666;
 }
 
-/* Collection title and media content */
 .read-collection__title {
     font-size: 28px;
     color: #333;
@@ -118,6 +112,29 @@
     margin-bottom: 15px;
 }
 
+.mark-as-viewed-button {
+    padding: 12px 24px;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: center;
+    margin-top: 20px;
+}
+
+.mark-as-viewed-button:hover {
+    background-color: #218838;
+}
+
+.mark-as-viewed-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
 .read-collection__text {
     margin: 10px 0;
     font-size: 16px;
@@ -126,7 +143,6 @@
     font-family: inherit;
 }
 
-/* Question section */
 .read-collection__question {
     margin: 20px 0;
     border: 1px solid #ddd;
