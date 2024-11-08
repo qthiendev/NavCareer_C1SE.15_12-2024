@@ -14,9 +14,11 @@ const updateProfile = async (req, res) => {
             user_email, 
             user_phone_number, 
             user_address, 
-            user_status,
-            avatar, // send at base64
+            user_status, // send at base64
         } = req.body;
+        
+        // Declare avatar only once and initialize immediately
+        // const avatar = req.file ? req.file.filename : '';
 
         if (!user_full_name
             || !user_alias
@@ -29,16 +31,14 @@ const updateProfile = async (req, res) => {
             throw new Error('missing elements', user_full_name, user_alias, user_bio, user_birthdate, user_gender, user_email, user_phone_number, user_address, user_status);
         }
 
-        const result = await tryUpdateProfile(aid, role, user_full_name, 
-            user_alias,
-            user_bio,
-            user_birthdate, 
-            user_gender, 
-            user_email, 
-            user_phone_number, 
-            user_address, 
-            user_status);
-    
+        // Pass avatar as a parameter in tryUpdateProfile
+        const result = await tryUpdateProfile(
+            aid, role, user_full_name, user_alias, user_bio,
+            user_birthdate, user_gender, user_email, user_phone_number,
+            user_address, user_status, 
+            // avatar
+        );
+
         if (result === 'U_AID') {
             console.error(`[${now.toLocaleString()}] at updateProfileController.js/updateProfile | Authentication ${aid} not exist.`);
             return res.status(403).json({
@@ -56,9 +56,9 @@ const updateProfile = async (req, res) => {
         }
 
         if (result === 'SUCCESSED') {
-            console.log(`[${now.toLocaleString()}] at updateProfileController.js/updateProfile | Profile updated succesfuly.`);
+            console.log(`[${now.toLocaleString()}] at updateProfileController.js/updateProfile | Profile updated successfully.`);
             return res.status(200).json({
-                message: `Profile updated succesfuly.`,
+                message: `Profile updated successfully.`,
                 time: now.toLocaleString()
             });
         }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './UpdateProfile.css';
@@ -20,6 +20,8 @@ function UpdateProfile() {
                 await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateProfile', { withCredentials: true });
                 setBanChecked(true);
             } catch (error) {
+                console.log(error);
+                
                 alert('BANNED');
                 navigate(-1);
             }
@@ -63,23 +65,19 @@ function UpdateProfile() {
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Check file size (30 KB = 30 * 1024 bytes)
-            if (file.size > 50 * 1024) {
-                alert('File size should not exceed 50 KB. Please choose a smaller image.');
+            // Kiểm tra kích thước và loại file ảnh
+            if (file.size > 56 * 1024) {
+                alert('File size should not exceed 56 KB. Please choose a smaller image.');
                 return;
             }
-    
-            // Check file type (only allow PNG and JPEG)
             if (file.type === 'image/png' || file.type === 'image/jpeg') {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    setAvatarPreview(reader.result);
-                    setProfile((prevProfile) => ({
-                        ...prevProfile,
-                        avatar: reader.result, // Update the profile with the new avatar
-                    }));
-                };
-                reader.readAsDataURL(file);
+                // Hiển thị ảnh tạm thời trên giao diện trước khi upload lên server
+                setAvatarPreview(URL.createObjectURL(file));
+                // Lưu file vào profile để upload
+                setProfile((prevProfile) => ({
+                    ...prevProfile,
+                    avatar: file, // Lưu file vào profile để gửi qua form
+                }));
             } else {
                 alert('Please select a valid PNG or JPEG image.');
             }
@@ -87,17 +85,34 @@ function UpdateProfile() {
     };
     
 
+    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formattedBirthdate = `${day}/${month}/${year}`;
+    
+        // Tạo FormData để gửi file avatar và các dữ liệu khác
+        const formData = new FormData();
+        formData.append('user_full_name', profile.user_full_name);
+        formData.append('user_alias', profile.user_alias);
+        formData.append('user_bio', profile.user_bio);
+        formData.append('user_birthdate', formattedBirthdate);
+        formData.append('user_gender', profile.user_gender);
+        formData.append('user_email', profile.user_email);
+        formData.append('user_phone_number', profile.user_phone_number);
+        formData.append('user_status', profile.user_status);
+        formData.append('user_address', profile.user_address);
+        
+        // Thêm file avatar nếu có
+        if (profile.avatar) {
+            formData.append('avatar', profile.avatar);
+        }
+    
         try {
             await axios.put(
                 'http://localhost:5000/profile/update',
-                {
-                    ...profile,
-                    user_birthdate: formattedBirthdate,
-                },
-                { withCredentials: true }
+                formData,
+                { withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } }
             );
             alert('Profile updated successfully!');
             navigate(-1);
@@ -105,6 +120,8 @@ function UpdateProfile() {
             setError('Failed to update profile.');
         }
     };
+    
+    
 
     if (loading) return <div>Loading...</div>;
 

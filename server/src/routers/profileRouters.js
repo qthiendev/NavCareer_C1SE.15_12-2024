@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { upload }= require('../middlewares/upload_file');
 
 const authMiddleware = require('../middlewares/authentication');
 
@@ -10,6 +11,6 @@ const { updateProfile } = require('../apis/profileManagement/updateProfile/updat
 
 router.post('/create', authMiddleware.isSignedIn, createProfile);
 router.get('/read', readProfile);
-router.put('/update', authMiddleware.isSignedIn, updateProfile);
+router.put('/update', authMiddleware.isSignedIn,upload.single('avatar') ,updateProfile);
 
 module.exports = router;

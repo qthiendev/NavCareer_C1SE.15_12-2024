@@ -137,7 +137,10 @@ function Layout() {
                             <li><a href="/servey">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
                             <li><a href="/course/view">KHÓA HỌC</a></li>
                             <li><a href="/about">VỀ CHÚNG TÔI</a></li>
+                            <div className='icon-container-mess'>
                             <li><FaFacebookMessenger className="notification-icon" onClick={() => navigate('/chatbot')} /></li>
+                            <span className="description-icon-chatbot">CHAT BOT</span>
+                            </div>
                         </ul>
 
                         <FaBell className="notification-icon" />

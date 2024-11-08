@@ -176,8 +176,9 @@ execute CreateAuthentication 'nav_student', 'nav_student', 'nav_student@gmail.co
 execute CreateAuthentication 'qthiendev', 'qthiendev', 'trinhquythien.dev@gmail.com', 1, 1;
 execute CreateAuthentication 'KeyPhan', '123456', 'mynameispro164@gmail.com', 1, 1;
 execute CreateAuthentication 'phvbarca', '123456', 'phamhavy9b@gmail.com', 1, 1;
-EXECUTE CreateAuthentication 'fadams', 'r%1jwIu8q@', 'cowancarlos@example.net', 2, 1;
+EXECUTE CreateAuthentication 'hoangphuc', 'hoangphuc', 'hoangphuc109@example.net', 2, 1;
 EXECUTE CreateAuthentication 'gabriel30', ')y10OuKx31', 'rbaker@example.com', 3, 1;
+
 
 
 ------------------------------------------------------------------------------------------------------------
