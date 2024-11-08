@@ -88,8 +88,8 @@ function CreateCourse() {
                         alt="Avatar"
                         className="create-course-avatar"
                     />
-                    <h2 className="create-course-name">User Full Name</h2> {/* Adjust to your user's name */}
-                    <p className="create-course-bio">User Bio Here</p> {/* Adjust to your user's bio */}
+                    <h2 className="create-course-name">User Full Name</h2> 
+                    <p className="create-course-bio">User Bio Here</p>
                     <button className="create-course-share-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" />
                         Chia sẻ hồ sơ
@@ -173,7 +173,7 @@ function CreateCourse() {
                                     Tạo hồ sơ
                                 </button>
                             </div>
-                            {error && <p className="error-message">{error}</p>} {/* Display error message if any */}
+                            {error && <p className="error-message">{error}</p>}
                         </div>
                     </form>
                 </div>
