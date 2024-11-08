@@ -139,13 +139,13 @@ function UpdateCourse() {
         <div className="update-course-container">
             <div className="update-course-left-panel">
                 <div className="update-course-profile-header">
-                    <img src="/path/to/avatar" alt="Avatar" className="update-course-profile-avatar" />
-                    <h2 className="update-course-profile-name">User Full Name</h2>
-                    <p className="update-course-profile-bio">User Bio Here</p>
-                    <button className="update-course-share-profile-btn">
+                    {/* <img src="/path/to/avatar" alt="Avatar" className="update-course-profile-avatar" /> */}
+                    <h2 className="update-course-profile-name">NAV CAREER</h2>
+                    <h2 className="update-course-profile-name">Cập nhật khóa học</h2>
+                    {/* <button className="update-course-share-profile-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="update-course-share-icon" />
                         Chia sẻ hồ sơ
-                    </button>
+                    </button> */}
                 </div>
                 <div className="update-course-profile-menu">
                     <ul>
