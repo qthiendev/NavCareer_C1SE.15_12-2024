@@ -149,7 +149,7 @@ function UpdateCourse() {
                 </div>
                 <div className="update-course-profile-menu">
                     <ul>
-                        <li className="update-course-menu-item active">Hồ sơ người dùng</li>
+                        <li className="update-course-menu-item active">Cập nhật khóa học</li>
                         <li className="update-course-menu-item">Các khoá học</li>
                         <li className="update-course-menu-item">Giảng viên yêu thích</li>
                         <li className="update-course-menu-item">Tin nhắn</li>

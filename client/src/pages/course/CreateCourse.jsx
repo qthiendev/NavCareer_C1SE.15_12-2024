@@ -93,7 +93,7 @@ function CreateCourse() {
                 </div>
                 <div className="create-course-menu">
                     <ul>
-                        <li className="create-course-menu-item active">Hồ sơ người dùng</li>
+                        <li className="create-course-menu-item active">Thêm khóa học</li>
                         <li className="create-course-menu-item">Các khoá học</li>
                         <li className="create-course-menu-item">Giảng viên yêu thích</li>
                         <li className="create-course-menu-item">Tin nhắn</li>
