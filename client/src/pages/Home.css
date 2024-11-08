@@ -4,11 +4,11 @@
     display: flex;
     flex-direction: column; /* Sắp xếp theo cột */
     min-height: 100vh; /* Chiều cao toàn màn hình */
+    max-width: auto;
   }
   
   .video-container,
   .intro-container {
-    width: 100%;
     height: auto;
     position: relative;
   }
