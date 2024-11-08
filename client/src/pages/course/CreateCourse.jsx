@@ -83,17 +83,13 @@ function CreateCourse() {
         <div className="create-course-container">
             <div className="create-course-left-panel">
                 <div className="create-course-header">
-                    <img
-                        src="/path/to/avatar" 
-                        alt="Avatar"
-                        className="create-course-avatar"
-                    />
-                    <h2 className="create-course-name">User Full Name</h2> 
-                    <p className="create-course-bio">User Bio Here</p>
-                    <button className="create-course-share-btn">
+                    
+                    <h2 className="create-course-name">NAV CAREER</h2> 
+                    <h2 className="create-course-name">Thêm hồ sơ</h2>
+                    {/* <button className="create-course-share-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" />
                         Chia sẻ hồ sơ
-                    </button>
+                    </button> */}
                 </div>
                 <div className="create-course-menu">
                     <ul>
