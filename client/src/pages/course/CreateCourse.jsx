@@ -83,21 +83,17 @@ function CreateCourse() {
         <div className="create-course-container">
             <div className="create-course-left-panel">
                 <div className="create-course-header">
-                    <img
-                        src="/path/to/avatar" 
-                        alt="Avatar"
-                        className="create-course-avatar"
-                    />
-                    <h2 className="create-course-name">User Full Name</h2> {/* Adjust to your user's name */}
-                    <p className="create-course-bio">User Bio Here</p> {/* Adjust to your user's bio */}
-                    <button className="create-course-share-btn">
+                    
+                    <h2 className="create-course-name">NAV CAREER</h2> 
+                    <h2 className="create-course-name">Thêm hồ sơ</h2>
+                    {/* <button className="create-course-share-btn">
                         <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" />
                         Chia sẻ hồ sơ
-                    </button>
+                    </button> */}
                 </div>
                 <div className="create-course-menu">
                     <ul>
-                        <li className="create-course-menu-item active">Hồ sơ người dùng</li>
+                        <li className="create-course-menu-item active">Thêm khóa học</li>
                         <li className="create-course-menu-item">Các khoá học</li>
                         <li className="create-course-menu-item">Giảng viên yêu thích</li>
                         <li className="create-course-menu-item">Tin nhắn</li>
@@ -173,7 +169,7 @@ function CreateCourse() {
                                     Tạo hồ sơ
                                 </button>
                             </div>
-                            {error && <p className="error-message">{error}</p>} {/* Display error message if any */}
+                            {error && <p className="error-message">{error}</p>}
                         </div>
                     </form>
                 </div>
