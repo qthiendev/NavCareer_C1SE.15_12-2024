@@ -33,8 +33,8 @@ import PaymentCheck from './pages/learning/PaymentCheck.jsx';
 import ReadEnrollment from './pages/learning/ReadEnrollment.jsx';
 import ReadCollection from './pages/learning/ReadCollection.jsx';
 
-import Chatbot from './pages/chatbot/chatbot.jsx';
-import Servey from './pages/servey/servey.jsx';
+import Chatbot from './pages/utilities/chatbot/chatbot.jsx';
+import Servey from './pages/utilities/servey/servey.jsx';
 const Router = () => {
     return (
       <Routes>
