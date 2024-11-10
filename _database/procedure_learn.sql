@@ -5,7 +5,9 @@ go
 create procedure ReadCollection @course_id int, @module_ordinal int, @collection_ordinal int
 as
 begin
-	select clt.[collection_type_name],
+	select m.[module_id],
+		clt.[collection_type_id],
+		clt.[collection_type_name],
 		cl.[collection_id],
         cl.[collection_name],
         mat.[material_type_name],
@@ -20,7 +22,7 @@ begin
     from Courses c
         left join Modules m on m.[course_id] = c.[course_id]
         left join Collections cl on cl.[module_id] = m.[module_id]
-        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_id]
+        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_type_id]
         left join Materials ma on ma.[collection_id] = cl.[collection_id]
         left join MaterialType mat on mat.[material_type_id] = ma.[material_type_id]
         left join Questions q on q.[material_id] = ma.[material_id]
@@ -48,7 +50,7 @@ begin
     from Courses c
         left join Modules m on m.[course_id] = c.[course_id]
         left join Collections cl on cl.[module_id] = m.[module_id]
-        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_id]
+        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_type_id]
     where c.[course_id] = @course_id
     order by m.[module_ordinal], cl.[collection_ordinal];
 end
@@ -367,6 +369,69 @@ end
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('CreateGrade', 'P') is not null drop procedure CreateGrade;
+go
+create procedure CreateGrade @aid int, @enrollment_id int, @module_id int, @grade int
+as
+begin
+	declare @IsBanned BIT;
+
+	set @IsBanned = dbo.IsUserBanned(@aid, 'CreateGrade');
+
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	declare @user_id int;
+
+	select @user_id = [user_id]
+	from Users
+	where [authentication_id] = @aid
+
+	if not exists (select 1 from Enrollments where [enrollment_id] = @enrollment_id and [user_id] = @user_id)
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	insert into Grades ([grade_number], [graded_date], [enrollment_id], [module_id])
+	values (@grade, getdate(), @enrollment_id, @module_id);
+
+	if @@ROWCOUNT = 1
+	begin
+		select 'SUCCESSED' as [check];
+		return;
+	end
+
+	select 'FAILED' as [check];
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadGrade', 'P') is not null drop procedure ReadGrade;
+go
+create procedure ReadGrade @aid int, @enrollment_id int, @module_id int
+as
+begin
+	declare @IsBanned BIT;
+
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadGrade');
+
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	select [grade_id], [grade_number], [graded_date], [enrollment_id], [module_id]
+	from Grades
+	where [enrollment_id] = @enrollment_id and [module_id] = @module_id
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 grant execute on dbo.ReadCollection to [NAV_ADMIN];
 grant execute on dbo.ReadCollection to [NAV_ESP];
 grant execute on dbo.ReadCollection to [NAV_STUDENT];
@@ -406,3 +471,11 @@ grant execute on dbo.CreateTracking to [NAV_STUDENT];
 grant execute on dbo.ReadTracking to [NAV_ADMIN];
 grant execute on dbo.ReadTracking to [NAV_ESP];
 grant execute on dbo.ReadTracking to [NAV_STUDENT];
+
+grant execute on dbo.ReadGrade to [NAV_ADMIN];
+grant execute on dbo.ReadGrade to [NAV_ESP];
+grant execute on dbo.ReadGrade to [NAV_STUDENT];
+
+grant execute on dbo.CreateGrade to [NAV_ADMIN];
+grant execute on dbo.CreateGrade to [NAV_ESP];
+grant execute on dbo.CreateGrade to [NAV_STUDENT];

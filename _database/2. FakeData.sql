@@ -331,6 +331,70 @@ Ngày nay, lập trình tuyến tính chỉ tồn tại trong phạm vi các mod
 
 (N'linear-programming.png', 2, 1, 0),
 
+(N'# H1
+## H2
+### H3
+
+**bold text**
+
+*italicized text*
+
+> blockquote
+
+1. First item
+2. Second item
+3. Third item
+
+- First item
+- Second item
+- Third item
+
+`code`
+
+---
+
+[title](https://www.example.com)
+
+![alt text](image.jpg)
+
+| Syntax | Description |
+| ----------- | ----------- |
+| Header | Title |
+| Paragraph | Text |
+
+```
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25
+}
+```
+
+Here''s a sentence with a footnote. [^1]
+
+[^1]: This is the footnote.
+
+### My Great Heading {#custom-id}
+
+term
+: definition
+
+~~The world is flat.~~
+
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media
+
+That is so funny! :joy:
+
+I need to highlight these ==very important words==.
+
+H<sub>2</sub>O
+
+X^2^',
+
+3, 0, 0),
+
 (N'* Đặc trưng của lập trình hướng cấu trúc
 	Trong lập trình hướng cấu trúc, chương trình chính được chia nhỏ thành các chương trình con và mỗi chương trình con thực hiện một công việc xác định. Chương trình chính sẽ gọi đến chương trình con theo một giải thuật, hoặc một cấu trúc được xác định trong chương trình chính. Các ngôn ngữ lập trình cấu trúc phổ biến là Pascal, C và C++. Riêng C++ ngoài việc có đặc trưng của lập trình cấu trúc do kế thừa từ C, còn có đặc trưng của lập trình hướng đối tượng. Cho nên C++ còn được gọi là ngôn ngữ lập trình nửa cấu trúc, nửa hướng đối tượng. Đặc trưng Đặc trưng cơ bản nhất của lập trình cấu trúc thể hiện ở mối quan hệ:
 Chương trình = Cấu trúc dữ liệu + Giải thuật
@@ -433,8 +497,9 @@ Những hạn chế này là do C++ được phát triển từ một ngôn ng�
 0, 0, 2),
 
 (N'Câu hỏi 1', 0, 3, 3),
-(N'Câu hỏi 2', 1, 3, 3),
-(N'Câu hỏi 3', 2, 3, 3);
+(N'linear-programming.png', 1, 1, 3),
+(N'Câu hỏi 2', 2, 3, 3),
+(N'Câu hỏi 3', 3, 3, 3);
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
@@ -447,9 +512,9 @@ go
 ------------------------------------------------------------------------------------------------------------
 insert into Questions ([question_description], [question_ordinal], [question_type_id], [material_id])
 values
-(N'Đâu là đặc trưng cơ bản của lập trình tuyến tính?', 0, 1, 5),
-(N'Đâu là ưu điểm của lập trình hướng cấu trúc?', 1, 1, 6),
-(N'Đâu Không phải là tính chất của lập trình hướng đối tượng?', 1, 0, 7);
+(N'Đâu là đặc trưng cơ bản của lập trình tuyến tính?', 0, 1, 6),
+(N'Đâu là ưu điểm của lập trình hướng cấu trúc?', 1, 1, 8),
+(N'Đâu Không phải là tính chất của lập trình hướng đối tượng?', 2, 0, 9);
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
@@ -471,8 +536,9 @@ values
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
---insert into Enrollments([enrollment_id], [enrollment_date], [enrollment_is_complete], [user_id], [course_id])
---go
+insert into Enrollments([enrollment_date], [enrollment_is_complete], [user_id], [course_id])
+values (getdate(), 0, 2, 0);
+go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 --insert into UserTracking ([tracking_id], [enrollment_id], [collection_id]);
