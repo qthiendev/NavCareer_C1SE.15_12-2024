@@ -74,6 +74,8 @@ const getCollection = async (req, res) => {
             });
 
             return res.status(200).json({
+                module_id: collections[0].module_id,
+                collection_id: collections[0].collection_id,
                 collections: collectionsArray,
                 time: new Date().toLocaleString()
             });
@@ -187,7 +189,7 @@ const serveMedia = (req, res) => {
                     contentType = 'video/mp4';
                     break;
             }
-            console.log('\x1b[32m%s\x1b[0m', `[${now.toLocaleString()}] getLearnController.js/serveMedia | Media found at: ${resolvedPath}`);
+            console.log('\x1b[32m%s\x1b[0m', `[${now.toLocaleString()}] at getLearnController.js/serveMedia | Media found at: ${resolvedPath}`);
             res.setHeader('Content-Type', contentType);
             res.send(data);
         });
