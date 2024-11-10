@@ -132,24 +132,62 @@ function UpdateProfile() {
 
     return (
         <div className='profile-container'>
-            <div className='left-panel'>
-                <div className='profile-header'>
-                    <img src={avatarPreview || profile?.avatar} alt='Avatar' className='profile-avatar' />
-                    <h2 className='profile-name'>{profile?.user_alias || profile?.user_full_name}</h2>
-                    <p className='profile-bio'>{profile?.user_bio || 'Ở đây hơi vắng vẻ'}</p>
-                    <button className='share-profile-btn'>
-                        <img src='/img/student_profile/share_icon.svg' alt='Share' className='share-icon' />
+            <div className="view-left-panel">
+                <div className="view-profile-header">
+                    <img
+                        src={profile.avatar}            
+                        alt="Avatar"
+                        className="view-profile-avatar"
+                    />
+                    <h2 className="view-profile-name">{profile.user_full_name}</h2>  
+                    <p className="view-profile-bio">{profile.user_bio ? profile.user_bio : 'Have no bio.'}</p>  
+                    {/* Lấy theo data người dùng đã điền khi đăng ký tài khoản */}
+                    <button className="view-share-profile-btn">
+                        <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" /> {/* Icon chia sẻ */}
                         Chia sẻ hồ sơ
                     </button>
                 </div>
-                <div className='profile-menu'>
-                    <ul>
-                        <li className='menu-item active'>Hồ sơ người dùng</li>
-                        <li className='menu-item'>Các khoá học</li>
-                        <li className='menu-item'>Giảng viên yêu thích</li>
-                        <li className='menu-item'>Tin nhắn</li>
-                        <li className='menu-item' style={{ border: 'none' }}>Liên hệ admin</li>
-                    </ul>
+
+                <div className='update-information'>
+                    <h3>THÔNG TIN</h3>
+                    <div className="update-info-item">
+                        <img src="/img/student_profile/name_icon.svg" alt="Name Icon" className="info-icon" />
+                        <p>{profile.user_full_name}</p>
+                    </div>
+                    <div className="update-info-item">
+                        <img src="/img/student_profile/email_icon.svg" alt="Email Icon" className="info-icon" />
+                        <p>{profile.user_email}</p>
+                    </div>
+                    <div className="update-info-item">
+                        <img src="/img/student_profile/birthday_icon.svg" alt="Birdthday Icon" className="update-info-icon" />
+                        <p> {new Date(profile.user_birthdate).toLocaleDateString()}</p>
+                    </div>
+                    <div className="update-info-item">
+                        <img src="/img/student_profile/joinday_icon.svg" alt="Joinday Icon" className="update-info-icon" />
+                        <p>{new Date(profile.user_created_date).toLocaleDateString()}</p>
+                    </div>
+                    <div className="update-info-item">
+                        <img src="/img/student_profile/gender_icon.svg" alt="Gender Icon" className="update-info-icon" />
+                        <p>{profile.user_gender ? 'Nam' : 'Nữ'}</p>
+                    </div>
+                    <div className="update-info-item">
+                        <img src="/img/student_profile/address_icon.svg" alt="Address Icon" className="update-info-icon" />
+                        <p>{profile.user_address}</p>
+                    </div>
+                    <div className="update-info-item">
+                        <img src="/img/student_profile/phone_icon.svg" alt="Tel Icon" className="update-info-icon" />
+                        <p>{profile.user_phone_number}</p>
+                    </div>
+                </div>
+
+                <div className='update-information'>
+                    <h3>GIỚI THIỆU</h3>
+                    <p>Đây là phần giới thiệu chi tiết về cá nhân, công ty, hoặc tổ chức.</p>
+                </div>
+
+                <div className='update-information'>
+                    <h3>CHỨNG CHỈ</h3>
+                    <p>Danh sách các chứng chỉ, bằng cấp hoặc chứng nhận có liên quan.</p>
                 </div>
             </div>
             <div className='right-panel'>
@@ -271,7 +309,7 @@ function UpdateProfile() {
                             </div>
                         ))}
                     </div>
-                    <button type='submit' className='save-profile-btn'>Lưu hồ sơ</button>
+                    <button className='update-profile-btn'>Lưu hồ sơ</button>
                 </form>
             </div>
         </div>
