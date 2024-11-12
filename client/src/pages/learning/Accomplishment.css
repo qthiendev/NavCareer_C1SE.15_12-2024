@@ -1,0 +1,100 @@
+.accomplishment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    width: 100%;
+}
+
+.certificate-container {
+    width: 1280px;
+    max-width: 1280px;
+    max-height: 90vh;
+    background-color: #ffffff;
+    border: 2px solid #333;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-family: 'Georgia', serif;
+}
+
+.certificate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+}
+
+.certificate-header h1 {
+    font-size: 2rem;
+    color: #333;
+}
+
+.logo {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.certificate-body {
+    margin: 40px 0;
+}
+
+.certificate-body p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.recipient-name {
+    font-size: 2rem;
+    color: #000;
+    margin: 10px 0;
+}
+
+.course-name {
+    font-size: 1.5rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.certificate-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.seal {
+    width: 100px;
+    height: 100px;
+    background-color: gold;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #333;
+}
+
+.signatures {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.signature p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.certificate-id {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #888;
+}

@@ -32,6 +32,7 @@ import Payment from './pages/learning/Payment.jsx';
 import PaymentCheck from './pages/learning/PaymentCheck.jsx';
 import ReadEnrollment from './pages/learning/ReadEnrollment.jsx';
 import ReadCollection from './pages/learning/ReadCollection.jsx';
+import Accomplishment from './pages/learning/Accomplishment.jsx';
 
 import Chatbot from './pages/utilities/chatbot/chatbot.jsx';
 import Servey from './pages/utilities/servey/servey.jsx';
@@ -68,6 +69,8 @@ const Router = () => {
           <Route path="edu/payment" element={<Payment />} /> 
           <Route path="edu/payment/check" element={<PaymentCheck />} /> 
           <Route path="edu/collection" element={<ReadCollection />} /> 
+          <Route path="cert/:certificate_id" element={<Accomplishment />} /> 
+
           <Route path='chatbot' element={<Chatbot />} />
           <Route path='servey' element={<Servey />} />
 

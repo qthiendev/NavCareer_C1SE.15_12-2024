@@ -540,7 +540,7 @@ go
 ------------------------------------------------------------------------------------------------------------
 if object_id('ReadAccomplishment', 'P') is not null drop procedure ReadAccomplishment;
 go
-create procedure ReadAccomplishment @accomplishment_certificate_id int
+create procedure ReadAccomplishment @certificate_id nvarchar(max)
 as
 begin
 
@@ -550,7 +550,7 @@ begin
 		[accomplishment_certificate_id],
 		[enrollment_id]
 	from Accomplishments
-	where [accomplishment_certificate_id] = @accomplishment_certificate_id
+	where [accomplishment_certificate_id] = @certificate_id
 
 end
 go
@@ -611,7 +611,9 @@ grant execute on dbo.CheckAccomplishment to [NAV_STUDENT];
 grant execute on dbo.ReadAccomplishment to [NAV_ADMIN];
 grant execute on dbo.ReadAccomplishment to [NAV_ESP];
 grant execute on dbo.ReadAccomplishment to [NAV_STUDENT];
+grant execute on dbo.ReadAccomplishment to [NAV_GUEST];
 
 grant execute on dbo.ReadAccomplishmentByEnrollment to [NAV_ADMIN];
 grant execute on dbo.ReadAccomplishmentByEnrollment to [NAV_ESP];
 grant execute on dbo.ReadAccomplishmentByEnrollment to [NAV_STUDENT];
+grant execute on dbo.ReadAccomplishmentByEnrollment to [NAV_GUEST];

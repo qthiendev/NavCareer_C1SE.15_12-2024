@@ -76,6 +76,31 @@ const ReadCollection = () => {
     }, [c, navigate]);
 
     useEffect(() => {
+        const fetchAccomplishment = async () => {
+            if (eid === null || !enrollmentCheck) return;
+            try {
+                const response = await axios.get(`http://localhost:5000/edu/check-accomplishment?enrollment_id=${eid}`, { withCredentials: true });
+                if (response.status === 200) {
+                    alert('Chúc mừng! Bạn đã hoàn thành khóa học này~');
+                    navigate(`/course/${c}`);
+                }
+                if (response.status === 203) {
+                    alert('Bạn đã hoàn thành khóa học này, tuy nhiên, đang có lỗi xảy ra trong việc cập nhật, vui lòng thử lại sau!');
+                    navigate(`/course/${c}`);
+                }
+                if (response.status === 201) {
+                    alert('Chào ngày mới');
+                }
+            } catch {
+                alert('Đã có lỗi xảy ra, vui lòng trở lại sau.');
+                navigate(`/course/${c}`);
+            }
+        }
+
+        fetchAccomplishment();
+    }, [eid, enrollmentCheck, navigate]);
+
+    useEffect(() => {
         const fetchCollection = async () => {
             if (!c || !m || !co || !enrollmentCheck) return;
             try {
