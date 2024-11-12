@@ -462,6 +462,10 @@ begin
 
     if exists (select 1 from Accomplishments where [enrollment_id] = @enrollment_id)
     begin
+		update Enrollments
+		set [enrollment_is_complete] = 1
+		where [enrollment_id] = @enrollment_id
+
         select 'E_AID' as [check];
         return;
     end
@@ -509,7 +513,18 @@ begin
 
     if @@ROWCOUNT = 1
     begin
-        select 'SUCCESSED' as [check];
+		update Enrollments
+		set [enrollment_is_complete] = 1
+		where [enrollment_id] = @enrollment_id
+
+		if @@ROWCOUNT = 1
+		begin
+			select 'SUCCESSED' as [check];
+		end
+		else 
+		begin
+			select 'FAILED' as [check];
+		end
     end
     else
     begin
@@ -526,11 +541,7 @@ create procedure ReadAccomplishmentByEnrollment @enrollment_id int
 as
 begin
 
-	select [accomplishment_id], 
-		[accomplishment_completion_date],
-		[accomplishment_overall_grade],
-		[accomplishment_certificate_id],
-		[enrollment_id]
+	select [accomplishment_certificate_id]
 	from Accomplishments
 	where [enrollment_id] = @enrollment_id
 
@@ -544,12 +555,23 @@ create procedure ReadAccomplishment @certificate_id nvarchar(max)
 as
 begin
 
-	select [accomplishment_id], 
-		[accomplishment_completion_date],
-		[accomplishment_overall_grade],
-		[accomplishment_certificate_id],
-		[enrollment_id]
-	from Accomplishments
+	select a.[accomplishment_id], 
+		a.[accomplishment_completion_date],
+		a.[accomplishment_overall_grade],
+		a.[accomplishment_certificate_id],
+		e.[enrollment_id],
+		c.[course_id],
+		c.[course_name],
+		uc.[user_id] as [provider_id],
+		uc.[user_full_name] as provider_name,
+		us.[user_id] as [student_id],
+		us.[user_full_name] as student_name,
+		us.[user_gender]
+	from Accomplishments a
+		join Enrollments e on e.[enrollment_id] = a.[enrollment_id]
+		join Courses c on c.[course_id] = e.[enrollment_id]
+		join Users us on us.[user_id] = e.[user_id]
+		join Users uc on uc.[user_id] = c.[user_id]
 	where [accomplishment_certificate_id] = @certificate_id
 
 end

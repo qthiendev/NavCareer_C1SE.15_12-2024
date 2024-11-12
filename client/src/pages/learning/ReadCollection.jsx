@@ -7,7 +7,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
 import axios from 'axios';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import './ReadCollection.css';
 import 'katex/dist/katex.min.css';
 
@@ -20,6 +20,7 @@ const preprocessMarkdown = (text) => {
 
 const ReadCollection = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [collectionData, setCollectionData] = useState(null);
     const [eid, setEid] = useState(null);
     const [mid, setMid] = useState(null);
@@ -82,14 +83,11 @@ const ReadCollection = () => {
                 const response = await axios.get(`http://localhost:5000/edu/check-accomplishment?enrollment_id=${eid}`, { withCredentials: true });
                 if (response.status === 200) {
                     alert('Chúc mừng! Bạn đã hoàn thành khóa học này~');
-                    navigate(`/course/${c}`);
+                    navigate(`/cert/find?enrollment_id=${eid}`);
                 }
                 if (response.status === 203) {
                     alert('Bạn đã hoàn thành khóa học này, tuy nhiên, đang có lỗi xảy ra trong việc cập nhật, vui lòng thử lại sau!');
                     navigate(`/course/${c}`);
-                }
-                if (response.status === 201) {
-                    alert('Chào ngày mới');
                 }
             } catch {
                 alert('Đã có lỗi xảy ra, vui lòng trở lại sau.');
@@ -98,7 +96,7 @@ const ReadCollection = () => {
         }
 
         fetchAccomplishment();
-    }, [eid, enrollmentCheck, navigate]);
+    }, [eid, enrollmentCheck, navigate, location]);
 
     useEffect(() => {
         const fetchCollection = async () => {

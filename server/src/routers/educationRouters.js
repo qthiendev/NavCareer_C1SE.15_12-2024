@@ -28,7 +28,7 @@ router.get('/read-tracking', authMiddleware.isSignedIn, readTracking);
 router.get('/read-grade', authMiddleware.isSignedIn, readGrade);
 router.post('/create-grade', authMiddleware.isSignedIn, createGrade);
 
-router.get('/check-accomplishment', authMiddleware.isSignedIn, checkAccomplishment);
-router.get('/get-accomplishment', authMiddleware.isSignedIn, getAccomplishment);
+router.get('/check-accomplishment', checkAccomplishment);
+router.get('/get-accomplishment', getAccomplishment);
 
 module.exports = router;

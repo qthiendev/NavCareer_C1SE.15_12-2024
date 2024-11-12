@@ -22,43 +22,39 @@ const checkAccomplishment = async (req, res) => {
         }
 
         if (accomplishmentCheck === 'E_AID') {
-            if (paymentCheck.status) {
-                console.log(`[${new Date().toLocaleString()}] at accomplishmentController.js/checkAccomplishment | Accomplishment of enrollment_id[${enrollment_id}] already created.`);
-                return res.status(200).json({
-                    message: `Accomplishment of enrollment_id[${enrollment_id}] already created.`,
-                    time: new Date().toLocaleString()
-                });
-            }
+            console.log(`[${new Date().toLocaleString()}] at accomplishmentController.js/checkAccomplishment | Accomplishment of enrollment_id[${enrollment_id}] already created.`);
+            return res.status(200).json({
+                message: `Accomplishment of enrollment_id[${enrollment_id}] already created.`,
+                time: new Date().toLocaleString()
+            });
+
         }
 
         if (accomplishmentCheck === 'U_AID') {
-            if (paymentCheck.status) {
-                console.warn(`[${new Date().toLocaleString()}] at accomplishmentController.js/checkAccomplishment | Enrollment_id[${enrollment_id}] not meet criteria.`);
-                return res.status(201).json({
-                    message: `Enrollment_id[${enrollment_id}] not meet criteria.`,
-                    time: new Date().toLocaleString()
-                });
-            }
+            console.warn(`[${new Date().toLocaleString()}] at accomplishmentController.js/checkAccomplishment | Enrollment_id[${enrollment_id}] not meet criteria.`);
+            return res.status(201).json({
+                message: `Enrollment_id[${enrollment_id}] not meet criteria.`,
+                time: new Date().toLocaleString()
+            });
+
         }
 
         if (accomplishmentCheck === 'SUCCESSED') {
-            if (paymentCheck.status) {
-                console.log(`[${new Date().toLocaleString()}] at accomplishmentController.js/checkAccomplishment | Accomplishment of enrollment_id[${enrollment_id}] created successfuly.`);
-                return res.status(200).json({
-                    message: `Accomplishment of enrollment_id[${enrollment_id}] created successfuly.`,
-                    time: new Date().toLocaleString()
-                });
-            }
+            console.log(`[${new Date().toLocaleString()}] at accomplishmentController.js/checkAccomplishment | Accomplishment of enrollment_id[${enrollment_id}] created successfuly.`);
+            return res.status(200).json({
+                message: `Accomplishment of enrollment_id[${enrollment_id}] created successfuly.`,
+                time: new Date().toLocaleString()
+            });
+
         }
 
         if (accomplishmentCheck === 'FAILED') {
-            if (paymentCheck.status) {
-                console.error(`[${new Date().toLocaleString()}] at accomplishmentController.js/checkAccomplishment | Accomplishment of enrollment_id[${enrollment_id}] failed to create.`);
-                return res.status(203).json({
-                    message: `Accomplishment of enrollment_id[${enrollment_id}] failed to create.`,
-                    time: new Date().toLocaleString()
-                });
-            }
+            console.error(`[${new Date().toLocaleString()}] at accomplishmentController.js/checkAccomplishment | Accomplishment of enrollment_id[${enrollment_id}] failed to create.`);
+            return res.status(203).json({
+                message: `Accomplishment of enrollment_id[${enrollment_id}] failed to create.`,
+                time: new Date().toLocaleString()
+            });
+
         }
 
         throw new Error(`Something went wrong, aid: ${aid}, role: ${role}, enrollment_id: ${enrollment_id}`);
