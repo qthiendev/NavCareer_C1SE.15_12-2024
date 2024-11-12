@@ -4,7 +4,7 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import { FaSearch, FaBell, FaFacebookMessenger } from 'react-icons/fa';
 import './Layout.css';
-// import Chatbot from './chatbot/chatbot';
+import Chatbot from '../pages/utilities/chatbot/chatbot.jsx';
 
 function Layout() {
     const [isCheckAdmin, setIsCheckAdmin] = useState(false);
@@ -15,9 +15,13 @@ function Layout() {
     const [isLoading, setLoading] = useState(true);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [searchIndex, setSearchIndex] = useState('');
+    const [showChatbot, setShowChatbot] = useState(false);
     // const [isChatbotVisible, setIsChatbotVisible] = useState(false);
 
     const navigate = useNavigate();
+    const toggleChatbot = () => {
+        setShowChatbot(!showChatbot);
+      };
 
     // const location = useLocation();
     useEffect(() => {
@@ -138,7 +142,18 @@ function Layout() {
                             <li><a href="/course/view">KHÓA HỌC</a></li>
                             <li><a href="/about">VỀ CHÚNG TÔI</a></li>
                             <div className='icon-container-mess'>
-                            <li><FaFacebookMessenger className="notification-icon" onClick={() => navigate('/chatbot')} /></li>
+                            {/* <li><FaFacebookMessenger className="notification-icon" onClick={() => navigate('/chatbot')} /></li> */}
+                            <li>
+                                <FaFacebookMessenger
+                                    className="notification-icon"
+                                    onClick={toggleChatbot}
+                                />
+                                {showChatbot && (
+                                    <div className="chatbot-modal">
+                                        <Chatbot />
+                                    </div>
+                                )}
+                            </li>
                             <span className="description-icon-chatbot">CHAT BOT</span>
                             </div>
                         </ul>
@@ -178,13 +193,7 @@ function Layout() {
                 </header>
 
                 <main className="main-content">
-                {/* {isChatbotVisible && (
-                        <div className="chatbot-overlay">
-                            <Chatbot />
-                        </div>
-                    )} */}
                     <Outlet />
-                    
                 </main>
 
                 <footer className="footer">

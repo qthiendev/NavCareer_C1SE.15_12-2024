@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
@@ -134,7 +134,9 @@ const instructors = [
   },
 ];
 
+
 function Home() {
+const navigate = useNavigate();
 
   //Xử lí hiệu ứng chuyển trang của course
   const [currentPage, setCurrentPage] = useState(0); // Trạng thái cho trang hiện tại
@@ -177,7 +179,7 @@ function Home() {
           <p className="description">
             Tạo ra một môi trường khám phá, học tập và phát triển liên tục, giúp mọi người đạt được mục tiêu nghề nghiệp của mình.
           </p>
-          <a className="test-button">
+          <a className="test-button" onClick={() => navigate('/servey')}>
             <p>THỰC HIỆN BÀI TEST</p>
             <img src="./img/main_content/arrow.svg" alt="" />
           </a>

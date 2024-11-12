@@ -36,8 +36,13 @@ function Servey() {
         setAnswers(prev => ({ ...prev, [tab]: newAnswers }));
     };
 
-    const calculateScore = (tab) => {
-        return answers[tab].reduce((sum, value) => sum + (parseInt(value) || 0), 0);
+    // const calculateScore = (tab) => {
+    //     return answers[tab].reduce((sum, value) => sum + (+value || 0), 0);
+    // };
+    const displaySelections = (tab) => {
+        return answers[tab].map((choice, index) => (
+            <p key={index}>Question {index + 1}: {choice ? `Selected - ${choice}` : "No selection"}</p>
+        ));
     };
     
     return (
@@ -204,14 +209,16 @@ function Servey() {
                         )}
                         
                         {activeTab === "5" && (
-                            <div>
-                                <div colSpan="2">
-                                    <h3>Kết quả</h3>
-                                    <p>Nhóm 1 Score: {calculateScore("2")}</p>
-                                    <p>Nhóm 2 Score: {calculateScore("3")}</p>
-                                    <p>Nhóm 3 Score: {calculateScore("4")}</p>
-
-                                    {/* Add more scores as needed for other tabs */}
+                            <div className="result-container">
+                                
+                                <div className="result">
+                                    <h3>Survey Results</h3>
+                                    <h4>Nhóm 1 Selections</h4>
+                                    {displaySelections("2")}
+                                    <h4>Nhóm 2 Selections</h4>
+                                    {displaySelections("3")}
+                                    <h4>Nhóm 3 Selections</h4>
+                                    {displaySelections("4")}
                                 </div>
                             </div>
                         )}

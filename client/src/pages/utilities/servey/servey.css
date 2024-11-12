@@ -95,6 +95,7 @@ body {
     justify-content: center;
 }
 .active-chose{
+    margin-top: 20px;
     width: 800px;
 }
 .box-chose-right{
@@ -109,8 +110,8 @@ body {
 }
 .question{
     display: flex;
-    border-bottom: 1px solid #ccc;
-    justify-self: center;
+    justify-content: center;
+    
 }
 
 .radio-group{
@@ -119,6 +120,8 @@ body {
 }
 .cover-question{
     width: 800px;
+    border-bottom: 1px solid #ccc;
+
 }
 .tabcontent {
     font-size: 1rem;
@@ -148,7 +151,10 @@ body {
     height: 18px;
     accent-color: #003366;
 }
-
+.result-container{
+    display: flex;
+    justify-content: center;
+}
 
 .buttons {
     display: flex;

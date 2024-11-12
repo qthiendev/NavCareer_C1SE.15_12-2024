@@ -1,4 +1,3 @@
-import { StrictMode } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import './index.css';
@@ -33,7 +32,6 @@ import PaymentCheck from './pages/learning/PaymentCheck.jsx';
 import ReadEnrollment from './pages/learning/ReadEnrollment.jsx';
 import ReadCollection from './pages/learning/ReadCollection.jsx';
 
-import Chatbot from './pages/utilities/chatbot/chatbot.jsx';
 import Servey from './pages/utilities/servey/servey.jsx';
 const Router = () => {
     return (
@@ -68,7 +66,6 @@ const Router = () => {
           <Route path="edu/payment" element={<Payment />} /> 
           <Route path="edu/payment/check" element={<PaymentCheck />} /> 
           <Route path="edu/collection" element={<ReadCollection />} /> 
-          <Route path='chatbot' element={<Chatbot />} />
           <Route path='servey' element={<Servey />} />
 
         </Route>
