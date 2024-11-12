@@ -31,6 +31,8 @@ import Payment from './pages/learning/Payment.jsx';
 import PaymentCheck from './pages/learning/PaymentCheck.jsx';
 import ReadEnrollment from './pages/learning/ReadEnrollment.jsx';
 import ReadCollection from './pages/learning/ReadCollection.jsx';
+import Accomplishment from './pages/learning/Accomplishment.jsx';
+import AccomplishmentByID from './pages/learning/AccomplishmentByID.jsx';
 
 import Servey from './pages/utilities/servey/servey.jsx';
 const Router = () => {
@@ -66,6 +68,13 @@ const Router = () => {
           <Route path="edu/payment" element={<Payment />} /> 
           <Route path="edu/payment/check" element={<PaymentCheck />} /> 
           <Route path="edu/collection" element={<ReadCollection />} /> 
+<<<<<<< HEAD
+=======
+          <Route path="cert/find" element={<AccomplishmentByID />} /> 
+          <Route path="cert/:certificate_id" element={<Accomplishment />} /> 
+
+          <Route path='chatbot' element={<Chatbot />} />
+>>>>>>> 34fcaa8824541f9201c565f18d4d8c78b4a333bc
           <Route path='servey' element={<Servey />} />
 
         </Route>

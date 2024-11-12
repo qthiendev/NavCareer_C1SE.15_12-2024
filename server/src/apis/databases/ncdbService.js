@@ -1,8 +1,6 @@
 const sql = require('mssql');
 const config = require('./ncdbConfig.json');
-require('dotenv').config()
-
-let connection;
+require('dotenv').config();
 
 const tryConnect = async (role) => {
     try {
@@ -11,20 +9,20 @@ const tryConnect = async (role) => {
             user: role,
             password: process.env[`${role}_PASSWORD`]
         };
-        
-        connection = new sql.ConnectionPool(dbConfig);
-        
-        await connection.connect();
 
+        const pool = new sql.ConnectionPool(dbConfig);
+        await pool.connect();
+
+        return pool;
     } catch (err) {
         throw new Error(`tryConnect | ${err.message}`);
     }
 };
 
-const closeConnect = async () => {
+const closeConnect = async (pool) => {
     try {
-        if (connection && connection.connected) {
-            await connection.close();
+        if (pool && pool.connected) {
+            await pool.close();
         } else {
             throw new Error(`There is no NavCareerDB connection to close.`);
         }
@@ -34,13 +32,14 @@ const closeConnect = async () => {
 };
 
 const query = async (role, queryString, params = {}) => {
+    let pool;
     try {
-        await tryConnect(role);
+        pool = await tryConnect(role);
 
-        if (!connection || !connection.connected) 
+        if (!pool || !pool.connected) 
             throw new Error(`There is no NavCareerDB connection to query.`);
 
-        const request = connection.request();
+        const request = pool.request();
 
         for (const [key, value] of Object.entries(params)) {
             request.input(key, value);
@@ -50,11 +49,13 @@ const query = async (role, queryString, params = {}) => {
 
         const results = await request.query(queryString);
 
-        await closeConnect();
-
         return results.recordset;
     } catch (err) {
         throw new Error(`ncbdService.js/query | ${err.message}`);
+    } finally {
+        if (pool) {
+            await closeConnect(pool);
+        }
     }
 };
 

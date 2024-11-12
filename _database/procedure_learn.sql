@@ -5,7 +5,9 @@ go
 create procedure ReadCollection @course_id int, @module_ordinal int, @collection_ordinal int
 as
 begin
-	select clt.[collection_type_name],
+	select m.[module_id],
+		clt.[collection_type_id],
+		clt.[collection_type_name],
 		cl.[collection_id],
         cl.[collection_name],
         mat.[material_type_name],
@@ -20,7 +22,7 @@ begin
     from Courses c
         left join Modules m on m.[course_id] = c.[course_id]
         left join Collections cl on cl.[module_id] = m.[module_id]
-        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_id]
+        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_type_id]
         left join Materials ma on ma.[collection_id] = cl.[collection_id]
         left join MaterialType mat on mat.[material_type_id] = ma.[material_type_id]
         left join Questions q on q.[material_id] = ma.[material_id]
@@ -48,7 +50,7 @@ begin
     from Courses c
         left join Modules m on m.[course_id] = c.[course_id]
         left join Collections cl on cl.[module_id] = m.[module_id]
-        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_id]
+        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_type_id]
     where c.[course_id] = @course_id
     order by m.[module_ordinal], cl.[collection_ordinal];
 end
@@ -367,6 +369,215 @@ end
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('CreateGrade', 'P') is not null drop procedure CreateGrade;
+go
+create procedure CreateGrade @aid int, @enrollment_id int, @module_id int, @grade int
+as
+begin
+	declare @IsBanned BIT;
+
+	set @IsBanned = dbo.IsUserBanned(@aid, 'CreateGrade');
+
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	declare @user_id int;
+
+	select @user_id = [user_id]
+	from Users
+	where [authentication_id] = @aid
+
+	if not exists (select 1 from Enrollments where [enrollment_id] = @enrollment_id and [user_id] = @user_id)
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	insert into Grades ([grade_number], [graded_date], [enrollment_id], [module_id])
+	values (@grade, getdate(), @enrollment_id, @module_id);
+
+	if @@ROWCOUNT = 1
+	begin
+		select 'SUCCESSED' as [check];
+		return;
+	end
+
+	select 'FAILED' as [check];
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadGrade', 'P') is not null drop procedure ReadGrade;
+go
+create procedure ReadGrade @aid int, @enrollment_id int, @module_id int
+as
+begin
+	declare @IsBanned BIT;
+
+	set @IsBanned = dbo.IsUserBanned(@aid, 'ReadGrade');
+
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	select [grade_id], [grade_number], [graded_date], [enrollment_id], [module_id]
+	from Grades
+	where [enrollment_id] = @enrollment_id and [module_id] = @module_id
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('CheckAccomplishment', 'P') is not null drop procedure CheckAccomplishment;
+go
+
+create procedure CheckAccomplishment @aid int, @enrollment_id int
+as
+begin
+    declare @IsBanned BIT;
+
+    set @IsBanned = dbo.IsUserBanned(@aid, 'CheckAccomplishment');
+
+    if @IsBanned = 1 
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    declare @user_id int;
+
+    select @user_id = [user_id]
+    from Users
+    where [authentication_id] = @aid;
+
+    if not exists (select 1 from Enrollments where [enrollment_id] = @enrollment_id and [user_id] = @user_id)
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    if exists (select 1 from Accomplishments where [enrollment_id] = @enrollment_id)
+    begin
+		update Enrollments
+		set [enrollment_is_complete] = 1
+		where [enrollment_id] = @enrollment_id
+
+        select 'E_AID' as [check];
+        return;
+    end
+
+    declare @total_modules int, @qualified_modules int, @total_grade decimal(5,2);
+
+    select @total_modules = count(*)
+    from Modules m
+    join Enrollments e on e.course_id = m.course_id
+    where e.enrollment_id = @enrollment_id;
+
+    select @qualified_modules = count(*), @total_grade = avg(max_grade)
+    from (
+        select max(g.grade_number) as max_grade
+        from Grades g
+        join Modules m on m.module_id = g.module_id
+        where g.enrollment_id = @enrollment_id
+        group by g.module_id
+    ) as MaxGrades
+    where max_grade >= 80;
+
+    if @qualified_modules < @total_modules
+    begin
+        select 'U_AID' as [check];
+        return;
+    end
+
+    declare @certificate_id varchar(24) = '';
+    declare @characters varchar(36) = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    declare @i int = 0;
+
+    while @i < 24
+    begin
+        set @certificate_id = @certificate_id + substring(@characters, cast(floor(rand() * 36) + 1 as int), 1);
+        set @i = @i + 1;
+    end
+
+    insert into Accomplishments (
+        [accomplishment_completion_date],
+        [accomplishment_overall_grade],
+        [accomplishment_certificate_id],
+        [enrollment_id]
+    )
+    values(getdate(), @total_grade, @certificate_id, @enrollment_id);
+
+    if @@ROWCOUNT = 1
+    begin
+		update Enrollments
+		set [enrollment_is_complete] = 1
+		where [enrollment_id] = @enrollment_id
+
+		if @@ROWCOUNT = 1
+		begin
+			select 'SUCCESSED' as [check];
+		end
+		else 
+		begin
+			select 'FAILED' as [check];
+		end
+    end
+    else
+    begin
+        select 'FAILED' as [check];
+    end
+end;
+go
+-- exec CheckAccomplishment 2, 0
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadAccomplishmentByEnrollment', 'P') is not null drop procedure ReadAccomplishmentByEnrollment;
+go
+create procedure ReadAccomplishmentByEnrollment @enrollment_id int
+as
+begin
+
+	select [accomplishment_certificate_id]
+	from Accomplishments
+	where [enrollment_id] = @enrollment_id
+
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ReadAccomplishment', 'P') is not null drop procedure ReadAccomplishment;
+go
+create procedure ReadAccomplishment @certificate_id nvarchar(max)
+as
+begin
+
+	select a.[accomplishment_id], 
+		a.[accomplishment_completion_date],
+		a.[accomplishment_overall_grade],
+		a.[accomplishment_certificate_id],
+		e.[enrollment_id],
+		c.[course_id],
+		c.[course_name],
+		uc.[user_id] as [provider_id],
+		uc.[user_full_name] as provider_name,
+		us.[user_id] as [student_id],
+		us.[user_full_name] as student_name,
+		us.[user_gender]
+	from Accomplishments a
+		join Enrollments e on e.[enrollment_id] = a.[enrollment_id]
+		join Courses c on c.[course_id] = e.[enrollment_id]
+		join Users us on us.[user_id] = e.[user_id]
+		join Users uc on uc.[user_id] = c.[user_id]
+	where [accomplishment_certificate_id] = @certificate_id
+
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 grant execute on dbo.ReadCollection to [NAV_ADMIN];
 grant execute on dbo.ReadCollection to [NAV_ESP];
 grant execute on dbo.ReadCollection to [NAV_STUDENT];
@@ -406,3 +617,25 @@ grant execute on dbo.CreateTracking to [NAV_STUDENT];
 grant execute on dbo.ReadTracking to [NAV_ADMIN];
 grant execute on dbo.ReadTracking to [NAV_ESP];
 grant execute on dbo.ReadTracking to [NAV_STUDENT];
+
+grant execute on dbo.ReadGrade to [NAV_ADMIN];
+grant execute on dbo.ReadGrade to [NAV_ESP];
+grant execute on dbo.ReadGrade to [NAV_STUDENT];
+
+grant execute on dbo.CreateGrade to [NAV_ADMIN];
+grant execute on dbo.CreateGrade to [NAV_ESP];
+grant execute on dbo.CreateGrade to [NAV_STUDENT];
+
+grant execute on dbo.CheckAccomplishment to [NAV_ADMIN];
+grant execute on dbo.CheckAccomplishment to [NAV_ESP];
+grant execute on dbo.CheckAccomplishment to [NAV_STUDENT];
+
+grant execute on dbo.ReadAccomplishment to [NAV_ADMIN];
+grant execute on dbo.ReadAccomplishment to [NAV_ESP];
+grant execute on dbo.ReadAccomplishment to [NAV_STUDENT];
+grant execute on dbo.ReadAccomplishment to [NAV_GUEST];
+
+grant execute on dbo.ReadAccomplishmentByEnrollment to [NAV_ADMIN];
+grant execute on dbo.ReadAccomplishmentByEnrollment to [NAV_ESP];
+grant execute on dbo.ReadAccomplishmentByEnrollment to [NAV_STUDENT];
+grant execute on dbo.ReadAccomplishmentByEnrollment to [NAV_GUEST];

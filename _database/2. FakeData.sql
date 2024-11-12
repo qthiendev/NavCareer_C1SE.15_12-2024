@@ -284,8 +284,8 @@ VALUES
 ------------------------------------------------------------------------------------------------------------
 insert into Modules ([module_name], [module_created_date], [module_ordinal], [course_id])
 values
-(N'Giới thiệu tổng quan về các phương pháp lập trình.', getdate(), 0, 0),
-(N'Con trỏ và mảng.', getdate(), 1, 0);
+(N'Giới thiệu tổng quan và cài đặt môi trường.', getdate(), 0, 0),
+(N'Cú pháp và câu lệnh cơ bản.', getdate(), 1, 0);
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
@@ -298,10 +298,19 @@ go
 ------------------------------------------------------------------------------------------------------------
 insert into Collections ([collection_name], [collection_created_date], [collection_ordinal], [collection_type_id], [module_id])
 values
-(N'Lập trình tuyến tính.', getdate(), 0, 0, 0),
-(N'Lập trình hướng cấu trúc.', getdate(), 1, 0, 0),
-(N'Lập trình hướng đối tượng.', getdate(), 2, 0, 0),
-(N'Kiểm tra chương I.', getdate(), 3, 1, 0);
+(N'Giới thiệu về C++.', getdate(), 0, 0, 0),
+(N'Cài đặt môi trường.', getdate(), 1, 0, 0),
+(N'Bắt đầu nhanh.', getdate(), 2, 0, 0),
+(N'Kiểm tra.', getdate(), 3, 1, 0);
+
+insert into Collections ([collection_name], [collection_created_date], [collection_ordinal], [collection_type_id], [module_id])
+values
+(N'Cú pháp và câu lệnh.', getdate(), 0, 0, 1),
+(N'In ra màn hình.', getdate(), 1, 0, 1),
+(N'Chú thích.', getdate(), 2, 0, 1),
+(N'Biến và hằng.', getdate(), 3, 0, 1),
+(N'Nhập từ bàn phím.', getdate(), 4, 0, 1),
+(N'Kiểm tra.', getdate(), 5, 1, 1);
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
@@ -316,125 +325,877 @@ go
 ------------------------------------------------------------------------------------------------------------
 insert into Materials ([material_content], [material_ordinal], [material_type_id], [collection_id])
 values
-(N'Linear-Programming.mp4',
-0, 2, 0),
+(N'---
 
-(N'Đặc trưng cơ bản của lập trình tuyến tính là tư duy theo lối tuần tự. Chương trình sẽ được thực hiện theo thứ tự từ đầu đến cuối, lệnh này kế tiếp lệnh kia cho đến khi kết thúc chương trình.
-- Lập trình tuyến tính có hai đặc trưng:
- + Đơn giản: chương trình được tiến hành đơn giản theo lối tuần tự, không phức tạp.
- + Đơn luồng: chỉ có một luồng công việc duy nhất, và các công việc được thực hiện tuần tự trong luồng đó.
-- Tính chất
- + Ưu điểm: Do tính đơn giản, lập trình tuyến tính được ứng dụng cho các chương trình đơn giản và có ưu điểm dễ hiểu.
- + Nhược điểm: Với các ứng dụng phức tạp, người ta không thể dùng lập trình tuyến tính để giải quyết.
-Ngày nay, lập trình tuyến tính chỉ tồn tại trong phạm vi các modul nhỏ nhất của các phương pháp lập trình khác. Ví dụ trong một chương trình con của lập trình cấu trúc, các lệnh cũng được thực hiện theo tuần tự từ đầu đến cuối chương trình con.',
-1, 0, 0),
+### C++ là gì?
 
-(N'linear-programming.png', 2, 1, 0),
+- C++ là ngôn ngữ đa nền tảng có thể được sử dụng để tạo các ứng dụng hiệu suất cao.
+- C++ được phát triển bởi Bjarne Stroustrup, như một phần mở rộng của ngôn ngữ C.
+- C++ cung cấp cho người lập trình mức độ kiểm soát cao đối với tài nguyên hệ thống và bộ nhớ.
+- Ngôn ngữ này đã được cập nhật 5 lần chính vào các năm 2011, 2014, 2017, 2020 và 2023 thành C++11, C++14, C++17, C++20 và C++23.',
+0, 0, 0),
 
-(N'* Đặc trưng của lập trình hướng cấu trúc
-	Trong lập trình hướng cấu trúc, chương trình chính được chia nhỏ thành các chương trình con và mỗi chương trình con thực hiện một công việc xác định. Chương trình chính sẽ gọi đến chương trình con theo một giải thuật, hoặc một cấu trúc được xác định trong chương trình chính. Các ngôn ngữ lập trình cấu trúc phổ biến là Pascal, C và C++. Riêng C++ ngoài việc có đặc trưng của lập trình cấu trúc do kế thừa từ C, còn có đặc trưng của lập trình hướng đối tượng. Cho nên C++ còn được gọi là ngôn ngữ lập trình nửa cấu trúc, nửa hướng đối tượng. Đặc trưng Đặc trưng cơ bản nhất của lập trình cấu trúc thể hiện ở mối quan hệ:
-Chương trình = Cấu trúc dữ liệu + Giải thuật
-Trong đó:
- - Cấu trúc dữ liệu là cách tổ chức dữ liệu cho việc xử lý bởi một hay nhiều chương trình nào đó.
- - Giải thuật là một quy trình để thực hiện một công việc xác định 
-Trong chương trình, giải thuật có quan hệ phụ thuộc vào cấu trúc dữ liệu:
- - Một cấu trúc dữ liệu chỉ phù hợp với một số hạn chế các giải thuật.
- - Nếu thay đổi cấu trúc dữ liệu thì phải thay đổi giải thuật cho phù hợp.
- - Một giải thuật thường phải đi kèm với một cấu trúc dữ liệu nhất định.
-Tính chất:
- - Mỗi chương trình con có thể được gọi thực hiện nhiều lần trong một chương trình chính.
- - Các chương trình con có thể được gọi đến để thực hiện theo một thứ tự bất kì, tuỳ thuộc vào giải thuật trong chương trình chính mà không phụ thuộc vào thứ tự khai báo của các chương trình con.
- - Các ngôn ngữ lập trình cấu trúc cung cấp một số cấu trúc lệnh điều khiển chương trình.
-Ưu điểm:
- - Chương trình sáng sủa, dễ hiểu, dễ theo dõi.
- - Tư duy giải thuật rõ ràng.
-Nhược điểm:
- - Lập trình cấu trúc không hỗ trợ mạnh việc sử dụng lại mã nguồn: Giải thuật luôn phụ thuộc chặt chẽ vào cấu trúc dữ liệu, do đó, khi thay đổi cấu trúc dữ liệu, phải thay đổi giải thuật, nghĩa là phải viết lại chương trình.
- - Không phù hợp với các phần mềm lớn: tư duy cấu trúc với các giải thuật chỉ phù hợp với các bài toán nhỏ, nằm trong phạm vi một modul của chương trình. Với dự án phần mềm lớn, lập trình cấu trúc tỏ ra không hiệu quả trong việc giải quyết mối quan hệ vĩ mô giữa các modul của phần mềm.
-Vấn đề
-Vấn đề cơ bản của lập trình cấu trúc là bằng cách nào để phân chia chương trình chính thành các chương trình con cho phù hợp với yêu cầu, chức năng và mục đích của mỗi bài toán. Thông thường, để phân rã bài toán trong lập trình cấu trúc, người ta sử dụng phương pháp thiết kế trên xuống (top-down).
-* Phương pháp thiết kế trên xuống (top-down)
-	Phương pháp thiết kế top-down tiếp cận bài toán theo hướng từ trên xuống dưới, từ tổng qúat đến chi tiết. Theo đó, một bài toán được chia thành các bài toán con nhỏ hơn. Mỗi bài toán con lại được chia nhỏ tiếp, nếu có thể, thành các bài toán con nhỏ hơn nữa. Quá trình này còn được gọi là quá trình làm mịn dần. Quá trình này sẽ dừng lại khi các bài toán con không cần chia nhỏ thêm nữa. Nghĩa là khi mỗi bài toán con đều có thể giải quyết bằng một chương trình con với một giải thuật đơn giản.
-Ví dụ, sử dụng phương pháp top-down để giải quyết bài toán xây một căn nhà mới. Chúng ta có thể phân rã bài toán theo các bước như sau:
- - Ở mức thứ nhất, chia bài toán xây nhà thành các bài toán nhỏ hơn như làm móng, đổ cột, đổ trần, xây tường, lợp mái.
- - Ở mức thứ hai, phân rã các công việc ở mức thứ nhất như việc làm móng nhà có thể phân rã tiếp thành các công việc đào móng, gia cố nền, làm khung sắt, đổ bê tong; công việc đổ cột được phần rã thành ...
- - Ở mức thứ ba, phân rã các công việc của mức thứ hai như việc đào móng có thể phân chia tiếp thành các công việc như đo đạc, cắm mốc, chăng dây, đào và kiểm tra móng. Việc gia cố nền được phân rã thành... Quá trình phân rã có thể dừng ở mức này, bởi vì các công việc con thu được như đo đạc, cắm mốc, chăng dây, đào... có thể thực hiện được ngay, không cần chia nhỏ thêm nữa.
-!Lưu ý:
- - Cùng sử dụng phương pháp top-down với cùng một bài toán, nhưng có thể cho ra nhiều kết quả khác nhau. Nguyên nhân là do sự khác nhau trong tiêu chí để phân rã một bài toán thành các bài toán con. Ví dụ, vẫn áp dụng phương pháp top-down để giải quyết bài toán xây nhà, nhưng nếu sử dụng một cách khác để phân chia bài toán, ta có thể thu được kết quả khác biệt so với phương pháp ban đầu:
- - Ở mức thứ nhất, chia bài toán xây nhà thành các bài toán nhỏ hơn như làm phần gỗ, làm phần sắt, làm phần bê tông và làm phần gạch.
- - Ở mức thứ hai, phân rã các công việc ở mức thứ nhất là làm phần gỗ có thể chia thành các công việc như xẻ gỗ, gia công gỗ, tạo khung, lắp vào nhà. Việc làm sắt có thể chia nhỏ thành...
-Rõ ràng, với cách làm mịn thế này, ta sẽ thu được một kết quả khác hẳn với cách thức đã thực hiện ở phần trên.',
+(N'cpp.png',
+1, 1, 0),
+
+(N'---
+
+### Tại sao nên sử dụng C++
+
+- C++ là một trong những ngôn ngữ lập trình phổ biến nhất thế giới.
+- C++ có thể được tìm thấy trong các hệ điều hành, Giao diện người dùng đồ họa và các hệ thống nhúng ngày nay.
+- C++ là ngôn ngữ lập trình hướng đối tượng mang lại cấu trúc rõ ràng cho chương trình và cho phép tái sử dụng mã, giảm chi phí phát triển.
+- C++ có tính di động và có thể được sử dụng để phát triển các ứng dụng có thể thích ứng với nhiều nền tảng.
+- C++ rất thú vị và dễ học!
+- Vì C++ gần với C, C# và Java nên các lập trình viên dễ dàng chuyển sang C++ hoặc ngược lại.',
+2, 0, 0),
+
+(N'---
+
+### Sự khác biệt giữa C và C++
+
+- C++ được phát triển như một phần mở rộng của C và cả hai ngôn ngữ đều có cú pháp gần như giống nhau.
+- Sự khác biệt chính giữa C và C++ là C++ hỗ trợ các lớp và đối tượng, trong khi C thì không.', 
+3, 0, 0),
+
+(N'cvscpp.png', 
+4, 1, 0),
+
+(N'---
+
+### Cài đặt môi trường
+
+Để bắt đầu sử dụng C++, bạn cần hai thứ:
+- Một trình soạn thảo văn bản, như [Notepad](https://notepad-plus-plus.org/), để viết mã C++.
+- Một trình biên dịch, như [GCC](https://gcc.gnu.org/), để dịch mã C++ sang ngôn ngữ mà máy tính có thể hiểu được.
+- Có nhiều trình soạn thảo văn bản và trình biên dịch để lựa chọn. Trong hướng dẫn này, chúng tôi sẽ sử dụng IDE (xem hướng dẫn bên dưới).', 
 0, 0, 1),
 
-(N'* Lập trình hướng đối tượng
-Trong lập trình hướng đối tượng:
-• Người ta coi các thực thể trong chương trình là các đối tượng và sau đó trừu tượng hoá đối tượng thành lớp đối tượng.
-• Dữ liệu được tổ chức thành các thuộc tính của lớp. Nguời ta ngăn chặn việc thay đổi tuỳ tiện dữ liệu trong chương trình bằng các cách giới hạn truy nhập như chỉ cho phép truy nhập dữ liệu thông qua đối tượng, thông qua các phương thức mà đối tượng được cung cấp...
-• Quan hệ giữa các đối tượng là quan hệ ngang hàng hoặc quan hệ kế thừa: Nếu lớp B kế thừa từ lớp A thì A được gọi là lớp cơ sở và B được gọi là lớp dẫn xuất.
+(N'install-codeblock.mp4', 
+1, 2, 1),
 
-Ngôn ngữ lập trình hướng đối tượng phổ biến hiện nay là Java, C++, C#...Mặc dù C++ cũng có
-những đặc trưng cơ bản của lập trình hướng đối tượng nhưng vẫn không phải là ngôn ngữ lập
-trình thuần hướng đối tượng.
+(N'> Nguồn video: [Cài đặt Code::Blocks (codeblocks) | Lập trình C/C++](https://www.youtube.com/watch?v=FVJHK9NLh1Q)
+> 
+> Cài đặt Code::Block: [codeblocks.org](https://www.codeblocks.org/downloads/binaries/#imagesoswindows48pnglogo-microsoft-windows)', 
+2, 0, 1),
 
-Đặc trưng
-Lập trình hướng đối tượng có hai đặc trưng cơ bản:
-• Đóng gói dữ liệu: dữ liệu luôn được tổ chức thành các thuộc tính của lớp đối tượng. Việc truy nhập đến dữ liệu phải thông qua các phương thức của đối tượng lớp.
-• Sử dụng lại mã nguồn: việc sử dụng lại mã nguồn được thể hiện thông qua cơ chế kế thừa. Cơ chế này cho phép các lớp đối tượng có thể kế thừa từ các lớp đối tượng khác. Khi đó, trong các lớp dẫn xuất, có thể sử dụng các phương thức (mã nguồn) của các lớp cơ sở mà không cần phải định nghĩa lại.
+(N'---
 
-Ưu điểm
-Lập trình hướng đối tượng có một số ưu điểm nổi bật:
-• Không còn nguy cơ dữ liệu bị thay đổi tự do trong chương trình. Vì dữ liệu đã được đóng gói vào các đối tượng. Nếu muốn truy nhập vào dữ liệu phải thông qua các phương thức được cho phép của đối tượng.
-• Khi thay đổi cấu trúc dữ liệu của một đối tượng, không cần thay đổi mã nguồn của các đối tượng khác, mà chỉ cần thay đổi một số thành phần của đối tượng dẫn xuất. Điều này hạn chế sự ảnh hưởng xấu của việc thay đổi dữ liệu đến các đối tượng khác trong chương trình.
-• Có thể sử dụng lại mã nguồn, tiết kiệm tài nguyên, chi phí thời gian. Vì nguyên tắc kế thừa cho phép các lớp dẫn xuất sử dụng các phương thức từ lớp cơ sở như những phương thức của chính nó, mà không cần thiết phải định nghĩa lại.
-• Phù hợp với các dự án phần mềm lớn, phức tạp.
+### Khởi động nhanh C++
 
-Một số khái niệm cơ bản
-Trong mục này, chúng ta sẽ làm quen với một số khái niệm cơ bản trong lập trình hướng đối tượng. Bao gồm:
-• Khái niệm đối tượng (object)
-• Khái niệm đóng gói dữ liệu (encapsulation)
-• Khái niệm kế thừa (inheritance)
-• Khái niệm đa hình (polymorphism)
+Hãy tạo tệp C++ đầu tiên của chúng tôi.
 
-Đối tượng (Object)
-Trong lập trình hướng đối tượng, đối tượng được coi là đơn vị cơ bản nhỏ nhất. Các dữ diệu và cách xử lí chỉ là thành phần của đối tượng mà không được coi là thực thể. Một đối tượng chứa các dữ liệu của riêng nó, đồng thời có các phương thức (hành động) thao tác trên các dữ liệu đó: Đối tượng = dữ liệu + phương thức
+Mở Codeblocks và đi tới **File > New > Empty File**.
 
-Lớp (Class)
-Khi có nhiều đối tượng giống nhau về mặt dữ liệu và phương thức, chúng được nhóm lại với nhau và gọi chung là lớp:
-• Lớp là sự trừu tượng hoá của đối tượng
-• Đối tượng là một thể hiện của lớp.
+Viết mã C++ sau và lưu tệp dưới dạng myfirstprogram.cpp (**File > Save File as**):
 
-Đóng gói dữ liệu (Encapsulation)
-• Các dữ liệu được đóng gói vào trong đối tượng. Mỗi dữ liệu có một phạm vi truy nhập riêng.
-• Không thể truy nhập đến dữ liệu một cách tự do như lập trình cấu trúc
-• Muốn truy nhập đến các dữ liệu đã được bảo vệ, phải thông qua các đối tượng, nghĩa là phải sử dụng các phương thức mà đối tượng cung cấp mới có thể truy nhập đến dữ liệu của đối tượng đó. Tuy nhiên, vì C++ chỉ là ngôn ngữ lập trình nửa đối tượng, cho nên C++ vẫn cho phép định nghĩa các biến dữ liệu và các hàm tự do, đây là kết quả kế thừa từ ngôn ngữ C, một ngôn ngữ lập trình thuần cấu trúc.
+> myfirstprogram.cpp
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << "Hello World!";
+>	return 0;
+> }
+> 
+> ```
 
-Kế thừa (Inheritance)
-Tính kế thừa của lập trình hướng đối tượng cho phép một lớp có thể kế thừa từ một số lớp đã tồn tại. Khi đó, lớp mới có thể sử dụng dữ liệu và phương thức của các lớp cơ sở như là của mình. 
-Ngoài ra, lớp dẫn xuất còn có thể bổ sung thêm một số dữ liệu và phương thức. Ưu điểm của kế thừa là khi thay đổi dữ liệu của một lớp, chỉ cần thay đổi các phương thức trong phạm vi lớp cơ sở mà không cần thay đổi trong các lớp dẫn xuất.
+Đừng lo lắng nếu bạn không hiểu đoạn mã trên - chúng ta sẽ thảo luận chi tiết về nó trong các chương sau. Hiện tại, hãy tập trung vào cách chạy mã.
 
-Đa hình (Polymorphsim)
-Đa hình là khái niệm luôn đi kèm với kế thừa. Do tính kế thừa, một lớp có thể sử dụng lại các phương thức của lớp khác. Tuy nhiên, nếu cần thiết, lớp dẫn xuất cũng có thể định nghĩa lại một số phương thức của lớp cơ sở. 
-Đó là sự nạp chồng phương thức trong kế thừa. Nhờ sự nạp chồng phương thức này, ta chỉ cần gọi tên phương thức bị nạp chồng từ đối tượng mà không cần quan tâm đó là đối tượng của lớp nào. Chương trình sẽ tự động kiểm tra xem đối tượng là thuộc kiểu lớp cơ sở hay thuộc lớp dẫn xuất, sau đó sẽ gọi phương thức tương ứng với lớp đó. Đó là tính đa hình.
-
-* Lập trình hướng đối tượng trong C++
-Vì C++ là một ngôn ngữ lập trình được mở rộng từ một ngôn ngữ lập trình cấu trúc C nên C++ được xem là ngôn ngữ lập trình nửa hướng đối tượng, nửa hướng cấu trúc.
-Những đặc trưng hướng đối tượng của C++
-• Cho phép định nghĩa lớp đối tượng.
-• Cho phép đóng gói dữ liệu vào các lớp đối tượng. Cho phép định nghĩa phạm vi truy nhập dữ liệu của lớp bằng các từ khoá phạm vi: public, protected, private.
-• Cho phép kế thừa lớp với các kiểu kế thừa khác nhau tuỳ vào từ khoá dẫn xuất.
-• Cho phép lớp dẫn xuất sử dụng các phương thức của lớp cơ sở (trong phạm vi quy định).
-• Cho phép định nghĩa chồng phương thức trong lớp dẫn xuất.
-
-Những hạn chế hướng đối tượng của C++
-Những hạn chế này là do C++ được phát triển từ một ngôn ngữ lập trình thuần cấu trúc C.
-• Cho phép định nghĩa và sử dụng các biến dữ liệu tự do.
-• Cho phép định nghĩa và sử dụng các hàm tự do.
-• Ngay cả khi dữ liệu được đóng gói vào lớp, dữ liệu vẫn có thể truy nhập trực tiếp như dữ liệu tự do bởi các hàm bạn, lớp bạn (friend) trong C++.',
+Trong Codeblocks, nó sẽ trông như thế này:
+', 
 0, 0, 2),
 
-(N'Câu hỏi 1', 0, 3, 3),
-(N'Câu hỏi 2', 1, 3, 3),
-(N'Câu hỏi 3', 2, 3, 3);
+('codeblocks2020.png', 
+1, 1, 2),
+
+(N'Sau đó vào **Build > Build and Run** để chạy (thực thi) chương trình. Kết quả sẽ giống như thế này:
+
+```
+
+Hello World!  
+Process returned 0 (0x0) execution time : 0.011 s  
+Press any key to continue.
+
+```
+
+**Chúc mừng!** Bây giờ bạn đã viết và thực thi chương trình C++ đầu tiên của mình.
+', 
+2, 0, 2),
+
+(N'Câu hỏi 1', 
+0, 3, 3),
+(N'Câu hỏi 2', 
+1, 3, 3),
+(N'Câu hỏi 3', 
+3, 3, 3);
+go
+
+insert into Materials ([material_content], [material_ordinal], [material_type_id], [collection_id])
+values
+(N'---
+
+### Cú pháp
+
+Hãy chia nhỏ đoạn mã sau để hiểu rõ hơn:
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << "Hello World!";
+>	return 0;
+> }
+> 
+> ```
+
+==Giải thích==
+
+- **Dòng 1**: `#include <iostream>` là thư viện tệp tiêu đề cho phép chúng ta làm việc với các đối tượng đầu vào và đầu ra, chẳng hạn như `cout` (được sử dụng trong dòng 5). Tệp tiêu đề thêm chức năng cho chương trình C++.
+
+- **Dòng 2**: `use namespace std` có nghĩa là chúng ta có thể sử dụng tên cho các đối tượng và biến từ thư viện chuẩn.
+
+> *Đừng lo lắng nếu bạn không hiểu cách hoạt động của `#include <iostream>` và `use namespace std.` Chỉ cần nghĩ về nó như một thứ gì đó (gần như) luôn xuất hiện trong chương trình của bạn.*
+
+- **Dòng 3**: Dòng trống. C++ bỏ qua khoảng trắng. Nhưng chúng tôi sử dụng nó để làm cho mã dễ đọc hơn.
+
+- **Dòng 4**: Một thứ khác luôn xuất hiện trong chương trình C++ là `int main()`. Đây được gọi là một chức năng. Bất kỳ mã nào bên trong dấu ngoặc nhọn `{}` sẽ được thực thi.
+
+- **Dòng 5**: `cout` là một đối tượng được sử dụng cùng với toán tử chèn `<<` để xuất/in văn bản. Trong ví dụ của chúng tôi, nó sẽ xuất ra "Hello World!".
+
+> - *C++ phân biệt chữ hoa chữ thường: "cout" và "Cout" có nghĩa khác nhau.*
+> - *Mọi câu lệnh C++ đều kết thúc bằng dấu chấm phẩy `;`.*
+> - *Phần thân của `int main()` cũng có thể được viết là: `int main () { cout << "Xin chào thế giới!"; trả về 0; }`*
+> - *Trình biên dịch bỏ qua khoảng trắng. Tuy nhiên, nhiều dòng làm cho mã dễ đọc hơn.*
+
+- **Dòng 6**: `return 0;` kết thúc chức năng chính.
+
+- **Dòng 7**: Đừng quên thêm dấu ngoặc nhọn đóng `}` để kết thúc hàm chính.
+
+---
+
+### Bỏ qua Namespace
+
+Bạn có thể thấy một số chương trình C++ chạy mà không có thư viện vùng tên tiêu chuẩn. Dòng `use namespace std` có thể được bỏ qua và thay thế bằng từ khóa `std`, theo sau là toán tử `::` cho một số đối tượng:
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> 
+> int main() {
+>	std::cout << "Hello World!";
+>	return 0;
+> }
+> 
+> ```
+
+Bạn có muốn bao gồm thư viện không gian tên tiêu chuẩn hay không là tùy thuộc vào bạn.
+
+---
+
+### Câu lệnh
+
+Một **chương trình máy tính** là một danh sách các "hướng dẫn" được máy tính "thực thi".
+
+Trong ngôn ngữ lập trình, các hướng dẫn lập trình này được gọi là **câu lệnh**.
+
+Câu lệnh sau "hướng dẫn" trình biên dịch in dòng chữ "Hello world!" ra màn hình:
+
+> Ví dụ
+> ```
+> 
+> std::cout << "Hello World!";
+> 
+> ```
+
+Điều quan trọng là bạn kết thúc câu lệnh bằng dấu chấm phẩy `;`
+
+Nếu quên dấu chấm phẩy `;` sẽ xảy ra lỗi và chương trình sẽ không chạy:
+
+> Ví dụ
+> ```
+> 
+> std::cout << "Hello World!"
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> error: expected '';'' before ''return''
+> 
+> ```
+
+---
+
+### Đa lệnh
+
+Hầu hết các chương trình C++ đều chứa nhiều câu lệnh.
+
+Các câu lệnh được thực hiện, từng câu một, theo thứ tự như khi chúng được viết:
+
+> Ví dụ
+> ```
+> 
+> cout << "Hello World!";
+> cout << "Have a good day!";
+> return 0;
+> 
+> ```
+
+- Câu lệnh đầu tiên được thực thi trước (in "Hello World!" ra màn hình).
+- Sau đó, câu lệnh thứ hai được thực thi (in "Chúc một ngày tốt lành!" ra màn hình).
+- Và cuối cùng, câu lệnh thứ ba được thực thi (kết thúc chương trình C++ thành công).
+
+Bạn sẽ tìm hiểu thêm về các câu lệnh khi đọc hướng dẫn này. Hiện tại, chỉ cần nhớ luôn kết thúc chúng bằng dấu chấm phẩy để tránh bất kỳ lỗi nào.
+
+**Sắp tới**: Chương tiếp theo sẽ hướng dẫn bạn cách kiểm soát đầu ra và cách chèn dòng mới để dễ đọc hơn.
+',
+0, 0, 4),
+(N'---
+
+### In văn bản
+
+Đối tượng `cout`, cùng với toán tử `<<`, được sử dụng để xuất giá trị và in văn bản.
+Chỉ cần nhớ bao quanh văn bản bằng dấu ngoặc kép `""`:
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << "Hello World!";
+>	return 0;
+> }
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> Hello World!
+> 
+> ```
+
+Bạn có thể thêm bao nhiêu đối tượng `cout` tùy thích. Tuy nhiên, lưu ý rằng nó không chèn dòng mới vào cuối đầu ra:
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << "Hello World!";
+>	cout << "I am learning C++";
+>	return 0;
+> }
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> Hello World!I am learning C++
+> 
+> ```
+
+---
+
+### In số
+
+Bạn cũng có thể sử dụng `cout` để in số.
+Tuy nhiên, không giống như văn bản, chúng ta ==không đặt số trong dấu ngoặc kép==:
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << 3;
+>	return 0;
+> }
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> 3
+> 
+> ```
+
+Bạn cũng có thể thực hiện các phép tính toán học.
+
+==Chúng tôi khuyến khích bạn tạo thói quen để phép tính trong ngoặc.==
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << (3 + 3);
+>	return 0;
+> }
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> 6
+> 
+> ```
+
+Bạn có thể kết hợp cả văn bản và số.
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << "3 + 3 = " << (3 + 3);
+>	return 0;
+> }
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> 3 + 3 = 6
+> 
+> ```
+
+---
+
+### Xuống dòng mới
+
+Để chèn một dòng mới vào đầu ra của bạn, bạn có thể sử dụng ký tự `\n`:
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << "Hello World! \n";
+>	cout << "I am learning C++";
+>	return 0;
+> }
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> Hello World! 
+> I am learning C++
+> 
+> ```
+
+Bạn cũng có thể sử dụng toán tử `<<` khác và đặt ký tự `\n` sau văn bản, như sau:
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << "Hello World!" << "\n";
+>	cout << "I am learning C++";
+>	return 0;
+> }
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> Hello World! 
+> I am learning C++
+> 
+> ```
+
+**Mẹo:** Hai ký tự \n nối tiếp nhau sẽ tạo thành một dòng trống:
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << "Hello World!" << "\n\n";
+>	cout << "I am learning C++";
+>	return 0;
+> }
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> Hello World! 
+> 
+> I am learning C++
+> 
+> ```
+
+Một cách khác để chèn một dòng mới là sử dụng trình thao tác `endl`:
+
+> Ví dụ
+> ```
+> 
+> #include <iostream>
+> using namespace std;
+> 
+> int main() {
+>	cout << "Hello World!" << endl;
+>	cout << "I am learning C++";
+>	return 0;
+> }
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> Hello World!
+> I am learning C++
+> 
+> ```
+
+> Cả `\n` và `endl` đều được sử dụng để ngắt dòng. Tuy nhiên, `\n` được sử dụng nhiều nhất.
+> 
+> Nhưng `\n` chính xác là gì?
+> Ký tự dòng mới `\n` được gọi là **chuỗi thoát** và nó buộc con trỏ thay đổi vị trí của nó về đầu dòng tiếp theo trên màn hình. Điều này dẫn đến một dòng mới.
+> 
+> Ví dụ về các chuỗi thoát hợp lệ khác là:
+
+| Chuỗi thoát | Mô tả |
+| ----------- | ----------- |
+| `\t` | Tạo tab ngang |
+| `\\` | Chèn ký tự dấu gạch chéo ngược (\) |
+| `\"` | Chèn một ký tự trích dẫn kép |
+',
+0, 0, 5),
+(N'---
+
+> Chú thích có thể được sử dụng để giải thích mã C++ và làm cho nó dễ đọc hơn. Nó cũng có thể được sử dụng để ngăn việc thực thi khi kiểm tra mã thay thế. Chú thích có thể được viết một dòng hoặc nhiều dòng.
+
+### Chú thích một dòng
+
+Nhận xét một dòng bắt đầu bằng hai dấu gạch chéo lên `//`.
+
+Bất kỳ văn bản nào giữa `//` và cuối dòng đều bị trình biên dịch bỏ qua (sẽ không được thực thi).
+
+Ví dụ này sử dụng nhận xét một dòng trước một dòng mã:
+
+> Ví dụ
+> ```
+> 
+> // This is a comment
+> cout << "Hello World!" << endl;
+> 
+> ```
+
+Ví dụ này sử dụng nhận xét một dòng ở cuối dòng mã:
+
+> Ví dụ
+> ```
+> 
+> cout << "Hello World!" << endl; // This is a comment
+> 
+> ```
+
+---
+
+### Chú thích nhiều dòng
+
+Chú thích nhiều dòng bắt đầu bằng `/*` và kết thúc bằng `*/`.
+
+Mọi văn bản giữa `/`* và `*/` sẽ bị trình biên dịch bỏ qua:
+
+> Ví dụ
+> ```
+> 
+> /* The code below will print the words Hello World!
+> to the screen, and it is amazing */
+> cout << "Hello World!";
+> 
+> ```
+
+> Chú thích một dòng hay nhiều dòng?
+> 
+> - *Tùy thuộc vào bạn mà bạn muốn sử dụng. Thông thường, chúng ta sử dụng `// Chu thich` cho những bình luận ngắn và `/* Chu thich */` cho những bình luận dài hơn.*
+',
+0, 0, 6),
+(N'---
+
+### Biến trong C++
+
+Biến là nơi chứa các giá trị dữ liệu.
+
+Trong C++, có nhiều **loại biến** khác nhau (được xác định bằng các từ khóa khác nhau), ví dụ:
+
+- `int` - lưu trữ số nguyên (số nguyên), không có số thập phân, chẳng hạn như 123 hoặc -123
+- `double` - lưu trữ số dấu phẩy động, với số thập phân, chẳng hạn như 19,99 hoặc -19,99
+- `char` - lưu trữ các ký tự đơn, chẳng hạn như ''a'' hoặc ''B''. Giá trị Char được bao quanh bởi dấu ngoặc đơn
+- `string` - lưu trữ văn bản, chẳng hạn như "Xin chào thế giới". Giá trị chuỗi được bao quanh bởi dấu ngoặc kép
+- `bool` - lưu trữ các giá trị với hai trạng thái: đúng hoặc sai
+
+---
+
+### Khai báo (Tạo) Biến
+
+Để tạo một biến, hãy chỉ định loại và gán cho nó một giá trị:
+
+> Cú pháp
+> ```
+> 
+> type variableName = value;
+> 
+> ```
+
+Trong đó ==loại== là một trong các loại C++ (chẳng hạn như `int`) và ==variableName== là tên của biến (chẳng hạn như **x** hoặc **myName**). **Dấu bằng** được dùng để gán ==value== (giá trị) cho biến.
+
+Để tạo một biến lưu trữ một số, hãy xem ví dụ sau:
+
+> Ví dụ
+> ```
+> 
+> int myNum = 15;
+> cout << myNum;
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> 15
+> 
+> ```
+
+Bạn cũng có thể khai báo một biến mà không cần gán giá trị và gán giá trị sau:
+
+> Ví dụ
+> ```
+> 
+> int myNum;
+> myNum = 15;
+> cout << myNum;
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> 15
+> 
+> ```
+
+Lưu ý rằng nếu bạn gán giá trị mới cho biến hiện có, nó sẽ ghi đè giá trị trước đó:
+
+> Ví dụ
+> ```
+> 
+> int myNum = 15;
+> myNum = 10;
+> cout << myNum;
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> 10
+> 
+> ```
+
+---
+
+### Các loại khác
+
+Khai báo của các loại dữ liệu khác:
+
+> Ví dụ
+> ```
+> 
+> int myNum = 5;               // Integer (whole number without decimals)
+> double myFloatNum = 5.99;    // Floating point number (with decimals)
+> char myLetter = ''D'';         // Character
+> string myText = "Hello";     // String (text)
+> bool myBoolean = true;       // Boolean (true or false)
+> 
+> ```
+
+> Bạn sẽ tìm hiểu thêm về các kiểu riêng lẻ trong chương [Kiểu dữ liệu](https://www.example.com).
+
+---
+
+### Hiển thị các biến
+
+Đối tượng `cout` được sử dụng cùng với toán tử `<<` để hiển thị các biến.
+
+Để kết hợp cả văn bản và một biến, hãy tách chúng bằng toán tử `<<`:
+
+> Ví dụ
+> ```
+> 
+> int myAge = 35;
+> cout << "I am " << myAge << " years old.";
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> I am 35 years old.
+> 
+> ```
+
+---
+
+### Cộng các giá trị biến dạng số
+
+Để cộng một biến vào một biến khác, bạn có thể sử dụng toán tử `+`:
+
+> Ví dụ
+> ```
+> 
+> int x = 5;
+> int y = 6;
+> int sum = x + y;
+> cout << sum;
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> 11
+> 
+> ```
+
+---
+
+### Khai báo nhiều biến
+
+Để khai báo nhiều biến **cùng loại**, hãy sử dụng danh sách được phân tách bằng dấu phẩy:
+
+> Ví dụ
+> ```
+> 
+> int x = 5, y = 6, z = 50;
+> cout << x + y + z;
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> 61
+> 
+> ```
+
+---
+
+### Một giá trị cho nhiều biến
+
+Bạn cũng có thể gán **cùng một giá trị** cho nhiều biến trên một dòng:
+
+> Ví dụ
+> ```
+> 
+> int x, y, z;
+> x = y = z = 50;
+> cout << x + y + z;
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> 150
+> 
+> ```
+
+---
+
+### Quy tắc đặt tên biến
+
+==Nguyên tắc chung khi đặt tên biến là:==
+
+- Tên có thể chứa chữ cái, chữ số và dấu gạch dưới(`a`, `a_b`, `a_2_b`)
+- Tên phải bắt đầu bằng một chữ cái hoặc dấu gạch dưới (`_a_b`)
+- Tên có phân biệt chữ hoa chữ thường (`ab` và `aB` là các biến khác nhau)
+- Tên không được chứa khoảng trắng hoặc ký tự đặc biệt như !, #, %, v.v.
+- Các từ dành riêng (như từ khóa C++, chẳng hạn như `int`) không thể được sử dụng làm tên
+
+Tất cả các biến C++ phải được **xác định** bằng **tên duy nhất**.
+
+Giá trị nhận dạng có thể là tên ngắn (như x và y) hoặc tên mô tả nhiều hơn (age, sum, totalValues).
+
+Lưu ý: Nên sử dụng tên mô tả để tạo mã dễ hiểu và dễ bảo trì:
+
+> Ví dụ
+> ```
+> 
+> // Tốt
+> int minutesPerHour = 60;
+> 
+> // Tạm ổn, nhưng rất khó để biết m hiện tại đang đại diện cho cái gì
+> int m = 60;
+> 
+> ```
+
+---
+
+### Hằng số
+
+Khi bạn không muốn người khác (hoặc chính mình) thay đổi giá trị biến hiện có, hãy sử dụng từ khóa `const` (điều này sẽ khai báo biến là "không đổi", nghĩa là **không thể thay đổi** và **chỉ đọc**):
+
+> Ví dụ
+> ```
+> 
+> const int myNum = 15;  // myNum sẽ luôn có giá trị là 15
+> myNum = 10;  // Cố gắn gán giá trị cho hằng sẽ gây lỗi
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> error: assignment of read-only variable ''myNum''
+> 
+> ```
+
+Bạn phải luôn khai báo biến là hằng số khi bạn có các giá trị khó có thể thay đổi:
+
+> Ví dụ
+> ```
+> 
+> const int minutesPerHour = 60;
+> const float PI = 3.14;
+> 
+> ```
+
+Khi bạn khai báo một biến không đổi, nó phải được gán một giá trị:
+
+> Ví dụ
+> ```
+> 
+> const int minutesPerHour;
+> minutesPerHour = 60; // error
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> error: uninitialized const ''minutesPerHour'' [-fpermissive]
+>    5 |   const int minutesPerHour;
+>      |             ^~~~~~~~~~~~~~
+> prog.cpp:6:18: error: assignment of read-only variable ''minutesPerHour''
+>    6 |   minutesPerHour = 60;
+>      |   ~~~~~~~~~~~~~~~^~~~
+> 
+> ```
+', 
+0, 0, 7),
+(N'---
+
+### Nhập từ bàn phím.
+
+Bạn đã biết rằng `cout` được sử dụng để xuất (in) các giá trị. Bây giờ chúng ta sẽ sử dụng `cin` để lấy dữ liệu đầu vào của người dùng.
+
+`cin` là biến được xác định trước để đọc dữ liệu từ bàn phím bằng toán tử trích xuất `>>`.
+
+Trong ví dụ sau, người dùng có thể nhập một số được lưu trong biến `x`. Sau đó chúng ta in giá trị của `x`:
+
+> Ví dụ
+> ```
+> 
+> int x; 
+> cout << "Type a number: ";
+> cin >> x; // Lấy dữ liệu từ người dùng từ bàn phím
+> cout << "Your number is: " << x; // In dữ liệu
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> Type a number
+> 10
+> Your number is 10
+> 
+> ```
+
+> Lưu ý
+> 
+> - `cout` được phát âm là "see-out". Được sử dụng cho đầu ra và sử dụng toán tử chèn `<<`
+> - `cin` được phát âm là "see-in". Được sử dụng để nhập liệu và sử dụng toán tử trích xuất `>>`
+
+---
+
+### Tạo một máy tính đơn giản
+
+Trong ví dụ này, người dùng phải nhập hai số. Sau đó chúng ta in tổng bằng cách tính (cộng) hai số:
+
+> Ví dụ
+> ```
+> 
+> int x, y;
+> int sum;
+> cout << "Type a number: ";
+> cin >> x;
+> cout << "Type another number: ";
+> cin >> y;
+> sum = x + y;
+> cout << "Sum is: " << sum;
+> 
+> ```
+
+> Kết quả
+> ```
+> 
+> Type a number
+> 10
+> Type another number
+> 20
+> Sum is: 30
+> 
+> ```
+', 0, 0, 8),
+
+(N'Câu hỏi 1', 0, 3, 9),
+(N'Câu hỏi 2', 1, 3, 9),
+(N'Câu hỏi 3', 2, 3, 9),
+(N'Câu hỏi 4', 3, 3, 9),
+(N'Câu hỏi 5', 4, 3, 9),
+(N'Câu hỏi 6', 5, 3, 9),
+(N'Câu hỏi 7', 6, 3, 9),
+(N'Câu hỏi 8', 7, 3, 9),
+(N'Câu hỏi 9', 8, 3, 9),
+(N'Câu hỏi 10', 9, 3, 9);
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
@@ -447,32 +1208,92 @@ go
 ------------------------------------------------------------------------------------------------------------
 insert into Questions ([question_description], [question_ordinal], [question_type_id], [material_id])
 values
-(N'Đâu là đặc trưng cơ bản của lập trình tuyến tính?', 0, 1, 5),
-(N'Đâu là ưu điểm của lập trình hướng cấu trúc?', 1, 1, 6),
-(N'Đâu Không phải là tính chất của lập trình hướng đối tượng?', 1, 0, 7);
+(N'Bạn đã cài đặt Code::Blocks chưa?', 0, 0, 11),
+(N'Bạn đã chạy chương trình ''Hello World'' chưa?', 1, 0, 12),
+(N'Bạn đã sẵn sàng để học lập trình C++ chưa?', 2, 0, 13);
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 insert into Answers ([answer_description], [answer_ordinal], [answer_is_right], [question_id])
 values
-(N'Đơn giản', 0, 1, 0),
-(N'Đơn luồng', 1, 1, 0),
-(N'Đơn điệu', 2, 0, 0),
-(N'Đơn mục tiêu', 3, 0, 0),
+(N'Đẫ cài đặt', 0, 1, 0),
+(N'Chưa cài đặt', 1, 0, 0),
 
-(N'Chương trình sáng sủa, dễ hiểu, dễ theo dõi.', 0, 1, 1),
-(N'Tư duy giải thuật rõ ràng.', 1, 1, 1),
-(N'Không còn nguy cơ dữ liệu bị thay đổi tự do.', 2, 1, 1),
+(N'Đã chạy', 0, 1, 1),
+(N'Chưa chạy.', 1, 0, 1),
 
-(N'Không còn nguy cơ dữ liệu bị thay đổi tự do.', 0, 1, 2),
-(N'Không còn nguy cơ dữ liệu bị thay đổi tự do.', 1, 0, 2),
-(N'Không còn nguy cơ dữ liệu bị thay đổi tự do.', 2, 0, 2),
-(N'Không còn nguy cơ dữ liệu bị thay đổi tự do.', 3, 0, 2);
+(N'Đã sẵn sàng.', 0, 1, 2),
+(N'Chưa sẵn sàng.', 1, 0, 2);
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
---insert into Enrollments([enrollment_id], [enrollment_date], [enrollment_is_complete], [user_id], [course_id])
---go
+insert into Questions ([question_description], [question_ordinal], [question_type_id], [material_id])
+values
+(N'Câu lệnh nào sau đây dùng để hiển thị nội dung ra màn hình trong C++?', 3, 0, 19),
+(N'Khi nào chúng ta nên sử dụng "const" cho biến trong C++?', 4, 0, 20),
+(N'Lệnh nào sẽ kết thúc một hàm trong C++?', 5, 0, 21),
+(N'Trong chương trình "Hello World", dòng nào định nghĩa điểm bắt đầu của chương trình?', 6, 0, 22),
+(N'Trong C++, loại dữ liệu nào phù hợp để lưu trữ số thập phân?', 7, 0, 23),
+(N'Các thành phần nào là cần thiết để chạy một chương trình C++ cơ bản?', 8, 1, 24),
+(N'Câu lệnh nào sau đây là cần thiết để nhập dữ liệu từ bàn phím trong C++?', 9, 1, 25),
+(N'Các đặc điểm nào là đúng khi sử dụng biến "int" trong C++?', 10, 1, 26),
+(N'Lệnh nào dưới đây có thể được dùng để chèn một dòng mới trong C++?', 11, 1, 27),
+(N'Khi khai báo một biến, yếu tố nào cần phải có?', 12, 1, 28);
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+insert into Answers ([answer_description], [answer_ordinal], [answer_is_right], [question_id])
+values
+(N'cout << "Hello World!";', 0, 1, 3),
+(N'cin >> "Hello World!";', 1, 0, 3),
+(N'printf("Hello World!");', 2, 0, 3),
+
+(N'Khi không muốn giá trị biến thay đổi', 0, 1, 4),
+(N'Khi muốn biến có giá trị ngẫu nhiên', 1, 0, 4),
+(N'Khi muốn biến có giá trị thay đổi thường xuyên', 2, 0, 4),
+
+(N'return;', 0, 1, 5),
+(N'cout << "Kết thúc";', 1, 0, 5),
+(N'int end();', 2, 0, 5),
+
+(N'int main()', 0, 1, 6),
+(N'#include <iostream>', 1, 0, 6),
+(N'using namespace std;', 2, 0, 6),
+
+(N'int', 0, 0, 7),
+(N'double', 1, 1, 7),
+(N'string', 2, 0, 7),
+
+(N'#include <iostream>', 0, 1, 8),
+(N'using namespace std;', 1, 1, 8),
+(N'int main()', 2, 1, 8),
+(N'cout << "Hello World!";', 3, 0, 8),
+
+(N'cin', 0, 1, 9),
+(N'cout', 1, 0, 9),
+(N'get()', 2, 1, 9),
+(N'scanf()', 3, 0, 9),
+
+(N'Lưu trữ số nguyên', 0, 1, 10),
+(N'Lưu trữ số thập phân', 1, 0, 10),
+(N'Không bao gồm dấu chấm thập phân', 2, 1, 10),
+(N'Bao gồm chuỗi ký tự', 3, 0, 10),
+
+(N'\n', 0, 1, 11),
+(N'endl', 1, 1, 11),
+(N'tab', 2, 0, 11),
+(N'new line()', 3, 0, 11),
+
+(N'Kiểu dữ liệu', 0, 1, 12),
+(N'Tên biến', 1, 1, 12),
+(N'Giá trị mặc định', 2, 0, 12),
+(N'Ký tự đặc biệt', 3, 0, 12);
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+insert into Enrollments([enrollment_date], [enrollment_is_complete], [user_id], [course_id])
+values (getdate(), 0, 2, 0);
+go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 --insert into UserTracking ([tracking_id], [enrollment_id], [collection_id]);
