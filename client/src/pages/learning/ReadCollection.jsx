@@ -302,7 +302,7 @@ const ReadCollection = () => {
                         onChange={(e) => handleAnswerChange(material.material_ordinal, answer.answer_ordinal, e.target.checked)}
                     />
                     <label htmlFor={`answer-${material.material_ordinal}-${answer.answer_ordinal}`}>
-                        {answer.answer_ordinal}. {answer.answer_description}
+                        {answer.answer_description}
                     </label>
                 </div>
             ))}
@@ -394,14 +394,14 @@ const ReadCollection = () => {
                                     {collectionData.some((collection) =>
                                         collection.materials.some((material) => material.material_type_name === 'Question')
                                     ) && (attemptCount > 0) && (highestGrade >= 80) && (
-                                            <ReactMarkdown
-                                                className="read-collection__text read-collection__congratulations"
-                                                remarkPlugins={[remarkGfm, remarkFootnotes, remarkEmoji, remarkMath]}
-                                                rehypePlugins={[rehypeKatex, rehypeRaw]}
-                                            >
-                                                {`Chúc mừng! Bạn đã hoàn thành bài kiểm tra thuộc module **${modules[m]?.module_name || ''}**
-                                                Bạn có thể nộp lại bài để đạt được số điểm mong muốn.`}
-                                            </ReactMarkdown>
+                                            <div className="read-collection__congratulations">
+                                                <span>
+                                                    Chúc mừng! Bạn đã hoàn thành bài kiểm tra thuộc module <strong style={{ color: 'blue' }}>{modules[m]?.module_name || ''}</strong>
+                                                </span>
+                                                <br />
+                                                <span>Bạn có thể nộp lại bài để đạt được số điểm mong muốn.</span>
+                                            </div>
+
                                         )}
 
                                     {materials.map((material) => {

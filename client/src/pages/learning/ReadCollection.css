@@ -183,7 +183,7 @@
 .read-collection__text {
     margin: 15px 0;
     font-size: 17px;
-    color: #2d3748;
+    color: black;
     line-height: 1.6;
     font-family: inherit;
 }
@@ -192,7 +192,7 @@
 .read-collection__text h2,
 .read-collection__text h3 {
     margin: 15px 0;
-    color: #1a202c;
+    color: black;
     font-weight: bold;
 }
 
@@ -211,8 +211,7 @@
 .read-collection__text blockquote {
     border-left: 4px solid #3182ce;
     padding-left: 15px;
-    color: #4a5568;
-    font-style: italic;
+    color: black;
     margin: 15px 0;
     background-color: #f7fafc;
     padding: 10px 15px;
@@ -224,9 +223,9 @@
     background-color: #edf2f7;
     padding: 6px 8px;
     border-radius: 4px;
-    font-family: 'Courier New', monospace;
+    font-family: 'Consolas', monospace;
     font-size: 15px;
-    color: #2d3748;
+    color: black;
 }
 
 .read-collection__text pre {
@@ -239,7 +238,8 @@
 .read-collection__text p code {
     padding: 2px 4px;
     font-size: 15px;
-    color: #d6336c;
+    font-family: 'Consolas', monospace;
+    color: black;
 }
 
 .read-collection__text table {
@@ -284,25 +284,6 @@
 .read-collection__text sup {
     font-size: 0.8em;
     color: #4a5568;
-}
-
-.read-collection__text .footnotes {
-    margin-top: 20px;
-    padding-top: 10px;
-    border-top: 1px solid #e2e8f0;
-    font-size: 15px;
-    color: #4a5568;
-}
-
-.read-collection__text .footnotes ol {
-    list-style-type: decimal;
-    padding-left: 20px;
-}
-
-.read-collection__text .footnotes a {
-    text-decoration: none;
-    color: #3182ce;
-    font-size: 14px;
 }
 
 .read-collection__text mark {
@@ -378,6 +359,7 @@
 
 .read-collection__answer {
     margin: 5px 0;
+    font-weight: normal;
 }
 
 .read-collection__answer input {
@@ -409,7 +391,6 @@
     background-color: #e6f7e6;
     border-left: 4px solid #28a745;
     padding: 15px;
-    font-style: italic;
     font-size: 1.1em;
     color: #333;
     margin: 15px 0;
