@@ -68,13 +68,9 @@ const Router = () => {
           <Route path="edu/payment" element={<Payment />} /> 
           <Route path="edu/payment/check" element={<PaymentCheck />} /> 
           <Route path="edu/collection" element={<ReadCollection />} /> 
-<<<<<<< HEAD
-=======
           <Route path="cert/find" element={<AccomplishmentByID />} /> 
           <Route path="cert/:certificate_id" element={<Accomplishment />} /> 
 
-          <Route path='chatbot' element={<Chatbot />} />
->>>>>>> 34fcaa8824541f9201c565f18d4d8c78b4a333bc
           <Route path='servey' element={<Servey />} />
 
         </Route>
