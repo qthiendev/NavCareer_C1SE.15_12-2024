@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 // import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { FaSearch, FaBell, FaFacebookMessenger } from 'react-icons/fa';
@@ -19,14 +19,19 @@ function Layout() {
     // const [isChatbotVisible, setIsChatbotVisible] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
+
     const toggleChatbot = () => {
         setShowChatbot(!showChatbot);
-      };
+    };
 
     // const location = useLocation();
     useEffect(() => {
         const checkAdmin = async () => {
             try {
+                setIsAdmin(false);
+                setIsESP(false);
+                setIsStudent(false);
                 const response = await axios.get('http://localhost:5000/authz/adm', { withCredentials: true });
                 if (response.status === 200) {
                     setIsAdmin(response.status === 200);
@@ -41,7 +46,7 @@ function Layout() {
             }
         };
         checkAdmin();
-    }, [navigate]);
+    }, [navigate, location]);
 
     useEffect(() => {
         const checkESP = async () => {
@@ -61,10 +66,10 @@ function Layout() {
             }
         };
         checkESP();
-    }, [isCheckAdmin]);
+    }, [isCheckAdmin, navigate, location]);
 
     useEffect(() => {
-        const checkESP = async () => {
+        const checkSTU = async () => {
             if (!isCheckESP) return;
             try {
                 const response = await axios.get('http://localhost:5000/authz/stu', { withCredentials: true });
@@ -80,8 +85,8 @@ function Layout() {
                 setLoading(false);
             }
         };
-        checkESP();
-    }, [isCheckESP]);
+        checkSTU();
+    }, [isCheckESP, navigate, location]);
 
     const handleSearch = () => {
         if (searchIndex.trim()) {
@@ -142,19 +147,19 @@ function Layout() {
                             <li><a href="/course/view">KHÓA HỌC</a></li>
                             <li><a href="/about">VỀ CHÚNG TÔI</a></li>
                             <div className='icon-container-mess'>
-                            {/* <li><FaFacebookMessenger className="notification-icon" onClick={() => navigate('/chatbot')} /></li> */}
-                            <li>
-                                <FaFacebookMessenger
-                                    className="notification-icon"
-                                    onClick={toggleChatbot}
-                                />
-                                {showChatbot && (
-                                    <div className="chatbot-modal">
-                                        <Chatbot />
-                                    </div>
-                                )}
-                            </li>
-                            <span className="description-icon-chatbot">CHAT BOT</span>
+                                {/* <li><FaFacebookMessenger className="notification-icon" onClick={() => navigate('/chatbot')} /></li> */}
+                                <li>
+                                    <FaFacebookMessenger
+                                        className="notification-icon"
+                                        onClick={toggleChatbot}
+                                    />
+                                    {showChatbot && (
+                                        <div className="chatbot-modal">
+                                            <Chatbot />
+                                        </div>
+                                    )}
+                                </li>
+                                <span className="description-icon-chatbot">CHAT BOT</span>
                             </div>
                         </ul>
 

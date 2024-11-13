@@ -7,16 +7,14 @@ const tryReadFullCourse = async (role, courses_id) => {
             throw new Error(`'courses_id' must be a valid number.`);
         }
 
-        // Thực hiện truy vấn để lấy thông tin khóa học
         const courses = await ncbd.query(role, `execute ReadFullCourse @course_id`, { course_id: courses_id });
 
-        // Nếu không tìm thấy khóa học, trả về null
         if (!courses || courses.length === 0) {
             return null;
         }
 
-        // Khởi tạo cấu trúc dữ liệu cho khóa học
         const courseDetails = {
+            authentication_id: courses[0].authentication_id,
             course_id: courses_id,
             course_name: courses[0].course_name,
             course_short_description: courses[0].course_short_description,
@@ -25,49 +23,46 @@ const tryReadFullCourse = async (role, courses_id) => {
             course_duration: courses[0].course_duration,
             course_piority_index: courses[0].course_piority_index,
             course_status: courses[0].course_status,
-            modules: []  // Chuyển đổi thành mảng
+            user_id: courses[0].user_id,
+            user_full_name: courses[0].user_full_name,
+            modules: []
         };
 
-        // Duyệt qua tất cả các hàng để xây dựng cấu trúc dữ liệu
         for (const row of courses) {
-            // Tìm hoặc tạo module trong courseDetails
             let module = courseDetails.modules.find(m => m.module_ordinal === row.module_ordinal);
             if (!module) {
                 module = {
+                    module_id: row.module_id,
                     module_ordinal: row.module_ordinal,
                     module_name: row.module_name,
-                    collections: []  // Chuyển đổi thành mảng
+                    collections: []
                 };
                 courseDetails.modules.push(module);
             }
 
-            // Tìm hoặc tạo collection trong module
             let collection = module.collections.find(c => c.collection_id === row.collection_id);
             if (!collection && row.collection_id != null) {
                 collection = {
                     collection_id: row.collection_id,
                     collection_ordinal: row.collection_ordinal,
                     collection_name: row.collection_name,
-                    materials: []  // Chuyển đổi thành mảng
+                    materials: []
                 };
                 module.collections.push(collection);
             }
 
-            // Kiểm tra xem collection có tồn tại trước khi tạo material
             if (collection) {
-                // Tìm hoặc tạo material trong collection
                 let material = collection.materials.find(m => m.material_ordinal === row.material_ordinal);
                 if (!material && row.material_ordinal != null) {
                     material = {
                         material_ordinal: row.material_ordinal,
                         material_type_name: row.material_type_name,
                         material_content: row.material_content,
-                        questions: []  // Chuyển đổi thành mảng
+                        questions: []
                     };
                     collection.materials.push(material);
                 }
 
-                // Thêm câu hỏi và câu trả lời vào material
                 if (material && row.question_ordinal != null) {
                     let question = material.questions.find(q => q.question_ordinal === row.question_ordinal);
                     if (!question) {
@@ -75,12 +70,11 @@ const tryReadFullCourse = async (role, courses_id) => {
                             question_ordinal: row.question_ordinal,
                             question_type_name: row.question_type_name,
                             question_description: row.question_description,
-                            answers: []  // Chuyển đổi thành mảng
+                            answers: []
                         };
                         material.questions.push(question);
                     }
 
-                    // Thêm câu trả lời vào câu hỏi
                     if (row.answer_ordinal != null) {
                         question.answers.push({
                             answer_ordinal: row.answer_ordinal,
@@ -92,7 +86,6 @@ const tryReadFullCourse = async (role, courses_id) => {
             }
         }
 
-        // Sắp xếp các mô-đun, bộ sưu tập, tài liệu và câu hỏi theo thứ tự ordinal
         courseDetails.modules.sort((a, b) => a.module_ordinal - b.module_ordinal);
         for (const module of courseDetails.modules) {
             module.collections.sort((a, b) => a.collection_ordinal - b.collection_ordinal);

@@ -21,6 +21,7 @@
     text-align: center;
     font-family: 'Playfair Display', serif;
     background-color: white;
+    background-image: url(https://d1csarkz8obe9u.cloudfront.net/posterpreviews/certificate-background-template-design-8673c42070573c71a94b91e9b8c45afc_screen.jpg?ts=1697121145);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -104,8 +105,9 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    position: relative;
+    margin-left: 565px;
 }
+
 .signatures {
     display: flex;
     justify-content: space-around;
@@ -122,8 +124,6 @@
 .certificate-id {
     margin-top: 20px;
     font-size: 0.9rem;
-    margin-top: 5px;
-    margin-right: 905px;
     color: #888;
 }
 
@@ -153,5 +153,3 @@
 .navigation-buttons button:hover {
     background-color: #0056b3;
 }
-
-

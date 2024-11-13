@@ -33,16 +33,14 @@ function Accomplishment() {
     const exportPDF = async () => {
         const certificateElement = document.querySelector(".certificate-container");
 
-        // Capture the element as a canvas with all images
         const canvas = await html2canvas(certificateElement, {
-            scale: 2, // Increase resolution
-            useCORS: true, // Enable cross-origin images
-            allowTaint: true // Capture images with CORS issues
+            scale: 2,
+            useCORS: true,
+            allowTaint: true
         });
 
         const imageData = canvas.toDataURL("image/png");
 
-        // Create a PDF and add the image
         const pdf = new jsPDF("landscape", "px", "a4");
         pdf.addImage(imageData, "PNG", 20, 20, pdf.internal.pageSize.getWidth() - 40, 0);
         pdf.save(`certificate_${certificate_id}.pdf`);
@@ -59,25 +57,34 @@ function Accomplishment() {
         <div className="accomplishment-container">
             <div className="certificate-container" id="certificate">
                 <div className="certificate-body">
+                    
                     <div className="seal"></div>
+
                     <h1>GIẤY CHỨNG NHẬN</h1>
+
                     <p>Được trao cho</p>
+
                     <h2 className="recipient-name">
                         {genderPrefix} {student_name}
                     </h2>
+
                     <p>để công nhận việc hoàn thành khóa học</p>
+                    
                     <h3 className="course-name">{course_name}</h3>
+
                 </div>
 
                 <div className="certificate-footer">
                     <div className="signatures">
                         <div className="signature">
+                            
                             <p>Nhà cung cấp khóa học</p>
+
                             <img
                                 className="signature-img"
-                                src="https://onlinepngtools.com/images/examples-onlinepngtools/handwritten-signature.png"
+                                src="https://static.vecteezy.com/system/resources/thumbnails/000/537/670/small_2x/4153.jpg"
                                 alt="Signature 1"
-                                crossorigin="anonymous" // Enable CORS handling
+                                crossorigin="anonymous"
                             />
                             <p>{provider_name}</p>
                         </div>
@@ -88,12 +95,15 @@ function Accomplishment() {
                                 className="signature-img"
                                 src="https://cdn.prod.website-files.com/61d7de73eec437f52da6d699/62161cf7328ad280841f653f_esignature-signature.png"
                                 alt="Signature 2"
-                                crossorigin="anonymous" // Enable CORS handling
+                                crossorigin="anonymous"
                             />
                             <p>Trinh Quy Thien</p>
                         </div>
+
                     </div>
+
                     <p className="certificate-id">ID: {accomplishment_certificate_id}</p>
+
                 </div>
             </div>
 

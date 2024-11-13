@@ -228,20 +228,9 @@ begin
         return;
     end
 
-    declare @id int;
-
-    select top 1 @id = apb1.[id] + 1
-    from AuthProcedureBanned apb1
-        left join AuthProcedureBanned apb2 on apb1.[id] + 1 = apb2.[id]
-    where apb2.[id] is null
-    order by apb1.[id];
-
-    if @id is null 
-        select @id = isnull(max([id]), 0) + 1 from AuthProcedureBanned;
-
-    insert into AuthProcedureBanned ([id], [authentication_id], [procedure_name])
+    insert into AuthProcedureBanned ([authentication_id], [procedure_name])
     values
-    (@id, @authentication_id, @procedure_name);
+    (@authentication_id, @procedure_name);
 
     if @@ROWCOUNT = 1
     begin
@@ -310,8 +299,6 @@ end
 go
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
-grant execute on dbo.CreateAuthentication to [NAV_ADMIN];
-go
 grant execute on dbo.ReadAllUser to [NAV_ADMIN];
 go
 grant execute on dbo.ReadUser to [NAV_ADMIN];

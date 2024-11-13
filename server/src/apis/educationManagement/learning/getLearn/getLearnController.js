@@ -119,12 +119,12 @@ const getFrame = async (req, res) => {
                     collection_name
                 } = frame;
 
-                if (!nestedFrames[module_id]) {
-                    nestedFrames[module_id] = { module_id, module_ordinal, module_name, collections: [] };
+                if (!nestedFrames[module_ordinal]) {
+                    nestedFrames[module_ordinal] = { module_id, module_ordinal, module_name, collections: [] };
                 }
 
                 if (collection_type_name || collection_id !== null || collection_name) {
-                    nestedFrames[module_id].collections.push({
+                    nestedFrames[module_ordinal].collections.push({
                         collection_type_name: collection_type_name !== undefined ? collection_type_name : null,
                         collection_id: collection_id !== undefined ? collection_id : null,
                         collection_ordinal: collection_ordinal !== undefined ? collection_ordinal : null,

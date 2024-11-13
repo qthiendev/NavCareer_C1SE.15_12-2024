@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './UpdateCourse.css';
 
 function UpdateCourse() {
     const { course_id } = useParams();
-    const [courseData, setCourseData] = useState(null);
+    const [courseData, setCourseData] = useState({});
     const [modules, setModules] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -43,8 +42,6 @@ function UpdateCourse() {
             } catch (error) {
                 console.error('Authorization check failed:', error);
                 navigate('/');
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -57,11 +54,29 @@ function UpdateCourse() {
             try {
                 const response = await axios.get(`http://localhost:5000/course/read-full?course_id=${course_id}`, { withCredentials: true });
                 const data = response.data;
-                setCourseData(data);
-                setModules(data.modules || []);
+                setCourseData({
+                    course_id: data.course_id,
+                    authentication_id: data.authentication_id,
+                    course_name: data.course_name,
+                    course_short_description: data.course_short_description,
+                    course_full_description: data.course_full_description,
+                    course_price: data.course_price >= 1000 || data.course_price === 0 ? data.course_price : 1000,
+                    course_duration: data.course_duration,
+                    course_status: Boolean(data.course_status),
+                    user_id: data.user_id,
+                    user_full_name: data.user_full_name,
+                });
+                const filteredModules = (data.modules || []).map(module => ({
+                    module_id: module.module_id,
+                    module_name: module.module_name,
+                    module_ordinal: module.module_ordinal
+                }));
+                setModules(filteredModules);
             } catch (error) {
                 alert("Cannot find course");
                 navigate(-1);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -74,62 +89,74 @@ function UpdateCourse() {
             setErrorMessage('Course name and description cannot be empty.');
             return;
         }
+        if (courseData.course_price !== 0 && courseData.course_price < 1000) {
+            setErrorMessage('Course price must be 0 or at least 1000.');
+            return;
+        }
 
         try {
             await axios.post(`http://localhost:5000/course/update`, {
                 course_id: Number(course_id),
-                ...courseData,
-                modules,
+                ...courseData
             }, { withCredentials: true });
             alert('Course updated successfully');
-            navigate(-1);
+            navigate(0);
         } catch (error) {
             setErrorMessage('Failed to update course. Please try again later.');
             console.error('Failed to update course:', error);
         }
     };
 
-    const addModule = () => {
-        setModules(prevModules => [
-            ...prevModules,
-            { module_ordinal: prevModules.length, module_name: '', collections: [] },
-        ]);
-    };
-
-    const handleModuleChange = (index, value) => {
-        setModules(prevModules => {
-            const updatedModules = [...prevModules];
-            updatedModules[index].module_name = value;
-            return updatedModules;
-        });
-    };
-
-    const onDragEnd = (result) => {
-        if (!result.destination) return;
-
-        const reorderedModules = Array.from(modules);
-        const [removed] = reorderedModules.splice(result.source.index, 1);
-        reorderedModules.splice(result.destination.index, 0, removed);
-
-        const updatedModules = reorderedModules.map((module, index) => ({
-            ...module,
-            module_ordinal: index,
-        }));
-
-        setModules(updatedModules);
-    };
-
-    const deleteModule = async (index) => {
-        if (!window.confirm("Are you sure you want to delete this module?")) return;
-
-        const updatedModules = modules.filter((_, i) => i !== index);
-        setModules(updatedModules);
+    const handleDeleteModule = async (module_id) => {
         try {
-            await axios.delete(`http://localhost:5000/course/${course_id}/module/${modules[index].module_ordinal}`, { withCredentials: true });
+            await axios.delete(`http://localhost:5000/module/delete?module_id=${module_id}`, { withCredentials: true });
+            setModules(modules.filter(module => module.module_id !== module_id));
             alert('Module deleted successfully');
         } catch (error) {
-            setErrorMessage('Failed to delete module. Please try again later.');
             console.error('Failed to delete module:', error);
+            alert('Failed to delete module');
+        }
+    };
+
+    const handleAddModule = () => {
+        const newModule = {
+            module_id: Date.now(),
+            module_name: 'Module mới',
+            module_ordinal: modules.length
+        };
+        setModules([...modules, newModule]);
+    };
+
+    const handleOrdinalChange = async (index, newOrdinal) => {
+        const currentModule = modules[index];
+        const targetIndex = modules.findIndex(module => module.module_ordinal === newOrdinal);
+
+        if (targetIndex === -1 || currentModule.module_ordinal === newOrdinal) return;
+
+        const targetModule = modules[targetIndex];
+
+        try {
+            await axios.post(`http://localhost:5000/course/update/module`, null, {
+                params: {
+                    course_id,
+                    module_id_1: currentModule.module_id,
+                    module_id_2: targetModule.module_id
+                },
+                withCredentials: true
+            });
+
+            const newModules = [...modules];
+
+            // Swap the ordinals in local state
+            [newModules[index].module_ordinal, newModules[targetIndex].module_ordinal] =
+                [newModules[targetIndex].module_ordinal, newModules[index].module_ordinal];
+
+            setModules(newModules);
+
+            alert('Module ordinals swapped successfully');
+        } catch (error) {
+            console.error('Failed to swap module ordinals:', error);
+            alert('Failed to swap module ordinals');
         }
     };
 
@@ -137,121 +164,89 @@ function UpdateCourse() {
 
     return (
         <div className="update-course-container">
-            <div className="update-course-left-panel">
-                <div className="update-course-profile-header">
-                    {/* <img src="/path/to/avatar" alt="Avatar" className="update-course-profile-avatar" /> */}
-                    <h2 className="update-course-profile-name">NAV CAREER</h2>
-                    <h2 className="update-course-profile-name">Cập nhật khóa học</h2>
-                    {/* <button className="update-course-share-profile-btn">
-                        <img src="/img/student_profile/share_icon.svg" alt="Share" className="update-course-share-icon" />
-                        Chia sẻ hồ sơ
-                    </button> */}
-                </div>
-                <div className="update-course-profile-menu">
-                    <ul>
-                        <li className="update-course-menu-item active">Cập nhật khóa học</li>
-                        <li className="update-course-menu-item">Các khoá học</li>
-                        <li className="update-course-menu-item">Giảng viên yêu thích</li>
-                        <li className="update-course-menu-item">Tin nhắn</li>
-                        <li style={{ border: 'none' }} className="update-course-menu-item">Liên hệ admin</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div className="update-course-right-panel">
-                <div className="update-course-info">
-                    <form onSubmit={handleUpdateCourse}>
-                        <div className="update-course-information">
-                            <div className="update-course-form-row">
-                                <div className="update-course-form-group">
-                                    <label htmlFor="course_name">Tên Khóa Học:</label>
-                                    <input
-                                        type="text"
-                                        id="course_name"
-                                        value={courseData?.course_name || ''}
-                                        onChange={(e) => setCourseData({ ...courseData, course_name: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div className="update-course-form-group">
-                                    <label htmlFor="course_price">Giá:</label>
-                                    <input
-                                        type="number"
-                                        id="course_price"
-                                        value={courseData?.course_price || ''}
-                                        onChange={(e) => setCourseData({ ...courseData, course_price: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="update-course-form-row">
-                                <div className="update-course-form-group">
-                                    <label htmlFor="course_short_description">Mô Tả Khóa Học:</label>
-                                    <textarea
-                                        id="course_short_description"
-                                        value={courseData?.course_short_description || ''}
-                                        onChange={(e) => setCourseData({ ...courseData, course_short_description: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="update-course-form-row">
-                                <div className="update-course-form-group">
-                                    <label htmlFor="course_full_description">Thông Tin Khóa Học:</label>
-                                    <textarea
-                                        id="course_full_description"
-                                        value={courseData?.course_full_description || ''}
-                                        onChange={(e) => setCourseData({ ...courseData, course_full_description: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="update-course-form-row">
-                                <div className="update-course-form-group">
-                                    <label htmlFor="course_status">Trạng Thái:</label>
-                                    <select
-                                        id="course_status"
-                                        value={String(courseData?.course_status)}
-                                        onChange={(e) => setCourseData({ ...courseData, course_status: e.target.value === 'true' })}>
-                                        <option value="true">Active</option>
-                                        <option value="false">Locked</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="update-course-form-row">
-                                <h3>Khóa Học</h3>
-                            </div>
-                            <DragDropContext onDragEnd={onDragEnd}>
-                                <Droppable droppableId="droppable">
-                                    {(provided) => (
-                                        <div {...provided.droppableProps} ref={provided.innerRef}>
-                                            {modules.map((module, index) => (
-                                                <Draggable key={module.module_ordinal} draggableId={String(module.module_ordinal)} index={index}>
-                                                    {(provided) => (
-                                                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className="update-course-module-item">
-                                                            <input
-                                                                type="text"
-                                                                value={module.module_name}
-                                                                onChange={(e) => handleModuleChange(index, e.target.value)}
-                                                                placeholder="Module Name"
-                                                            />
-                                                            <button type="button" onClick={() => deleteModule(index)}>Xóa</button>
-                                                        </div>
-                                                    )}
-                                                </Draggable>
-                                            ))}
-                                            {provided.placeholder}
-                                        </div>
-                                    )}
-                                </Droppable>
-                            </DragDropContext>
-                            <button type="button" className="update-course-add-module-button" onClick={addModule}>Thêm Khóa Học</button>
+            <h2>Update Course</h2>
+            <form onSubmit={handleUpdateCourse}>
+                <label>
+                    Course Name:
+                    <input
+                        type="text"
+                        value={courseData.course_name}
+                        onChange={(e) => setCourseData({ ...courseData, course_name: e.target.value })}
+                    />
+                </label>
+                <label>
+                    Short Description:
+                    <textarea
+                        className="short-description"
+                        maxLength="1000"
+                        value={courseData.course_short_description}
+                        onChange={(e) => setCourseData({ ...courseData, course_short_description: e.target.value })}
+                    />
+                </label>
+                <label>
+                    Full Description:
+                    <textarea
+                        className="full-description"
+                        maxLength="5000"
+                        value={courseData.course_full_description}
+                        onChange={(e) => setCourseData({ ...courseData, course_full_description: e.target.value })}
+                    />
+                </label>
+                <label>
+                    Course Price:
+                    <input
+                        type="number"
+                        min="0"
+                        value={courseData.course_price}
+                        onChange={(e) => {
+                            const price = parseInt(e.target.value) || 0;
+                            setCourseData({ ...courseData, course_price: price === 0 || price >= 1000 ? price : 1000 });
+                        }}
+                    />
+                </label>
+                <label>
+                    Course Duration:
+                    <input
+                        type="text"
+                        value={courseData.course_duration}
+                        onChange={(e) => setCourseData({ ...courseData, course_duration: e.target.value })}
+                    />
+                </label>
+                <label>
+                    Course Status:
+                    <select
+                        value={courseData.course_status}
+                        onChange={(e) => setCourseData({ ...courseData, course_status: e.target.value === 'true' })}
+                    >
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </label>
+                <button type="submit">Update Course</button>
+                {errorMessage && <p className="error">{errorMessage}</p>}
+            </form>
+            <h3>Modules</h3>
+            <ul>
+                {modules.map((module, index) => (
+                    <li key={module.module_id}>
+                        <div className="module-item">
+                            <select
+                                value={module.module_ordinal}
+                                onChange={(e) => handleOrdinalChange(index, parseInt(e.target.value))}
+                            >
+                                {modules.map((m, i) => (
+                                    <option key={i} value={m.module_ordinal}>{m.module_ordinal}</option>
+                                ))}
+                            </select>
+                            <span className="module-name">{module.module_name}</span>
+                            <button onClick={() => navigate(`/esp/course/0/update-module?mid=${module.module_id}`)}>Modify</button>
+                            <button onClick={() => handleDeleteModule(module.module_id)}>Delete</button>
                         </div>
-                        {errorMessage && <div className="update-course-error-message">{errorMessage}</div>}
-                        <button type="submit" className="update-course-update-button">Cập Nhật Khóa Học</button>
-                    </form>
-                </div>
-            </div>
+                    </li>
+                ))}
+            </ul>
+
+            <button onClick={handleAddModule}>Add New Module</button>
         </div>
     );
 }

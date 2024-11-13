@@ -373,14 +373,14 @@ const ReadCollection = () => {
                                         const trackingArray = Object.values(tracking || {}).filter((item) => typeof item === 'object' && item !== null && 'collection_id' in item);
                                         const isTracked = trackingArray.some(item => item.collection_id === collection.collection_id);
                                         const q = collection.collection_type_name === 'Quiz';
-                                        const g = highestGrade >= 80;
+                                        const g = highestGrade >= 80 && Number.parseInt(m) === module.module_id;
 
                                         const isActive = collection.collection_ordinal === parseInt(co) && module.module_ordinal === parseInt(m);
 
                                         return (
                                             <div
                                                 className={`read-collection__collection ${isTracked ? 'tracked' : ''} ${isActive ? 'active' : ''} ${q ? g ? 'qg' : 'q' : ''}`}
-                                                key={collection.collection_id}  // Unique key for each collection
+                                                key={collection.collection_id}
                                                 onClick={() => handleCollectionClick(module.module_ordinal, collection.collection_ordinal)}
                                             >
                                                 {`${moduleIndex + 1}.${collection.collection_ordinal + 1}. ${collection.collection_name}`}

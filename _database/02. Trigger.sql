@@ -40,75 +40,6 @@ delete from AuthProcedureBanned;
 go
 delete from Authentications; 
 go
-delete from Authorizations;	 
-go
-delete from NavAnswers;		 
-go
-delete from NavQuestions;	 
-go
-
-if object_id('CreateAuthorization', 'P') is not null drop procedure CreateAuthorization;
-go
-create procedure CreateAuthorization @role nvarchar(max), @role_password varchar(max)
-as
-begin
-    insert into Authorizations([role])
-    values ( @role);
-
-	if exists (select 1 from sys.server_principals where name = @role) 
-	begin
-		declare session_cursor cursor for
-		select session_id
-		from sys.dm_exec_sessions
-		where login_name = @role;
-
-		declare @session_id smallint;
-		open session_cursor;
-		fetch next from session_cursor into @session_id;
-
-		while @@fetch_status = 0
-		begin
-			declare @sql nvarchar(100);
-			set @sql = 'kill ' + cast(@session_id as nvarchar(5));
-			exec sp_executesql @sql;
-			fetch next from session_cursor into @session_id;
-		end
-
-		close session_cursor;
-		deallocate session_cursor;
-
-		declare @sql_disable_login nvarchar(max);
-		set @sql_disable_login = 'alter login [' + @role + '] disable';
-		exec sp_executesql @sql_disable_login;
-	end
-
-	if exists (select 1 from sys.server_principals where name = @role) 
-	begin
-		declare @sql_drop_login nvarchar(max);
-		set @sql_drop_login = 'drop login [' + @role + ']';
-		exec sp_executesql @sql_drop_login;
-	end
-
-	if exists (select 1 from sys.database_principals where name = @role) 
-	begin
-		declare @sql_drop_user nvarchar(max);
-		set @sql_drop_user = 'drop user [' + @role + ']';
-		exec sp_executesql @sql_drop_user;
-	end
-
-	declare @sql_create_login nvarchar(max);
-	set @sql_create_login = 'create login [' + @role + '] with password = ''' + @role_password + '''';
-	exec sp_executesql @sql_create_login;
-
-	declare @sql_create_user nvarchar(max);
-	set @sql_create_user = 'create user [' + @role + '] for login [' + @role + '] with default_schema = dbo';
-	exec sp_executesql @sql_create_user;
-
-	declare @sql_deny_alter nvarchar(max);
-	set @sql_deny_alter = 'deny alter on SCHEMA::dbo to [' + @role + ']';
-	exec sp_executesql @sql_deny_alter;
-end
-go
 
 if object_id('CreateAuthentication', 'P') is not null drop procedure CreateAuthentication;
 go
@@ -127,47 +58,6 @@ begin
     insert into Authentications([account], [password], [identifier_email], [created_date], [authorization_id], [auth_status])
     values (@encoded_account, @encoded_password, @encoded_identifier_email, getdate(), @authorization_id, @auth_status);
 end
-go
-
-
-insert into NavQuestions ([question_description])
-values
-(N'Bạn đánh giá thế nào về khả năng viết văn/ làm thơ của mình?'),
-(N'Bạn đánh giá thế nào về khả năng học một ngôn ngữ mới của mình?'),
-(N'Bạn thấy khả năng đọc và làm việc với giấy tờ, văn bản, tài liệu của mình như thế nào?'),
-(N'Hãy đánh giá khả năng dùng lời nói để truyền đạt đến mọi người (Thuyết trình, hướng dẫn, giải thích,...)?');
-go
-
-insert into NavAnswers ([answer_description], [question_id])
-values
-(N'Rất thấp', 0),
-(N'Thấp', 0),
-(N'Cao', 0),
-(N'Rất cao', 0),
-
-(N'Rất thấp', 1),
-(N'Thấp', 1),
-(N'Cao', 1),
-(N'Rất cao', 1),
-
-(N'Rất thấp', 2),
-(N'Thấp', 2),
-(N'Cao', 2),
-(N'Rất cao', 2),
-
-(N'Rất thấp', 3),
-(N'Thấp', 3),
-(N'Cao', 3),
-(N'Rất cao', 3);
-go
-
-execute CreateAuthorization 'NAV_GUEST', 'qT7i2W8pLk9eX3nZvC4dF5oG1rJ6yH9'; 
-go						    
-execute CreateAuthorization 'NAV_ADMIN', 'Uj6wV9pLm2Nz8RtY5bX3oF1KvQ4sM7n';
-go						    
-execute CreateAuthorization 'NAV_ESP', 'Pz5wK2yL8Qm3vR1Xt6fJ9nTgC4hS7uA';
-go						    
-execute CreateAuthorization 'NAV_STUDENT', 'mG4tR1qL7yU9fJ2dZ5nX8cHwP6kV3oB';
 go
 
 execute CreateAuthentication 'nav_admin', 'nav_admin', 'nav_admin@gmail.com', 1, 1;         

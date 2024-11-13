@@ -332,6 +332,88 @@ go
 -- exec ViewUserCourses 1
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('ChangeModuleOrdinal', 'P') is not null 
+    drop procedure ChangeModuleOrdinal;
+go
+
+create procedure ChangeModuleOrdinal 
+    @aid int, 
+    @course_id int, 
+    @module_id_1 int, 
+    @module_id_2 int
+as
+begin
+    declare @IsBanned BIT;
+    declare @user_id int;
+    declare @ordinal_1 int, @ordinal_2 int;
+    declare @check_status nvarchar(50) = 'SUCCESSED';
+
+    set @IsBanned = dbo.IsUserBanned(@aid, 'ChangeModuleOrdinal');
+    
+    if @IsBanned = 1 
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    select @user_id = [user_id]
+    from Users
+    where [authentication_id] = @aid;
+
+    if @user_id is null
+    begin
+        select 'U_UID' as [check];
+        return;
+    end
+
+    if not exists (select 1 from Courses where [course_id] = @course_id and [user_id] = @user_id)
+    begin
+        select 'U_CID' as [check];
+        return;
+    end
+
+	select @ordinal_1 = module_ordinal 
+    from Modules 
+    where [module_id] = @module_id_1 and [course_id] = @course_id;
+
+    select @ordinal_2 = module_ordinal 
+    from Modules 
+    where [module_id] = @module_id_2 and [course_id] = @course_id;
+
+    if @ordinal_1 is null or @ordinal_2 is null
+    begin
+        select 'U_ORD' as [check];
+        return;
+    end
+
+    begin try
+        begin transaction;
+ 
+        update Modules 
+        set [module_ordinal] = @ordinal_2 
+        where module_id = @module_id_1 and course_id = @course_id;
+
+        update Modules 
+        set [module_ordinal] = @ordinal_1 
+        where module_id = @module_id_2 and course_id = @course_id;
+
+        commit transaction;
+        set @check_status = 'SUCCESSED';
+        
+    end try
+    begin catch
+        if @@trancount > 0
+            rollback transaction;
+        set @check_status = 'FAILED';
+    end catch
+
+    select @check_status as [check];
+end
+go
+
+-- execute ChangeModuleOrdinal 1, 1, 0, 1
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 if object_id('UpdateModule', 'P') is not null drop procedure UpdateModule;
 go
 
@@ -342,147 +424,6 @@ create procedure UpdateModule
 as
 begin
     declare @isbanned bit;
-    set @isbanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
-    
-    if @isbanned = 1 
-    begin
-        select 'BANNED' as [check];
-        return;
-    end
-
-    declare @user_id int;
-
-    select @user_id = [user_id]
-    from Users
-    where [authentication_id] = @aid;
-
-    if (@user_id is null)
-    begin
-        select 'U_UID' as [check];
-        return;
-    end
-
-    if not exists (
-        select 1
-        from Courses
-        where [course_id] = @course_id)
-    begin
-        select 'U_CID' as [check];
-        return;
-    end
-
-    if not exists (
-        select 1
-        from Authentications auth 
-        join Authorizations authz on authz.authorization_id = auth.authorization_id
-        where auth.authentication_id = @aid and authz.role = 'NAV_ESP')
-    begin
-        select 'U_ROLE' as [check];
-        return;
-    end
-
-    begin try
-        begin transaction;
-
-        -- Delete existing modules for the course
-        delete from [Modules]
-        where course_id = @course_id;
-
-        -- Check if deletion was successful
-        if @@rowcount = 0
-        begin
-            rollback transaction;
-            select 'U_MODULE' as [check];
-            return;
-        end
-
-        declare @json nvarchar(max) = @modules;
-        declare @available_id int;
-        declare @inserted_count int = 0;
-
-        -- Temporary table to hold new modules
-        create table #NewModules (
-            module_ordinal int,
-            module_name nvarchar(255)
-        );
-
-        -- Insert the JSON data into the temporary table
-        insert into #NewModules (module_ordinal, module_name)
-        select 
-            ordinal,
-            modulename
-        from openjson(@json)
-        with (
-            ordinal int '$.module_ordinal',
-            modulename nvarchar(255) '$.module_name'
-        );
-
-        -- Get the count of new modules
-        declare @count int = (select count(*) from #NewModules);
-
-        -- Find the first missing module_id starting from 0
-        set @available_id = (
-            select min(missing_id)
-            from (
-                select n.number as missing_id
-                from master.dbo.spt_values n
-                where n.type = 'P' and n.number >= 0 and n.number <= (select isnull(max(module_id), -1) from [Modules])
-                and not exists (
-                    select 1
-                    from [Modules] m
-                    where m.module_id = n.number
-                )
-            ) as MissingIDs
-        );
-
-        -- If no missing ID is found, get the next ID based on the max existing module_id
-        if @available_id is null
-        begin
-            set @available_id = (
-                select isnull(max(module_id), -1) + 1 from [Modules]
-            );
-        end
-
-        -- Loop to insert new modules based on the available IDs
-        while @inserted_count < @count
-        begin
-            -- Check if the available module_id already exists in the existing modules
-            if not exists (select 1 from [Modules] where module_id = @available_id)
-            begin
-                -- Insert the new module with this ID
-                insert into [Modules] (module_id, module_ordinal, module_name, course_id)
-                select 
-                    @available_id,
-                    nm.module_ordinal,
-                    nm.module_name,
-                    @course_id
-                from #NewModules nm
-                where nm.module_ordinal = @inserted_count;
-
-                set @inserted_count = @inserted_count + 1;
-            end
-
-            set @available_id = @available_id + 1; -- Move to the next ID
-        end
-
-        -- Check the total number of inserted records after the loop
-        declare @actual_inserted_count int = (select count(*) from [Modules] where course_id = @course_id);
-
-        if @actual_inserted_count < @count
-        begin
-            rollback transaction;
-            select 'FAILED' as [check];
-            return;
-        end
-
-        commit transaction;
-    end try
-    begin catch
-        rollback transaction;
-        throw;
-    end catch
-
-    select 'SUCCESSED' as [check];
 end
 go
 ------------------------------------------------------------------------------------------------------------
@@ -504,6 +445,7 @@ begin
     select u.[user_id],
 		u.[authentication_id],
 		u.[user_full_name],
+		c.[course_id],
         c.[course_name], 
         c.[course_short_description],
         c.[course_full_description],
@@ -557,12 +499,14 @@ grant execute on dbo.UpdateCourse to [NAV_ESP];
 grant execute on dbo.ReadUserCourses to [NAV_ESP];
 grant execute on dbo.UpdateModule to [NAV_ESP];
 grant execute on dbo.ReadFullCourse to [NAV_ESP];
+grant execute on dbo.ChangeModuleOrdinal to [NAV_ESP];
 
 grant execute on dbo.CreateCourse to [NAV_ADMIN];
 grant execute on dbo.UpdateCourse to [NAV_ADMIN];
 grant execute on dbo.ReadUserCourses to [NAV_ADMIN];
 grant execute on dbo.UpdateModule to [NAV_ADMIN];
 grant execute on dbo.ReadFullCourse to [NAV_ADMIN];
+grant execute on dbo.ChangeModuleOrdinal to [NAV_ADMIN];
 
 
 grant execute on dbo.GetAllCoursesByFieldName to [NAV_ADMIN];

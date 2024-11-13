@@ -1,6 +1,6 @@
 const ncdb = require('../../databases/ncdbService');
 
-const tryUpdateCourse = async (aid, role, course_id, course_name, course_short_description, course_full_description, course_price, course_duration, course_status, modules) => {
+const tryUpdateCourse = async (aid, role, course_id, course_name, course_short_description, course_full_description, course_price, course_duration, course_status) => {
     try {
         if (Number.isNaN(aid))
             throw new Error(`'aid' is required.`);
@@ -26,42 +26,42 @@ const tryUpdateCourse = async (aid, role, course_id, course_name, course_short_d
         if (Number.isNaN(course_status))
             throw new Error(`'course_status' is required.`);
 
-        // Update the course
         const updateCourse = await ncdb.query(role,
             `EXECUTE UpdateCourse @aid, @course_id, @course_name, @course_short_description, @course_full_description, @course_price, @course_duration, @course_status`,
-            { 
-                aid: Number(aid), 
-                course_id: Number(course_id), 
-                course_name, 
-                course_short_description, 
-                course_full_description, 
-                course_price: Number(course_price), 
-                course_duration, 
-                course_status: course_status ? 1 : 0 // Convert boolean to integer
+            {
+                aid: Number(aid),
+                course_id: Number(course_id),
+                course_name,
+                course_short_description,
+                course_full_description,
+                course_price: Number(course_price),
+                course_duration,
+                course_status: course_status ? 1 : 0
             });
 
-        // If course update fails, return the failure check message
-        if (updateCourse[0].check !== 'SUCCESSED') {
-            return updateCourse[0].check;
-        }
-
-        const modulesJson = JSON.stringify(modules);
-
-        // Update modules for the course
-        const updateModules = await ncdb.query(role,
-            `EXECUTE UpdateModule @aid, @course_id, @modules`,
-            { 
-                aid: Number(aid), 
-                course_id: Number(course_id), 
-                modules: modulesJson 
-            });
-
-        // Return the result of the module update
-        return updateModules[0].check;
+        return updateCourse[0].check;
 
     } catch (err) {
         throw new Error(`updateCourseService.js/tryUpdateCourse| ${err.message}`);
     }
 };
 
-module.exports = { tryUpdateCourse };
+const tryChangeModuleOrdinal = async (aid, role, course_id, module_id_1, module_id_2) => {
+    try {
+
+        const results = await ncdb.query(role,
+            'EXECUTE ChangeModuleOrdinal @aid, @course_id, @module_id_1, @module_id_2',
+            { aid, course_id, module_id_1, module_id_2 }
+        );
+
+        if (results === null || results.length < 1)
+            throw new Error('Cannot get results');
+
+        return results[0].check;
+
+    } catch (err) {
+        throw new Error(`updateCourseService.js/tryChangeModuleOrdinal| ${err.message}`);
+    }
+}
+
+module.exports = { tryUpdateCourse, tryChangeModuleOrdinal };

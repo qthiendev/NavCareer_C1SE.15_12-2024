@@ -63,26 +63,6 @@ if object_id('Authentications', 'U') is not null drop table Authentications;
 go
 if object_id('Authorizations', 'U') is not null drop table Authorizations;	   
 go
-if object_id('NavAnswers', 'U') is not null drop table NavAnswers;			   
-go
-if object_id('NavQuestions', 'U') is not null drop table NavQuestions;		   
-go
-
--- NavQuestions
-create table NavQuestions (
-    [question_id] int identity(0, 1) primary key,
-    [question_description] nvarchar(512) not null
-);
-go
-
--- NavAnswers
-create table NavAnswers (
-    [answer_id] int identity(0, 1) primary key,
-    [answer_description] nvarchar(512) not null, 
-    [question_id] int not null,
-    constraint fk_nav_answer_question_id foreign key ([question_id]) references NavQuestions([question_id]) 
-);
-go
 
 -- Authorizations - role
 create table Authorizations (
@@ -277,8 +257,8 @@ create table Enrollments (
     [enrollment_is_complete] bit default 0 not null,
     [user_id] int null,
     [course_id] int null,
-    constraint fk_enrollment_student_id foreign key ([user_id]) references Users([user_id]),
-    constraint fk_enrollment_course_id foreign key ([course_id]) references Courses([course_id])
+    constraint fk_enrollment_student_id foreign key ([user_id]) references Users([user_id]) on delete set null,
+    constraint fk_enrollment_course_id foreign key ([course_id]) references Courses([course_id]) on delete set null
 );
 go
 
@@ -287,8 +267,8 @@ create table UserTracking (
     [tracking_id] int identity(0, 1) primary key,
     [enrollment_id] int null,
     [collection_id] int null,
-    constraint fk_tracking_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null on update cascade,
-    constraint fk_tracking_collection_id foreign key ([collection_id]) references Collections([collection_id]) on delete set null on update cascade
+    constraint fk_tracking_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null,
+    constraint fk_tracking_collection_id foreign key ([collection_id]) references Collections([collection_id]) on delete set null
 );
 go
 
@@ -299,8 +279,8 @@ create table Grades (
     [graded_date] datetime default getdate() not null,
     [enrollment_id] int null,
     [module_id] int null,
-    constraint fk_grade_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null on update cascade,
-    constraint fk_grade_module_id foreign key ([module_id]) references Modules([module_id]) on delete set null on update cascade
+    constraint fk_grade_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null,
+    constraint fk_grade_module_id foreign key ([module_id]) references Modules([module_id]) on delete set null
 );
 go
 
@@ -341,3 +321,77 @@ create table CourseField (
     constraint fk_course_field_field_id foreign key (field_id) references Fields(field_id) on delete set null on update cascade
 );
 go
+
+
+if object_id('CreateAuthorization', 'P') is not null drop procedure CreateAuthorization;
+go
+create procedure CreateAuthorization @role nvarchar(max), @role_password varchar(max)
+as
+begin
+	if exists (select 1 from sys.server_principals where name = @role) 
+	begin
+		declare session_cursor cursor for
+		select session_id
+		from sys.dm_exec_sessions
+		where login_name = @role;
+
+		declare @session_id smallint;
+		open session_cursor;
+		fetch next from session_cursor into @session_id;
+
+		while @@fetch_status = 0
+		begin
+			declare @sql nvarchar(100);
+			set @sql = 'kill ' + cast(@session_id as nvarchar(5));
+			exec sp_executesql @sql;
+			fetch next from session_cursor into @session_id;
+		end
+
+		close session_cursor;
+		deallocate session_cursor;
+
+		declare @sql_disable_login nvarchar(max);
+		set @sql_disable_login = 'alter login [' + @role + '] disable';
+		exec sp_executesql @sql_disable_login;
+	end
+
+	if exists (select 1 from sys.server_principals where name = @role) 
+	begin
+		declare @sql_drop_login nvarchar(max);
+		set @sql_drop_login = 'drop login [' + @role + ']';
+		exec sp_executesql @sql_drop_login;
+	end
+
+	if exists (select 1 from sys.database_principals where name = @role) 
+	begin
+		declare @sql_drop_user nvarchar(max);
+		set @sql_drop_user = 'drop user [' + @role + ']';
+		exec sp_executesql @sql_drop_user;
+	end
+
+	declare @sql_create_login nvarchar(max);
+	set @sql_create_login = 'create login [' + @role + '] with password = ''' + @role_password + '''';
+	exec sp_executesql @sql_create_login;
+
+	declare @sql_create_user nvarchar(max);
+	set @sql_create_user = 'create user [' + @role + '] for login [' + @role + '] with default_schema = dbo';
+	exec sp_executesql @sql_create_user;
+
+	declare @sql_deny_alter nvarchar(max);
+	set @sql_deny_alter = 'deny alter on SCHEMA::dbo to [' + @role + ']';
+	exec sp_executesql @sql_deny_alter;
+
+	insert into Authorizations([role])
+    values (@role);
+
+	if (@@ROWCOUNT = 1) print(@role + ' created');
+end
+go
+
+dbcc checkident (Authentications, RESEED, 0);
+go
+
+execute CreateAuthorization 'NAV_GUEST', 'qT7i2W8pLk9eX3nZvC4dF5oG1rJ6yH9'; 					    
+execute CreateAuthorization 'NAV_ADMIN', 'Uj6wV9pLm2Nz8RtY5bX3oF1KvQ4sM7n';					    
+execute CreateAuthorization 'NAV_ESP', 'Pz5wK2yL8Qm3vR1Xt6fJ9nTgC4hS7uA';					    
+execute CreateAuthorization 'NAV_STUDENT', 'mG4tR1qL7yU9fJ2dZ5nX8cHwP6kV3oB';
