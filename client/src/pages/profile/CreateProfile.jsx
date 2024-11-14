@@ -129,7 +129,7 @@ const ProfileForm = () => {
                                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                                 placeholder="Nhập họ và tên..."
                             />
-                            {errors.fullName && <p className="error">{errors.fullName}</p>}
+                            {errors.fullName && <h4 className='prf-error'>{errors.fullName}</h4>}
                         </div>
 
                         <div className="form-group">
@@ -141,7 +141,7 @@ const ProfileForm = () => {
                                 onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
                                 placeholder="Nhập số điện thoại..."
                             />
-                            {errors.phoneNumber && <p className="error">{errors.phoneNumber}</p>}
+                            {errors.phoneNumber && <h4 className='prf-error'>{errors.phoneNumber}</h4>}
                         </div>
                     </div>
 
@@ -153,7 +153,7 @@ const ProfileForm = () => {
                                 <option value="1">Nam</option>
                                 <option value="0">Nữ</option>
                             </select>
-                            {errors.gender && <p className="error">{errors.gender}</p>}
+                            {errors.gender && <h4 className='prf-error'>{errors.gender}</h4>}
                         </div>
 
                         <div className="form-group" id='create-date-selects'>
@@ -180,7 +180,7 @@ const ProfileForm = () => {
                                     ))}
                                 </select>
                             </div>
-                            {errors.birthDate && <p className="error">{errors.birthDate}</p>}
+                            {errors.birthDate && <h4 className='prf-error'>{errors.birthDate}</h4>}
                         </div>
                     </div>
 
@@ -194,7 +194,7 @@ const ProfileForm = () => {
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                 placeholder="Email"
                             />
-                            {errors.email && <p className="error">{errors.email}</p>}
+                            {errors.email && <h4 className='prf-error'>{errors.email}</h4>}
                         </div>
 
                         <div className="form-group">
@@ -206,12 +206,12 @@ const ProfileForm = () => {
                                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                                 placeholder="Địa chỉ liên lạc"
                             />
-                            {errors.address && <p className="error">{errors.address}</p>}
+                            {errors.address && <h4 className='prf-error'>{errors.address}</h4>}
                         </div>
                     </div>
 
                     {noti && <div className="error-message" style={{ color: 'red' }}>{noti}</div>}
-                    <button type="submit" className="submit-button">Tạo hồ sơ</button>             
+                    <button className="submit-button">Tạo hồ sơ</button>             
                 </form>
             </div>
         </div>

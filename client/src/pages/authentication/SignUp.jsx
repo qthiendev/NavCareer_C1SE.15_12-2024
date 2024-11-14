@@ -52,17 +52,17 @@ function SignUp() {
 
         // Check if the user type is selected and terms are accepted
         if (!authz_id) {
-            setError('Please select a user type.');
+            setError('Vui lòng chọn loại người dùng.');
             return;
         }
 
         if (password !== confirmPassword) {
-            setError('Passwords do not match.');
+            setError('Mật khẩu chưa trùng khớp.');
             return;
         }
 
         if (!acceptedTerms) {
-            setError('You must accept the terms and conditions.');
+            setError('Bạn phải đồng ý với Điều Khoản và Điều kiện để tạo tài khoản.');
             return;
         }
 
@@ -77,13 +77,13 @@ function SignUp() {
                     { withCredentials: true });
 
                 if (signinResponse.status === 200) {
-                    setSuccess('Signup successful! Redirecting to create your profile...');
+                    setSuccess('Đăng ký thành công! Đang chuyển hướng để tạo hồ sơ của bạn...');
                     setTimeout(() => navigate(`/profile/create`), 1000); // Redirect to create profile after a brief pause
                 }
             }
 
             if (signupResponse.status === 201) {
-                setError('Tên tài koản này đã tồn tại hoặc email đã được sử dụng.');
+                setError('Tên tài khoản này đã tồn tại hoặc email đã được sử dụng.');
             }
 
             if (signupResponse.status === 203) {
@@ -92,9 +92,9 @@ function SignUp() {
 
         } catch (err) {
             if (err.response && err.response.data) {
-                setError(err.response.data.message || 'Signup or sign-in failed. Please try again.');
+                setError(err.response.data.message || 'Đăng ký thất bại. Vui lòng thử lại sau.');
             } else {
-                setError('Signup or sign-in failed. Please try again.');
+                setError('Đăng ký thất bại. Vui lòng thử lại sau.');
             }
         }
     };

@@ -56,7 +56,7 @@
 
 #create-date-selects select {
   width: 30%; /* Set each select element to occupy 30% of the parent width */
-  padding: 11px;
+  padding: 18px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
@@ -128,10 +128,12 @@ a.rules:hover, a.conditions:hover {
 }
 
 /* Căn chỉnh phần lỗi hiển thị cho ngày sinh */
-.error {
+.form-group h4{
   color: red;
-  font-size: 12px;
-  margin-top: 5px;
+  font-size: 16px;
+  margin-top: 10px;
+  font-weight: middle;
+  font-style: italic;
 }
 
 .submit-button {

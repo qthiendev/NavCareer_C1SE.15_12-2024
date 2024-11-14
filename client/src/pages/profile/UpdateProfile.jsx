@@ -11,7 +11,7 @@ function UpdateProfile() {
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState({}); // Sử dụng `error` thay vì `errors`
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,7 +21,6 @@ function UpdateProfile() {
                 setBanChecked(true);
             } catch (error) {
                 console.log(error);
-                
                 alert('BANNED');
                 navigate(-1);
             }
@@ -41,13 +40,13 @@ function UpdateProfile() {
 
                 const birthdate = new Date(response.data.user_birthdate);
                 setProfile(response.data);
-                setAvatarPreview(response.data.avatar); // Set initial avatar preview
+                setAvatarPreview(response.data.avatar);
                 setDay(birthdate.getDate());
                 setMonth(birthdate.getMonth() + 1);
                 setYear(birthdate.getFullYear());
                 setLoading(false);
             } catch {
-                setError('Failed to fetch profile data.');
+                setError((prev) => ({ ...prev, general: 'Failed to fetch profile data.' }));
                 setLoading(false);
             }
         };
@@ -65,70 +64,114 @@ function UpdateProfile() {
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Kiểm tra kích thước và loại file ảnh
             if (file.size > 56 * 1024) {
                 alert('File size should not exceed 56 KB. Please choose a smaller image.');
                 return;
             }
             if (file.type === 'image/png' || file.type === 'image/jpeg') {
-                // Hiển thị ảnh tạm thời trên giao diện trước khi upload lên server
                 setAvatarPreview(URL.createObjectURL(file));
-                // Lưu file vào profile để upload
                 setProfile((prevProfile) => ({
                     ...prevProfile,
-                    avatar: file, // Lưu file vào profile để gửi qua form
+                    avatar: file,
                 }));
             } else {
                 alert('Please select a valid PNG or JPEG image.');
             }
         }
     };
-    
 
-    
+    const handleValidation = () => {
+        const newError = {}; // Đổi thành `newError` thay vì `newErrors`
+      
+        if (!profile.user_full_name) {
+            newError.user_full_name = "Họ và tên không được để trống.";
+        } else if (/[@#$%]/.test(profile.user_full_name) || profile.user_full_name.length > 50) {
+            newError.user_full_name = "Tạo hồ sơ thất bại vui lòng thử lại.";
+        }
+      
+        if (!profile.user_phone_number) {
+            newError.user_phone_number = "Số điện thoại phải là 10 chữ số.";
+        } else if (!/^\d{10}$/.test(profile.user_phone_number)) {
+            newError.user_phone_number = "Số điện thoại phải là 10 chữ số.";
+        }
+      
+        if (!profile.user_email) {
+            newError.user_email = "Email không hợp lệ.";
+        } else if (!/\S+@\S+\.\S+/.test(profile.user_email)) {
+            newError.user_email = "Email không hợp lệ.";
+        }
+      
+        if (!profile.user_gender) {
+            newError.user_gender = "Vui lòng chọn giới tính.";
+        }
+      
+        if (!day || !month || !year) {
+            newError.user_birthdate = "Vui lòng chọn đầy đủ ngày, tháng, năm sinh.";
+        } else {
+            const date = new Date(year, month - 1, day);
+            if (isNaN(date.getTime()) || date.getDate() !== parseInt(day)) {
+                newError.user_birthdate = "Tạo hồ sơ thất bại vui lòng thử lại.";
+            } else {
+                const age = new Date().getFullYear() - date.getFullYear();
+                if (age < 16) {
+                    newError.user_birthdate = "Ngày sinh chưa hợp lệ.";
+                }
+            }
+        }
+      
+        if (!profile.user_address) {
+            newError.user_address = "Địa chỉ không được để trống.";
+        } else if (profile.user_address.length > 50) {
+            newError.user_address = "Tạo hồ sơ thất bại vui lòng thử lại.";
+        }
+      
+        setError(newError); // Cập nhật `error`
+        return Object.keys(newError).length === 0;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formattedBirthdate = `${day}/${month}/${year}`;
-    
-        // Tạo FormData để gửi file avatar và các dữ liệu khác
-        const formData = new FormData();
-        formData.append('user_full_name', profile.user_full_name);
-        formData.append('user_alias', profile.user_alias);
-        formData.append('user_bio', profile.user_bio);
-        formData.append('user_birthdate', formattedBirthdate);
-        formData.append('user_gender', profile.user_gender);
-        formData.append('user_email', profile.user_email);
-        formData.append('user_phone_number', profile.user_phone_number);
-        formData.append('user_status', profile.user_status);
-        formData.append('user_address', profile.user_address);
         
-        // Thêm file avatar nếu có
-        if (profile.avatar) {
-            formData.append('avatar', profile.avatar);
-        }
-    
-        try {
-            await axios.put(
-                'http://localhost:5000/profile/update',
-                formData,
-                { withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } }
-            );
-            alert('Profile updated successfully!');
-            navigate(-1);
-        } catch {
-            setError('Failed to update profile.');
+        if (handleValidation()) {
+            const formattedBirthdate = `${day}/${month}/${year}`;
+            const formData = new FormData();
+            formData.append('user_full_name', profile.user_full_name);
+            formData.append('user_alias', profile.user_alias);
+            formData.append('user_bio', profile.user_bio);
+            formData.append('user_birthdate', formattedBirthdate);
+            formData.append('user_gender', profile.user_gender);
+            formData.append('user_email', profile.user_email);
+            formData.append('user_phone_number', profile.user_phone_number);
+            formData.append('user_status', profile.user_status);
+            formData.append('user_address', profile.user_address);
+      
+            if (profile.avatar) {
+                formData.append('avatar', profile.avatar);
+            }
+        
+            try {
+                await axios.put(
+                    'http://localhost:5000/profile/update',
+                    formData,
+                    { withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } }
+                );
+                alert('Profile updated successfully!');
+                navigate(-1);
+            } catch {
+                setError((prev) => ({ ...prev, general: 'Failed to update profile.' }));
+            }
+        } else {
+            console.log('Validation failed. Please correct the errors.');
         }
     };
     
-    
-
     if (loading) return <div>Loading...</div>;
 
     const days = Array.from({ length: 31 }, (_, i) => i + 1);
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: currentYear - 1900 + 1 }, (_, i) => 1900 + i);
+
 
     return (
         <div className='profile-container'>
@@ -202,7 +245,9 @@ function UpdateProfile() {
                                 value={profile?.user_full_name || ''}
                                 onChange={handleInputChange}
                             />
+                            {error.user_full_name && <h1 className="error-message">{error.user_full_name}</h1>}
                         </div>
+
                         <div className='form-group'>
                             <label htmlFor='email'>Email</label>
                             <input
@@ -213,6 +258,7 @@ function UpdateProfile() {
                                 onChange={handleInputChange}
                                 required
                             />
+                            {error.user_email && <h1 className="error-message">{error.user_email}</h1>}
                         </div>
                     </div>
                     <div className='form-row'>
@@ -227,11 +273,14 @@ function UpdateProfile() {
                                 <option value={true}>Hoạt động</option>
                                 <option value={false}>Khóa</option>
                             </select>
+                            {error.user_status && <h1 className="error-message">{error.user_status}</h1>}
                         </div>
                         <div className='form-group'>
                             <label>Ngày tham gia:</label>
                             <p>{new Date(profile?.user_created_date).toLocaleDateString()}</p>
+                            {error.user_created_date && <h1 className="error-message">{error.user_created_date}</h1>}
                         </div>
+
                     </div>
                     <div className='form-row'>
                         <div className='form-group'>
@@ -250,12 +299,13 @@ function UpdateProfile() {
                                     ))}
                                 </select>
                                 <select name='year' value={year} onChange={(e) => setYear(e.target.value)}>
-                                    <option value=''>Năm</option>
+                                <option value=''>Năm</option>
                                     {years.map((y) => (
                                         <option key={y} value={y}>{y}</option>
                                     ))}
                                 </select>
                             </div>
+                            {error.user_birthdate && <h1 className="error-message">{error.user_birthdate}</h1>}
                         </div>
                         <div className='form-group'>
                             <label htmlFor='user_gender'>Giới tính</label>
@@ -265,10 +315,13 @@ function UpdateProfile() {
                                 value={profile?.user_gender}
                                 onChange={handleInputChange}
                             >
+                                <option value=''>Chọn giới tính</option>
                                 <option value={true}>Nam</option>
                                 <option value={false}>Nữ</option>
                             </select>
+                            {error.user_gender && <h1 className="error-message">{error.user_gender}</h1>}
                         </div>
+
                     </div>
                     <div className='form-row'>
                         <div className='form-group'>
@@ -280,6 +333,7 @@ function UpdateProfile() {
                                 value={profile?.user_phone_number || ''}
                                 onChange={handleInputChange}
                             />
+                            {error.user_phone_number && <h1 className="error-message">{error.user_phone_number}</h1>}
                         </div>
                         <div className='form-group'>
                             <label htmlFor='address'>Địa chỉ</label>
@@ -290,6 +344,7 @@ function UpdateProfile() {
                                 value={profile?.user_address || ''}
                                 onChange={handleInputChange}
                             />
+                            {error.user_address && <h1 className="error-message">{error.user_address}</h1>}
                         </div>
                     </div>
                     <div className='avatar-section'>
@@ -300,7 +355,7 @@ function UpdateProfile() {
                             <input type='file' id='avatarUpload' name='avatarUpload' accept='image/png, image/jpeg' onChange={handleAvatarChange} />
                         </div>
                     </div>
-                    <div className='links-section'>
+                    {/* <div className='links-section'>
                         <h2>Đường dẫn đính kèm</h2>
                         {['website', 'twitter', 'linkedin', 'youtube', 'facebook'].map((platform) => (
                             <div className='link-input' key={platform}>
@@ -308,7 +363,7 @@ function UpdateProfile() {
                                 <input type='text' id={platform} placeholder='Label' />
                             </div>
                         ))}
-                    </div>
+                    </div> */}
                     <button className='update-profile-btn'>Lưu hồ sơ</button>
                 </form>
             </div>

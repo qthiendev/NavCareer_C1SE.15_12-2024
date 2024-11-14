@@ -152,7 +152,7 @@
 .form-group input,
 .form-group select {
   font-family: 'Inter', sans-serif;
-  padding: 10px;
+  padding: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
@@ -162,7 +162,13 @@
   max-width: 100%;
   margin: 0;
 }
-
+.form-group h1{
+  color: red;
+  font-size: 16px;
+  margin-top: 10px;
+  font-weight: middle;
+  font-style: italic;
+}
 /* Căn chỉnh focus cho các input và select */
 .form-group input:focus,
 .form-group select:focus {
@@ -172,7 +178,7 @@
 
 /* Căn chỉnh p trong form-group */
 .form-group p {
-  padding: 10px;
+  padding: 16px;
   font-family: 'Inter', sans-serif;
   border: 1px solid #ccc;
   border-radius: 5px;
