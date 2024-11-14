@@ -5,13 +5,14 @@ const predict = async (req, res) => {
     try {
         const { data } = req.query;
 
-        if (!data) throw new Error(`'data' is required`);
+        if (!data) 
+            throw new Error(`'data' is required`);
 
         const dataString = data.replace(/[{}]/g, '');
         const dataArray = dataString.split(',').map(Number);
 
         if (dataArray.length !== 30) {
-            return res.status(400).json({ error: "Exactly 30 responses are required" });
+            throw new Error("Exactly 30 responses are required");
         }
 
         const prediction = await tryPredict(dataArray);
