@@ -1,8 +1,8 @@
 const { spawn } = require('child_process');
 const path = require('path');
 
-const predictPythonPath = path.resolve(__dirname, '../../../../../_career/nodejs_predict.py');
-const savePythonPath = path.resolve(__dirname, '../../../../../_career/nodejs_predict_save.py');
+const predictPythonPath = path.resolve(__dirname, '../../../../../nav_model/nodejs_predict.py');
+const savePythonPath = path.resolve(__dirname, '../../../../../nav_model/nodejs_predict_save.py');
 
 const tryPredict = (data) => {
     return new Promise((resolve, reject) => {
