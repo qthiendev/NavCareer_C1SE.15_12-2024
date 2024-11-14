@@ -411,7 +411,7 @@ begin
 end
 go
 
--- execute ChangeModuleOrdinal 1, 1, 0, 1
+-- execute ChangeModuleOrdinal 1, 0, 0, 1
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 if object_id('UpdateModule', 'P') is not null drop procedure UpdateModule;
