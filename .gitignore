@@ -403,4 +403,3 @@ server/src/apis/database/ncdbConfig.json
 # Ignore all .env files
 *.env
 _old
-*.pkl
