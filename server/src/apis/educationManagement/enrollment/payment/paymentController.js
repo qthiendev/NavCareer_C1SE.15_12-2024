@@ -23,9 +23,9 @@ const createOrder = async (req, res) => {
         }
 
         if (userData.check) {
-            console.error(`[${now.toLocaleString()}] at paymentController.js/createOrder | Profile '${user_id}' not found`);
+            console.error(`[${now.toLocaleString()}] at paymentController.js/createOrder | Profile '${uid}' not found`);
             return res.status(403).json({
-                message: `Profile '${user_id}' not found`,
+                message: `Profile '${uid}' not found`,
                 time: now.toLocaleString()
             });
         }

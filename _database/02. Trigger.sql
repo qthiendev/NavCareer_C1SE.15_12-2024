@@ -70,7 +70,6 @@ EXECUTE CreateAuthentication 'hoangphuc', 'hoangphuc', 'hoangphuc109@example.net
 EXECUTE CreateAuthentication 'gabriel30', ')y10OuKx31', 'rbaker@example.com', 3, 1;
 
 
-
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 insert into AuthProcedureBanned ([procedure_name], [authentication_id])
