@@ -5,6 +5,8 @@ const predict = async (req, res) => {
     try {
         const { data } = req.query;
 
+        console.log(data);
+
         if (!data) 
             throw new Error(`'data' is required`);
 
