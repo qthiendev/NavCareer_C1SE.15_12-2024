@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './servey.css';
 
 function Servey() {
@@ -13,6 +13,7 @@ function Servey() {
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
+    const [jobDescriptions, setJobDescriptions] = useState([]);
 
     const questions = {
         "2": [
@@ -96,7 +97,8 @@ function Servey() {
             .then(data => {
                 setIsLoading(false);
                 if (data.predicted_code) {
-                    setResult(data.predicted_code.split(", ")[2]);
+                    const predictedJob = data.predicted_code.split(", ");
+                    setResult(predictedJob);
                 } else {
                     setErrorMessage("Prediction failed. Please try again.");
                 }
@@ -108,18 +110,33 @@ function Servey() {
             });
     };
 
+    useEffect(() => {
+        // Fetch job descriptions from the JSON file
+        fetch("/data/job_desc.json")
+            .then(response => response.json())
+            .then(data => setJobDescriptions(data))
+            .catch(error => console.error("Failed to load job descriptions:", error));
+    }, []);
+
+    const getJobDetails = () => {
+        if (!result || !jobDescriptions) return null;
+        return jobDescriptions.find(job => job.Code === parseInt(result));
+    };
+
+    const jobDetails = getJobDetails();
+
     return (
         <div className="servey">
             <div className="container">
                 <div className="progress-bar">
                     {[1, 2, 3, 4, 5].map(tabNum => (
-                        <div 
+                        <div
                             key={tabNum}
                             className={`tablinks ${activeTab === tabNum.toString() ? 'active' : ''}`}
                             onClick={() => openCity(tabNum.toString())}
                         >
-                            <div className='active-number'>
-                                <span className='number'>{tabNum}</span>
+                            <div className="active-number">
+                                <span className="number">{tabNum}</span>
                             </div>
                             <div className="active-content">
                                 {tabNum === 1 ? 'Bắt đầu' : tabNum === 2 ? 'Nhóm 1' : tabNum === 3 ? 'Nhóm 2' : tabNum === 4 ? 'Nhóm 3' : 'Kết quả'}
@@ -128,32 +145,32 @@ function Servey() {
                     ))}
                 </div>
 
-                <div className='servey-content'>
+                <div className="servey-content">
                     {activeTab === "1" && (
-                        <div className='hello'>
-                            <div className='hello-name'>
-                                <h2 className='hello-text'>Chào mừng bạn đến với khảo sát!</h2>
-                                <p className='hello-text'>Chúng tôi rất cảm ơn sự tham gia của bạn...</p>
+                        <div className="hello">
+                            <div className="hello-name">
+                                <h2 className="hello-text">Chào mừng bạn đến với khảo sát!</h2>
+                                <p className="hello-text">Chúng tôi rất cảm ơn sự tham gia của bạn...</p>
                             </div>
                         </div>
                     )}
 
                     {["2", "3", "4"].includes(activeTab) && (
-                        <div className='box-question'>
+                        <div className="box-question">
                             {questions[activeTab].map((question, index) => (
-                                <div className='question' key={index}>
+                                <div className="question" key={index}>
                                     <div className="cover-question">
                                         <div className="tabcontent">{question}</div>
                                         <div className="radio-group">
                                             {[1, 2, 3, 4, 5].map(value => (
-                                                <div className='box-radio' key={value}>
-                                                    <input 
-                                                        type="radio" 
-                                                        name={`q${index}`} 
-                                                        value={value} 
+                                                <div className="box-radio" key={value}>
+                                                    <input
+                                                        type="radio"
+                                                        name={`q${index}`}
+                                                        value={value}
                                                         checked={answers[activeTab][index] === value.toString()}
-                                                        onChange={() => handleRadioChange(activeTab, index, value.toString())} 
-                                                    /> 
+                                                        onChange={() => handleRadioChange(activeTab, index, value.toString())}
+                                                    />
                                                 </div>
                                             ))}
                                         </div>
@@ -168,18 +185,29 @@ function Servey() {
                             {isLoading ? (
                                 <div className="fancy-loading">
                                     <div className="spinner"></div>
-                                    <p>Đang tải kết quả của bạn...</p>
+                                    <p>Kết quả có thể mất tới một vài phút để phân tích, vui lòng đợi...</p>
                                 </div>
                             ) : result ? (
-                                <div className="fancy-result">
-                                    <h3>Kết quả dự đoán nghề nghiệp của bạn là:</h3>
-                                    <h2 className="job-title">{result}</h2>
+                                <div className="result-layout">
+                                    <div className="result-text">
+                                        <h3 className="job-header">Kết quả dự đoán nghề nghiệp của bạn là:</h3>
+                                        <h2 className="job-title">{result[2]}</h2>
+                                        <p className="job-description">{jobDetails.Description}</p>
+                                    </div>
+                                    <div className="result-image">
+                                        <img
+                                            src={jobDetails.image_url}
+                                            alt={jobDetails["Career Name (Vietnamese)"]}
+                                            className="job-image"
+                                        />
+                                    </div>
                                 </div>
                             ) : (
-                                <p className="error-message">Please complete all questions before submitting.</p>
+                                <p className="error-message">Không tìm thấy chi tiết công việc. Vui lòng thử lại.</p>
                             )}
                         </div>
                     )}
+
                 </div>
 
                 {errorMessage && activeTab !== "5" && (
@@ -187,15 +215,15 @@ function Servey() {
                 )}
 
                 <div className="buttons">
-                    <button 
-                        className="back" 
-                        onClick={handleBack} 
+                    <button
+                        className="back"
+                        onClick={handleBack}
                         disabled={activeTab === "1"}
                     >
                         Trở lại
                     </button>
-                    <button 
-                        className="next" 
+                    <button
+                        className="next"
                         onClick={handleNext}
                     >
                         {activeTab === "4" ? "Hoàn thành" : "Tiếp theo"}
@@ -207,3 +235,4 @@ function Servey() {
 }
 
 export default Servey;
+
