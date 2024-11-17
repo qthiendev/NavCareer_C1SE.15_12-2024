@@ -404,3 +404,4 @@ server/src/apis/database/ncdbConfig.json
 *.env
 _old
 nav_model
+*.zip
