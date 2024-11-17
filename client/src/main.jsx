@@ -35,6 +35,9 @@ import Accomplishment from './pages/learning/Accomplishment.jsx';
 import AccomplishmentByID from './pages/learning/AccomplishmentByID.jsx';
 
 import Servey from './pages/utilities/servey/servey.jsx';
+import ManageStudentReport from './pages/manageSystem/manageStudentReport/manageStudentReport.jsx';
+import ManageCourseReport from './pages/manageSystem/manageCourseReport/manageCourseReport.jsx';
+
 const Router = () => {
     return (
       <Routes>
@@ -72,6 +75,10 @@ const Router = () => {
           <Route path="cert/:certificate_id" element={<Accomplishment />} /> 
 
           <Route path='servey' element={<Servey />} />
+
+          <Route path='admin/ManageStudentReport' element={<ManageStudentReport />} />
+          <Route path='admin/ManageCourseReport' element={<ManageCourseReport />} />
+
 
         </Route>
       </Routes>

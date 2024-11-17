@@ -1,0 +1,53 @@
+
+/* Styling the table container */
+.course-report {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+.report-title{
+    text-align: center;
+    margin-bottom: 20px;
+}
+/* Table styling */
+.course-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+/* Table header */
+.table-header {
+    background-color: #007bff; /* Bootstrap blue */
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Table header and cells border */
+.table-content td, .table-content th {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+/* Table body row hover effect */
+.table-row:hover {
+    background-color: #f1f1f1;
+}
+
+/* Alternate row colors */
+.table-row:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Table cells text alignment */
+table td {
+    text-align: center;
+}
+
+

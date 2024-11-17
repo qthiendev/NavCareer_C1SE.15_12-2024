@@ -46,10 +46,10 @@ CREATE PROCEDURE ManageCoursesReport
 AS
 BEGIN
     -- Tạo báo cáo khóa học với số lượng người tham gia
-    SELECT 
-        c.course_name AS 'Tên khóa học',
-        COUNT(e.user_id) AS 'Số người tham gia',
-		(COUNT(e.user_id) * c.course_price) AS [Tổng doanh thu]
+	  SELECT 
+        c.course_name AS courseName,
+        COUNT(e.user_id) AS participants,
+		(COUNT(e.user_id) * c.course_price) AS revenue
     FROM 
         Courses c
     LEFT JOIN 
@@ -90,7 +90,20 @@ GO
 --exec ManageStudentCoursesReport @user_id=4
 grant execute on dbo.[ManageCoursesReport] to [NAV_ADMIN];
 go
+grant execute on dbo.[ManageCoursesReport] to [NAV_GUEST];
+go					  
+grant execute on dbo.[ManageCoursesReport] to [NAV_ESP];
+go					  
+grant execute on dbo.[ManageCoursesReport] to [NAV_STUDENT];
+go
+
 grant execute on dbo.[ManageStudentCoursesReport] to [NAV_ADMIN];
+go
+grant execute on dbo.[ManageStudentCoursesReport] to [NAV_GUEST];
+go					  
+grant execute on dbo.[ManageStudentCoursesReport] to [NAV_ESP];
+go					  
+grant execute on dbo.[ManageStudentCoursesReport] to [NAV_STUDENT];
 go
 
 grant execute on dbo.[Search] to [NAV_GUEST];
