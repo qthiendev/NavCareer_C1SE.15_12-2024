@@ -10,10 +10,16 @@ function Servey() {
         "4": Array(10).fill(null),
         "5": []
     });
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // For result loading
     const [result, setResult] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
     const [jobDescriptions, setJobDescriptions] = useState([]);
+    const [availableCareers, setAvailableCareers] = useState([]);
+    const [userInputCareer, setUserInputCareer] = useState("");
+    const [filteredCareers, setFilteredCareers] = useState([]);
+    const [isSatisfied, setIsSatisfied] = useState(null);
+    const [feedbackMessage, setFeedbackMessage] = useState(null);
+    const [submissionLoading, setSubmissionLoading] = useState(false); // For satisfaction/alternate-career submission
 
     const questions = {
         "2": [
@@ -78,41 +84,105 @@ function Servey() {
     const handleRadioChange = (tab, questionIndex, value) => {
         const newAnswers = [...answers[tab]];
         newAnswers[questionIndex] = value;
-        setAnswers(prev => ({ ...prev, [tab]: newAnswers }));
+        setAnswers((prev) => ({ ...prev, [tab]: newAnswers }));
     };
 
     const isAllAnswered = () => {
         const allAnswers = [...answers["2"], ...answers["3"], ...answers["4"]];
-        return allAnswers.every(answer => answer !== null);
+        return allAnswers.every((answer) => answer !== null);
     };
 
-    const handleSubmit = () => {
-        setIsLoading(true);
+    const handleSubmit = async () => {
+        setIsLoading(true); // Start result loading
+        setIsSatisfied(null);
         setErrorMessage("");
         const allAnswers = [...answers["2"], ...answers["3"], ...answers["4"]];
         const formattedData = `{${allAnswers.join(',')}}`;
 
-        fetch(`http://localhost:5000/utl/predict?data=${formattedData}`)
-            .then(response => response.json())
-            .then(data => {
-                setIsLoading(false);
+        await fetch(`http://localhost:5000/utl/predict?data=${formattedData}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setIsLoading(false); // Stop result loading
                 if (data.predicted_code) {
                     const predictedJob = data.predicted_code.split(", ");
-                    setResult(predictedJob);
+                    setResult(predictedJob); // Set result to display satisfaction-question
                 } else {
                     setErrorMessage("Prediction failed. Please try again.");
                 }
             })
-            .catch(error => {
-                setIsLoading(false);
+            .catch((error) => {
+                setIsLoading(false); // Stop result loading
                 setErrorMessage("An error occurred. Please try again later.");
                 console.error("Request failed:", error);
             });
     };
 
-    useEffect(() => {
-        // Fetch job descriptions from the JSON file
-        fetch("/data/job_desc.json")
+    const handleSatisfactionChange = (satisfied) => {
+        setIsSatisfied(satisfied);
+        if (satisfied) {
+            setSubmissionLoading(true); // Start submission loading
+            const allAnswers = [...answers["2"], ...answers["3"], ...answers["4"]];
+            const formattedData = `{${allAnswers.join(',')}}`;
+
+            fetch(`http://localhost:5000/utl/predict-save?data=${formattedData}&job_name=${result[2]}`, {
+                method: "POST"
+            })
+                .then(() => {
+                    setSubmissionLoading(false); // Stop submission loading
+                    setFeedbackMessage("Câu trả lời của bạn đã được ghi nhận!");
+                })
+                .catch(() => {
+                    setSubmissionLoading(false); // Stop submission loading
+                    setFeedbackMessage("Lỗi khi gửi câu trả lời, vui lòng thử lại.");
+                });
+        }
+    };
+
+    const handleCareerInput = (e) => {
+        const input = e.target.value;
+        setUserInputCareer(input);
+        if (input) {
+            const filtered = availableCareers.filter((career) =>
+                career.toLowerCase().includes(input.toLowerCase())
+            );
+            setFilteredCareers(filtered);
+        } else {
+            setFilteredCareers([]);
+        }
+    };
+
+    const handleSaveCareer = () => {
+        if (!userInputCareer.trim()) {
+            alert("Vui lòng nhập hoặc chọn nghề nghiệp.");
+            return;
+        }
+
+        setSubmissionLoading(true); // Start submission loading
+        const allAnswers = [...answers["2"], ...answers["3"], ...answers["4"]];
+        const formattedData = `{${allAnswers.join(',')}}`;
+
+        fetch(`http://localhost:5000/utl/predict-save?data=${formattedData}&job_name=${userInputCareer}`, {
+            method: "POST"
+        })
+            .then(() => {
+                setSubmissionLoading(false); // Stop submission loading
+                setFeedbackMessage("Câu trả lời của bạn đã được ghi nhận!");
+            })
+            .catch(() => {
+                setSubmissionLoading(false); // Stop submission loading
+                setFeedbackMessage("Lỗi khi gửi câu trả lời, vui lòng thử lại.");
+            });
+    };
+
+    useEffect(async () => {
+        await fetch("http://localhost:5000/utl/available-career")
+            .then((response) => response.json())
+            .then((data) => setAvailableCareers(data))
+            .catch((error) => console.error("Failed to load available careers:", error));
+    }, []);
+
+    useEffect(async () => {
+        await fetch("/data/job_desc.json")
             .then(response => response.json())
             .then(data => setJobDescriptions(data))
             .catch(error => console.error("Failed to load job descriptions:", error));
@@ -129,7 +199,7 @@ function Servey() {
         <div className="servey">
             <div className="container">
                 <div className="progress-bar">
-                    {[1, 2, 3, 4, 5].map(tabNum => (
+                    {[1, 2, 3, 4, 5].map((tabNum) => (
                         <div
                             key={tabNum}
                             className={`tablinks ${activeTab === tabNum.toString() ? 'active' : ''}`}
@@ -156,28 +226,51 @@ function Servey() {
                     )}
 
                     {["2", "3", "4"].includes(activeTab) && (
-                        <div className="box-question">
-                            {questions[activeTab].map((question, index) => (
-                                <div className="question" key={index}>
-                                    <div className="cover-question">
-                                        <div className="tabcontent">{question}</div>
-                                        <div className="radio-group">
-                                            {[1, 2, 3, 4, 5].map(value => (
-                                                <div className="box-radio" key={value}>
-                                                    <input
-                                                        type="radio"
-                                                        name={`q${index}`}
-                                                        value={value}
-                                                        checked={answers[activeTab][index] === value.toString()}
-                                                        onChange={() => handleRadioChange(activeTab, index, value.toString())}
-                                                    />
+                        <>
+                            <div className="chose">
+                                <div className="box-chose">
+                                    <div className="active-chose">
+                                        <div className="box-chose-left"></div>
+                                        <div className="box-chose-right">
+                                            <div className="chose">
+                                                <div className="chose-name">
+                                                    <div className="chose-name-left">Lựa chọn</div>
                                                 </div>
-                                            ))}
+                                            </div>
+                                            <div className="choes-option">
+                                                <div className="a01">Rất Không Thích</div>
+                                                <div className="a02">Không Thích</div>
+                                                <div className="a02">Bình Thường</div>
+                                                <div className="a02">Thích</div>
+                                                <div className="a02">Rất Thích</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                            <div className="box-question">
+                                {questions[activeTab].map((question, index) => (
+                                    <div className="question" key={index}>
+                                        <div className="cover-question">
+                                            <div className="tabcontent">{question}</div>
+                                            <div className="radio-group">
+                                                {[1, 2, 3, 4, 5].map((value) => (
+                                                    <div className="box-radio" key={value}>
+                                                        <input
+                                                            type="radio"
+                                                            name={`q${index}`}
+                                                            value={value}
+                                                            checked={answers[activeTab][index] === value.toString()}
+                                                            onChange={() => handleRadioChange(activeTab, index, value.toString())}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
                     )}
 
                     {activeTab === "5" && (
@@ -192,12 +285,46 @@ function Servey() {
                                     <div className="result-text">
                                         <h3 className="job-header">Kết quả dự đoán nghề nghiệp của bạn là:</h3>
                                         <h2 className="job-title">{result[2]}</h2>
-                                        <p className="job-description">{jobDetails.Description}</p>
+
+                                        {isSatisfied === null && (
+                                            <div className="satisfaction-question">
+                                                <p>Bạn có hài lòng với kết quả này không?</p>
+                                                <button onClick={() => handleSatisfactionChange(true)}>Có</button>
+                                                <button onClick={() => handleSatisfactionChange(false)}>Không</button>
+                                            </div>
+                                        )}
+
+                                        {isSatisfied === false && feedbackMessage === null && (
+                                            <div className="alternate-career">
+                                                <input
+                                                    type="text"
+                                                    value={userInputCareer}
+                                                    onChange={handleCareerInput}
+                                                    placeholder="Nhập nghề nghiệp mong muốn"
+                                                />
+                                                {filteredCareers.length > 0 && (
+                                                    <ul className="autocomplete-list">
+                                                        {filteredCareers.map((career, index) => (
+                                                            <li key={index} onClick={() => setUserInputCareer(career)}>
+                                                                {career}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                                <button onClick={handleSaveCareer} disabled={submissionLoading}>
+                                                    {submissionLoading ? "Đang gửi..." : "Gửi câu trả lời"}
+                                                </button>
+                                            </div>
+                                        )}
+
+                                        {feedbackMessage && <p className="feedback-message">{feedbackMessage}</p>}
+
+                                        <p className="job-description">{jobDetails?.Description}</p>
                                     </div>
                                     <div className="result-image">
                                         <img
-                                            src={jobDetails.image_url}
-                                            alt={jobDetails["Career Name (Vietnamese)"]}
+                                            src={jobDetails?.image_url}
+                                            alt={jobDetails?.["Career Name (Vietnamese)"] || "Hình ảnh không khả dụng"}
                                             className="job-image"
                                         />
                                     </div>
@@ -222,10 +349,7 @@ function Servey() {
                     >
                         Trở lại
                     </button>
-                    <button
-                        className="next"
-                        onClick={handleNext}
-                    >
+                    <button className="next" onClick={handleNext}>
                         {activeTab === "4" ? "Hoàn thành" : "Tiếp theo"}
                     </button>
                 </div>
@@ -235,4 +359,3 @@ function Servey() {
 }
 
 export default Servey;
-
