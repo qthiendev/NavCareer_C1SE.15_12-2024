@@ -418,8 +418,8 @@ if object_id('UpdateModule', 'P') is not null drop procedure UpdateModule;
 go
 
 create procedure UpdateModule
-    @aid int, 
-    @course_id int, 
+    @aid int,
+    @course_id int,
     @modules nvarchar(max)
 as
 begin

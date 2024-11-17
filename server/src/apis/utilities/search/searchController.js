@@ -22,21 +22,14 @@ const search = async (req, res) => {
             });
         }
 
+        console.log(dataList);
+
         const profiles = [];
 
         for (let i = 0; i < dataList.length; i++) {
             const data = dataList[i];
 
-            if (!data.resource) {
-                console.warn(`[${now.toLocaleString()}] at searchContoller.js/search | Missing resource for profile: ${JSON.stringify(data)}`);
-                profiles.push({
-                    ...data,
-                    avatar: null
-                });
-                continue;
-            }
-
-            const avatarPath = path.join(__dirname, '..', '..', '..', '..', 'localResources', data.resource, 'avartar.png');
+            const avatarPath = path.join(__dirname, '..', '..', '..', '..', `localResources\\profiles\\_${data.id}\\avartar.png`);
 
             let avatarBase64 = null;
 

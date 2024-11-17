@@ -45,10 +45,12 @@ const Search = () => {
                 params: { index: searchIndex }
             });
 
+            console.log(response.data);
+
             sessionStorage.setItem('searchResults', JSON.stringify(response.data.data));
             sessionStorage.setItem('searchIndex', searchIndex);
-            
-            setProfiles(response.data.data); 
+
+            setProfiles(response.data.data);
         } catch (err) {
             setError(err.response ? err.response.data.message : 'Server Error');
         } finally {
@@ -95,17 +97,19 @@ const Search = () => {
                 filteredProfiles.length > 0 && (
                     <div className="results-container">
                         {filteredProfiles.map(profile => (
-                            <div 
-                                key={profile.id} 
-                                className={`profile-card ${profile.is_user ? 'student' : 'course'}`} 
+                            <div
+                                key={profile.id}
+                                className={`profile-card ${profile.is_user ? 'student' : 'course'}`}
                                 onClick={() => handleCardClick(profile)}
                                 style={{ cursor: 'pointer' }}
                             >
                                 <div className="avatar-container">
-                                    <img 
-                                        src={profile.avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz5VtX4a5G9hoIh9p-DKem9UHDiFXsBmF7xQ&s'} 
-                                        alt={`${profile.name}'s avatar`} 
-                                        className="avatar" 
+                                    <img
+                                        src={profile.is_user
+                                            ? (profile.avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz5VtX4a5G9hoIh9p-DKem9UHDiFXsBmF7xQ&s')
+                                            : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz5VtX4a5G9hoIh9p-DKem9UHDiFXsBmF7xQ&s'}
+                                        alt={`${profile.name}'s avatar`}
+                                        className="avatar"
                                     />
                                 </div>
                                 <h3 className="profile-name">{profile.name}</h3>
