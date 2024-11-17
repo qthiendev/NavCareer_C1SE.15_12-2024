@@ -45,20 +45,21 @@ go
 CREATE PROCEDURE ManageCoursesReport
 AS
 BEGIN
+    -- Tạo báo cáo khóa học với số lượng người tham gia
     SELECT 
         c.course_name AS 'Tên khóa học',
-        COUNT(e.enrollment_id) AS 'Số người tham gia',
-        (COUNT(e.enrollment_id) * c.course_price) AS 'Tổng doanh thu'
+        COUNT(e.user_id) AS 'Số người tham gia',
+		(COUNT(e.user_id) * c.course_price) AS [Tổng doanh thu]
     FROM 
-        dbo.Courses c
+        Courses c
     LEFT JOIN 
-        dbo.Enrollments e ON c.course_id = e.course_id
-    LEFT JOIN 
-        dbo.Accomplishments a ON e.enrollment_id = a.enrollment_id
+        Enrollments e ON c.course_id = e.course_id
     GROUP BY 
-        c.course_name, c.course_price
-END
+        c.course_id, c.course_name, c.course_price
+END;
 GO
+
+--exec ManageCoursesReport
 
 if object_id ('ManageStudentCoursesReport','P') is not null drop procedure ManageStudentCoursesReport;
 go
@@ -67,18 +68,13 @@ CREATE PROCEDURE ManageStudentCoursesReport
 AS
 BEGIN
 	begin
-		select user_full_name
-		from Users
-		where @user_id=[user_id]
-	end
-	begin
 		SELECT 
 			c.course_name AS 'Tên khóa học',
 			CASE 
-				WHEN a.accomplishment_id IS NOT NULL THEN N'Hoàn thành'
+				WHEN e.enrollment_is_complete = 1 THEN N'Hoàn thành'
 				ELSE N'Chưa hoàn thành'
 			END AS 'Trạng thái',
-			c.course_price AS 'Doanh thu'
+			c.course_price AS 'Giá khóa học'
 		FROM 
         dbo.Enrollments e
 		INNER JOIN 
@@ -90,6 +86,8 @@ BEGIN
 	end
 END
 GO
+
+--exec ManageStudentCoursesReport @user_id=4
 grant execute on dbo.[ManageCoursesReport] to [NAV_ADMIN];
 go
 grant execute on dbo.[ManageStudentCoursesReport] to [NAV_ADMIN];

@@ -27,6 +27,7 @@ as
 		values (@decription , @aid)
 	end;
 go
+--exec createFeedback @aid=null, @decription='i love u'
 
 if object_id ('readFeedback','P') is not null drop procedure readFeedback;
 go
@@ -44,7 +45,7 @@ BEGIN
 END;
 GO
 
-exec readFeedback
+--exec readFeedback
 
 grant execute on dbo.[createFeedback] to [NAV_GUEST];
 go					 

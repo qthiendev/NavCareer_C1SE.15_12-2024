@@ -12,6 +12,9 @@ const searchRouters = require('./routers/ulities/search');
 const espRouters = require('./routers/espRouters');
 const educationRouters = require('./routers/educationRouters');
 const chatbot = require('./routers/chatbot');
+const feedback = require('./routers/ulities/feedback');
+const report = require('./routers/ulities/report');
+
 
 // Use routes
 router.use('/auth', authRouters);
@@ -23,6 +26,12 @@ router.use('/utl', searchRouters);
 router.use('/esp', espRouters);
 router.use('/edu', educationRouters);
 router.use('/chatbot', chatbot);
+router.use('/feedback', feedback);
+router.use('/report', report);
+
+
+
+
 
 //Self implement route
 router.use('/', serverRouters);

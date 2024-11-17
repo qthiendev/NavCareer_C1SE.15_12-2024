@@ -1,14 +1,13 @@
-const ncbd = require('../../databases/ncdbService');
+const ncbd = require('../../../databases/ncdbService');
 const tryReadFeedback = async (role) => {
     try {
-        const result = await ncbd.query(
-            `EXECUTE readfeedback`);
-
-        return result[0].check;
-
+        console.log(`[${new Date().toLocaleString()}] Executing readfeedback query`);
+        const result = await ncbd.query(role, `EXECUTE readfeedback`);
+        return result; 
     } catch (err) {
-        throw new Error(`readFeedbackService.js/tryreadFeedback | ${err.message}`);
+        console.error(`[${new Date().toLocaleString()}] Query error: ${err.message}`);
+        throw new Error(`readFeedbackService.js/tryReadFeedback | ${err.message}`);
     }
 };
 
-module.exports = {tryReadFeedback};
+module.exports = { tryReadFeedback };

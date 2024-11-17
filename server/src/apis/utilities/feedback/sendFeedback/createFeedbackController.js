@@ -1,39 +1,38 @@
-const {tryCreateFeedback} = require('./createFeedbackService');
+const { tryCreateFeedback } = require('./createFeedbackService');
 
 const createFeedback = async (req, res) => {
     try {
-        const { aid } = req.session;
-        const { feedback_decrition } = req.body;
-        const result = await tryCreateFeedback(aid, feedback_decrition);
+        const now = new Date();
+        const { aid, role } = req.session;
+        const { description } = req.body;
 
-        if (result === 'EXISTED') {
-            console.warn(`[${now.toLocaleString()}] at createFeedbackController.js/createFeedback | Feedback already existed.`);
-            return res.status(201).json({
-                message: `Feedback already existed.`,
+        // Validate input
+        if (!description) {
+            console.warn(`[${now.toLocaleString()}] at createFeedbackController.js/createFeedback | Missing description.`);
+            return res.status(400).json({
+                message: 'Feedback description is required.',
                 time: now.toLocaleString()
             });
         }
 
-        if (result === 'SUCCESSED') {
-            console.log(`[${now.toLocaleString()}] at createFeedbackController.js/createFeedback | Feedback created succesfuly.`);
-            req.session.destroy((err) => {
-                if (err)
-                    throw new Error(err);
+        // Call the service to execute the stored procedure
+        const result = await tryCreateFeedback(role, aid, description);
 
-                console.log(`[${new Date().toLocaleString()}] at signOutController.js/signOut | Signed out successfully`);
-            });
-            return res.status(200).json({
-                message: `Feedback created succesfuly.`,
-                time: now.toLocaleString()
-            });
-        }
+        console.log(`[${now.toLocaleString()}] at createFeedbackController.js/createFeedback | Feedback created successfully.`);
+        return res.status(201).json({
+            message: 'Feedback created successfully.',
+            result, // Optional: Include the result
+            time: now.toLocaleString()
+        });
     } catch (error) {
-        console.error(`[${now.toLocaleString()}] at createFeedbackController.js/createFeedback | ${err.message}`);
-        res.status(500).json({
-            message: 'Failed to create Feedback. Please try again.',
-            create_status: false
+        const now = new Date();
+        console.error(`[${now.toLocaleString()}] at createFeedbackController.js/createFeedback | ${error.message}`);
+        return res.status(500).json({
+            message: 'Failed to create feedback. Please try again.',
+            error: error.message,
+            time: now.toLocaleString()
         });
     }
-}
+};
 
 module.exports = { createFeedback };
