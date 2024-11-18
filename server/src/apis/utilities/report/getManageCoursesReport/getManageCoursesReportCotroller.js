@@ -3,7 +3,7 @@ const { tryGetManageCoursesReport } = require('./getManageCoursesReportService')
 const GetManageCoursesReport = async (req, res) => {
     try {
         const now = new Date();
-        const { role } = req.session;
+        const { role, aid } = req.session;
         if (!role) {
             console.warn(`[${now.toLocaleString()}] at GetManageCoursesReportController.js/GetManageCoursesReport | Missing role in session.`);
             return res.status(403).json({
@@ -11,7 +11,7 @@ const GetManageCoursesReport = async (req, res) => {
                 time: now.toLocaleString()
             });
         }
-        const result = await tryGetManageCoursesReport(role);
+        const result = await tryGetManageCoursesReport(role, aid);
         if (!result.length) {
             console.warn(`[${now.toLocaleString()}] at GetManageCoursesReportController.js/GetManageCoursesReport | No feedback records found.`);
             return res.status(404).json({

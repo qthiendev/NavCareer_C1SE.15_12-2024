@@ -126,8 +126,6 @@ function UserFunctionESP() {
                 <li><a href="/admin/user/function/esp">Phân quyền ESP</a></li>
                 <li><a href="/admin/user/view-all">Phân quyền Student</a></li>
                 <li><a href="/admin/course/view-all">Thông tin Khóa học</a></li>
-                <li><a href="admin/ManageCourseReport">Báo cáo Khóa học</a></li>
-                <li><a href="/admin/ManageStudentReport">Chi tiết học viên</a></li>
             </ul>
             <h1>User Function Management</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}

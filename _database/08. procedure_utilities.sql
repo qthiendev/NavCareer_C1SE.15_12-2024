@@ -43,23 +43,52 @@ go
 if object_id ('ManageCoursesReport','P') is not null drop procedure ManageCoursesReport;
 go
 CREATE PROCEDURE ManageCoursesReport
+    @user_id INT
 AS
 BEGIN
-    -- Tạo báo cáo khóa học với số lượng người tham gia
-	  SELECT 
-        c.course_name AS courseName,
-        COUNT(e.user_id) AS participants,
-		(COUNT(e.user_id) * c.course_price) AS revenue
+    -- Hiển thị danh sách khóa học mà user đã enroll
+    SELECT 
+		c.course_id ,
+        c.course_name AS 'Tên khóa học',
+        CASE 
+            WHEN e.enrollment_is_complete = 1 THEN N'Hoàn thành'
+            ELSE N'Chưa hoàn thành'
+        END AS 'Trạng thái',
+        c.course_price AS 'Giá khóa học'
     FROM 
-        Courses c
-    LEFT JOIN 
-        Enrollments e ON c.course_id = e.course_id
-    GROUP BY 
-        c.course_id, c.course_name, c.course_price
+        dbo.Enrollments e
+    INNER JOIN 
+        dbo.Courses c ON e.course_id = c.course_id
+    WHERE 
+        e.user_id = @user_id;
 END;
 GO
 
---exec ManageCoursesReport
+
+--exec ManageCoursesReport @user_id=1
+if object_id ('GetUsersEnrolledInCourse','P') is not null drop procedure GetUsersEnrolledInCourse;
+go
+CREATE PROCEDURE GetUsersEnrolledInCourse
+    @course_id INT
+AS
+BEGIN
+    -- Hiển thị danh sách người dùng đã enroll vào khóa học
+    SELECT 
+        u.user_full_name AS 'Tên học viên',
+        u.user_email AS 'Email',
+        CASE 
+            WHEN e.enrollment_is_complete = 1 THEN N'Hoàn thành'
+            ELSE N'Chưa hoàn thành'
+        END AS 'Trạng thái'
+    FROM 
+        dbo.Enrollments e
+    INNER JOIN 
+        dbo.Users u ON e.user_id = u.user_id
+    WHERE 
+        e.course_id = @course_id;
+END;
+GO
+--exec GetUsersEnrolledInCourse @course_id = 3
 
 if object_id ('ManageStudentCoursesReport','P') is not null drop procedure ManageStudentCoursesReport;
 go
@@ -86,7 +115,6 @@ BEGIN
 	end
 END
 GO
-
 --exec ManageStudentCoursesReport @user_id=4
 grant execute on dbo.[ManageCoursesReport] to [NAV_ADMIN];
 go

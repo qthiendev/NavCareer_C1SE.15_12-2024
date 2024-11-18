@@ -155,6 +155,9 @@ function Layout() {
                                     />
                                     {showChatbot && (
                                         <div className="chatbot-modal">
+                                            <div className="chatbot-header">
+                                                <button onClick={() => setShowChatbot(false)} className="close-button">X</button>
+                                            </div>
                                             <Chatbot />
                                         </div>
                                     )}

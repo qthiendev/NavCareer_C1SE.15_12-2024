@@ -12,7 +12,7 @@ function ManageStudentReport() {
             try {
                 setIsLoading(true);
                 const userResponse = await fetch('/api/user'); // Replace with actual user API endpoint
-                const reportsResponse = await fetch('/api/reports'); // Replace with actual reports API endpoint
+                const reportsResponse = await fetch('http://localhost:5000/report/ManageStudentCoursesReport'); // Replace with actual reports API endpoint
 
                 const userData = await userResponse.json();
                 const reportsData = await reportsResponse.json();
