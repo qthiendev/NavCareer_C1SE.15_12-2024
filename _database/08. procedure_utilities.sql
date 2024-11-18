@@ -46,15 +46,18 @@ CREATE PROCEDURE ManageCoursesReport
     @user_id INT
 AS
 BEGIN
-    -- Hiển thị danh sách khóa học mà user đã enroll
+    -- Hiển thị danh sách khóa học mà user đã enroll cùng số người tham gia mỗi khóa
     SELECT 
-		c.course_id ,
-        c.course_name AS 'Tên khóa học',
+        c.course_id,
+        c.course_name AS [CourseName],
         CASE 
             WHEN e.enrollment_is_complete = 1 THEN N'Hoàn thành'
             ELSE N'Chưa hoàn thành'
-        END AS 'Trạng thái',
-        c.course_price AS 'Giá khóa học'
+        END AS [Status],
+        c.course_price AS [CoursePrice],
+        (SELECT COUNT(*) 
+         FROM dbo.Enrollments e2 
+         WHERE e2.course_id = c.course_id) AS [NumberOfParticipants] -- Đếm số người tham gia
     FROM 
         dbo.Enrollments e
     INNER JOIN 
@@ -63,6 +66,7 @@ BEGIN
         e.user_id = @user_id;
 END;
 GO
+
 
 
 --exec ManageCoursesReport @user_id=1
@@ -74,12 +78,12 @@ AS
 BEGIN
     -- Hiển thị danh sách người dùng đã enroll vào khóa học
     SELECT 
-        u.user_full_name AS 'Tên học viên',
-        u.user_email AS 'Email',
+        u.user_full_name AS [StudentName],
+        u.user_email AS [Email],
         CASE 
             WHEN e.enrollment_is_complete = 1 THEN N'Hoàn thành'
             ELSE N'Chưa hoàn thành'
-        END AS 'Trạng thái'
+        END AS [Status]
     FROM 
         dbo.Enrollments e
     INNER JOIN 
@@ -125,13 +129,13 @@ go
 grant execute on dbo.[ManageCoursesReport] to [NAV_STUDENT];
 go
 
-grant execute on dbo.[ManageStudentCoursesReport] to [NAV_ADMIN];
-go
-grant execute on dbo.[ManageStudentCoursesReport] to [NAV_GUEST];
+grant execute on dbo.[GetUsersEnrolledInCourse] to [NAV_ADMIN];
 go					  
-grant execute on dbo.[ManageStudentCoursesReport] to [NAV_ESP];
-go					  
-grant execute on dbo.[ManageStudentCoursesReport] to [NAV_STUDENT];
+grant execute on dbo.[GetUsersEnrolledInCourse] to [NAV_GUEST];
+go					
+grant execute on dbo.[GetUsersEnrolledInCourse] to [NAV_ESP];
+go					
+grant execute on dbo.[GetUsersEnrolledInCourse] to [NAV_STUDENT];
 go
 
 grant execute on dbo.[Search] to [NAV_GUEST];

@@ -1,17 +1,16 @@
 const ncbd = require('../../../databases/ncdbService'); // Database connection module
 
-const tryGetManageCoursesReport = async (role, aid) => {
+const tryGetUserEnroll = async (role, course_id) => {
     try {
         console.log(`[${new Date().toLocaleString()}] Executing GetManageCoursesReport query`);
-        console.log(`aid: ${aid}`);
         const result = await ncbd.query(
             role, 
-            `EXECUTE ManageCoursesReport @user_id=${aid}` // Truyền giá trị cho :aid
+            `EXECUTE GetUsersEnrolledInCourse @Course_id=${course_id}` // Truyền giá trị cho :aid
         );
         return result; 
     } catch (err) {
         console.error(`[${new Date().toLocaleString()}] Query error: ${err.message}`);
-        throw new Error(`GetManageCoursesReportService.js/tryGetManageCoursesReport | ${err.message}`);
+        throw new Error(`tryGetUserEnrollService.js/tryGetUserEnroll | ${err.message}`);
     }
 };
-module.exports = { tryGetManageCoursesReport };
+module.exports = { tryGetUserEnroll };

@@ -3,21 +3,24 @@ import "./ManageCourseReport.css";
 
 const ManageCourseReport = () => {
     const [courseData, setCourseData] = useState([]);
+    const [enrollData, setEnrollData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [selectedCourseName, setSelectedCourseName] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
                 const response = await fetch(
-                    "http://localhost:5000/report/ManageCoursesReport"
+                    "http://localhost:5000/report/ManageCoursesReport",
+                    { credentials: 'include' } // Gửi cookie cùng request nếu cần
                 );
                 if (!response.ok) {
                     throw new Error(`Failed to fetch data: ${response.statusText}`);
                 }
                 const result = await response.json();
-                setCourseData(result.data); // Accessing the "data" key
+                setCourseData(result.data || []); // Xử lý khi `data` không tồn tại
             } catch (err) {
                 console.error("Error fetching course data:", err);
                 setError(err.message);
@@ -28,38 +31,61 @@ const ManageCourseReport = () => {
 
         fetchData();
     }, []);
+    
+    const fetchEnrollData = async (course_id,course_name) => {
+        setSelectedCourseName(course_name);
+        setIsLoading(true);
+        try {
+            
+            const url = `http://localhost:5000/report/GetUserEnroll?course_id=${course_id}`;
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include", // Gửi cookie nếu cần
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch enroll data: ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            setEnrollData(result.data || []);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     if (isLoading) {
-        return <p>Loading...</p>;
+        return <p>Đang tải dữ liệu...</p>;
     }
-
     if (error) {
-        return <p>Error: {error}</p>;
+        return <p>Lỗi: {error}</p>;
     }
 
     if (courseData.length === 0) {
-        return <p>No course data available</p>;
+        return <p>Không có dữ liệu khóa học nào.</p>;
     }
 
-    // Tính tổng doanh thu
-    const totalRevenue = courseData.reduce((sum, course) => sum + course.revenue, 0);
+    // Tính tổng doanh thu của các khóa học "Hoàn thành"
+    const totalRevenue = courseData
+        .filter(course => course.Status === "Hoàn thành")
+        .reduce((sum, course) => sum + course.CoursePrice, 0);
 
     return (
         <div className="admin-home">
-            <ul className="admin-nav">
-                <li><a href="/admin">Trang chủ Admin</a></li>
-                <li><a href="/">Trang chủ Hệ thống</a></li>
-                <li><a href="/admin/user/view-all">Thông tin Người dùng</a></li>
-                <li><a href="/admin/user/function/general">Phân quyền Chung</a></li>
-                <li><a href="/admin/user/function/esp">Phân quyền ESP</a></li>
-                <li><a href="/admin/user/view-all">Phân quyền Student</a></li>
-                <li><a href="/admin/course/view-all">Thông tin Khóa học</a></li>
-                <li><a href="admin/ManageCourseReport">Báo cáo Khóa học</a></li>
-                <li><a href="/admin/ManageStudentReport">Chi tiết học viên</a></li>
-
-            </ul>
+            
             <div className="course-report">
-                <h2 className="report-title">Course Report</h2>
+                <h2 className="report-title">Báo Cáo Khóa Học</h2>
+                <ul className="esp-nav">
+                    <li><a href="/esp">Trang chủ ESP</a></li>
+                    <li><a href="/">Trang chủ Hệ thống</a></li>
+                    <li><a href="/esp/course/view-all">Thông tin khóa học</a></li>
+                    <li><a href="/esp/ManageCourseReport">Báo cáo khóa học</a></li>
+                </ul>
                 <table className="course-table" border="1">
                     <thead>
                         <tr className="table-header">
@@ -69,27 +95,52 @@ const ManageCourseReport = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {courseData.map((course, index) => (
-                            <tr className="table-row" key={index}>
-                                <td className="table-content">{course.courseName}</td>
-                                <td className="table-content">{course.participants}</td>
-                                <td className="table-content">{course.revenue.toLocaleString("vi-VN")} VND</td>
+                        {courseData.map((course) => (
+                            <tr className="table-row" key={course.course_id}>
+                                <td className="table-content"
+                                    style={{ cursor: "pointer", color: "grey" }}
+                                    onClick={() => fetchEnrollData(course.course_id, course.CourseName)}
+                                >{course.CourseName}</td>
+                                <td className="table-content">{course.NumberOfParticipants}</td>
+                                <td className="table-content">{course.CoursePrice.toLocaleString("vi-VN")} VND</td>
                             </tr>
                         ))}
-                        {/* Hàng tổng số tiền */}
-                        <tr className="table-footer">
+                        <tr>
                             <td className="table-content" colSpan="2" style={{ fontWeight: "bold", textAlign: "right" }}>
-                                Tổng doanh thu:
-                            </td>
+                                Tổng Doanh Thu (Hoàn thành):
+                            </td >
                             <td className="table-content" style={{ fontWeight: "bold" }}>
                                 {totalRevenue.toLocaleString("vi-VN")} VND
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                {enrollData.length > 0 && (
+                <div className="enroll-data">
+                    <h3>Danh sách người ghi danh</h3>
+                    <h2 className="course-name-title">Khóa Học: {selectedCourseName}</h2>
+                    <table className="enroll-table" border="1">
+                        <thead>
+                            <tr>
+                                <th className="table-content-header">Tên Sinh Viên</th>
+                                <th className="table-content-header">Email</th>
+                                <th className="table-content-header">Trạng Thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {enrollData.map((user, index) => (
+                                <tr key={index}>
+                                    <td className="table-nav-content">{user.StudentName}</td>
+                                    <td className="table-nav-content">{user.Email}</td>
+                                    <td className="table-nav-content">{user.Status}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
             </div>
         </div>
-        
     );
 };
 

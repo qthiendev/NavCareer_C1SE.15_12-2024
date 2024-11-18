@@ -77,7 +77,7 @@ const Router = () => {
           <Route path='servey' element={<Servey />} />
 
           <Route path='admin/ManageStudentReport' element={<ManageStudentReport />} />
-          <Route path='admin/ManageCourseReport' element={<ManageCourseReport />} />
+          <Route path='esp/ManageCourseReport' element={<ManageCourseReport />} />
 
 
         </Route>
