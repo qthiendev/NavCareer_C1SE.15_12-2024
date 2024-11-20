@@ -1,5 +1,5 @@
 ﻿use NavCareerDB;
-
+exec readFeedback
 delete from SystemFeedbacks; 
 go
 
@@ -20,11 +20,11 @@ go
 if object_id('createFeedback', 'P') is not null drop procedure createFeedback;
 go
 
-create procedure createFeedback @aid int = null, @decription nvarchar(max)
+create procedure createFeedback @aid int = null, @description nvarchar(max)
 as
 	begin
 		insert into SystemFeedbacks ([feedback_description], [user_id])
-		values (@decription , @aid)
+		values (@description , @aid)
 	end;
 go
 --exec createFeedback @aid=null, @decription='i love u'
@@ -52,6 +52,8 @@ go
 grant execute on dbo.[createFeedback] to [NAV_ESP];
 go					 
 grant execute on dbo.[createFeedback] to [NAV_STUDENT];
+go
+grant execute on dbo.[createFeedback] to [NAV_ADMIN];
 go
 ------------------------------------------------------
 grant execute on dbo.[readfeedback] to [NAV_ADMIN];

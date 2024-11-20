@@ -6,6 +6,7 @@ import { FaSearch, FaBell, FaFacebookMessenger } from 'react-icons/fa';
 import './Layout.css';
 import Chatbot from '../pages/utilities/chatbot/chatbot.jsx';
 
+
 function Layout() {
     const [isCheckAdmin, setIsCheckAdmin] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
@@ -203,7 +204,6 @@ function Layout() {
                 <main className="main-content">
                     <Outlet />
                 </main>
-
                 <footer className="footer">
                     <p className="copyright">&copy; C1SE.15</p>
                 </footer>

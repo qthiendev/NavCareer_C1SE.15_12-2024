@@ -1,6 +1,8 @@
 import { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
+import Feedback from './utilities/feedback/feedback.jsx';
+
 
 const courses = [
   {
@@ -292,6 +294,7 @@ const navigate = useNavigate();
         </div>
 
       </div>
+      <Feedback/>
       
     </div>
   );

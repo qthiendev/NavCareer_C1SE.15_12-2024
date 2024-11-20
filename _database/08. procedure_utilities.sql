@@ -94,49 +94,8 @@ END;
 GO
 --exec GetUsersEnrolledInCourse @course_id = 3
 
-if object_id ('ManageStudentCoursesReport','P') is not null drop procedure ManageStudentCoursesReport;
-go
-CREATE PROCEDURE ManageStudentCoursesReport
-    @user_id INT
-AS
-BEGIN
-	begin
-		SELECT 
-			c.course_name AS 'Tên khóa học',
-			CASE 
-				WHEN e.enrollment_is_complete = 1 THEN N'Hoàn thành'
-				ELSE N'Chưa hoàn thành'
-			END AS 'Trạng thái',
-			c.course_price AS 'Giá khóa học'
-		FROM 
-        dbo.Enrollments e
-		INNER JOIN 
-        dbo.Courses c ON e.course_id = c.course_id
-		LEFT JOIN 
-        dbo.Accomplishments a ON e.enrollment_id = a.enrollment_id
-		WHERE 
-			e.user_id = @user_id
-	end
-END
-GO
---exec ManageStudentCoursesReport @user_id=4
-grant execute on dbo.[ManageCoursesReport] to [NAV_ADMIN];
-go
-grant execute on dbo.[ManageCoursesReport] to [NAV_GUEST];
-go					  
-grant execute on dbo.[ManageCoursesReport] to [NAV_ESP];
-go					  
-grant execute on dbo.[ManageCoursesReport] to [NAV_STUDENT];
-go
 
-grant execute on dbo.[GetUsersEnrolledInCourse] to [NAV_ADMIN];
-go					  
-grant execute on dbo.[GetUsersEnrolledInCourse] to [NAV_GUEST];
-go					
-grant execute on dbo.[GetUsersEnrolledInCourse] to [NAV_ESP];
-go					
-grant execute on dbo.[GetUsersEnrolledInCourse] to [NAV_STUDENT];
-go
+			
 
 grant execute on dbo.[Search] to [NAV_GUEST];
 go
@@ -147,5 +106,10 @@ go
 grant execute on dbo.[Search] to [NAV_STUDENT];
 go
 
+grant execute on dbo.[ManageCoursesReport] to [NAV_ESP];
+go		
+
+grant execute on dbo.[GetUsersEnrolledInCourse] to [NAV_ESP];
+go		
 --exec Search N'Th'
 
