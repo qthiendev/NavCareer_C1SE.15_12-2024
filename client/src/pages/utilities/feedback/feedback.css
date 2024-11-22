@@ -1,0 +1,39 @@
+.feedback {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.feedback-header h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.feedback-form-group input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.feedback-submit button {
+    padding: 10px 20px;
+    background-color: #2844a7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.feedback-submit:hover {
+    background-color: #212888;
+}
+
+.feedback-success {
+    margin: 10px;
+}
+
+.error-message {
+    color: red;
+}

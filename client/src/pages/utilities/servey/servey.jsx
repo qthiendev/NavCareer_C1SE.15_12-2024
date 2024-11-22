@@ -23,40 +23,43 @@ function Servey() {
 
     const questions = {
         "2": [
-            "1. Tự mua và lắp ráp máy vi tính theo ý mình",
-            "2. Lắp ráp tủ theo hướng dẫn của sách hướng dẫn hoặc trang mạng",
-            "3. Tháo mở điện thoại di động hay máy tính ra để tìm hiểu",
-            "4. Đoán lỗi khi máy tính tắt đột ngột",
-            "5. Đoán lỗi và sửa chữa máy tính khi có sự cố",
-            "6. Cài đặt phần mềm mới vào máy tính",
-            "7. Xây dựng hệ thống mạng gia đình",
-            "8. Cài đặt hệ điều hành trên máy tính mới",
-            "9. Cập nhật phần mềm và hệ điều hành cho máy tính",
-            "10. Sửa chữa các thiết bị điện tử đơn giản tại nhà"
+            "1)	Bạn là người có tính tự lập và suy nghĩ thực tế.",
+            "2)	Bạn là người thường diễn đạt cảm xúc, ý tưởng bằng hành động hơn là lời nói.",
+            "3)	Bạn có khả năng phối hợp tay mắt tốt, khéo sử dụng các loại dụng cụ.",
+            "4)	Bạn có khả năng tự làm và làm tốt các công việc yêu cầu kỹ thuật, sự khéo léo thay vì thuê thợ (tháo lắp, sửa chữa máy móc và đồ nội thất/ làm vườn/ làm đồ thủ công,…).",
+            "5)	Bạn thích làm việc ngoài trời và những hoạt động tương tác với vật dụng, máy móc, cây cối, động vật.",
+            "6)	Bạn là người cảm thấy thoải mái khi làm việc một mình, không ưa nắm vai trò lãnh đạo, không thích xã giao.",
+            "7)	Bạn là người hưởng thụ và tập trung hoàn toàn vào quá trình làm việc, học tập nên thỉnh thoảng thường quên mất thời gian.",
+            "8)	Bạn có thể phân tích và giải quyết các vấn đề một cách hiệu quả, có logic.",
+            "9)	Bạn có thể học hỏi và tiếp thu điều mới nhanh chóng, suy nghĩ mạch lạc và chặt chẽ.",
+            "10)Bạn thích quan sát, tìm tòi, học hỏi về thế giới xung quanh, đặt những câu hỏi “tại sao, vì đâu, như thế nào?” trong các cuộc trò chuyện."
+
         ],
         "3": [
-            "1. Trang điểm cho mình hay cho bạn theo hướng dẫn của sách hướng dẫn hoặc trang mạng",
-            "2. Thiết kế một bộ trang phục theo phong cách riêng",
-            "3. Sáng tác một bức tranh hoặc bản vẽ nghệ thuật",
-            "4. Chụp và chỉnh sửa ảnh theo phong cách cá nhân",
-            "5. Viết một bài thơ hoặc câu chuyện ngắn",
-            "6. Trang trí phòng theo chủ đề mình yêu thích",
-            "7. Sáng tác hoặc phối nhạc cho một bài hát",
-            "8. Thiết kế thiệp chúc mừng cho bạn bè hoặc gia đình",
-            "9. Tham gia các buổi diễn văn nghệ hoặc sự kiện nghệ thuật",
-            "10. Thử tạo một video ngắn với nội dung sáng tạo"
+            "1)	Bạn là người có khiếu thẩm mĩ, yêu thích cái đẹp, dễ bị hấp dẫn bởi cái đẹp ( thiên nhiên, con người, đồ vật,..).",
+            "2)	Bạn là người có cá tính riêng, giàu trí tưởng tượng, nhạy cảm và dễ xúc động.",
+            "3)	Bạn có thể thu hút, khiến người khác đồng cảm, quan tâm đến câu chuyện mình chia sẻ theo nhiều cách (thuyết trình/ diễn xuất/ viết, trình bày những ý tưởng của mình,…).",
+            "4)	Bạn có thể thực hiện tốt các hoạt động yêu cầu năng khiếu và kỹ năng tưởng tượng, sáng tạo (nhảy/ múa/ rap/ ca hát/ sáng tác/ sử dụng các loại nhạc cụ/ chụp hình/ vẽ tranh/ trang trí/ điêu khắc/ …).",
+            "5)	Bạn thích sự tự do, sự đổi mới, sáng tạo liên tục trong công việc và cuộc sống, khó chịu với sự gò ép và khuôn khổ.",
+            "6)	Bạn là người quan tâm và luôn sẵn lòng hỗ trợ, muốn làm cho mọi người xung quanh mình hạnh phúc.",
+            "7)	Bạn là người có uy tín, biết lắng nghe và dễ đồng cảm, thường được mọi người tìm đến để tâm sự.",
+            "8)	Bạn có thể diễn đạt tốt ý tưởng, truyền đạt kiến thức và giải thích các thông tin phức tạp một cách dễ hiểu.",
+            "9)	Bạn có thể thực hiện tốt các công việc yêu cầu sự tử tế, kiên nhẫn (như các dịch vụ chăm sóc sức khoẻ/ dịch vụ khách hàng, nhà hàng, khách sạn/ các hoạt động an sinh, công tác xã hội,…).",
+            "10)	Bạn thích gặp gỡ, làm việc với con người, tham gia các hoạt động vì mục tiêu chung của cộng đồng, xã hội.",
+
         ],
         "4": [
-            "1. Cắt tỉa cây cảnh trong vườn",
-            "2. Tự trồng và chăm sóc cây trong nhà",
-            "3. Làm vườn theo cách thân thiện với môi trường",
-            "4. Thực hiện các công việc thủ công như đan lát, thêu thùa",
-            "5. Tự làm đồ trang trí từ vật liệu tái chế",
-            "6. Làm đồ gốm hoặc thủ công mỹ nghệ",
-            "7. Chăm sóc và trang trí khu vườn",
-            "8. Học cách ghép cành cây để tạo cây mới",
-            "9. Tự làm các loại phân bón hữu cơ từ thực phẩm thừa",
-            "10. Thử làm một dự án thủ công DIY như làm nến hoặc xà phòng"
+            "1)	Bạn là người năng động, có tham vọng, giao tiếp tốt, được nhiều người xung quanh tin tưởng, nể phục.",
+            "2)	Bạn là người quyết đoán và không quá chú ý tiểu tiết.",
+            "3)	Bạn có thể diễn đạt, tranh luận và thuyết phục người khác đồng ý với ý kiến của mình.",
+            "4)	Bạn có thể lên kế hoạch, chiến lược, lãnh đạo đội nhóm để đạt được mục tiêu.",
+            "5)	Bạn thích xã giao, sự phiêu lưu và mạo hiểm, các hoạt động tạo ra lợi nhuận.",
+            "6)	Bạn là người ngăn nắp, gọn gàng, nhạy bén với các con số, các phép tính toán và cẩn trọng trong chi tiêu.",
+            "7)	Bạn là người tuân thủ nguyên tắc, có trách nhiệm trong công việc và đời sống sinh hoạt mà không cần đốc thúc.",
+            "8)	Bạn có thể làm việc tốt trong khuôn khổ hệ thống, giải quyết công việc giấy tờ một cách nhanh chóng, hiệu quả và ngăn nắp.",
+            "9)	Bạn có thể thực hiện tốt các công việc đòi hỏi phải được lên kế hoạch cẩn thận, tính chất công việc yêu cầu độ chính xác cao.",
+            "10)	Bạn thích làm việc với các con số, làm việc theo hướng dẫn, quy trình, lên kế hoạch lịch làm việc, dự kiến các khoản thu chi.",
+
         ]
     };
 
@@ -219,9 +222,16 @@ function Servey() {
                     {activeTab === "1" && (
                         <div className="hello">
                             <div className="hello-name">
-                                <h2 className="hello-text">Chào mừng bạn đến với khảo sát!</h2>
-                                <p className="hello-text">Chúng tôi rất cảm ơn sự tham gia của bạn...</p>
-                            </div>
+                                <h2 className="hello-text-header">Chào mừng bạn đến với khảo sát!</h2>
+                                <p className="hello-text">Chọn câu trả lời đến với mình nhanh và tự nhiên nhất. Càng suy nghĩ thì càng không tốt vì lúc ấy người thực hiện đang suy tính và dùng lý trí để trả lời.</p>
+                                <p className="hello-text">Lựa chọn mức độ đồng ý của mình cho mỗi câu ở các phần tiếp theo bằng cách chọn vào ô tương ứng:</p>
+                                <p className="hello-text">1.	Bạn thấy ý đó chưa bao giờ đúng với bạn.</p>
+                                <p className="hello-text">2.	Chỉ thấy ý đó chỉ đúng trong một vài trường hợp.</p>
+                                <p className="hello-text">3.	Bạn thấy ý đó chỉ một nửa là đúng với bạn.</p>
+                                <p className="hello-text">4.	Bạn thấy ý đó gần như là đúng với bạn trong hầu hết mọi trường hợp, chỉ có một vài trường hợp là chưa đúng lắm.</p>
+                                <p className="hello-text">5.	Bạn thấy ý đó là hoàn toàn đúng với bạn, không thể nào khác đi được.</p>
+
+                                </div>
                         </div>
                     )}
 

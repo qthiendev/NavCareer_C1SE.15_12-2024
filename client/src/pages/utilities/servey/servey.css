@@ -43,6 +43,12 @@
 
 }
 
+.hello-text-header {
+    width: 600px;
+    color: #4d5359;
+    display: flex;
+    justify-content: center;
+}
 .hello-text {
     width: 600px;
     color: #4d5359;

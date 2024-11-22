@@ -126,8 +126,8 @@ function ViewAllUser() {
                 <li><a href="/admin/user/function/esp">Phân quyền ESP</a></li>
                 <li><a href="/admin/user/view-all">Phân quyền Student</a></li>
                 <li><a href="/admin/course/view-all">Thông tin Khóa học</a></li>
-                <li><a href="admin/ManageCourseReport">Báo cáo Khóa học</a></li>
-                <li><a href="/admin/ManageStudentReport">Chi tiết học viên</a></li>
+                <li><a href="/admin/feedback">Phản hồi hệ thống</a></li>
+
                 </ul>
                 <h2>User Information</h2>
                 <div className="view-all-search-filters">
