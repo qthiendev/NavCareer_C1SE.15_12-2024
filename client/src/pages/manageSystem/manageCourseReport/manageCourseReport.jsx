@@ -72,8 +72,7 @@ const ManageCourseReport = () => {
 
     // Tính tổng doanh thu của các khóa học "Hoàn thành"
     const totalRevenue = courseData
-        .filter(course => course.Status === "Hoàn thành")
-        .reduce((sum, course) => sum + course.CoursePrice, 0);
+        .reduce((sum, course) => sum + course.course_price, 0);
 
     return (
         <div className="admin-home">
@@ -99,10 +98,10 @@ const ManageCourseReport = () => {
                             <tr className="table-row" key={course.course_id}>
                                 <td className="table-content"
                                     style={{ cursor: "pointer", color: "grey" }}
-                                    onClick={() => fetchEnrollData(course.course_id, course.CourseName)}
-                                >{course.CourseName}</td>
+                                    onClick={() => fetchEnrollData(course.course_id, course.course_name)}
+                                >{course.course_name}</td>
                                 <td className="table-content">{course.NumberOfParticipants}</td>
-                                <td className="table-content">{course.CoursePrice.toLocaleString("vi-VN")} VND</td>
+                                <td className="table-content">{course.course_price.toLocaleString("vi-VN")} VND</td>
                             </tr>
                         ))}
                         <tr>

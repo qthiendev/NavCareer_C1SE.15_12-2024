@@ -56,7 +56,7 @@ header {
   white-space: nowrap;
 }
 
-.nav-list li a {
+.nav-list-content {
   position: relative;
   color: white;
   text-decoration: none;
@@ -67,7 +67,7 @@ header {
   border-radius: 4px;
 }
 
-.nav-list li a:hover {
+.nav-list-content:hover {
   background-color: rgb(9, 255, 0);
   color: #043873;
   transform: scale(1.05); /* Slightly increase the size on hover */

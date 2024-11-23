@@ -55,7 +55,7 @@ function ViewCourse() {
             <div className='view-course-left'>
                 <div className='view-course-infor'>
                     <h3>{courseData.course_name}</h3>
-                    <p>Thêm giới thiệu ngắn gọn cho khoá học tại đây!!!</p>
+                    <p>{courseData.course_short_description}</p>
                 </div>
                 <div className='view-course-intro'>
                     <img src="/img/main_content/courses/Course1_1.svg" alt="" />

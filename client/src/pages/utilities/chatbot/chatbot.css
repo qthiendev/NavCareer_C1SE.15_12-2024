@@ -77,6 +77,14 @@
     background-color: #0056b3;
   }
   
+  .link-servey {
+    text-decoration:none;
+  }
+
+  .link-servey:hover {
+    text-decoration:none;
+    color: #9c9c9c;
+  }
 
   .courseChat {
     display: flex;

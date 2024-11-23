@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Chatbot.css';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom'; // Import Link
 
 
 
@@ -18,21 +19,27 @@ function Chatbot() {
       const Consultation = {
         sender: 'bot',
         text: 'Tư vấn khóa học',
+        clickable: true
       };
       const cost = {
         sender: 'bot',
         text: 'Giá cả khóa học',
+        clickable: true
+
       };
       const recommendations = {
         sender: 'bot',
         text: 'Đề xuất khóa học',
+        clickable: true
+
       };
-      const quickConsultation = {
-        sender: 'bot',
-        text: 'Khảo sát nhanh',
-      };
-    setMessages([welcomeMessage,Consultation,cost,recommendations,quickConsultation]);
+    setMessages([welcomeMessage,Consultation,cost,recommendations]);
   }, []);
+
+  const handleClickOption = (text) => {
+    setInput(text);
+    sendMessage();
+  };
 
   const sendMessage = async () => {
     if (input.trim() === '') return;
@@ -54,9 +61,6 @@ function Chatbot() {
         case 'courseRecommendation':
           handleCourseRecommendation();
           break;
-        case 'quickConsultation':
-          handleQuickConsultation(input);
-          break;
         case 'awaitingPriceInfo':
           handleAwaitingPriceInfo(input);
           break;
@@ -70,7 +74,7 @@ function Chatbot() {
 
   // Xử lý lựa chọn ban đầu
   const changeStage = () => {
-    setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn muốn tôi hỗ trợ thêm về tư vấn các khóa học, về giá cả, đề xuất hay khảo sát nhanh' }]);
+    setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn muốn tôi hỗ trợ thêm về tư vấn các khóa học, về giá cả hay đề xuất một vài khóa học' }]);
     setStage('welcome');
   };
   const handleEnding = () =>{
@@ -84,7 +88,7 @@ function Chatbot() {
       // const responseMessage = { sender: 'bot', text: `Bạn đã chọn: ${lowerInput}` };
       // setMessages(prev => [...prev, responseMessage]);
       // cái này để confim để đây lúc nào cần show bot lấy chuỗi nào của client 
-      if (lowerInput.includes('tư vấn')||lowerInput.includes('khóa học')) {
+      if (lowerInput.includes('tư vấn')) {
         setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn đã làm trắc nghiệm khảo sát để xem mình thuộc lĩnh vực phù hợp nào chưa? Nếu bạn có chuyên ngành mình yêu thích rồi thì hãy cho tớ biết nhé!' }]);
         setStage('courseConsultation');
       } else if (lowerInput.includes('giá')) {
@@ -144,11 +148,14 @@ const handleCourseConsultation = async (input) => {
     if (lowerInput.includes('chưa')) {
       setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn hãy nhấn vào link dưới đây để làm thử bài test nhằm hiểu rõ hơn về lĩnh vực phù hợp nhé! ' }]);
       
-      setMessages(prev => [...prev, { sender: 'bot', text: <div className='linkServey'> <span role="gridcell"><a href="http://localhost:5173/servey" target="_blank" rel="link">http://localhost:5173/servey</a></span>
+      setMessages(prev => [...prev, { sender: 'bot', text: <div className='linkServey'> <span role="gridcell"><a className='link-servey' href="http://localhost:5173/servey" target="_blank" rel="link">http://localhost:5173/servey</a></span>
       </div> }]);
+      setMessages(prev => [...prev, { sender: 'bot', text: 'Giờ bạn hãy nhập vào khóa học mà hệ thống đã đề xuất nhé!' }]);
+      
+      setAwaitingCourseName(true);
       
     } 
-    else if (lowerInput.includes('rồi') || lowerInput.includes('xong')) {
+    else if (lowerInput.includes('rồi') || lowerInput.includes('xong')|| lowerInput.includes('mới')) {
         setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn thuộc lĩnh vực nào nhỉ? Vui lòng nhập tên khóa học bạn quan tâm.' }]);
         
         // Đặt biến cờ để chờ người dùng nhập tên khóa học
@@ -176,10 +183,12 @@ const handleCourseConsultation = async (input) => {
               const defaultFormatCourseText = (course) => {
                 return (
                   <div className='courseChat'>
-                    <h1>Khóa học: {course.course_name}</h1>
+                    <h1>Khóa học: <Link to={`/course/${course.course_id}`} className="course-link">
+                                    {course.course_name}
+                                </Link></h1>
                     <h1>Lĩnh vực: {course.field_name}</h1>
                     <h1>Mô tả: {course.course_short_description}</h1>
-                    <h1>Giá: {course.course_price}$ </h1>
+                    <h1>Giá: {course.course_price}VNĐ </h1>
                   </div>);
               };
               displayCourses(matchedCourse,defaultFormatCourseText);
@@ -194,7 +203,7 @@ const handleCourseConsultation = async (input) => {
         } 
         else {
             console.log(response.data.message || 'Không có khóa học nào.');
-            setMessages(prev => [...prev, { sender: 'bot', text: response.data.message || 'Không có khóa học nào.' }]);
+            setMessages(prev => [...prev, { sender: 'bot', text: response.data.message || 'xin lỗi không có khóa học như trên cả .' }]);
         }
     } catch (error) {
         console.error('Lỗi khi gọi API:', error);
@@ -238,7 +247,7 @@ const handleCourseConsultation = async (input) => {
                       <div className='courseChat'>
                         <h1>Khóa học: {course.course_name}</h1>
                         <h1>Mô tả: {course.course_short_description}</h1>
-                        <h1>Giá: {course.course_price}$ </h1>
+                        <h1>Giá: {course.course_price}VNĐ </h1>
                       </div>);
                   }
                   displayCourses(matchedCourses,defaultFormatCourseText);
@@ -382,41 +391,41 @@ const handleCourseConsultation = async (input) => {
 
 
   
-const handleQuickConsultation = async (input) => {
-  const responseMessage = { sender: 'bot', text: 'Đang tìm câu trả lời, vui lòng chờ...' };
-  setMessages(prev => [...prev, responseMessage]);
-  const question = ".Which major is suitable for me when I have the following interests: " + input;
-  const context = "Customers are not sure which major to choose to suit themselves and they need your help, they provide their interests and from those interests you will suggest suitable majors for them.You are the course provider, the user will provide personal preferences from which you will give an idea of ​​what that person is like and what industry they will belong to. ";
-  console.log(question);
+// const handleQuickConsultation = async (input) => {
+//   const responseMessage = { sender: 'bot', text: 'Đang tìm câu trả lời, vui lòng chờ...' };
+//   setMessages(prev => [...prev, responseMessage]);
+//   const question = ".Which major is suitable for me when I have the following interests: " + input;
+//   const context = "Customers are not sure which major to choose to suit themselves and they need your help, they provide their interests and from those interests you will suggest suitable majors for them.You are the course provider, the user will provide personal preferences from which you will give an idea of ​​what that person is like and what industry they will belong to. ";
+//   console.log(question);
   
-  try {
-      // Gọi Hugging Face API
-      const response = await axios.post(
-          'https://api-inference.huggingface.co/models/twmkn9/albert-base-v2-squad2', 
-          {
-              inputs: {
-                  question: question,
-                  context: context
-              }
-          },
-          {
-              headers: {
-                  'Authorization': `Bearer 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`, // Thay YOUR_HUGGING_FACE_API_KEY bằng API Key của bạn
-                  'Content-Type': 'application/json'
-              }
-          }
-      );
+//   try {
+//       // Gọi Hugging Face API
+//       const response = await axios.post(
+//           'https://api-inference.huggingface.co/models/twmkn9/albert-base-v2-squad2', 
+//           {
+//               inputs: {
+//                   question: question,
+//                   context: context
+//               }
+//           },
+//           {
+//               headers: {
+//                   'Authorization': `Bearer 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`, // Thay YOUR_HUGGING_FACE_API_KEY bằng API Key của bạn
+//                   'Content-Type': 'application/json'
+//               }
+//           }
+//       );
 
-      const answer = response.data?.answer || "Không tìm thấy câu trả lời phù hợp.";
-      setMessages(prev => [...prev, { sender: 'bot', text: answer }]);
-     changeStage();
+//       const answer = response.data?.answer || "Không tìm thấy câu trả lời phù hợp.";
+//       setMessages(prev => [...prev, { sender: 'bot', text: answer }]);
+//      changeStage();
 
-  } catch (error) {
-      console.error('Error fetching data from Hugging Face API', error);
-      setMessages(prev => [...prev, { sender: 'bot', text: 'Đã xảy ra lỗi khi gọi API. Vui lòng thử lại sau.' }]);
-     changeStage();
-  }
-};
+//   } catch (error) {
+//       console.error('Error fetching data from Hugging Face API', error);
+//       setMessages(prev => [...prev, { sender: 'bot', text: 'Đã xảy ra lỗi khi gọi API. Vui lòng thử lại sau.' }]);
+//      changeStage();
+//   }
+// };
 
 
 
@@ -424,7 +433,10 @@ const handleQuickConsultation = async (input) => {
     <div className="chatbot-container">
       <div className="chatbot-messages">
         {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.sender}`}>
+          <div key={index} className={`message ${msg.sender}`}
+          onClick={() => msg.clickable && handleClickOption(msg.text)} // Nếu clickable, cho phép click
+            style={{ cursor: msg.clickable ? 'pointer' : 'default' }} // Thay đổi con trỏ nếu có thể click
+          >
             {msg.text}
           </div>
         ))}

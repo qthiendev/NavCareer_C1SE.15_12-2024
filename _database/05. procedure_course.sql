@@ -13,6 +13,7 @@ CREATE PROCEDURE GetAllCoursesByFieldName  @fieldName NVARCHAR(50)
 AS
 BEGIN
     SELECT
+		c.course_id,
         c.course_name, 
         f.field_name,
         c.course_short_description,
@@ -28,7 +29,7 @@ BEGIN
         f.field_name = @fieldName;
 END;
 GO
--- exec GetAllCoursesByFieldName @fieldName
+-- exec GetAllCoursesByFieldName @fieldName= N'Kỹ sư Robot công nghiệp'
  --exec GetAllCourses
  --lọc giá: từ khoảng đến khoảng
 
@@ -80,12 +81,12 @@ GO
 
 
 
-if object_id('selectTop5Course', 'P') is not null drop procedure selectTop5Course;
+if object_id('selectTop3Course', 'P') is not null drop procedure selectTop5Course;
 go
 create proc selectTop5Course
 as
 begin
-	select top 5 
+	select top 3
     c.[course_id],
     c.[course_name],
     c.[course_short_description],
@@ -104,7 +105,7 @@ order by [enrollment_count] desc;
 end;
 go
 
---exec selectTop5Course
+--exec selectTop3Course
 --cái này là recomment 
 
 if object_id('ReadCourse', 'P') is not null drop procedure ReadCourse;

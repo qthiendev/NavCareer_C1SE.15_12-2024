@@ -35,7 +35,6 @@ import Accomplishment from './pages/learning/Accomplishment.jsx';
 import AccomplishmentByID from './pages/learning/AccomplishmentByID.jsx';
 
 import Servey from './pages/utilities/servey/servey.jsx';
-import ManageStudentReport from './pages/manageSystem/manageStudentReport/manageStudentReport.jsx';
 import ManageCourseReport from './pages/manageSystem/manageCourseReport/manageCourseReport.jsx';
 
 import AdminFeedback from './pages/manageSystem/AdminFeedback.jsx';
@@ -78,7 +77,6 @@ const Router = () => {
 
           <Route path='servey' element={<Servey />} />
 
-          <Route path='admin/ManageStudentReport' element={<ManageStudentReport />} />
           <Route path='esp/ManageCourseReport' element={<ManageCourseReport />} />
           
           <Route path='admin/feedback' element={<AdminFeedback />} />
