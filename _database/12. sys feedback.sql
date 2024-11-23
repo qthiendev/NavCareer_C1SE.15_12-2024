@@ -1,5 +1,5 @@
 ﻿use NavCareerDB;
-exec readFeedback
+
 delete from SystemFeedbacks; 
 go
 
@@ -57,5 +57,11 @@ grant execute on dbo.[createFeedback] to [NAV_ADMIN];
 go
 ------------------------------------------------------
 grant execute on dbo.[readfeedback] to [NAV_ADMIN];
+go
+grant execute on dbo.[readfeedback] to [NAV_GUEST];
+go					 
+grant execute on dbo.[readfeedback] to [NAV_ESP];
+go					 
+grant execute on dbo.[readfeedback] to [NAV_STUDENT];
 go
 ------------------------------------------------------

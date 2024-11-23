@@ -13,6 +13,7 @@ CREATE PROCEDURE GetAllCoursesByFieldName  @fieldName NVARCHAR(50)
 AS
 BEGIN
     SELECT
+		c.course_id,
         c.course_name, 
         f.field_name,
         c.course_short_description,
@@ -28,7 +29,7 @@ BEGIN
         f.field_name = @fieldName;
 END;
 GO
--- exec GetAllCoursesByFieldName @fieldName
+-- exec GetAllCoursesByFieldName @fieldName= N'Kỹ sư Robot công nghiệp'
  --exec GetAllCourses
  --lọc giá: từ khoảng đến khoảng
 

@@ -87,15 +87,48 @@ values
 (N'Trịnh Quý Thiện', N'qthiendev', N'trinhquythien.dev@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), 3),
 (N'Phan Công Khải', N'KhaiKey', N'mynameispro164@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), 4),
 (N'Phạm Hạ Vỹ', N'phamhavy', N'phamhavy9b@gmail.com', getdate(), 1, N'0123456789', N'Đà Nẵng', getdate(), 5),
-(N'Daniel Rodriguez', N'gdavis', N'bevans@example.net', '1992-05-07', 0, N'1488408658', N'328 William Trail, Port Ryan, CT 77141', getdate(),  6);
+(N'Daniel Rodriguez', N'gdavis', N'bevans@example.net', '1992-05-07', 0, N'1488408658', N'328 William Trail, Port Ryan, CT 77141', getdate(),  6),
+(N'Trần Minh Anh', N'manh', N'minh.anh@gmail.com', '1990-06-20', 0, N'0123456783', N'Cần Thơ', GETDATE(), 3),
+(N'Nguyễn Văn A', N'nva', N'nguyenvana@example.com', '1985-09-10', 1, N'0978123456', N'Hà Nội', GETDATE(), 3),
+(N'James Smith', N'jsmith', N'jsmith@example.com', '1987-03-22', 1, N'1234567890', N'101 Main Street, Springfield', GETDATE(), 4),
+(N'Maria Garcia', N'mgarcia', N'mgarcia@example.com', '1995-12-11', 0, N'2345678901', N'555 Elm Street, Austin', GETDATE(), 5),
+(N'Lisa Brown', N'lbrown', N'lbrown@example.com', '1993-07-30', 0, N'3456789012', N'789 Pine Road, Denver', GETDATE(), 6),
+(N'Thomas Lee', N'tlee', N'tlee@example.com', '2000-04-17', 1, N'4567890123', N'67 Maple Ave, San Francisco', GETDATE(), 2),
+(N'Anna Davis', N'adavis', N'adavis@example.com', '1988-10-05', 0, N'5678901234', N'12 Ocean Drive, Miami', GETDATE(), 5),
+(N'John Walker', N'jwalker', N'jwalker@example.com', '1992-01-18', 1, N'6789012345', N'23 Hilltop Rd, Chicago', GETDATE(), 3),
+(N'Nguyễn Thị Thu', N'tthu', N'ngthu@gmail.com', '1989-05-15', 0, N'0123456798', N'Đồng Nai', GETDATE(), 3),
+(N'Trần Hoàng Long', N'hlong', N'thlong@gmail.com', '1991-08-22', 1, N'0123456799', N'Quảng Ngãi', GETDATE(), 3),
+(N'Mark Johnson', N'mjohnson', N'mjohnson@example.com', '1990-03-07', 1, N'0987654321', N'123 Elm St, Boston', GETDATE(), 4),
+(N'Sarah Wilson', N'swilson', N'swilson@example.com', '1995-07-19', 0, N'0987654322', N'456 Pine Rd, Seattle', GETDATE(), 5),
+(N'Chris Evans', N'cevans', N'cevans@example.com', '1993-11-03', 1, N'0987654323', N'789 Sunset Blvd, Los Angeles', GETDATE(), 6),
+(N'Maria Hernandez', N'mhernandez', N'mhernandez@example.com', '1996-04-28', 0, N'0987654324', N'321 Ocean Ave, San Diego', GETDATE(), 5),
+(N'Võ Minh Hiếu', N'mhieu', N'vmhieu@gmail.com', '1999-01-09', 1, N'0123456790', N'Hà Tĩnh', GETDATE(), 2),
+(N'Lê Văn Tâm', N'vtam', N'levtam@gmail.com', '1992-03-25', 1, N'0981234567', N'Nghệ An', GETDATE(), 3),
+(N'Hoàng Bích Ngọc', N'bngoc', N'hoangngoc@gmail.com', '1987-06-18', 0, N'0934567890', N'Đắk Lắk', GETDATE(), 3),
+(N'Nguyễn Thanh Sơn', N'tson', N'nguyenthanhson@gmail.com', '1990-02-14', 1, N'0123456781', N'Hà Nội', GETDATE(), 2),
+(N'Lê Thị Hồng Nhung', N'nhunglt', N'lthnhung@gmail.com', '1995-08-19', 0, N'0987654321', N'Hồ Chí Minh', GETDATE(), 3),
+(N'Phạm Văn Hải', N'phamvh', N'pvh@gmail.com', '1988-11-30', 1, N'0912345678', N'Huế', GETDATE(), 3),
+(N'Trần Thị Mai', N'maitt', N'mai.tt@gmail.com', '1993-06-15', 0, N'0938765432', N'Quảng Nam', GETDATE(), 2),
+(N'Đỗ Văn An', N'an.dv', N'dvan@gmail.com', '1991-12-03', 1, N'0945678901', N'Đà Nẵng', GETDATE(), 2),
+(N'Ngô Thị Thảo', N'thaont', N'ngothaont@gmail.com', '1997-01-22', 0, N'0976543210', N'Hà Tĩnh', GETDATE(), 3),
+(N'Hoàng Anh Tú', N'anhth', N'hanht@gmail.com', '1986-09-25', 1, N'0956781234', N'Quảng Bình', GETDATE(), 3),
+(N'Vũ Thị Lan', N'lanvu', N'vulan@gmail.com', '1994-07-17', 0, N'0981234560', N'Hải Phòng', GETDATE(), 2),
+(N'Nguyễn Văn Tùng', N'tungnv', N'tungnv@gmail.com', '1990-05-10', 1, N'0967891234', N'Nghệ An', GETDATE(), 2),
+(N'Phạm Thị Thu Hà', N'tha.pt', N'thapt@gmail.com', '1989-03-12', 0, N'0923456789', N'Bình Dương', GETDATE(), 3),
+(N'Bùi Văn Hoàng', N'hoangbv', N'hoangbv@gmail.com', '1993-11-08', 1, N'0912347809', N'Cần Thơ', GETDATE(), 3),
+(N'Nguyễn Thị Kim Ngân', N'kngan', N'nguyenthikngan@gmail.com', '1992-08-18', 0, N'0945789012', N'Bắc Ninh', GETDATE(), 2),
+(N'Lê Minh Hùng', N'minhhung', N'lmhung@gmail.com', '1995-01-28', 1, N'0932167890', N'Đồng Nai', GETDATE(), 3),
+(N'Trần Hoài Nam', N'namth', N'tranhoainam@gmail.com', '1996-04-03', 1, N'0962147890', N'Tây Ninh', GETDATE(), 2),
+(N'Nguyễn Thanh Hương', N'thuongnt', N'nguyenthuong@gmail.com', '1994-02-20', 0, N'0954321789', N'Hà Nam', GETDATE(), 3),
+(N'Đinh Quang Dũng', N'dqdung', N'dinhqdung@gmail.com', '1998-10-15', 1, N'0943126789', N'Hải Dương', GETDATE(), 2),
+(N'Lê Thị Hòa', N'hoalt', N'lethih@gmail.com', '1987-12-21', 0, N'0987654321', N'Hòa Bình', GETDATE(), 3),
+(N'Phạm Văn Quý', N'phamvq', N'phamvq@gmail.com', '1991-08-06', 1, N'0934568901', N'Sơn La', GETDATE(), 3),
+(N'Trương Thị Phượng', N'phuongtt', N'truongtp@gmail.com', '1992-05-09', 0, N'0912345768', N'Khánh Hòa', GETDATE(), 2),
+(N'Võ Văn Hùng', N'hungvv', N'vovanhung@gmail.com', '1993-03-18', 1, N'0976547891', N'An Giang', GETDATE(), 3);
+
 go
 
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
-insert into SystemFeedbacks ([feedback_description], [feedback_date], [user_id])
-values
-(N'Need more course', getdate(), 2);
-go
+
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 INSERT INTO Courses (
@@ -132,42 +165,6 @@ VALUES
     1
 )
 go
-
--- Insert courses 
--- Lĩnh vực 'Kỹ thuật'
-INSERT INTO [dbo].[Courses] 
-(course_name, course_short_description, course_full_description, course_price, course_duration, course_piority_index, course_status, [user_id]) 
-VALUES 
-(N'Kỹ thuật Cơ khí', N'Giới thiệu về cơ khí', N'Khóa học bao gồm các nguyên lý cơ bản về cơ khí và ứng dụng', 500, N'30 Giờ', 1, 1, 1),
-(N'Kỹ thuật Điện', N'Nhập môn kỹ thuật điện', N'Khóa học cung cấp kiến thức cơ bản về kỹ thuật điện và ứng dụng thực tiễn', 450, N'28 Giờ', 2, 1, 1),
-(N'Kỹ thuật Ô tô', N'Giới thiệu về kỹ thuật ô tô', N'Tìm hiểu về cấu tạo và nguyên lý hoạt động của ô tô', 550, N'35 Giờ', 3, 1, 1),
-(N'Kỹ thuật Hóa học', N'Cơ bản về kỹ thuật hóa học', N'Khóa học cung cấp kiến thức nền tảng về kỹ thuật hóa học', 600, N'32 Giờ', 4, 1, 1),
-(N'Kỹ thuật Điện tử', N'Nhập môn kỹ thuật điện tử', N'Khóa học này sẽ giới thiệu về các mạch điện tử và ứng dụng', 480, N'30 Giờ', 5, 1, 1),
-(N'Nghiên cứu Xã hội học', N'Cơ bản về xã hội học', N'Tìm hiểu về cấu trúc và hành vi xã hội', 400, N'25 Giờ', 1, 1, 1),
-(N'Nghiên cứu Kinh tế học', N'Giới thiệu về kinh tế học', N'Khóa học cung cấp kiến thức nền tảng về kinh tế học và các nguyên tắc cơ bản', 500, N'30 Giờ', 2, 1, 1),
-(N'Nghiên cứu Lịch sử', N'Tìm hiểu lịch sử thế giới', N'Khóa học cung cấp cái nhìn tổng quan về các sự kiện lịch sử quan trọng', 350, N'20 Giờ', 3, 1, 1),
-(N'Nghiên cứu Văn hóa', N'Khám phá văn hóa thế giới', N'Giới thiệu về các nền văn hóa và sự đa dạng văn hóa', 450, N'28 Giờ', 4, 1, 1),
-(N'Nghiên cứu Chính trị', N'Nhập môn khoa học chính trị', N'Khóa học này sẽ giới thiệu về các hệ thống chính trị và tư tưởng chính trị', 400, N'25 Giờ', 5, 1, 1),
-(N'Hội họa cơ bản', N'Khóa học về hội họa', N'Tìm hiểu các kỹ thuật hội họa cơ bản', 300, N'20 Giờ', 1, 1, 1),
-(N'Nhạc lý cơ bản', N'Giới thiệu về nhạc lý', N'Khóa học cung cấp kiến thức nhạc lý cơ bản', 320, N'18 Giờ', 2, 1, 1),
-(N'Nhiếp ảnh', N'Khám phá nhiếp ảnh', N'Tìm hiểu các kỹ thuật nhiếp ảnh và bố cục hình ảnh', 350, N'22 Giờ', 3, 1, 1),
-(N'Điêu khắc', N'Giới thiệu về điêu khắc', N'Khóa học bao gồm các kỹ thuật và lịch sử điêu khắc', 380, N'25 Giờ', 4, 1, 1),
-(N'Vẽ kỹ thuật số', N'Thế giới của vẽ kỹ thuật số', N'Khóa học này giúp bạn tìm hiểu về vẽ kỹ thuật số và công cụ hỗ trợ', 400, N'30 Giờ', 5, 1, 1),
-(N'Tâm lý học cơ bản', N'Nhập môn tâm lý học', N'Tìm hiểu về các khái niệm và lý thuyết tâm lý học', 420, N'27 Giờ', 1, 1, 1),
-(N'Xã hội học', N'Khám phá xã hội học', N'Giới thiệu về các nguyên lý xã hội học và hành vi xã hội', 390, N'24 Giờ', 2, 1, 1),
-(N'Tư vấn xã hội', N'Cơ bản về tư vấn xã hội', N'Khóa học này giúp phát triển kỹ năng tư vấn trong lĩnh vực xã hội', 370, N'22 Giờ', 3, 1, 1),
-(N'Công tác xã hội', N'Nhập môn công tác xã hội', N'Tìm hiểu các kỹ năng và nguyên lý trong công tác xã hội', 400, N'26 Giờ', 4, 1, 1),
-(N'Quan hệ quốc tế', N'Tìm hiểu quan hệ quốc tế', N'Khóa học cung cấp cái nhìn tổng quan về quan hệ quốc tế và ngoại giao', 450, N'30 Giờ', 5, 1, 1),
-(N'Quản lý dự án', N'Nhập môn quản lý dự án', N'Tìm hiểu các bước và kỹ thuật quản lý dự án hiệu quả', 600, N'40 Giờ', 1, 1, 1),
-(N'Quản trị doanh nghiệp', N'Cơ bản về quản trị doanh nghiệp', N'Khóa học cung cấp kiến thức quản trị doanh nghiệp', 550, N'35 Giờ', 2, 1, 1),
-(N'Quản lý nhân sự', N'Giới thiệu về quản lý nhân sự', N'Tìm hiểu các phương pháp và kỹ thuật quản lý nhân sự', 500, N'30 Giờ', 3, 1, 1),
-(N'Quản lý tài chính', N'Khám phá tài chính doanh nghiệp', N'Khóa học bao gồm các kiến thức cơ bản về tài chính doanh nghiệp', 620, N'42 Giờ', 4, 1, 1),
-(N'Quản lý chuỗi cung ứng', N'Nhập môn quản lý chuỗi cung ứng', N'Khóa học cung cấp kiến thức về chuỗi cung ứng và logistic', 590, N'38 Giờ', 5, 1, 1),
-(N'Kế toán cơ bản', N'Nhập môn kế toán', N'Khóa học cung cấp kiến thức kế toán cơ bản', 450, N'30 Giờ', 1, 1, 1),
-(N'Phân tích tài chính', N'Giới thiệu phân tích tài chính', N'Tìm hiểu cách phân tích tài chính và báo cáo', 470, N'32 Giờ', 2, 1, 1),
-(N'Kiểm toán', N'Cơ bản về kiểm toán', N'Khóa học cung cấp kiến thức cơ bản về kiểm toán', 500, N'34 Giờ', 3, 1, 1),
-(N'Tài chính ngân hàng', N'Nhập môn tài chính ngân hàng', N'Tìm hiểu về hoạt động tài chính ngân hàng', 550, N'36 Giờ', 4, 1, 1),
-(N'Quản lý rủi ro', N'Khám phá quản lý rủi ro', N'Khóa học cung cấp kiến thức về quản lý và kiểm soát rủi ro', 600, N'40 Giờ', 5, 1, 1);
 
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
@@ -1198,49 +1195,39 @@ go
 --insert into CourseFeedbacks ([feedback_id], [feedback_description], [feedback_date], [enrollment_id])
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
-insert into Fields ([field_name])
-values
-(N'Lập Trình'),
-(N'Nghiên cứu'),
-(N'Nghệ Thuật'),
-(N'Xã Hội'),
-(N'Quản Lý'),
-(N'Khoa Học');
-go
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
-insert into CourseField ([course_id], [field_id])
-values
-(1, 0),
-(2, 0),
-(3, 0),
-(4, 0),
-(5, 0),
-(6, 1),
-(7, 1),
-(8, 1),
-(9, 1),
-(10, 1),
-(11, 2),
-(12, 2),
-(13, 2),
-(14, 2),
-(15, 2),
-(16, 3),
-(17, 3),
-(18, 3),
-(19, 3),
-(20, 3),
-(21, 4),
-(22, 4),
-(23, 4),
-(24, 4),
-(25, 4),
-(26, 5),
-(27, 5),
-(28, 5),
-(29, 5),
-(30, 5);
-go
+INSERT INTO Fields ([field_name])
+VALUES
+(N'Kỹ sư Robot công nghiệp'),
+(N'Kỹ thuật viên ô tô điện'),
+(N'Kỹ thuật viên lắp đặt năng lượng mặt trời'),
+(N'Nhân viên kỹ thuật xây dựng'),
+(N'Kỹ thuật viên vận hành máy CNC'),
+(N'Nhà nghiên cứu di truyền học'),
+(N'Nhà phân tích dữ liệu khoa học xã hội'),
+(N'Nhà nghiên cứu trí tuệ nhân tạo'),
+(N'Nhà vật lý học'),
+(N'Nhà sinh học biển'),
+(N'Nhà thiết kế đồ họa 3D'),
+(N'Nhà thiết kế nội thất'),
+(N'Nhạc sĩ điện tử'),
+(N'Nhiếp ảnh gia chuyên nghiệp'),
+(N'Nhà thiết kế thời trang'),
+(N'Chuyên gia tâm lý học lâm sàng'),
+(N'Chuyên viên tư vấn giáo dục'),
+(N'Nhân viên công tác xã hội'),
+(N'Giảng viên kỹ năng mềm'),
+(N'Chuyên viên truyền thông xã hội'),
+(N'Chuyên gia khởi nghiệp công nghệ'),
+(N'Quản lý chuỗi cung ứng'),
+(N'Chuyên viên marketing số'),
+(N'Quản lý dự án'),
+(N'Chuyên gia thương mại điện tử'),
+(N'Nhân viên quản trị dữ liệu'),
+(N'Chuyên viên kiểm toán CNTT'),
+(N'Chuyên viên quản trị nhân sự'),
+(N'Chuyên viên xử lý tài liệu pháp lý'),
+(N'Nhân viên kế toán quản trị');
+GO
+
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------

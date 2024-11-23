@@ -144,9 +144,9 @@ function Layout() {
                         </div>
 
                         <ul className="nav-list">
-                            <li><a href="/servey">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
-                            <li><a href="/course/view">KHÓA HỌC</a></li>
-                            <li><a href="/about">VỀ CHÚNG TÔI</a></li>
+                            <li><a className='nav-list-content' href="/servey">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
+                            <li><a className='nav-list-content' href="/course/view">KHÓA HỌC</a></li>
+                            <li><a className='nav-list-content' href="/about">VỀ CHÚNG TÔI</a></li>
                             <div className='icon-container-mess'>
                                 {/* <li><FaFacebookMessenger className="notification-icon" onClick={() => navigate('/chatbot')} /></li> */}
                                 <li>

@@ -46,30 +46,23 @@ CREATE PROCEDURE ManageCoursesReport
     @user_id INT
 AS
 BEGIN
-    -- Hiển thị danh sách khóa học mà user đã enroll cùng số người tham gia mỗi khóa
-    SELECT 
+	SELECT 
         c.course_id,
-        c.course_name AS [CourseName],
-        CASE 
-            WHEN e.enrollment_is_complete = 1 THEN N'Hoàn thành'
-            ELSE N'Chưa hoàn thành'
-        END AS [Status],
-        c.course_price AS [CoursePrice],
-        (SELECT COUNT(*) 
-         FROM dbo.Enrollments e2 
-         WHERE e2.course_id = c.course_id) AS [NumberOfParticipants] -- Đếm số người tham gia
+        c.course_name,
+		c.course_price,
+        COUNT(e.user_id) AS NumberOfParticipants
     FROM 
-        dbo.Enrollments e
-    INNER JOIN 
-        dbo.Courses c ON e.course_id = c.course_id
+        Courses c, Enrollments e
     WHERE 
-        e.user_id = @user_id;
+        c.course_id = e.course_id and c.user_id=@user_id
+    GROUP BY 
+        c.course_id,c.course_name,c.course_price
 END;
 GO
 
 
 
---exec ManageCoursesReport @user_id=1
+--exec ManageCoursesReport @user_id=2
 if object_id ('GetUsersEnrolledInCourse','P') is not null drop procedure GetUsersEnrolledInCourse;
 go
 CREATE PROCEDURE GetUsersEnrolledInCourse
