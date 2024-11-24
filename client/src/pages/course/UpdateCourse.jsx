@@ -107,24 +107,28 @@ function UpdateCourse() {
         }
     };
 
-    const handleDeleteModule = async (module_id) => {
+    const handleDeleteModule = async (course_id, module_id) => {
         try {
-            await axios.delete(`http://localhost:5000/module/delete?module_id=${module_id}`, { withCredentials: true });
-            setModules(modules.filter(module => module.module_id !== module_id));
+            await axios.post(`http://localhost:5000/course/module/delete?course_id=${course_id}&module_id=${module_id}`, {},
+                { withCredentials: true });
             alert('Module deleted successfully');
+            navigate(0);
         } catch (error) {
             console.error('Failed to delete module:', error);
             alert('Failed to delete module');
         }
     };
 
-    const handleAddModule = () => {
-        const newModule = {
-            module_id: Date.now(),
-            module_name: 'Module mới',
-            module_ordinal: modules.length
-        };
-        setModules([...modules, newModule]);
+    const handleAddModule = async (course_id) => {
+        try {
+            await axios.post(`http://localhost:5000/course/module/create?course_id=${course_id}&module_name=Module mới`, {},
+                { withCredentials: true });
+            alert('Module added successfully');
+            navigate(0);
+        } catch (error) {
+            console.error('Failed to delete module:', error);
+            alert('Failed to add module');
+        }
     };
 
     const handleOrdinalChange = async (index, newOrdinal) => {
@@ -136,7 +140,7 @@ function UpdateCourse() {
         const targetModule = modules[targetIndex];
 
         try {
-            await axios.post(`http://localhost:5000/course/update/module`, null, {
+            await axios.post(`http://localhost:5000/course/module/ordinal`, null, {
                 params: {
                     course_id,
                     module_id_1: currentModule.module_id,
@@ -239,14 +243,14 @@ function UpdateCourse() {
                                 ))}
                             </select>
                             <span className="module-name">{module.module_name}</span>
-                            <button onClick={() => navigate(`/esp/course/0/update-module?mid=${module.module_id}`)}>Modify</button>
-                            <button onClick={() => handleDeleteModule(module.module_id)}>Delete</button>
+                            <button onClick={() => navigate(`/esp/course/0/module/${module.module_id}/update`)}>Modify</button>
+                            <button onClick={() => handleDeleteModule(courseData.course_id, module.module_id)}>Delete</button>
                         </div>
                     </li>
                 ))}
             </ul>
 
-            <button onClick={handleAddModule}>Add New Module</button>
+            <button onClick={() => handleAddModule(courseData.course_id)}>Add New Module</button>
         </div>
     );
 }

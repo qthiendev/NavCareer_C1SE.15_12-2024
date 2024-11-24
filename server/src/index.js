@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     if (!req.session.role) {
-        req.session.role = 'NAV_GUEST';
+        req.session.role = req.session.role || 'NAV_GUEST';
     }
     next();
 });

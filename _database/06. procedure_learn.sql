@@ -212,6 +212,24 @@ begin
 		return;
 	end
 
+	if exists (select 1 from Courses where [user_id] = @user_id)
+	begin
+		if not exists (select 1 from Enrollments where [user_id] = @user_id and [course_id] = @course_id)
+		begin
+			insert into Enrollments([enrollment_date], [enrollment_is_complete], [user_id], [course_id])
+			values
+			(getdate(), 0, @user_id, @course_id);
+		end
+
+		update [Grades]
+		set [grade_number] = 0
+		where [enrollment_id] = (
+			select [enrollment_id]
+			from Enrollments 
+			where [user_id] = @user_id
+				and [course_id] = @course_id)
+	end
+
 	if not exists (select 1 from Enrollments where [user_id] = @user_id and [course_id] = @course_id)
 	begin
 		select 'U_EID' as [check];
@@ -233,6 +251,7 @@ begin
 		and e.[course_id] = @course_id
 end
 go
+-- ReadEnrollmentOf 1, 0 
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 if object_id('CreatePayment', 'P') is not null drop procedure CreatePayment;

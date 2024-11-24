@@ -23,6 +23,8 @@ import ViewProfile from './pages/profile/ViewProfile.jsx';
 import ViewCourse from './pages/course/ViewCourse.jsx';
 import CreateCourse from './pages/course/CreateCourse.jsx';
 import UpdateCourse from './pages/course/UpdateCourse.jsx';
+import UpdateModule from './pages/course/UpdateModule.jsx';
+import UpdateCollection from './pages/course/UpdateCollection.jsx';
 
 import ESPHome from './pages/course/ESPHome.jsx';
 import ViewAllCourse from './pages/course/ViewAllCourse.jsx';
@@ -67,6 +69,9 @@ const Router = () => {
           <Route path="esp/course/view-all" element={<ViewAllCourse />} /> 
           <Route path="esp/course/:course_id/update" element={<UpdateCourse />} /> 
           <Route path="esp/course/create" element={<CreateCourse />} /> 
+
+          <Route path="esp/course/:course_id/module/:module_id/update" element={<UpdateModule />} /> 
+          <Route path="esp/course/:course_id/module/:module_id/collection/:collection_id/update" element={<UpdateCollection />} /> 
 
           <Route path="edu/" element={<ReadEnrollment />} /> 
           <Route path="edu/payment" element={<Payment />} /> 

@@ -57,7 +57,7 @@ const trySaveResponse = async (responses, jobName) => {
 };
 
 const tryGetAvailableCareer = async () => {
-    const version = 'v1.2.2';
+    const version = 'v1.3';
     const filePath = path.join(__dirname, `../../../../../nav_model/data/${version}/careers.csv`);
     const careers = [];
 

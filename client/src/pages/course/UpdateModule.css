@@ -1,0 +1,138 @@
+/* UpdateModule-specific styles */
+.update-module-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 1280px;
+    margin: 0 auto;
+} 
+.update-module-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.update-module-container form {
+    margin-bottom: 30px;
+}
+
+.update-module-container form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+.update-module-container form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.update-module-container form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-module-container form button:hover {
+    background-color: #45a049;
+}
+
+.update-module-container .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.update-module-container h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.update-module-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.update-module-container .collection-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.update-module-container .collection-item input[type="text"] {
+    flex: 2;
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.update-module-container .collection-item label {
+    flex: 1;
+    font-size: 14px;
+    color: #555;
+    margin-right: 10px;
+}
+
+.update-module-container .collection-item select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.update-module-container .collection-item button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-module-container .collection-item button:hover {
+    background-color: #0056b3;
+}
+
+.update-module-container .collection-item button:last-child {
+    background-color: #DC3545;
+}
+
+.update-module-container .collection-item button:last-child:hover {
+    background-color: #c82333;
+}
+
+.update-module-container button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-module-container button:hover {
+    background-color: #218838;
+}

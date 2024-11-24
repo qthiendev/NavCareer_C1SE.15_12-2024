@@ -46,6 +46,8 @@ const tryReadFullCourse = async (role, courses_id) => {
                     collection_id: row.collection_id,
                     collection_ordinal: row.collection_ordinal,
                     collection_name: row.collection_name,
+                    collection_type_id: row.collection_type_id,
+                    collection_type_name: row.collection_type_name,
                     materials: []
                 };
                 module.collections.push(collection);
@@ -55,9 +57,11 @@ const tryReadFullCourse = async (role, courses_id) => {
                 let material = collection.materials.find(m => m.material_ordinal === row.material_ordinal);
                 if (!material && row.material_ordinal != null) {
                     material = {
+                        material_id: row.material_id,
                         material_ordinal: row.material_ordinal,
-                        material_type_name: row.material_type_name,
                         material_content: row.material_content,
+                        material_type_id: row.material_type_id,
+                        material_type_name: row.material_type_name,
                         questions: []
                     };
                     collection.materials.push(material);
@@ -67,9 +71,11 @@ const tryReadFullCourse = async (role, courses_id) => {
                     let question = material.questions.find(q => q.question_ordinal === row.question_ordinal);
                     if (!question) {
                         question = {
+                            question_id: row.question_id,
                             question_ordinal: row.question_ordinal,
-                            question_type_name: row.question_type_name,
                             question_description: row.question_description,
+                            question_type_id: row.question_type_id,
+                            question_type_name: row.question_type_name,
                             answers: []
                         };
                         material.questions.push(question);
@@ -77,6 +83,7 @@ const tryReadFullCourse = async (role, courses_id) => {
 
                     if (row.answer_ordinal != null) {
                         question.answers.push({
+                            answer_id: row.answer_id,
                             answer_ordinal: row.answer_ordinal,
                             answer_description: row.answer_description,
                             answer_is_right: row.answer_is_right

@@ -81,7 +81,7 @@ GO
 
 
 
-if object_id('selectTop3Course', 'P') is not null drop procedure selectTop5Course;
+if object_id('selectTop5Course', 'P') is not null drop procedure selectTop5Course;
 go
 create proc selectTop5Course
 as
@@ -333,102 +333,6 @@ go
 -- exec ViewUserCourses 1
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
-if object_id('ChangeModuleOrdinal', 'P') is not null 
-    drop procedure ChangeModuleOrdinal;
-go
-
-create procedure ChangeModuleOrdinal 
-    @aid int, 
-    @course_id int, 
-    @module_id_1 int, 
-    @module_id_2 int
-as
-begin
-    declare @IsBanned BIT;
-    declare @user_id int;
-    declare @ordinal_1 int, @ordinal_2 int;
-    declare @check_status nvarchar(50) = 'SUCCESSED';
-
-    set @IsBanned = dbo.IsUserBanned(@aid, 'ChangeModuleOrdinal');
-    
-    if @IsBanned = 1 
-    begin
-        select 'BANNED' as [check];
-        return;
-    end
-
-    select @user_id = [user_id]
-    from Users
-    where [authentication_id] = @aid;
-
-    if @user_id is null
-    begin
-        select 'U_UID' as [check];
-        return;
-    end
-
-    if not exists (select 1 from Courses where [course_id] = @course_id and [user_id] = @user_id)
-    begin
-        select 'U_CID' as [check];
-        return;
-    end
-
-	select @ordinal_1 = module_ordinal 
-    from Modules 
-    where [module_id] = @module_id_1 and [course_id] = @course_id;
-
-    select @ordinal_2 = module_ordinal 
-    from Modules 
-    where [module_id] = @module_id_2 and [course_id] = @course_id;
-
-    if @ordinal_1 is null or @ordinal_2 is null
-    begin
-        select 'U_ORD' as [check];
-        return;
-    end
-
-    begin try
-        begin transaction;
- 
-        update Modules 
-        set [module_ordinal] = @ordinal_2 
-        where module_id = @module_id_1 and course_id = @course_id;
-
-        update Modules 
-        set [module_ordinal] = @ordinal_1 
-        where module_id = @module_id_2 and course_id = @course_id;
-
-        commit transaction;
-        set @check_status = 'SUCCESSED';
-        
-    end try
-    begin catch
-        if @@trancount > 0
-            rollback transaction;
-        set @check_status = 'FAILED';
-    end catch
-
-    select @check_status as [check];
-end
-go
-
--- execute ChangeModuleOrdinal 1, 0, 0, 1
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
-if object_id('UpdateModule', 'P') is not null drop procedure UpdateModule;
-go
-
-create procedure UpdateModule
-    @aid int,
-    @course_id int,
-    @modules nvarchar(max)
-as
-begin
-    declare @isbanned bit;
-end
-go
-------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
 if object_id('ReadFullCourse', 'P') is not null drop procedure ReadFullCourse;
 go
 create procedure ReadFullCourse @course_id int
@@ -456,14 +360,17 @@ begin
 		m.[module_id],
         m.[module_ordinal],
         m.[module_name],
+		cl.[collection_type_id],
         clt.[collection_type_name],
 		cl.[collection_id],
         cl.[collection_ordinal],
         cl.[collection_name],
+		mat.[material_type_id],
         mat.[material_type_name],
 		ma.[material_id],
         ma.[material_ordinal],
         ma.[material_content],
+		qt.[question_type_id],
         qt.[question_type_name],
 		q.[question_id],
         q.[question_ordinal],
@@ -498,23 +405,17 @@ grant execute on dbo.ReadCourse to [NAV_STUDENT];
 grant execute on dbo.CreateCourse to [NAV_ESP];
 grant execute on dbo.UpdateCourse to [NAV_ESP];
 grant execute on dbo.ReadUserCourses to [NAV_ESP];
-grant execute on dbo.UpdateModule to [NAV_ESP];
 grant execute on dbo.ReadFullCourse to [NAV_ESP];
-grant execute on dbo.ChangeModuleOrdinal to [NAV_ESP];
 
 grant execute on dbo.CreateCourse to [NAV_ADMIN];
 grant execute on dbo.UpdateCourse to [NAV_ADMIN];
 grant execute on dbo.ReadUserCourses to [NAV_ADMIN];
-grant execute on dbo.UpdateModule to [NAV_ADMIN];
 grant execute on dbo.ReadFullCourse to [NAV_ADMIN];
-grant execute on dbo.ChangeModuleOrdinal to [NAV_ADMIN];
-
 
 grant execute on dbo.GetAllCoursesByFieldName to [NAV_ADMIN];
 grant execute on dbo.GetAllCoursesByFieldName to [NAV_ESP];
 grant execute on dbo.GetAllCoursesByFieldName to [NAV_STUDENT];
 grant execute on dbo.GetAllCoursesByFieldName to [NAV_GUEST];
-
 
 grant execute on dbo.selectTop5Course to [NAV_ADMIN];
 grant execute on dbo.selectTop5Course to [NAV_ESP];
