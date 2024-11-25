@@ -18,8 +18,16 @@ const { updateCollection, changeCollectionOrdinal } = require('../apis/courseMan
 const { deleteCollection } = require('../apis/courseManagement/collectionManagement/deleteCollection/deleteCollectionController');
 
 const { createMaterial } = require('../apis/courseManagement/materialManagement/createMaterial/createMaterialController');
-const { updateMaterial, changeMaterialOrdinal } = require('../apis/courseManagement/materialManagement/updateMaterial/updateMaterialController');
+const { updateMaterial, changeMaterialOrdinal, uploadMedia } = require('../apis/courseManagement/materialManagement/updateMaterial/updateMaterialController');
 const { deleteMaterial } = require('../apis/courseManagement/materialManagement/deleteMaterial/deleteMaterialController');
+
+const { createQuestion } = require('../apis/courseManagement/quizManagement/createQuestion/createQuestionController');
+const { updateQuestion } = require('../apis/courseManagement/quizManagement/updateQuestion/updateQuestionController');
+const { deleteQuestion } = require('../apis/courseManagement/quizManagement/deleteQuestion/deleteQuestionController');
+
+const { createAnswer } = require('../apis/courseManagement/quizManagement/createAnswer/createAnswerController');
+const { updateAnswer, changeAnswerOrdinal } = require('../apis/courseManagement/quizManagement/updateAnswer/updateAnswerController');
+const { deleteAnswer } = require('../apis/courseManagement/quizManagement/deleteAnswer/deleteAnswerController');
 
 router.get('/read', readCourse);
 
@@ -42,5 +50,15 @@ router.post('/module/collection/material/create', authMiddleware.isSignedIn, aut
 router.post('/module/collection/material/update', authMiddleware.isSignedIn, authzMiddleware.esp, updateMaterial);
 router.post('/module/collection/material/ordinal', authMiddleware.isSignedIn, authzMiddleware.esp, changeMaterialOrdinal);
 router.post('/module/collection/material/delete', authMiddleware.isSignedIn, authzMiddleware.esp, deleteMaterial);
+router.post('/module/collection/material/upload', authMiddleware.isSignedIn, authzMiddleware.esp, uploadMedia);
+
+router.post('/module/collection/question/create', authMiddleware.isSignedIn, authzMiddleware.esp, createQuestion);
+router.post('/module/collection/question/update', authMiddleware.isSignedIn, authzMiddleware.esp, updateQuestion);
+router.post('/module/collection/question/delete', authMiddleware.isSignedIn, authzMiddleware.esp, deleteQuestion);
+
+router.post('/module/collection/answer/create', authMiddleware.isSignedIn, authzMiddleware.esp, createAnswer);
+router.post('/module/collection/answer/update', authMiddleware.isSignedIn, authzMiddleware.esp, updateAnswer);
+router.post('/module/collection/answer/ordinal', authMiddleware.isSignedIn, authzMiddleware.esp, changeAnswerOrdinal);
+router.post('/module/collection/answer/delete', authMiddleware.isSignedIn, authzMiddleware.esp, deleteAnswer);
 
 module.exports = router;

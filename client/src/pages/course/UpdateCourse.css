@@ -1,14 +1,19 @@
+/* General Container Styling */
 .update-course-container {
     max-width: 1280px;
     margin: auto;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .update-course-container h2,
 .update-course-container h3 {
     text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
+/* Form Styling */
 .update-course-container form {
     display: flex;
     flex-direction: column;
@@ -19,8 +24,10 @@
     display: flex;
     flex-direction: column;
     font-weight: bold;
+    margin-bottom: 5px;
 }
 
+/* Input and Textarea Styling */
 .update-course-container input[type="text"],
 .update-course-container textarea,
 .update-course-container select {
@@ -28,19 +35,28 @@
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    resize: none;
+    transition: border-color 0.3s ease-in-out;
+    outline: none;
 }
 
+.update-course-container input[type="text"]:focus,
+.update-course-container textarea:focus,
+.update-course-container select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Textarea Variants */
 .update-course-container textarea.short-description {
-    max-width: 1280px;
     height: 50px;
 }
 
 .update-course-container textarea.full-description {
-    max-width: 1280px;
-    height: 1000px;
+    height: 300px;
+    max-height: 600px;
 }
 
+/* Button Styling */
 .update-course-container button {
     width: fit-content;
     padding: 10px 20px;
@@ -50,29 +66,52 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
 }
 
 .update-course-container button:hover {
     background-color: #0056b3;
+    transform: scale(1.05);
 }
 
+.update-course-container button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Module Item Styling */
 .module-item {
     display: flex;
     align-items: center;
     gap: 10px;
     margin: 10px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.module-item:hover {
+    background-color: #f1f1f1;
 }
 
 .module-item select {
     width: 80px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
 .module-item .module-name {
     flex: 1;
     font-size: 16px;
     padding: 5px;
+    font-weight: bold;
+    color: #333;
 }
 
+/* Module Buttons */
 .module-item button {
     padding: 5px 10px;
     font-size: 14px;
@@ -81,14 +120,19 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
 }
 
 .module-item button:hover {
     background-color: #0056b3;
+    transform: scale(1.05);
 }
 
+/* Error Message Styling */
 .error {
     color: red;
     font-size: 14px;
     text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
 }
