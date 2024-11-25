@@ -73,7 +73,7 @@ function ViewCourse() {
                     </ul>
                 </div>
                 <div className='view-course-duration'>
-                    <p>Thời gian dự kiến: {courseData.duration}</p>
+                    <p>Thời gian dự kiến: {courseData.course_duration}</p>
                 </div>
                 <div className='view-course-lesson'>
                     <h3>Giáo trình:</h3>

@@ -14,7 +14,7 @@ function Chatbot() {
     // Gửi tin nhắn chào mừng khi khởi động
     const welcomeMessage = {
       sender: 'bot',
-      text: 'Xin chào! Bạn muốn tôi hỗ trợ những gì?',
+      text: 'Xin chào! Bạn muốn tôi hỗ trợ những gì? Kỹ sư Robot công nghiệp',
     };
       const Consultation = {
         sender: 'bot',
@@ -92,20 +92,21 @@ function Chatbot() {
         setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn đã làm trắc nghiệm khảo sát để xem mình thuộc lĩnh vực phù hợp nào chưa? Nếu bạn có chuyên ngành mình yêu thích rồi thì hãy cho tớ biết nhé!' }]);
         setStage('courseConsultation');
       } else if (lowerInput.includes('giá')) {
-        setMessages(prev => [...prev, { sender: 'bot', text: 'Vui lòng cho tôi biết lĩnh vực và khoảng giá mà bạn quan tâm (ví dụ: lĩnh vực Nghệ Thuật từ 200$ đến 500$ ).' }]);
+        setMessages(prev => [...prev, { sender: 'bot', text: 'Vui lòng cho tôi biết lĩnh vực và khoảng giá mà bạn quan tâm (ví dụ: lĩnh vực Nghệ Thuật từ 2000000 đến 5000000 ).' }]);
         setStage('awaitingPriceInfo');
       } else if (lowerInput.includes('đề xuất')) {
-        setMessages(prev => [...prev, { sender: 'bot', text: 'Trên đây là một số khóa học được nhiều người tham gia nhất' }]);
+        // setMessages(prev => [...prev, { sender: 'bot', text: 'Trên đây là một số khóa học được nhiều người tham gia nhất' }]);
         handleCourseRecommendation();
-      } else if (lowerInput.includes('khảo sát')|| lowerInput.includes('nhanh')) {
-        setMessages(prev => [...prev, { sender: 'bot', text: 'Hãy chia sẻ một số thông tin về sở thích và mục tiêu nghề nghiệp của bạn để tôi có thể đưa ra tư vấn phù hợp.' }]);
-        setStage('quickConsultation');
-      } else if (lowerInput.includes('cảm ơn')||lowerInput.includes('thanks')) {
+      } 
+       else if (lowerInput.includes('cảm ơn')||lowerInput.includes('thanks')) {
           handleEnding();
+      }
+      else {
+        setMessages(prev => [...prev, { sender: 'bot', text: 'Xin lỗi, bạn có thể nhập lại được không' }]);
       }
     }
     else {
-      const errorMessage = { sender: 'bot', text: 'Xin lỗi, tôi không hiểu. Vui lòng nhập một trong các tùy chọn.' };
+      const errorMessage = { sender: 'bot', text: 'Đã xảy ra lỗi nhập liệu' };
       setMessages(prev => [...prev, errorMessage]);
     }
 };
@@ -163,18 +164,39 @@ const handleCourseConsultation = async (input) => {
     } 
     else if (awaitingCourseName) {
         await sendMessageToBot(input);
-        setAwaitingCourseName(false);
+        // setAwaitingCourseName(false);
       } 
     else {
-        setMessages(prev => [...prev, { sender: 'bot', text: 'Xin lỗi, vui lòng trả lời có chứa từ "rồi" hoặc "chưa" để tôi có thể hỗ trợ bạn.' }]);
+        setMessages(prev => [...prev, { sender: 'bot', text: 'Xin lỗi, bạn đã làm bài test chưa? Hãy trả lời "chưa" hoặc "rồi" để tớ hỗ trợ bạn nhé!' }]);
     }
 };
 
+const handleInputFields = async (input) => {
+  try {
+    const fieldName = input.toLowerCase().trim(); // Chuyển input sang chữ thường và loại bỏ khoảng trắng thừa
+    const response = await axios.get('http://localhost:5000/chatbot/getfield');
+    const dataField = response.data.Fields; // Giả sử `Fields` là mảng chứa tên lĩnh vực trong dữ liệu trả về
+    let matchedField = null; // Khởi tạo biến để lưu trữ kết quả nếu tìm thấy
+    for (let field of dataField) {
+      // Kiểm tra xem fieldName có chứa tên field không
+      if (fieldName.includes(field.field_name.toLowerCase())) {
+          matchedField = field;
+      }
+    }
+  return matchedField.field_name
+  }
+  catch{
+    console.log("error");
+    
+  }
+}
   const sendMessageToBot = async (input) => {
     try {
+
         // Call the API with the user's input
+        const fieldName = await handleInputFields(input);
         const response = await axios.post('http://localhost:5000/chatbot/GetCourse', {
-          fieldName: input,
+          fieldName: fieldName,
         });
         // Check if the response contains a courses array
         if (response.data.courses && response.data.courses.length > 0) {
@@ -182,13 +204,12 @@ const handleCourseConsultation = async (input) => {
             if (matchedCourse) {
               const defaultFormatCourseText = (course) => {
                 return (
-                  <div className='courseChat'>
-                    <h1>Khóa học: <Link to={`/course/${course.course_id}`} className="course-link">
-                                    {course.course_name}
-                                </Link></h1>
+                  <div className='courseChat'> <Link to={`/course/${course.course_id}`} className="course-link">
+                    <h1>Khóa học:{course.course_name}</h1>
                     <h1>Lĩnh vực: {course.field_name}</h1>
                     <h1>Mô tả: {course.course_short_description}</h1>
                     <h1>Giá: {course.course_price}VNĐ </h1>
+                    </Link>
                   </div>);
               };
               displayCourses(matchedCourse,defaultFormatCourseText);
@@ -203,7 +224,7 @@ const handleCourseConsultation = async (input) => {
         } 
         else {
             console.log(response.data.message || 'Không có khóa học nào.');
-            setMessages(prev => [...prev, { sender: 'bot', text: response.data.message || 'xin lỗi không có khóa học như trên cả .' }]);
+            setMessages(prev => [...prev, { sender: 'bot', text: response.data.message || 'Xin lỗi tôi không tìm thấy khóa học như trên.' }]);
         }
     } catch (error) {
         console.error('Lỗi khi gọi API:', error);
@@ -216,26 +237,13 @@ const handleCourseConsultation = async (input) => {
   const handleAwaitingPriceInfo = async (input) => {
     // Tìm khoảng giá từ input và chuyển đổi sang dạng số
     const prices = input.match(/\d+/g)?.map(Number);
-    const fieldName = input.toLowerCase().trim(); // Chuyển input sang chữ thường và loại bỏ khoảng trắng thừa
     const [lowPrice, highPrice] = prices.sort((a, b) => a - b); // Sắp xếp từ nhỏ đến lớn
-
-    
-        // Gọi API để lấy danh sách field
-        const response = await axios.get('http://localhost:5000/chatbot/getfield');
-        const dataField = response.data.Fields; // Giả sử `Fields` là mảng chứa tên lĩnh vực trong dữ liệu trả về
-        let matchedField = null; // Khởi tạo biến để lưu trữ kết quả nếu tìm thấy
-        for (let field of dataField) {
-            // Kiểm tra xem fieldName có chứa tên field không
-            if (fieldName.includes(field.field_name.toLowerCase())) {
-                matchedField = field;
-            }
-        }
+        const matchedField = await handleInputFields(input);
         if (matchedField) {
           if (prices && prices.length == 2) {
-        
             try {
               const response = await axios.post('http://localhost:5000/chatbot/PrizeRange', {
-                fieldName: matchedField.field_name,
+                fieldName: matchedField,
                 minPrize: lowPrice,
                 maxPrize: highPrice
               });
@@ -244,17 +252,21 @@ const handleCourseConsultation = async (input) => {
                 if (matchedCourses) {
                   const defaultFormatCourseText = (course) => {
                     return (
-                      <div className='courseChat'>
+                      <div className='courseChat'> <Link to={`/course/${course.course_id}`} className="course-link">
                         <h1>Khóa học: {course.course_name}</h1>
                         <h1>Mô tả: {course.course_short_description}</h1>
                         <h1>Giá: {course.course_price}VNĐ </h1>
+                        </Link>
                       </div>);
                   }
                   displayCourses(matchedCourses,defaultFormatCourseText);
                 }
+                else {
+                  setMessages(prev => [...prev, { sender: 'bot', text: 'Xin lỗi, khóa học ${matchedField}' }]);
+                }
               }
               else {
-                setMessages(prev => [...prev, { sender: 'bot', text: 'Xin lỗi, không tìm thấy khóa học nào phù hợp với thông tin bạn đã cung cấp.' }]);
+                setMessages(prev => [...prev, { sender: 'bot', text: 'Xin lỗi, không tìm thấy khóa học nào phù hợp với mức giá trên! vui lòng thử lại.' }]);
               }
             }
              catch (error) {
@@ -278,9 +290,12 @@ const handleCourseConsultation = async (input) => {
                 if (matchedCourses) {
                   const defaultFormatCourseText = (course) => {
                     return (
-                      `Khóa học: ${course.course_name}\n` +
-                      `Mô tả: ${course.course_short_description}\n` +
-                      `Giá: ${course.course_price}$\n` 
+                      <div className='courseChat'> <Link to={`/course/${course.course_id}`} className="course-link">
+                        <h1>Khóa học: {course.course_name}</h1>
+                        <h1>Mô tả: {course.course_short_description}</h1>
+                        <h1>Giá: {course.course_price}VNĐ </h1>
+                        </Link>
+                      </div>
                     );
                   }
                   displayCourses(matchedCourses,defaultFormatCourseText);
@@ -306,10 +321,11 @@ const handleCourseConsultation = async (input) => {
                 if (matchedCourses) {
                   const defaultFormatCourseText = (course) => {
                     return (
-                      <div className='courseChat'>
+                      <div className='courseChat'> <Link to={`/course/${course.course_id}`} className="course-link">
                         <h1>Khóa học: {course.course_name}</h1>
                         <h1>Mô tả: {course.course_short_description}</h1>
-                        <h1>Giá: {course.course_price}$ </h1>
+                        <h1>Giá: {course.course_price}VNĐ </h1>
+                        </Link>
                       </div>);
                   }
                   displayCourses(matchedCourses,defaultFormatCourseText);
@@ -329,24 +345,25 @@ const handleCourseConsultation = async (input) => {
           }
         }
         else{
-          setMessages(prev => [...prev, { sender: 'bot', text: 'Tôi không tìm thấy thông tin lĩnh vực nào phù hợp.Dưới đây là một số khóa học đáp ứng khoảng giá mà bạn chọn' }]);
           try {
             // Gửi yêu cầu POST với minPrize và maxPrize tới API /Prize 
-            const response = await axios.post('http://localhost:5000/chatbot/PrizeRange', {
+            const response = await axios.post('http://localhost:5000/chatbot/PrizeOnly', {
             maxPrize:highPrice,
             minPrize:lowPrice
             });
-      
             const matchedCourses = response.data.courses;
-      
-            if (matchedCourses) {
+            console.log('matchedCourses:', matchedCourses);
+            
+            if (matchedCourses.length > 0) {
+            setMessages(prev => [...prev, { sender: 'bot', text: 'Tôi không tìm thấy thông tin khóa học nào phù hợp nhưng dưới đây là gợi ý một số khóa học đáp ứng khoảng giá mà bạn chọn' }]);
               const defaultFormatCourseText = (course) => {
                 return (
-                  <div className='courseChat'>
-                    <h1>Khóa học: {course.course_name}</h1>
-                    <h1>Mô tả: {course.course_short_description}</h1>
-                    <h1>Giá: {course.course_price}$ </h1>
-                  </div>);
+                  <div className='courseChat'> <Link to={`/course/${course.course_id}`} className="course-link">
+                        <h1>Khóa học: {course.course_name}</h1>
+                        <h1>Mô tả: {course.course_short_description}</h1>
+                        <h1>Giá: {course.course_price}VNĐ </h1>
+                        </Link>
+                      </div>);
               }
               displayCourses(matchedCourses,defaultFormatCourseText);
             } else {
@@ -368,20 +385,21 @@ const handleCourseConsultation = async (input) => {
       const matchedCourses = response.data.courses;
     
           if (matchedCourses) {
+            setMessages(prev => [...prev, { sender: 'bot', text: 'Dưới đây là gợi ý một số khóa học có nhiều người đăng kí nhất' }]);
             const defaultFormatCourseText = (course) => {
               return (
-                <div className='courseChat'>
+                <div className='courseChat'> <Link to={`/course/${course.course_id}`} className="course-link">
                   <h1>Khóa học: {course.course_name}</h1>
                   <h1>Mô tả: {course.course_short_description}</h1>
                   <h1>Giá: {course.course_price}$ </h1>
                   <h1>Thời Lượng: {course.course_duration} </h1>
                   <h1>Số Thành Viên: {course.enrollment_count}  </h1>
-
+                  </Link>
                 </div>);
             }
             displayCourses(matchedCourses,defaultFormatCourseText);
           } else {
-            setMessages(prev => [...prev, { sender: 'bot', text: 'lỗi không tìm thấy khóa học'}]);
+            setMessages(prev => [...prev, { sender: 'bot', text: 'Không tìm thấy khóa học'}]);
           }
     } catch (error) {
       console.error('Error fetching courses:', error);

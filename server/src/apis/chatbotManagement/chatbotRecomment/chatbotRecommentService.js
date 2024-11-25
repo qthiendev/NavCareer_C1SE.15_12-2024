@@ -3,7 +3,7 @@ const ncbd = require('../../databases/ncdbService');
 const tryRecommentCourse = async (role) => {
   try {
     // Gọi truy vấn để lấy tất cả khóa học từ database
-    const dataCourse = await ncbd.query(role, 'exec selectTop5Course');
+    const dataCourse = await ncbd.query(role, 'exec selectTop3Course');
 
     return dataCourse;
   } catch (error) {
