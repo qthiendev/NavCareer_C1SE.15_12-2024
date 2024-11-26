@@ -1,5 +1,8 @@
 const { tryUpdateMaterial, tryChangeMaterialOrdinal } = require('./updateMaterialService');
-const now = () => new Date().toLocaleString(); // Utility function for consistent timestamps
+const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
+const now = () => new Date().toLocaleString();
 
 const updateMaterial = async (req, res) => {
     try {
@@ -101,4 +104,54 @@ const changeMaterialOrdinal = async (req, res) => {
     }
 };
 
-module.exports = { updateMaterial, changeMaterialOrdinal };
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const { c, m, co } = req.query;
+
+        if (!c || !m || !co) {
+            return cb(new Error('Invalid query parameters: c, m, and co are required.'));
+        }
+
+        const basePath = path.join(__dirname, '..', '..', '..', '..', '..', 'localResources', `courses/_${c}/_${m}/_${co}`);
+        fs.mkdirSync(basePath, { recursive: true }); // Ensure the directory exists
+        cb(null, basePath);
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname); // Use original file name
+    },
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 * 1024 }, // 5GB limit
+}).single('file'); // Handle a single file upload
+
+// Upload Media Controller
+const uploadMedia = (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            console.error(`[${new Date().toLocaleString()}] | Upload error: ${err.message}`);
+            return res.status(400).json({ message: err.message, time: new Date().toLocaleString() });
+        }
+
+        const { c, m, co } = req.query;
+        const file = req.file;
+
+        if (!file) {
+            console.error(`[${new Date().toLocaleString()}] | No file uploaded.`);
+            return res.status(400).json({ message: 'No file uploaded.', time: new Date().toLocaleString() });
+        }
+
+        const fileSavePath = file.path;
+
+        console.log(`[${new Date().toLocaleString()}] | File uploaded successfully to: ${fileSavePath}`);
+        res.status(200).json({
+            message: 'File uploaded successfully.',
+            filePath: fileSavePath,
+            time: new Date().toLocaleString(),
+        });
+    });
+};
+
+
+module.exports = { updateMaterial, changeMaterialOrdinal, uploadMedia };

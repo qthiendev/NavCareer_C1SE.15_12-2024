@@ -8,37 +8,44 @@ const AdminFeedback = () => {
     const [feedbacks, setFeedbacks] = useState([]);
     const [error, setError] = useState('');
     const [Loading, setLoading] = useState(true);   
-    const [isAuthz, setAuthz] = useState(false);
+    const [IsAuthorized, setIsAuthorized] = useState(false);
 
 
     useEffect(() => {
-        const checkAdmin = async () => {
+        const checkAuthorization = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/authz/adm', { withCredentials: true });
-                if (response.status !== 200) navigate('/');
-                setAuthz(true);
-            } catch (err) {
-                console.error('Failed to check authentication status:', err);
+                const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
+                if (response.status === 200) {
+                    setIsAuthorized(true);
+                } else {
+                    navigate('/');
+                }
+            } catch (error) {
+                console.error('Authorization check failed:', error);
                 navigate('/');
             }
         };
-        checkAdmin();
-    }, [navigate]);
 
+        checkAuthorization();
+    }, [ navigate]);
     useEffect(() => {
         const fetchFeedbacks = async () => {
-            try{
+            try {
                 const response = await axios.get('http://localhost:5000/feedback/readFeedback');
                 const data = response.data.data;
-                setFeedbacks(data);
-                setLoading(false);
-            }catch(error){
+                setFeedbacks(data); // Update feedbacks state once.
+            } catch (error) {
                 setError(error.message);
-                setLoading(false);
+            } finally {
+                setLoading(false); // Set loading to false after the API call.
             }
         };
-        if (isAuthz) fetchFeedbacks();
-    }, [isAuthz]);
+
+        // Call the fetchFeedbacks function only once when the component mounts.
+        fetchFeedbacks();
+    }, [IsAuthorized,navigate]);
+
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         

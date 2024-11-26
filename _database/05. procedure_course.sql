@@ -56,8 +56,8 @@ CREATE PROCEDURE SortCoursesByFieldAndPrice
 AS
 BEGIN
     SELECT
+		c.course_id,
         c.course_name, 
-        f.field_name,
         c.course_short_description,
         c.course_price,
         c.course_duration
@@ -68,22 +68,43 @@ BEGIN
     INNER JOIN 
         Fields f ON cf.field_id = f.field_id
     WHERE 
-        (f.field_name = @fieldName
-        AND (@min_price IS NULL OR c.course_price >= @min_price)  -- Lọc theo giá tối thiểu
-        AND (@max_price IS NULL OR c.course_price <= @max_price)) 
-		or ((@min_price IS NULL OR c.course_price >= @min_price)  -- Lọc theo giá tối thiểu
-        AND (@max_price IS NULL OR c.course_price <= @max_price)) -- Lọc theo giá tối đa
-	order by course_price 
+		(f.field_name = @fieldName) AND
+        (@min_price IS NULL OR c.course_price >= @min_price) AND
+        (@max_price IS NULL OR c.course_price <= @max_price)
+	order by c.course_price asc
 END;
 GO
 
---EXEC SortCoursesByFieldAndPrice @fieldname='Lập Trình',@min_price=500, @max_price = 600 ;
+--EXEC SortCoursesByFieldAndPrice @fieldname=N'Kỹ sư Robot công nghiệp',@min_price=5000000,@max_price=7000000
 
-
-
-if object_id('selectTop5Course', 'P') is not null drop procedure selectTop5Course;
+if object_id('sortByPrizeOnly' , 'P') is not null drop proc sortByPrizeOnly;
 go
-create proc selectTop5Course
+create proc sortByPrizeOnly
+    @min_price int,  
+    @max_price int  
+as
+begin
+	 SELECT
+		c.course_id,
+        c.course_name, 
+        c.course_short_description,
+        c.course_price,
+        c.course_duration
+    FROM 
+        Courses c
+    WHERE 
+        (c.course_price >= @min_price AND c.course_price <= @max_price)
+	order by c.course_price asc
+END;
+GO
+
+select * from Courses
+--exec sortByPrizeOnly @min_price=3000000, @max_price=5000000
+
+
+if object_id('selectTop3Course', 'P') is not null drop procedure selectTop3Course;
+go
+create proc selectTop3Course
 as
 begin
 	select top 3
@@ -417,10 +438,10 @@ grant execute on dbo.GetAllCoursesByFieldName to [NAV_ESP];
 grant execute on dbo.GetAllCoursesByFieldName to [NAV_STUDENT];
 grant execute on dbo.GetAllCoursesByFieldName to [NAV_GUEST];
 
-grant execute on dbo.selectTop5Course to [NAV_ADMIN];
-grant execute on dbo.selectTop5Course to [NAV_ESP];
-grant execute on dbo.selectTop5Course to [NAV_STUDENT];
-grant execute on dbo.selectTop5Course to [NAV_GUEST];
+grant execute on dbo.selectTop3Course to [NAV_ADMIN];
+grant execute on dbo.selectTop3Course to [NAV_ESP];
+grant execute on dbo.selectTop3Course to [NAV_STUDENT];
+grant execute on dbo.selectTop3Course to [NAV_GUEST];
 
 grant execute on dbo.getField to [NAV_ADMIN];
 grant execute on dbo.getField to [NAV_ESP];
@@ -431,3 +452,8 @@ grant execute on dbo.SortCoursesByFieldAndPrice to [NAV_ADMIN];
 grant execute on dbo.SortCoursesByFieldAndPrice to [NAV_ESP];
 grant execute on dbo.SortCoursesByFieldAndPrice to [NAV_STUDENT];
 grant execute on dbo.SortCoursesByFieldAndPrice to [NAV_GUEST];
+
+grant execute on dbo.sortByPrizeOnly to [NAV_ADMIN];
+grant execute on dbo.sortByPrizeOnly to [NAV_ESP];
+grant execute on dbo.sortByPrizeOnly to [NAV_STUDENT];
+grant execute on dbo.sortByPrizeOnly to [NAV_GUEST];

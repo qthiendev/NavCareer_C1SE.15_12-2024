@@ -802,6 +802,423 @@ go
 -- DeleteCollection 1, 0 ,8
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+if object_id('CreateQuestion', 'P') is not null drop procedure CreateQuestion;
+go
+
+create procedure CreateQuestion 
+    @aid int,
+    @material_id int,
+    @question_description nvarchar(max),
+    @question_type_id int
+as
+begin
+    declare @IsBanned BIT;
+    set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
+
+    if @IsBanned = 1 
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    declare @user_id int;
+
+    select @user_id = [user_id]
+    from Users
+    where [authentication_id] = @aid;
+
+    if @user_id is null
+    begin
+        select 'U_UID' as [check];
+        return;
+    end
+
+    if not exists (select 1 from Materials where [material_id] = @material_id)
+    begin
+        select 'U_MID' as [check];
+        return;
+    end
+
+    declare @latest_question_ordinal int;
+    select @latest_question_ordinal = ISNULL(MAX(question_ordinal), 0) + 1
+    from Questions
+    where [material_id] = @material_id;
+
+    insert into Questions ([question_description], [question_ordinal], [question_type_id], [material_id])
+    values (@question_description, @latest_question_ordinal, @question_type_id, @material_id);
+
+    if @@ROWCOUNT = 1
+    begin
+        select 'SUCCESSED' as [check];
+        return;
+    end
+
+    select 'FAILED' as [check];
+end;
+go
+
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('UpdateQuestion', 'P') is not null drop procedure UpdateQuestion;
+go
+
+create procedure UpdateQuestion 
+    @aid int,
+    @question_id int,
+    @question_description nvarchar(max),
+    @question_type_id int
+as
+begin
+    declare @IsBanned BIT;
+    set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
+
+    if @IsBanned = 1 
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    declare @user_id int;
+
+    select @user_id = [user_id]
+    from Users
+    where [authentication_id] = @aid;
+
+    if @user_id is null
+    begin
+        select 'U_UID' as [check];
+        return;
+    end
+
+    if not exists (select 1 from Questions where [question_id] = @question_id)
+    begin
+        select 'U_QID' as [check];
+        return;
+    end
+
+    update Questions
+    set [question_description] = @question_description,
+        [question_type_id] = @question_type_id
+    where [question_id] = @question_id;
+
+    if @@ROWCOUNT = 1
+    begin
+        select 'SUCCESSED' as [check];
+        return;
+    end
+
+    select 'FAILED' as [check];
+end;
+go
+
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('DeleteQuestion', 'P') is not null drop procedure DeleteQuestion;
+go
+
+create procedure DeleteQuestion 
+    @aid int,
+    @question_id int
+as
+begin
+    declare @IsBanned BIT;
+    set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
+
+    if @IsBanned = 1 
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    declare @user_id int;
+
+    select @user_id = [user_id]
+    from Users
+    where [authentication_id] = @aid;
+
+    if @user_id is null
+    begin
+        select 'U_UID' as [check];
+        return;
+    end
+
+    if not exists (select 1 from Questions where [question_id] = @question_id)
+    begin
+        select 'U_QID' as [check];
+        return;
+    end
+
+    delete from Questions
+    where [question_id] = @question_id;
+
+    if @@ROWCOUNT = 1
+    begin
+        select 'SUCCESSED' as [check];
+        return;
+    end
+
+    select 'FAILED' as [check];
+end;
+go
+
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('CreateAnswer', 'P') is not null drop procedure CreateAnswer;
+go
+
+create procedure CreateAnswer 
+    @aid int,
+    @question_id int,
+    @answer_description nvarchar(max),
+    @answer_is_right bit
+as
+begin
+    declare @IsBanned BIT;
+    set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
+
+    if @IsBanned = 1 
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    declare @user_id int;
+
+    select @user_id = [user_id]
+    from Users
+    where [authentication_id] = @aid;
+
+    if @user_id is null
+    begin
+        select 'U_UID' as [check];
+        return;
+    end
+
+    if not exists (select 1 from Questions where [question_id] = @question_id)
+    begin
+        select 'U_QID' as [check];
+        return;
+    end
+
+    declare @latest_answer_ordinal int;
+    select @latest_answer_ordinal = ISNULL(MAX(answer_ordinal), 0) + 1
+    from Answers
+    where [question_id] = @question_id;
+
+    insert into Answers ([answer_description], [answer_ordinal], [answer_is_right], [question_id])
+    values (@answer_description, @latest_answer_ordinal, @answer_is_right, @question_id);
+
+    if @@ROWCOUNT = 1
+    begin
+        select 'SUCCESSED' as [check];
+        return;
+    end
+
+    select 'FAILED' as [check];
+end;
+go
+
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('UpdateAnswer', 'P') is not null drop procedure UpdateAnswer;
+go
+
+create procedure UpdateAnswer 
+    @aid int,
+    @answer_id int,
+    @answer_description nvarchar(max),
+    @answer_is_right bit
+as
+begin
+    declare @IsBanned BIT;
+    set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
+
+    if @IsBanned = 1 
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    declare @user_id int;
+
+    select @user_id = [user_id]
+    from Users
+    where [authentication_id] = @aid;
+
+    if @user_id is null
+    begin
+        select 'U_UID' as [check];
+        return;
+    end
+
+    if not exists (select 1 from Answers where [answer_id] = @answer_id)
+    begin
+        select 'U_AID' as [check];
+        return;
+    end
+
+    update Answers
+    set [answer_description] = @answer_description,
+        [answer_is_right] = @answer_is_right
+    where [answer_id] = @answer_id;
+
+    if @@ROWCOUNT = 1
+    begin
+        select 'SUCCESSED' as [check];
+        return;
+    end
+
+    select 'FAILED' as [check];
+end;
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('DeleteAnswer', 'P') is not null drop procedure DeleteAnswer;
+go
+
+create procedure DeleteAnswer 
+    @aid int,
+    @answer_id int
+as
+begin
+    declare @IsBanned BIT;
+
+    set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
+    
+    if @IsBanned = 1 
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    declare @user_id int;
+
+    select @user_id = [user_id]
+    from Users
+    where [authentication_id] = @aid;
+
+    if @user_id is null
+    begin
+        select 'U_UID' as [check];
+        return;
+    end
+
+    declare @question_id int;
+
+    select @question_id = [question_id]
+    from Answers
+    where [answer_id] = @answer_id;
+
+    if @question_id is null
+    begin
+        select 'U_QID' as [check];
+        return;
+    end
+
+    delete from Answers
+    where [answer_id] = @answer_id;
+
+    if @@ROWCOUNT = 1
+    begin
+        -- Re-ordinal the remaining answers for the question
+        update Answers
+        set [answer_ordinal] = [answer_ordinal] - 1
+        where [question_id] = @question_id
+          and [answer_ordinal] > (
+              select [answer_ordinal]
+              from Answers
+              where [answer_id] = @answer_id
+          );
+
+        select 'SUCCESSED' as [check];
+        return;
+    end
+
+    select 'FAILED' as [check];
+end;
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+if object_id('ChangeAnswerOrdinal', 'P') is not null drop procedure ChangeAnswerOrdinal;
+go
+
+create procedure ChangeAnswerOrdinal 
+    @aid int, 
+    @question_id int, 
+    @answer_id_1 int, 
+    @answer_id_2 int
+as
+begin
+    declare @IsBanned BIT;
+    declare @user_id int;
+    declare @ordinal_1 int, @ordinal_2 int;
+    declare @check_status nvarchar(50) = 'SUCCESSED';
+
+    set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
+    
+    if @IsBanned = 1 
+    begin
+        select 'BANNED' as [check];
+        return;
+    end
+
+    select @user_id = [user_id]
+    from Users
+    where [authentication_id] = @aid;
+
+    if @user_id is null
+    begin
+        select 'U_UID' as [check];
+        return;
+    end
+
+    if not exists (select 1 from Questions where [question_id] = @question_id)
+    begin
+        select 'U_QID' as [check];
+        return;
+    end
+
+    select @ordinal_1 = [answer_ordinal]
+    from Answers
+    where [answer_id] = @answer_id_1 and [question_id] = @question_id;
+
+    select @ordinal_2 = [answer_ordinal]
+    from Answers
+    where [answer_id] = @answer_id_2 and [question_id] = @question_id;
+
+    if @ordinal_1 is null or @ordinal_2 is null
+    begin
+        select 'U_ORD' as [check];
+        return;
+    end
+
+    begin try
+        begin transaction;
+ 
+        update Answers
+        set [answer_ordinal] = @ordinal_2
+        where [answer_id] = @answer_id_1 and [question_id] = @question_id;
+
+        update Answers
+        set [answer_ordinal] = @ordinal_1
+        where [answer_id] = @answer_id_2 and [question_id] = @question_id;
+
+        commit transaction;
+        set @check_status = 'SUCCESSED';
+        
+    end try
+    begin catch
+        if @@trancount > 0
+            rollback transaction;
+        set @check_status = 'FAILED';
+    end catch
+
+    select @check_status as [check];
+end;
+go
+
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 grant execute on dbo.CreateModule to [NAV_ESP];
 grant execute on dbo.ChangeModuleOrdinal to [NAV_ESP];
 grant execute on dbo.UpdateModule to [NAV_ESP];
@@ -816,3 +1233,12 @@ grant execute on dbo.CreateMaterial to [NAV_ESP];
 grant execute on dbo.ChangeMaterialOrdinal to [NAV_ESP];
 grant execute on dbo.UpdateMaterial to [NAV_ESP];
 grant execute on dbo.DeleteMaterial to [NAV_ESP];
+
+grant execute on dbo.CreateQuestion to [NAV_ESP];
+grant execute on dbo.UpdateQuestion to [NAV_ESP];
+grant execute on dbo.DeleteQuestion to [NAV_ESP];
+
+grant execute on dbo.CreateAnswer to [NAV_ESP];
+grant execute on dbo.UpdateAnswer to [NAV_ESP];
+grant execute on dbo.DeleteAnswer to [NAV_ESP];
+grant execute on dbo.ChangeAnswerOrdinal to [NAV_ESP];

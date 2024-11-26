@@ -316,7 +316,7 @@ Press any key to continue.
 (N'Câu hỏi 2', 
 1, 3, 3),
 (N'Câu hỏi 3', 
-3, 3, 3);
+2, 3, 3);
 go
 
 insert into Materials ([material_content], [material_ordinal], [material_type_id], [collection_id])
@@ -1102,7 +1102,7 @@ go
 ------------------------------------------------------------------------------------------------------------
 insert into Answers ([answer_description], [answer_ordinal], [answer_is_right], [question_id])
 values
-(N'Đẫ cài đặt', 0, 1, 0),
+(N'Đã cài đặt', 0, 1, 0),
 (N'Chưa cài đặt', 1, 0, 0),
 
 (N'Đã chạy', 0, 1, 1),
