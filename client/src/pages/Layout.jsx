@@ -1,47 +1,35 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
-// import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { FaSearch, FaBell, FaFacebookMessenger } from 'react-icons/fa';
 import './Layout.css';
 import Chatbot from '../pages/utilities/chatbot/chatbot.jsx';
 
-
 function Layout() {
-    const [isCheckAdmin, setIsCheckAdmin] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
-    const [isCheckESP, setIsCheckESP] = useState(false);
     const [isESP, setIsESP] = useState(false);
     const [isStudent, setIsStudent] = useState(false);
-    const [isLoading, setLoading] = useState(true);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isCheckAdmin, setIsCheckAdmin] = useState(false);
+    const [isCheckESP, setIsCheckESP] = useState(false);
     const [searchIndex, setSearchIndex] = useState('');
     const [showChatbot, setShowChatbot] = useState(false);
-    // const [isChatbotVisible, setIsChatbotVisible] = useState(false);
+    const [isLoading, setLoading] = useState(true);
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const toggleChatbot = () => {
-        setShowChatbot(!showChatbot);
-    };
-
-    // const location = useLocation();
+    // Kiểm tra quyền Admin
     useEffect(() => {
         const checkAdmin = async () => {
             try {
                 setIsAdmin(false);
-                setIsESP(false);
-                setIsStudent(false);
                 const response = await axios.get('http://localhost:5000/authz/adm', { withCredentials: true });
                 if (response.status === 200) {
-                    setIsAdmin(response.status === 200);
-                    console.log('Admin is loggin');
+                    setIsAdmin(true);
                 }
             } catch (err) {
                 console.log(err);
                 setIsCheckAdmin(true);
-                setIsAdmin(false);
             } finally {
                 setLoading(false);
             }
@@ -49,19 +37,18 @@ function Layout() {
         checkAdmin();
     }, [navigate, location]);
 
+    // Kiểm tra quyền ESP
     useEffect(() => {
         const checkESP = async () => {
             if (!isCheckAdmin) return;
             try {
                 const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
                 if (response.status === 200) {
-                    setIsESP(response.status === 200);
-                    console.log('ESP is loggin');
+                    setIsESP(true);
                 }
             } catch (err) {
                 console.log(err);
                 setIsCheckESP(true);
-                setIsESP(false);
             } finally {
                 setLoading(false);
             }
@@ -69,19 +56,17 @@ function Layout() {
         checkESP();
     }, [isCheckAdmin, navigate, location]);
 
+    // Kiểm tra quyền Student
     useEffect(() => {
         const checkSTU = async () => {
             if (!isCheckESP) return;
             try {
                 const response = await axios.get('http://localhost:5000/authz/stu', { withCredentials: true });
                 if (response.status === 200) {
-                    setIsStudent(response.status === 200);
-                    console.log('Student is loggin');
+                    setIsStudent(true);
                 }
             } catch (err) {
                 console.log(err);
-                console.log('No one is loggin');
-                setIsESP(false);
             } finally {
                 setLoading(false);
             }
@@ -89,127 +74,186 @@ function Layout() {
         checkSTU();
     }, [isCheckESP, navigate, location]);
 
-    const handleSearch = () => {
-        if (searchIndex.trim()) {
-            navigate(`/search?index=${searchIndex}`);
-        }
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
     };
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            handleSearch();
-        }
+    const closeSidebar = () => {
+        setIsSidebarOpen(false);
     };
-
-    const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
-
-    // const toggleChatbot = () => setIsChatbotVisible(!isChatbotVisible);
 
     const handleSignOut = async () => {
         try {
             await axios.post('http://localhost:5000/auth/signout', {}, { withCredentials: true });
             setIsAdmin(false);
             setIsESP(false);
+            setIsStudent(false);
             navigate('/signin');
         } catch (err) {
             console.error('Failed to sign out:', err);
         }
     };
 
+    const toggleChatbot = () => {
+        setShowChatbot(!showChatbot);
+    };
+
+    const handleSearch = () => {
+        if (searchIndex.trim()) {
+            navigate(`/search?index=${searchIndex}`);
+        }
+    };
+    
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+    
+
     if (isLoading) {
-        return (
-            <div className="layout-container">
-                Loading...
-            </div>
-        );
-    } else {
-        return (
-            <div className="layout-container">
-                <header>
-                    <nav className="navbar">
+        return <div className="layout-container">Loading...</div>;
+    }
+
+    return (
+        <div className="layout-container">
+            <header>
+                <nav className="navbar">
+                    <div className='navbar-left'>
                         <div className="home-logo">
                             <a href="/"><img src="/img/Header/Logo.svg" alt="Logo" /></a>
                         </div>
-
-                        <div className="search-bar">
-                            <input
-                                type="text"
-                                value={searchIndex}
-                                onChange={(e) => setSearchIndex(e.target.value)}
-                                onKeyDown={handleKeyPress}
-                                placeholder="Tìm kiếm..."
-                                className="search-input"
-                            />
-                            <FaSearch onClick={handleSearch} className="search-icon" />
+                        <div className="menu-icon" onClick={toggleSidebar}>
+                            <img src="/img/Header/menu_icon.svg" alt="Menu" />
                         </div>
+                    </div>
 
-                        <ul className="nav-list">
-                            <li><a className='nav-list-content' href="/servey">TRẮC NGHIỆM HƯỚNG NGHIỆP</a></li>
-                            <li><a className='nav-list-content' href="/course/view">KHÓA HỌC</a></li>
-                            <li><a className='nav-list-content' href="/about">VỀ CHÚNG TÔI</a></li>
-                            <div className='icon-container-mess'>
-                                {/* <li><FaFacebookMessenger className="notification-icon" onClick={() => navigate('/chatbot')} /></li> */}
-                                <li>
-                                    <FaFacebookMessenger
-                                        className="notification-icon"
-                                        onClick={toggleChatbot}
-                                    />
-                                    {showChatbot && (
-                                        <div className="chatbot-modal">
-                                            <div className="chatbot-header">
-                                                <button onClick={() => setShowChatbot(false)} className="close-button">X</button>
-                                            </div>
-                                            <Chatbot />
-                                        </div>
-                                    )}
-                                </li>
-                                <span className="description-icon-chatbot">CHAT BOT</span>
+                    <div className="search-bar">
+                        <div className="searchbar-container">
+                            <div className="searchbar-icon-container">
+                                <img className="searchbar-icon" src='/img/Header/search_icon.svg' alt='search-icon' />
                             </div>
-                        </ul>
-
-                        <FaBell className="notification-icon" />
-
-                        <div className="user-image" onClick={toggleDropdown}>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR26AaR_J8UOopLWkGkJpZ3g1r4Cl-vIlnWwg&s" alt="User" />
+                            <div className="searchbar-input-container">
+                                <input
+                                    type="text"
+                                    value={searchIndex}
+                                    onChange={(e) => setSearchIndex(e.target.value)}
+                                    onKeyDown={handleKeyPress}
+                                    placeholder="Nhập từ khóa để tìm kiếm"
+                                    className="searchbar-input"
+                                />
+                            </div>
                         </div>
+                    </div>
 
-                        {dropdownOpen && (
-                            <div className="dropdown-menu show1">
-                                <ul>
-                                    {isAdmin || isESP || isStudent ? (
-                                        <>
-                                            <li className='li1'><a href="/profile/self">Hồ sơ người dùng</a></li>
-                                            <li className='li1'><a href="/edu">Học tập</a></li>
-                                            <li className='li1'><a href="/settings">Thiết lập cá nhân</a></li>
-                                            {isAdmin && (
-                                                <li className='li1'><a href="/admin">Dành cho nhà quản trị</a></li>
-                                            )}
-                                            {isESP && (
-                                                <li className='li1'><a href="/esp">Dành cho nhà cung cấp</a></li>
-                                            )}
-                                            <li className='li1' id="signout-btn" onClick={handleSignOut}>Đăng xuất</li>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <li className='li1'><a className="signin" href="/signin">Đăng nhập </a></li>
-                                            <li className='li1'><a className="signup" href="/signup">Đăng ký</a></li>
-                                        </>
-                                    )}
-                                </ul>
+                    <div className="user-tools">
+                        {isAdmin || isESP || isStudent ? (
+                            <>
+                                <div className="user-image" onClick={() => navigate('/profile/self')}>
+                                    <img src="/img/Header/userprf_icon.svg" alt="User" />
+                                </div>
+                                <span className="notification-icon">
+                                    <img src="/img/Header/notify_icon.svg" alt="notification-icon" />
+                                </span>
+                                {showChatbot && (
+                                    <div className="chatbot-modal">
+                                        <Chatbot />
+                                    </div>
+                                )}
+                                <span className="chatbot-btn" onClick={toggleChatbot}>
+                                    <img src="/img/Header/chatbot_icon.svg" alt="chatbot" />
+                                </span>
+                            </>
+                        ) : (
+                            <div className="auth-link">
+                                <a href="/signin" className="signin">Đăng nhập</a>
+                                <a href="/signup" className="signup">Đăng ký</a>
                             </div>
                         )}
-                    </nav>
-                </header>
+                    </div>
+                </nav>
+            </header>
 
-                <main className="main-content">
-                    <Outlet />
-                </main>
-                <footer className="footer">
-                    <p className="copyright">&copy; C1SE.15</p>
-                </footer>
-            </div>
-        );
-    }
+            {isSidebarOpen && (
+                <>
+                    <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+                        <div className="sidebar-header">
+                            <a href="/"><img src="/img/Header/home_sidebar.svg" alt="Logo" className="sidebar-logo" /></a>
+                            <button className="close-sidebar-btn" onClick={closeSidebar}>×</button>
+                        </div>
+                        <ul className="sidebar-nav">
+                            <li><img src="/img/Header/test_icon.svg" alt="servey" /><a href="/servey">Trắc nghiệm hướng nghiệp</a></li>
+                            <li><img src="/img/Header/course_icon.svg" alt="course" /><a href="/course/view">Khóa học</a></li>
+                            <li><img src="/img/Header/about_icon.svg" alt="about" /><a href="/about">Về chúng tôi</a></li>
+                            {isAdmin && <li><img src="/img/Header/admin_icon.svg" alt="admin" /><a href="/admin">Dành cho nhà quản trị</a></li>}
+                            {isESP && <li><img src="/img/Header/esp_icon.svg" alt="esp" /><a href="/esp">Dành cho nhà cung cấp</a></li>}
+                            {isStudent && <li><img src="/img/Header/learning_icon.svg" alt="edu" /><a href="/edu">Học tập</a></li>}
+                            {(isAdmin || isESP || isStudent) && (
+                                <li><img src="/img/Header/setting_icon.svg" alt="settings" /><a href="/settings">Cài đặt</a></li>
+                            )}
+                            {(isAdmin || isESP || isStudent) && (
+                                <li id="signout-btn" onClick={handleSignOut}><img src="/img/Header/signout_icon.svg" alt="sigout-btn"/>Đăng xuất</li>
+                            )}
+                        </ul>
+                    </div>
+                    <div className={`backdrop ${isSidebarOpen ? 'show' : ''}`} onClick={closeSidebar}></div>
+                </>
+            )}
+
+            <main className="main-content">
+                <Outlet />
+            </main>
+
+            <footer className="footer">
+                <div class="footer_container">
+                    <div class="logo-info">
+                        <div className="logo">
+                            <img src="img/Header/Logo.svg" alt="Logo"/>
+                        </div>
+                        <ul>
+                        <li>
+                            <img src="img/Footer/mail_white_vector.svg" alt="" />
+                            <p>hello@navcareer.com</p>
+                        </li>
+                        <li>
+                            <img src="img/Footer/phone_white_vector.svg" alt="" />
+                            <p>+91 91813 23 2309</p>
+                        </li>
+                        <li>
+                            <img style={{ padding: "2px" }} src="img/Footer/location_white_vector.svg" alt="" />
+                            <p>Somewhere in the World</p>
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="nav-links">
+                        <h3>Trọng tâm</h3>
+                        <ul>
+                            <li><a href="/servey">Trắc nghiệm hướng nghiệp</a></li>
+                            <li><a href="#">Khoá học</a></li>
+                            <li><a href="#">Tài nguyên hỗ trợ</a></li>
+                        </ul>
+                    </div>
+                    <div class="nav-links">
+                        <h3>Thông tin chi tiết</h3>
+                        <ul>
+                            <li><a href="#">Công ty</a></li>
+                            <li><a href="#">Sứ mệnh</a></li>
+                            <li><a href="#">Mục tiêu</a></li>
+                        </ul>
+                    </div>
+                    <div class="social-media">
+                        <h3>Kết nối với chúng tôi</h3>
+                        <ul>
+                            <li><a href="#"><img src="img/Footer/fb_vector.svg" alt="" /></a></li>
+                            <li><a href="#"><img src="img/Footer/linkedin_vector.svg" alt="" /></a></li>
+                            <li><a href="#"><img src="img/Footer/twitter_vector.svg" alt="" /></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <p className='copyright'>&copy; C1SE.15</p>
+            </footer>
+        </div>
+    );
 }
 
 export default Layout;
