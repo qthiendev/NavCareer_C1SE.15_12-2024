@@ -58,6 +58,7 @@ const Router = () => {
           <Route path="admin/user/modify" element={<ModifyUser />} />
           <Route path="admin/user/function/general" element={<UserFunctionGeneral />} />
           <Route path="admin/user/function/esp" element={<UserFunctionESP />} />
+          <Route path='admin/feedback' element={<AdminFeedback />} />
 
           <Route path="profile/:user_id/" element={<ViewProfile />} />
           <Route path="profile/update" element={<UpdateProfile />} /> 
@@ -72,6 +73,7 @@ const Router = () => {
 
           <Route path="esp/course/:course_id/module/:module_id/update" element={<UpdateModule />} /> 
           <Route path="esp/course/:course_id/module/:module_id/collection/:collection_id/update" element={<UpdateCollection />} /> 
+          <Route path='esp/ManageCourseReport' element={<ManageCourseReport />} />
 
           <Route path="edu/" element={<ReadEnrollment />} /> 
           <Route path="edu/payment" element={<Payment />} /> 
@@ -82,9 +84,7 @@ const Router = () => {
 
           <Route path='servey' element={<Servey />} />
 
-          <Route path='esp/ManageCourseReport' element={<ManageCourseReport />} />
           
-          <Route path='admin/feedback' element={<AdminFeedback />} />
 
         </Route>
       </Routes>

@@ -18,7 +18,7 @@ const ManageCourseReport = () => {
     useEffect(() => {
         const checkBanStatus = async () => {
             try {
-                await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateCourse', { withCredentials: true });
+                await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=ManageCoursesReport', { withCredentials: true });
                 setIsBanned(true);
             } catch (error) {
                 console.error('Failed to check ban status:', error);
