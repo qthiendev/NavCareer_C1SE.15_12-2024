@@ -588,13 +588,14 @@ begin
 		us.[user_gender]
 	from Accomplishments a
 		join Enrollments e on e.[enrollment_id] = a.[enrollment_id]
-		join Courses c on c.[course_id] = e.[enrollment_id]
+		join Courses c on c.[course_id] = e.[course_id]
 		join Users us on us.[user_id] = e.[user_id]
 		join Users uc on uc.[user_id] = c.[user_id]
 	where [accomplishment_certificate_id] = @certificate_id
 
 end
 go
+-- ReadAccomplishment "72TH1SFBW83RA8X1U6JGJJ1A"
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 grant execute on dbo.ReadCollection to [NAV_ADMIN];
