@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import "./ManageCourseReport.css";
+import { useParams, useNavigate } from 'react-router-dom';
+
+import axios from 'axios';
 
 const ManageCourseReport = () => {
     const [courseData, setCourseData] = useState([]);
@@ -7,9 +10,48 @@ const ManageCourseReport = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedCourseName, setSelectedCourseName] = useState(null);
+    const navigate = useNavigate();
+
+    const [isBanned, setIsBanned] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
+    useEffect(() => {
+        const checkBanStatus = async () => {
+            try {
+                await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateCourse', { withCredentials: true });
+                setIsBanned(true);
+            } catch (error) {
+                console.error('Failed to check ban status:', error);
+                alert('BANNED');
+                navigate(-1);
+            }
+        };
+
+        checkBanStatus();
+    }, [navigate]);
+
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            if (!isBanned) return;
+            try {
+                const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
+                if (response.status === 200) {
+                    setIsAuthorized(true);
+                } else {
+                    navigate('/');
+                }
+            } catch (error) {
+                console.error('Authorization check failed:', error);
+                navigate('/');
+            }
+        };
+
+        checkAuthorization();
+    }, [isBanned, navigate]);
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!isBanned || !isAuthorized) return;
             try {
                 setIsLoading(true);
                 const response = await fetch(
@@ -30,7 +72,7 @@ const ManageCourseReport = () => {
         };
 
         fetchData();
-    }, []);
+    }, [isBanned, isAuthorized, navigate]);
     
     const fetchEnrollData = async (course_id,course_name) => {
         setSelectedCourseName(course_name);

@@ -14,7 +14,7 @@ function Chatbot() {
     // Gửi tin nhắn chào mừng khi khởi động
     const welcomeMessage = {
       sender: 'bot',
-      text: 'Xin chào! Bạn muốn tôi hỗ trợ những gì? Kỹ sư Robot công nghiệp',
+      text: 'Xin chào! Bạn muốn tôi hỗ trợ những gì?',
     };
       const Consultation = {
         sender: 'bot',
@@ -85,9 +85,7 @@ function Chatbot() {
     // Kiểm tra nếu lowerInput chứa bất kỳ cụm từ nào trong options
     
     if (lowerInput) {
-      // const responseMessage = { sender: 'bot', text: `Bạn đã chọn: ${lowerInput}` };
-      // setMessages(prev => [...prev, responseMessage]);
-      // cái này để confim để đây lúc nào cần show bot lấy chuỗi nào của client 
+      
       if (lowerInput.includes('tư vấn')) {
         setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn đã làm trắc nghiệm khảo sát để xem mình thuộc lĩnh vực phù hợp nào chưa? Nếu bạn có chuyên ngành mình yêu thích rồi thì hãy cho tớ biết nhé!' }]);
         setStage('courseConsultation');
@@ -95,7 +93,6 @@ function Chatbot() {
         setMessages(prev => [...prev, { sender: 'bot', text: 'Vui lòng cho tôi biết lĩnh vực và khoảng giá mà bạn quan tâm (ví dụ: lĩnh vực Nghệ Thuật từ 2000000 đến 5000000 ).' }]);
         setStage('awaitingPriceInfo');
       } else if (lowerInput.includes('đề xuất')) {
-        // setMessages(prev => [...prev, { sender: 'bot', text: 'Trên đây là một số khóa học được nhiều người tham gia nhất' }]);
         handleCourseRecommendation();
       } 
        else if (lowerInput.includes('cảm ơn')||lowerInput.includes('thanks')) {
