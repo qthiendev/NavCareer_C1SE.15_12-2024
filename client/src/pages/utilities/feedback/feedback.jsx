@@ -31,28 +31,49 @@ function Feedback() {
 
 
     return (
-        <div>
-            <div className='feedback'>
-                <div className='feedback-container'>
-                    <div className='feedback-header'>
-                        <h1>Hệ thống có bất kì lỗi gì mong bạn góp ý cho chúng tôi nhé!</h1>
-                    </div>
-                    <form className='feedback-form' onSubmit={handleSubmit}>
+        <div className="feedback-container">
+            <div className="feedback-left">
+                <img src="./img/main_content/Register.svg" alt="Feedback" />
+            </div>
+            <div className="feedback-right">
+                <h1>Liên hệ ngay với chúng tôi nếu bạn cần hỗ trợ. ^^</h1>
+                <form className='feedback-form' onSubmit={handleSubmit}>
                         <div className='feedback-form-group'>
                             <input type='text' 
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder='Hãy cho tôi ý kiến của bạn về hệ thống'/>
+                            placeholder='Trình bày vấn đề của bạn tại đây!'/>
                         </div>
                         <div className='feedback-form-group'>
-                            <button type='submit' >Gửi</button>
+                            <button>YÊU CẦU HỖ TRỢ</button>
                         </div>
-                    </form>
-                    {message && <div className="feedback-success">{message}</div>}
-                    {error && <div className="error-message">{error}</div>}
-                </div>
+                </form>
+                {message && <div className="feedback-success">{message}</div>}
+                {error && <div className="error-message">{error}</div>}
             </div>
         </div>
+        // <div>
+        //     <div className='feedback'>
+        //         <div className='feedback-container'>
+        //             <div className='feedback-header'>
+        //                 <h1>Hệ thống có bất kì lỗi gì mong bạn góp ý cho chúng tôi nhé!</h1>
+        //             </div>
+                    // <form className='feedback-form' onSubmit={handleSubmit}>
+                    //     <div className='feedback-form-group'>
+                    //         <input type='text' 
+                    //         value={description}
+                    //         onChange={(e) => setDescription(e.target.value)}
+                    //         placeholder='Hãy cho tôi ý kiến của bạn về hệ thống'/>
+                    //     </div>
+                    //     <div className='feedback-form-group'>
+                    //         <button type='submit' >Gửi</button>
+                    //     </div>
+                    // </form>
+                    // {message && <div className="feedback-success">{message}</div>}
+                    // {error && <div className="error-message">{error}</div>}
+        //         </div>
+        //     </div>
+        // </div>
     );
 }
 
