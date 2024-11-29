@@ -46,23 +46,29 @@ CREATE PROCEDURE ManageCoursesReport
     @user_id INT
 AS
 BEGIN
-	SELECT 
+    SELECT 
         c.course_id,
         c.course_name,
-		c.course_price,
-        COUNT(e.user_id) AS NumberOfParticipants
+        c.course_price,
+        COUNT(DISTINCT e.enrollment_id) AS NumberOfParticipants,
+        COUNT(cf.feedback_id) AS NumberOfFeedback
     FROM 
-        Courses c, Enrollments e
+        Courses c
+    LEFT JOIN 
+        Enrollments e ON c.course_id = e.course_id
+    LEFT JOIN 
+        CourseFeedbacks cf ON e.enrollment_id = cf.enrollment_id
     WHERE 
-        c.course_id = e.course_id and c.user_id=@user_id
+        c.user_id = @user_id
     GROUP BY 
-        c.course_id,c.course_name,c.course_price
+        c.course_id, c.course_name, c.course_price
 END;
 GO
 
 
 
---exec ManageCoursesReport @user_id=2
+
+--exec ManageCoursesReport @user_id=1
 if object_id ('GetUsersEnrolledInCourse','P') is not null drop procedure GetUsersEnrolledInCourse;
 go
 CREATE PROCEDURE GetUsersEnrolledInCourse

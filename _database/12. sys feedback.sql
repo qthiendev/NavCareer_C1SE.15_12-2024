@@ -95,7 +95,8 @@ as
 	SELECT 
 		u.user_full_name,
         c.course_id,
-        cf.feedback_description
+        cf.feedback_description,
+		cf.feedback_date
     FROM 
         CourseFeedbacks cf
     INNER JOIN 
@@ -111,7 +112,7 @@ as
 	end;
 go
 
--- exec readFeedbackCourse @courseId=2
+-- exec readFeedbackCourse @courseId=10
 
 if object_id ('createFeedbackCourse','P') is not null drop proc createFeedbackCourse;
 go
@@ -154,7 +155,7 @@ BEGIN
     END
 END;
 GO
---EXEC createFeedbackCourse @userId = 2, @courseId = 2, @description = N'anh chàng đẹp trai ngồi trong quán uống ly cà phê';
+--EXEC createFeedbackCourse @userId = 2, @courseId =10, @description= N'bzcvbzcvbzbz';
 
 
 

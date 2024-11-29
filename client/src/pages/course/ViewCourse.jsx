@@ -9,6 +9,31 @@ function ViewCourse() {
     const [courseData, setCourseData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [updatable, setUpdatable] = useState(false);
+    const [description, setDescription] = useState('');
+    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setMessage('');
+        setError('');
+        try {
+            const response = await axios.post(
+                'http://localhost:5000/feedback/createCourseFeedback',
+                { description, course_id },
+                { withCredentials: true } // Quan trọng: Để gửi cookie của session
+            );
+            if (response.status === 201) {
+                setMessage('Cảm ơn vì góp ý của bạn!');
+                setDescription('');
+            } else {
+                setError(response.data.message);
+            }
+        } catch (err) {
+            console.error('Lỗi:', err.message);
+            setError('Đã xảy ra lỗi, vui lòng thử lại.');
+        }
+    };
 
     useEffect(() => {
         const fetchCourseData = async () => {
@@ -66,7 +91,7 @@ function ViewCourse() {
                             <label htmlFor="joinCourse">Giá: {courseData.course_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</label>
                         </div>
                         <button id="joinCourse" className="view-course-btn-join" onClick={() => navigate(`/edu/payment?course_id=${course_id}`)}>
-                            Mua Ngay
+                            Tham Gia Ngay
                         </button>
                     </div>
                 </div>
@@ -93,6 +118,24 @@ function ViewCourse() {
                             </li>
                         ))}
                     </ul>
+                </div>
+            </div>
+            <div className='footer-course'>
+                <div className="feedback-right">
+                    <h3>Liên hệ ngay với chúng tôi nếu bạn cần hỗ trợ. ^^</h3>
+                    <form className='feedback-form' onSubmit={handleSubmit}>
+                            <div className='feedback-form-group'>
+                                <input type='text' 
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                placeholder='Trình bày vấn đề của bạn tại đây!'/>
+                            </div>
+                            <div className='feedback-form-group'>
+                                <button>YÊU CẦU HỖ TRỢ</button>
+                            </div>
+                    </form>
+                    {message && <div className="feedback-success">{message}</div>}
+                    {error && <div className="error-message">{error}</div>}
                 </div>
             </div>
         </div>

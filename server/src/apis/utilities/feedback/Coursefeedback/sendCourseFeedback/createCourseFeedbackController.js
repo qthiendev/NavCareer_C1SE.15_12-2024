@@ -4,7 +4,7 @@ const createCourseFeedback = async (req, res) => {
     try {
         const now = new Date();
         const { aid, role } = req.session;
-        const { description, courseId } = req.body;
+        const { description, course_id } = req.body;
 
         // Validate input
         if (!description) {
@@ -16,7 +16,7 @@ const createCourseFeedback = async (req, res) => {
         }
 
         // Call the service to execute the stored procedure
-        const result = await tryCreateCourseFeedback(role, aid, description, courseId);
+        const result = await tryCreateCourseFeedback(role, aid, description, course_id);
 
         console.log(`[${now.toLocaleString()}] at createCourseFeedbackController.js/CreateCourseFeedback | Feedback created successfully.`);
         return res.status(201).json({

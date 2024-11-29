@@ -4,7 +4,7 @@ const readCourseFeedback = async (req, res) => {
     try {
         const now = new Date(); 
         const { role } = req.session;
-        const { courseId } = req.body;
+        const { courseId } = req.query ;
         if (!role) {
             console.warn(`[${now.toLocaleString()}] at readCourseFeedbackController.js/readCourseFeedback | Missing role in session.`);
             return res.status(403).json({
@@ -21,6 +21,8 @@ const readCourseFeedback = async (req, res) => {
             });
         }
         console.log(`[${now.toLocaleString()}] at readCourseFeedbackController.js/readCourseFeedback | Feedback read successfully.`);
+        console.log('data of fb course', result);
+        
         return res.status(200).json({
             data: result,
             time: now.toLocaleString()
