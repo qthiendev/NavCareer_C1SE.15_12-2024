@@ -205,8 +205,8 @@ function Layout() {
             </main>
 
             <footer className="footer">
-                <div class="footer_container">
-                    <div class="logo-info">
+                <div className="footer_container">
+                    <div className="logo-info">
                         <div className="logo">
                             <img src="img/Header/Logo.svg" alt="Logo"/>
                         </div>
@@ -225,7 +225,7 @@ function Layout() {
                         </li>
                         </ul>
                     </div>
-                    <div class="nav-links">
+                    <div className="nav-links">
                         <h3>Trọng tâm</h3>
                         <ul>
                             <li><a href="/servey">Trắc nghiệm hướng nghiệp</a></li>
@@ -233,7 +233,7 @@ function Layout() {
                             <li><a href="#">Tài nguyên hỗ trợ</a></li>
                         </ul>
                     </div>
-                    <div class="nav-links">
+                    <div className="nav-links">
                         <h3>Thông tin chi tiết</h3>
                         <ul>
                             <li><a href="#">Công ty</a></li>
@@ -241,7 +241,7 @@ function Layout() {
                             <li><a href="#">Mục tiêu</a></li>
                         </ul>
                     </div>
-                    <div class="social-media">
+                    <div className="social-media">
                         <h3>Kết nối với chúng tôi</h3>
                         <ul>
                             <li><a href="#"><img src="img/Footer/fb_vector.svg" alt="" /></a></li>

@@ -1,0 +1,58 @@
+
+.enroll-data {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9; /* Màu nền nhạt */
+    border-radius: 8px; /* Bo góc */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+    width: 800px; /* Độ rộng tối ưu */
+}
+
+.enroll-data h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333; /* Màu tiêu đề */
+    margin-bottom: 20px;
+}
+
+.enroll-table {
+    width: 100%;
+    border-collapse: collapse; /* Gộp đường viền */
+    overflow: hidden;
+    border-radius: 8px; /* Bo góc cho bảng */
+}
+
+.enroll-table th, .enroll-table td {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 1rem;
+    border-bottom: 1px solid #ddd; /* Đường ngăn giữa các dòng */
+}
+
+.enroll-table th {
+    background-color: #4CAF50; /* Màu nền tiêu đề */
+    color: white;
+    text-transform: uppercase; /* Chuyển chữ thành in hoa */
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.enroll-table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Màu nền cho các dòng chẵn */
+}
+
+.enroll-table tr:hover {
+    background-color: #d6f5d6; /* Màu khi hover vào dòng */
+    transition: 0.3s ease-in-out;
+}
+
+.table-content-header {
+    text-align: center;
+}
+
+.table-nav-content {
+    color: #555; /* Màu chữ dòng nội dung */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+

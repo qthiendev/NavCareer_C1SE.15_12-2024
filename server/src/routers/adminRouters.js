@@ -10,7 +10,6 @@ const { readBan, readBanESP } = require('../apis/systemManagement/userManagement
 const { createBan } = require('../apis/systemManagement/userManagement/ban/createBan/createBanController');
 const { removeBan } = require('../apis/systemManagement/userManagement/ban/removeBan/removeBanController');
 const { checkBan } = require('../apis/systemManagement/userManagement/ban/checkBan/checkBanController');
-const { readFeedback } = require('../apis/utilities/feedback/getFeedback/getFeedbackController');
 
 router.get('', async (req, res) => {
     const htmlResponse = `
@@ -77,7 +76,6 @@ router.get('/user/ban/read', authMiddleware.isSignedIn, authzMiddleware.admin, r
 router.get('/user/ban/read-esp', authMiddleware.isSignedIn, authzMiddleware.admin, readBanESP);
 router.post('/user/ban/create', authMiddleware.isSignedIn, authzMiddleware.admin, createBan);
 router.post('/user/ban/remove', authMiddleware.isSignedIn, authzMiddleware.admin, removeBan);
-router.get('/readFeedback',authMiddleware.isSignedIn, authzMiddleware.admin,readFeedback);
 router.get('/user/ban/check', authMiddleware.isSignedIn, checkBan);
 
 module.exports = router;

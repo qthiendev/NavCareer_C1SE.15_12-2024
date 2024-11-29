@@ -37,7 +37,9 @@ import Accomplishment from './pages/learning/Accomplishment.jsx';
 import AccomplishmentByID from './pages/learning/AccomplishmentByID.jsx';
 
 import Servey from './pages/utilities/servey/servey.jsx';
-import ManageCourseReport from './pages/manageSystem/manageCourseReport/manageCourseReport.jsx';
+import ManageCourseReport from './pages/manageSystem/manageCourseReport/ListCourseReport/manageCourseReport.jsx';
+import CourseFeedback from './pages/manageSystem/manageCourseReport/ListCourseFeedback/ListCourseFeedback.jsx';
+import ListEnrollAndFeedback from './pages/manageSystem/manageCourseReport/ListCourseEnroll/ListCourseEnroll.jsx'
 
 import AdminFeedback from './pages/manageSystem/AdminFeedback.jsx';
 
@@ -74,6 +76,8 @@ const Router = () => {
           <Route path="esp/course/:course_id/module/:module_id/update" element={<UpdateModule />} /> 
           <Route path="esp/course/:course_id/module/:module_id/collection/:collection_id/update" element={<UpdateCollection />} /> 
           <Route path='esp/ManageCourseReport' element={<ManageCourseReport />} />
+          <Route path='esp/ManageCourseReport/courseFeedback/:courseId/:courseName' element={<CourseFeedback />} />
+          <Route path='esp/ManageCourseReport/enroll/:courseId/:courseName' element={<ListEnrollAndFeedback />} />
 
           <Route path="edu/" element={<ReadEnrollment />} /> 
           <Route path="edu/payment" element={<Payment />} /> 
