@@ -1,172 +1,106 @@
 .view-course-container {
-  display: flex; /* Sử dụng flexbox để tạo hai cột */
-  justify-content: flex-start; /* Căn trái các phần tử */
-  align-items: flex-start; /* Căn trên các phần tử */
-  background-color: #ffffff; /* Màu nền sáng */
-  padding: 2%; /* Padding tăng thêm cho khoảng cách */
-  height: auto; /* Chiều cao tự động tùy thuộc vào nội dung */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  background-color: #ffffff;
+  padding: 2%;
+}
+
+.view-course-header-container {
+  background-color: #f2f2f2; /* Màu xám nhẹ */
+  padding: 20px; /* Khoảng cách xung quanh phần header */
+  border-radius: 8px; /* Góc bo tròn cho phần header */
+  margin-bottom: 20px; /* Khoảng cách giữa header và body */
+}
+
+.view-course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.view-course-body {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.view-course-details {
+  background-color: #E6F2FF; /* Nền xanh nhạt */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.view-course-details h3 {
+  font-size: 26px;
+  font-weight: bold;
+  color: #043873;
 }
 
 .view-course-left {
-  width: 79%; /* Chiều rộng cột trái */
-  background-color: #fff; /* Nền trắng cho cột trái */
-  border: 1px solid rgba(226, 232, 240, 1); /* Đường viền nhẹ */
-  border-radius: 10px; /* Bo tròn các góc */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Bóng đổ rõ hơn */
-  padding: 30px; /* Padding cho nội dung */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ cho chiều sâu */
-  position: sticky; /* Cố định vị trí khi cuộn */
-  top: 20px; /* Khoảng cách từ trên cùng */
+  flex: 1;
+  background-color: #fff;
+  border: 1px solid rgba(226, 232, 240, 1);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .view-course-infor {
-  background-color: #E6F2FF; /* Màu nền nhẹ nhàng */
-  border-radius: 12px; /* Bo góc */
-  padding: 20px; /* Padding bên trong */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
-  text-align: left; /* Căn trái cho tất cả các phần tử bên trong */
-  margin-bottom: 2%;
+  width: 100%;
 }
 
 .view-course-infor h3 {
-  font-size: 30px; /* Kích thước chữ cho tiêu đề phụ */
-  font-weight: 700; /* Chữ đậm hơn */
-  color: #043873; /* Màu chữ cho tiêu đề phụ */
+  font-size: 30px;
+  font-weight: bold;
+  color: #043873;
 }
 
 .view-course-infor p {
-  font-size: 120%; /* Kích thước chữ cho đoạn văn */
-  color: #333; /* Màu chữ cho đoạn văn */
-  line-height: 1.5; /* Khoảng cách dòng */
-}
-
-.view-course-intro {
-  width: 100%;
-  height: auto;
-}
-
-.view-course-intro img {
-  width: 100%;
-  height: auto;
-}
-
-.view-course-description {
-  background-color: #E6F2FF; /* Màu nền nhẹ nhàng tương tự như thông tin khóa học */
-  border-radius: 12px; /* Bo góc */
-  padding: 20px; /* Padding bên trong */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
-  text-align: left; /* Căn trái cho văn bản */
-  margin-top: 20px; /* Khoảng cách phía trên để tách khỏi các phần khác */
-}
-
-.view-course-description h3 {
-  font-size: 26px; /* Kích thước chữ lớn cho tiêu đề */
-  font-weight: bold; /* Chữ đậm */
-  color: #043873; /* Màu chữ tiêu đề */
-}
-
-.view-course-description p {
-  font-size: 120%; /* Kích thước chữ cho đoạn văn */
-  color: #333; /* Màu chữ cho đoạn văn */
-  line-height: 1.5; /* Khoảng cách dòng */
-}
-
-.view-course-esp {
-  background-color: #E6F2FF; /* Màu nền nhẹ nhàng */
-  border-radius: 12px; /* Bo góc */
-  padding: 20px; /* Padding bên trong */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
-  text-align: left; /* Căn trái cho tất cả các phần tử bên trong */
-  margin-top: 20px; /* Khoảng cách phía trên để tách khỏi các phần khác */
-}
-
-.view-course-esp p {
-  font-size: 26px; /* Kích thước chữ lớn cho tiêu đề */
-  font-weight: bold; /* Chữ đậm */
-  color: #043873; /* Màu chữ tiêu đề */
-}
-
-.view-course-detail {
-  list-style-type: none; /* Bỏ dấu chấm đầu dòng */
-  padding: 0; /* Bỏ padding cho ul */
-}
-
-.view-course-detail li {
-  font-size: 120%; /* Kích thước chữ cho các mục trong danh sách */
-  color: #333; /* Màu chữ cho các mục trong danh sách */
-  line-height: 1.5; /* Khoảng cách dòng giữa các mục */
-}
-
-.view-course-duration p {
-  font-size: 26px; /* Kích thước chữ lớn cho tiêu đề */
-  font-weight: bold; /* Chữ đậm */
-  color: #043873; /* Màu chữ tiêu đề */
-  margin-left: 2%;
-  display: block; /* Thay đổi thành phần khối */
-}
-
-.view-course-lesson ul {
-  list-style-type: none; /* Bỏ dấu chấm đầu dòng */
-}
-
-.view-course-lesson h3 {
-  font-size: 26px; /* Kích thước chữ lớn cho tiêu đề */
-  font-weight: bold; /* Chữ đậm */
-  color: #043873; /* Màu chữ tiêu đề */
-  margin-left: 2%;
-  display: block; /* Thay đổi thành phần khối */
-}
-
-.view-course-lesson li {
-  font-size: 120%; /* Kích thước chữ cho các mục trong danh sách */
-  color: #333; /* Màu chữ cho các mục trong danh sách */
-  line-height: 1.5; /* Khoảng cách dòng giữa các mục */
-  padding-left: 1%;
+  font-size: 120%;
+  color: #333;
+  line-height: 1.5;
 }
 
 .view-course-right {
-  width: 29%; /* Chiều rộng cột phải */
-  background-color: #ffffff; /* Nền trắng cho cột phải */
-  border: 1px solid rgba(226, 232, 240, 1); /* Đường viền nhẹ */
-  border-radius: 5%; /* Bo tròn các góc */
-  padding: 20px; /* Padding xung quanh nội dung */
-  display: flex; /* Sử dụng flexbox cho bố cục */
-  flex-direction: column; /* Bố cục theo chiều dọc */
-  align-items: center; /* Căn giữa các phần tử theo chiều ngang */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ cho chiều sâu */
-  margin-left: 20px; /* Thêm khoảng cách bên trái cho cột phải */
+  width: 28%;
+  background-color: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 1);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.view-course-right img {
-  width: 100%; /* Làm cho hình ảnh phản hồi */
-  height: auto; /* Giữ nguyên tỷ lệ khung hình */
-  border-radius: 8px; /* Bo tròn các góc cho hình ảnh */
-  margin-bottom: 15px; /* Khoảng cách dưới hình ảnh */
+.course-image {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
 }
 
-.view-course-right label {
-  color: #77F2A1; /* Màu xám đậm cho giá */
-  font-family: 'Inter', sans-serif; /* Phông chữ */
-  font-size: 18px; /* Kích thước phông chữ lớn hơn một chút */
-  font-weight: 600; /* Độ đậm cho chữ */
-  margin-bottom: 20px; /* Khoảng cách dưới giá */
+.course-price label {
+  color: #77F2A1;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .view-course-btn-join {
-  background-color: #043873; /* Màu nút */
-  color: #ffffff; /* Văn bản màu trắng */
-  font-family: 'Inter', sans-serif; /* Phông chữ */
-  font-size: 120%; /* Kích thước phông chữ của nút */
-  font-weight: 500; /* Độ đậm cho văn bản */
-  padding: 12px 24px; /* Padding trong nút */
-  border: none; /* Không có viền */
-  border-radius: 8px; /* Bo tròn các góc */
-  cursor: pointer; /* Con trỏ dạng tay khi di chuột */
-  transition: background-color 0.3s; /* Chuyển tiếp mượt mà cho hiệu ứng hover */
-  margin-top: 4%;
-  width:100%;
+  background-color: #043873;
+  color: white;
+  font-size: 120%;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
 }
 
 .view-course-btn-join:hover {
-  background-color: #4F76F6; /* Tối màu nút khi hover */
+  background-color: #4F76F6;
 }
