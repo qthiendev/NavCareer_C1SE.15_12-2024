@@ -17,14 +17,15 @@
 .view-course-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
+  align-items: stretch; /* Đảm bảo các phần tử con trong header có chiều cao bằng nhau */
+  gap: 15px; /* Khoảng cách nhỏ giữa view-course-left và view-course-right */
 }
 
 .view-course-body {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  width: calc(100% - 28% - 67px); /* Giảm bớt khoảng cách để chiều rộng nhỏ hơn 1 chút */
 }
 
 .view-course-details {
@@ -41,32 +42,18 @@
 }
 
 .view-course-left {
-  flex: 1;
+  flex: 1; /* Phần còn lại sẽ chiếm toàn bộ chiều rộng còn lại */
   background-color: #fff;
   border: 1px solid rgba(226, 232, 240, 1);
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.view-course-infor {
-  width: 100%;
-}
-
-.view-course-infor h3 {
-  font-size: 30px;
-  font-weight: bold;
-  color: #043873;
-}
-
-.view-course-infor p {
-  font-size: 120%;
-  color: #333;
-  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
 }
 
 .view-course-right {
-  width: 28%;
+  width: 28%; /* Chiều rộng cố định là 28% */
   background-color: #ffffff;
   border: 1px solid rgba(226, 232, 240, 1);
   border-radius: 8px;
@@ -75,6 +62,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.view-course-infor {
+  width: 100%; /* Đảm bảo rằng .view-course-infor sẽ chiếm hết chiều rộng của view-course-left */
+  box-sizing: border-box; /* Bao gồm cả padding và border trong tính toán chiều rộng */
+}
+
+.view-course-infor h3 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #043873;
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Đảm bảo rằng h3 sẽ chiếm hết chiều rộng của view-course-infor */
+  word-wrap: break-word; /* Ngắt từ nếu nội dung quá dài */
+}
+
+.view-course-infor p {
+  font-size: 120%;
+  color: #333;
+  line-height: 1.5;
+  width: 100%; /* Đảm bảo rằng p sẽ chiếm hết chiều rộng của view-course-infor */
+  word-wrap: break-word; /* Ngắt từ nếu nội dung quá dài */
 }
 
 .course-image {

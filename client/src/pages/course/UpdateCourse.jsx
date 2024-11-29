@@ -168,10 +168,10 @@ function UpdateCourse() {
 
     return (
         <div className="update-course-container">
-            <h2>Update Course</h2>
+            <h2>Cập Nhật Khóa Học</h2>
             <form onSubmit={handleUpdateCourse}>
                 <label>
-                    Course Name:
+                    Tên Khóa Học:
                     <input
                         type="text"
                         value={courseData.course_name}
@@ -179,7 +179,7 @@ function UpdateCourse() {
                     />
                 </label>
                 <label>
-                    Short Description:
+                    Mô tả ngắn:
                     <textarea
                         className="short-description"
                         maxLength="1000"
@@ -188,7 +188,7 @@ function UpdateCourse() {
                     />
                 </label>
                 <label>
-                    Full Description:
+                    Mô tả khóa học:
                     <textarea
                         className="full-description"
                         maxLength="5000"
@@ -197,7 +197,7 @@ function UpdateCourse() {
                     />
                 </label>
                 <label>
-                    Course Price:
+                    Giá Khóa Học:
                     <input
                         type="number"
                         min="0"
@@ -209,7 +209,7 @@ function UpdateCourse() {
                     />
                 </label>
                 <label>
-                    Course Duration:
+                    Thời gian dự kiến:
                     <input
                         type="text"
                         value={courseData.course_duration}
@@ -226,7 +226,7 @@ function UpdateCourse() {
                         <option value="false">Inactive</option>
                     </select>
                 </label>
-                <button type="submit">Update Course</button>
+                <button type="submit">Cập Nhật Khóa Học</button>
                 {errorMessage && <p className="error">{errorMessage}</p>}
             </form>
             <h3>Modules</h3>
@@ -250,7 +250,7 @@ function UpdateCourse() {
                 ))}
             </ul>
 
-            <button onClick={() => handleAddModule(courseData.course_id)}>Add New Module</button>
+            <button onClick={() => handleAddModule(courseData.course_id)}>Thêm Mới Module</button>
         </div>
     );
 }
