@@ -79,7 +79,7 @@ function SignIn() {
                                 <input
                                     id="signin-email"
                                     className="signin-form-input"
-                                    type="email"
+                                    type="text"
                                     placeholder="Nhập tên người dùng/email"
                                     value={account}
                                     onChange={(e) => setAccount(e.target.value)}
