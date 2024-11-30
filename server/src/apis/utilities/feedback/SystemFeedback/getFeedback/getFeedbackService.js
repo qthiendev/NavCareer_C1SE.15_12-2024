@@ -1,4 +1,4 @@
-const ncbd = require('../../../databases/ncdbService');
+const ncbd = require('../../../../databases/ncdbService');
 const tryReadFeedback = async (role) => {
     try {
         if (!role)

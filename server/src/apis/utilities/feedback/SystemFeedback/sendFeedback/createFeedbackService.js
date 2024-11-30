@@ -1,4 +1,4 @@
-const ncbd = require('../../../databases/ncdbService'); // Database connection module
+const ncbd = require('../../../../databases/ncdbService'); // Database connection module
 
 const tryCreateFeedback = async (role, aid, description) => {
     try {
