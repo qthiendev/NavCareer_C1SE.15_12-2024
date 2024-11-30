@@ -28,7 +28,7 @@
 }
 
 /* Input and Textarea Styling */
-.update-course-container input[type="text"],
+.update-course-container input,
 .update-course-container textarea,
 .update-course-container select {
     padding: 10px;
@@ -39,7 +39,7 @@
     outline: none;
 }
 
-.update-course-container input[type="text"]:focus,
+.update-course-container input:focus,
 .update-course-container textarea:focus,
 .update-course-container select:focus {
     border-color: #007bff;

@@ -1,122 +1,209 @@
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+/* Tổng thể */
 .login-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #ffffff;
+}
+
+/* Header */
+.header {
+    background-color: #ffffff;
+    padding: 5px 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng để header nổi bật */
+}
+
+.header-logo {
+    width: 10%;
+    height: auto;
+}
+
+/* Đẩy nội dung xuống dưới để không bị che */
+.signin-main {
+    margin-top: 80px; /* Điều chỉnh theo chiều cao của header */
+    width: 100%;
+    height: calc(100vh - 80px); /* Trừ chiều cao header để phù hợp viewport */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
-    gap: 10px; 
-    margin-right: 300px;
-    border-radius: 10px;
-    padding: 20px; 
+    background-image: url('/img/main_content/background_image.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
 }
 
-.login-box {
-    width: 400px; /* Adjust width if needed */
-    padding: 20px;
+/* Form */
+
+.signin-form-container {
+    width: 60%;
+    height: auto;
+    z-index: 500;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    background-color: rgba(63, 62, 62, 0.8); /* Lớp phủ mờ */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 2%;
+    border-radius: 20px;
+}
+.signin-content{
+    width: 100%;
+}
+.signin-form{
+    width: 100%;
     
 }
-
-.Header-Nav-Carrer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 1300px;
-    gap: 10px;
-  
-}
-
-.Tieude {
-    color: var(--grey-900, #0F172A);
+.signin-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
     text-align: center;
-    font-family: 'Inter', sans-serif;
-    font-size: 25px;
-    font-weight: 600;
-    line-height: 130%;
- 
+    margin-bottom: 20px;
 }
 
-.SignIn-form-group {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    gap: 6px;
-   
-}
-
-.label1 {
-    color: var(--grey-900, #0F172A);
-    font-family: Inter, sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 160%;
-}
-
-.inputtext12 {
-    width: 500px;
-    height: 59px;
-    border-radius: 10px;
-    border: 1px solid #CFD7D9;
-    background: #FFF;
+.signin-form-group {
+    width: 100%;
+    margin-bottom: 15px;
     font-size: 20px;
 }
 
-
-.forgot-password {
-    color: #4F76F6;
-    font-family: Inter, sans-serif;
-    font-size: 18px;
-  
+.signin-form-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ffffff;
 }
 
-.login-btn {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    height: 48px;
-    padding: 10px 24px;
-    border-radius: 8px;
-    background: var(--grey-text-dark, #020617);
-    color: #FFF;
-    margin-top: 20px;
+#signin-email, #signin-password {
+    width: 100% ;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #CFD7D9;
+    border-radius: 5px;
+    font-size: 20px;
 }
 
-.signup-link {
-    margin-top: 20px;
-    text-align: center;
-   
-}
-
-.signup-link span, .signup-link .signup {
-    color: var(--grey-900, #0F172A);
-    font-size: 18px;
-}
-
-.form-links {
+.signin-form-options {
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    margin-top: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-size: 20px;
+    height: auto;
 }
 
-.picture-side {
-    max-width: 460px;
-    height: auto;
+.signin-form-checkbox input {
+    width: 15px; /* Chiều rộng checkbox */
+    height: 15px; /* Chiều cao checkbox */
+    margin-right: 10px; /* Khoảng cách giữa checkbox và nhãn */
+    cursor: pointer; /* Con trỏ hiển thị khi di chuột */
+    transform: scale(1.5); /* Tăng kích thước bằng transform */
+    accent-color: #043873; /* Màu sắc của checkbox (tương thích trình duyệt hiện đại) */
+    border: 2px solid #CFD7D9; /* Viền checkbox */
+    border-radius: 4px; /* Bo góc nếu muốn */
+}
+
+
+.signin-forgot-password {
+    color: #4F76F6;
+    text-decoration: none;
+}
+
+.signin-btn {
+    width: 100%;
+    padding: 20px;
+    background: #043873;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 20px;
+}
+
+.signin-btn:hover {
+    background: #4F76F6;
+}
+
+/* Social signin */
+.social-signin {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 20px;
+}
+
+.social-text {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.social-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.facebook {
+    background: #ffffff;
+    color: #0866FF;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 15px;
+}
 
+.google {
+    background: #ffffff;
+    color: #EA4335;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
-.picture-side img {
-    width: 100%; /* Adjusts the image to fit the container */
-    height: auto;
-    border-radius: 10px; /* Optional: Rounded corners */
-    margin-left: 700px;
+
+.microsoft {
+    background: #ffffff;
+    color: #212529;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
-@media (max-width: 768px) {
-    .login-container {
-        flex-direction: column; /* Stacks form and image vertically on smaller screens */
-    }
-    .login-box, .picture-side {
-        width: 100%;
-        max-width: 90%; /* Keeps both sections within screen limits */
-    }
+
+/* Signup */
+.signup-section {
+    text-align: center;
+    font-size: 20px;
+}
+.signup-section span {
+    color: #ffffff;
+}
+.signup-link {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
 }

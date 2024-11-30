@@ -13,7 +13,7 @@
     margin-bottom: 10px; /* Space below each field row */
 }
 
-label {
+.field-row label {
     font-weight: bold; /* Make field names bold */
     min-width: 150px; /* Set a minimum width for labels to align fields */
 }
@@ -29,7 +29,7 @@ label {
 }
 
 /* Specific styles for dropdowns */
-select {
+.field-row select {
     min-width: 120px; /* Minimum width for dropdowns */
     width: auto; /* Let dropdown expand based on content */
 }
@@ -40,7 +40,7 @@ select {
     gap: 10px; /* Space between the selects */
 }
 
-button {
+.Modify-User-Button button {
     padding: 10px; /* Add padding for the button */
     font-size: 16px; /* Font size for button */
     background-color: #007bff; /* Button background color */
@@ -50,20 +50,6 @@ button {
     cursor: pointer; /* Pointer cursor on hover */
 }
 
-button:hover {
+.Modify-User-Button button:hover {
     background-color: #0056b3; /* Darker blue on hover */
-}
-
-@media (max-width: 600px) {
-    .modify-user-container {
-        padding: 10px; /* Less padding on smaller screens */
-    }
-
-    input, select {
-        font-size: 14px; /* Adjust font size for smaller screens */
-    }
-
-    button {
-        font-size: 14px; /* Smaller button font size */
-    }
 }

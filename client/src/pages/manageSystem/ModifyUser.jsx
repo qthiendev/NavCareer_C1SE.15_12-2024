@@ -174,6 +174,7 @@ function ModifyUser() {
                             type="button"
                             onClick={toggleShowPassword}
                             style={{ marginLeft: '10px', cursor: 'pointer' }}
+                            className='Modify-User-Button'
                         >
                             {showPassword ? 'Hide' : 'Show'}
                         </button>

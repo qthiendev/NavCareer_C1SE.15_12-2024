@@ -58,48 +58,92 @@ function SignIn() {
 
     return (
         <div className="login-container">
-            <div className="login-box">
-                <div className='Header-Nav-Carrer'>
-                    <img src="./assets/Header-Nav.svg" alt="" />
+            {/* Header */}
+            {/* Header */}
+            <header className="header">
+                <div className="header-content">
+                    <a href="/"><img src="/img/Header/home_sidebar.svg" alt="navCareer Logo" className="header-logo" /></a>
                 </div>
-                <h2 className='Tieude'>Đăng nhập vào tài khoản của bạn</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="SignIn-form-group">
-                        <label className='label1' htmlFor="">Email</label>
-                        <input
-                            className='inputtext12'
-                            type="text"
-                            placeholder="Nhập tên người dùng/email"
-                            value={account}
-                            onChange={(e) => setAccount(e.target.value)}
-                            required
-                        />
+            </header>
+            <div className="signin-main">
+                {/* Form đăng nhập */}
+                <div className="signin-form-container">
+                    <div className="signin-content">
+                        <h2 className="signin-title">Đăng nhập vào tài khoản của bạn</h2>
+                        <form onSubmit={handleSubmit} className="signin-form">
+                            {/* Email */}
+                            <div className="signin-form-group">
+                                <label htmlFor="email" className="signin-form-label">
+                                    Email
+                                </label>
+                                <input
+                                    id="signin-email"
+                                    className="signin-form-input"
+                                    type="email"
+                                    placeholder="Nhập tên người dùng/email"
+                                    value={account}
+                                    onChange={(e) => setAccount(e.target.value)}
+                                    required
+                                />                               
+                            </div>
+
+                            {/* Mật khẩu */}
+                            <div className="signin-form-group">
+                                <label htmlFor="password" className="signin-form-label">
+                                    Mật khẩu
+                                </label>
+                                <input
+                                    id="signin-password"
+                                    className="signin-form-input"
+                                    type="password"
+                                    placeholder="Nhập mật khẩu"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            {/* Lưu thông tin đăng nhập và quên mật khẩu */}
+                            <div className="signin-form-options">
+                                <label className="signin-form-checkbox">
+                                    <input type="checkbox" />
+                                    Lưu thông tin đăng nhập
+                                </label>
+                                <a href="#" className="signin-forgot-password">
+                                    Quên mật khẩu?
+                                </a>
+                            </div>
+
+                            {/* Nút đăng nhập */}
+                            <button type="submit" className="signin-btn">
+                                Đăng nhập
+                            </button>
+                        </form>
+
+                        {/* Thông báo lỗi */}
+                        {noti && <div className="error-message">{noti}</div>}
+
+                        {/* Đăng nhập qua mạng xã hội */}
+                        <div className="social-signin">
+                            <span className="social-text"> Hoặc đăng nhập với </span>
+                            <div className="social-buttons">
+                                <button className="social-btn facebook"><img src="/img/authen/Facebook_Logo.svg" alt="fb" />Facebook</button>
+                                <button className="social-btn google"><img src="/img/authen/Google_Logo.svg" alt="gg" />Google</button>
+                                <button className="social-btn microsoft"><img src="/img/authen/Microsoft_Logo.svg" alt="mic" />Microsoft</button>
+                            </div>
+                        </div>
+
+                        {/* Đăng ký tài khoản */}
+                        <div className="signup-section">
+                            <span>Chưa có tài khoản? </span>
+                            <a href="/signup" className="signup-link">
+                                Đăng ký
+                            </a>
+                        </div>
                     </div>
-                    <div className="SignIn-form-group">
-                        <label className='label1' htmlFor="">Mật khẩu</label>
-                        <input
-                            className='inputtext12'
-                            type="password"
-                            placeholder="Nhập mật khẩu"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className='form-links'>
-                        <a href="#" className="forgot-password">Quên mật khẩu?</a>
-                    </div>
-                    <button type="submit" className="login-btn">Đăng nhập</button>
-                </form>
-                {noti && <div className="error-message" style={{ color: 'red' }}>{noti}</div>}
-                <div className="signup-link">
-                    <span>Chưa có tài khoản? </span><a href="/signup">Đăng ký</a>
                 </div>
             </div>
-            <div className="picture-side">
-            <img src="./assets/Picture-Side.svg" alt="Description" className="login-image" />
-            </div>
-        </div>
+        </div>    
     );
 }
 

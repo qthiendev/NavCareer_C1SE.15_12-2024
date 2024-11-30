@@ -28,7 +28,7 @@
     background-color: #f1f1f1; /* Change background on hover */
 }
 
-button {
+.btn-add button {
     margin-right: 5px;
     padding: 5px 10px;
     background-color: #007BFF;
@@ -39,6 +39,6 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
+.btn-add button:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }

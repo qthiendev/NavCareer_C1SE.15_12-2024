@@ -44,13 +44,12 @@ import AdminFeedback from './pages/manageSystem/AdminFeedback.jsx';
 const Router = () => {
     return (
       <Routes>
+        <Route path="signin" element={<SignIn />} /> 
+        <Route path="signup" element={<SignUp />} />
+        
         <Route path="/" element={<Layout />}>
 
-          <Route index element={<Home />} />
-
-          <Route path="signin" element={<SignIn />} /> 
-          <Route path="signup" element={<SignUp />} /> 
-
+          <Route index element={<Home />} /> 
           <Route path="search" element={<Search />} /> 
 
           <Route path="admin" element={<AdminHome />} /> 

@@ -152,7 +152,7 @@ textarea#create-course-form-full-description {
 }
 
 
-button[type="submit"],
+
 .create-course-black-btn,
 .create-course-share-btn {
   background-color: #28a745;
@@ -166,7 +166,6 @@ button[type="submit"],
   margin-top: 10px;
 }
 
-button[type="submit"]:hover,
 .create-course-black-btn:hover,
 .create-course-share-btn:hover {
   background-color: #218838;

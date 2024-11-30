@@ -171,6 +171,7 @@ function UserFunctionESP() {
                                                         e.target.checked
                                                     )
                                                 }
+                                                className='user-function-input'
                                             />
                                         </td>
                                     ))}

@@ -13,7 +13,14 @@
   background-color: #043873; /* Màu xanh đậm */
   color: white;
   padding: 0.5% 5%;
+  position: fixed; /* Đặt header cố định */
+  top: 0; /* Cố định ở đầu trang */
+  left: 0;
+  width: 100%; /* Chiều rộng toàn trang */
+  z-index: 1000; /* Đảm bảo header nằm trên các thành phần khác */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Tạo bóng cho header */
 }
+
 
 /* Navbar Left */
 .navbar-left {
@@ -110,7 +117,7 @@
 .auth-link a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 21px;
   font-weight: bold;
   /* Độ đậm của chữ */
   text-transform: uppercase;
@@ -239,7 +246,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3); /* Lớp phủ mờ */
+  background-color: rgba(0, 0, 0, 0.8); /* Lớp phủ mờ */
   z-index: 500;
   opacity: 0;
   visibility: hidden;
@@ -257,7 +264,9 @@
   flex: 1;
   width: 100%;
   margin: 0 auto;
+  padding-top: 80px; /* Đẩy nội dung xuống 80px (cao tương ứng với header) */
 }
+
 
 /* Footer */
   

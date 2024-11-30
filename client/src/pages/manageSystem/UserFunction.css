@@ -19,7 +19,7 @@
     background-color: #f4f4f4;
 }
 
-input[type="checkbox"] {
+.user-function-input input[type="checkbox"] {
     transform: scale(1.2);
 }
 

@@ -187,7 +187,7 @@ function Layout() {
                             <li><img src="/img/Header/about_icon.svg" alt="about" /><a href="/about">Về chúng tôi</a></li>
                             {isAdmin && <li><img src="/img/Header/admin_icon.svg" alt="admin" /><a href="/admin">Dành cho nhà quản trị</a></li>}
                             {isESP && <li><img src="/img/Header/esp_icon.svg" alt="esp" /><a href="/esp">Dành cho nhà cung cấp</a></li>}
-                            {isStudent && <li><img src="/img/Header/learning_icon.svg" alt="edu" /><a href="/edu">Học tập</a></li>}
+                            {(isESP || isStudent) && (<li><img src="/img/Header/learning_icon.svg" alt="edu" /><a href="/edu">Học tập</a></li>)}
                             {(isAdmin || isESP || isStudent) && (
                                 <li><img src="/img/Header/setting_icon.svg" alt="settings" /><a href="/settings">Cài đặt</a></li>
                             )}
