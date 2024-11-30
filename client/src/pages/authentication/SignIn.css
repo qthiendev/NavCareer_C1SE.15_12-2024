@@ -96,10 +96,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin: 20px 0;
     color: #ffffff;
     font-size: 20px;
     height: auto;
+    margin-left: 30px;
 }
 
 .signin-form-checkbox input {

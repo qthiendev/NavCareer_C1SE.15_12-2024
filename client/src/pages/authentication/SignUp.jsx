@@ -104,100 +104,151 @@ function SignUp() {
 
     return (
         <div className="signup-page">
-            <div className="signup-container">
-                <div className='Header-Nav-Carrer2'>
-                    <img src="./assets/Header-Nav.svg" alt="" />
+            {/* Header */}
+            <header className="header">
+                <div className="header-content">
+                    <a href="/"><img src="/img/Header/home_sidebar.svg" alt="navCareer Logo" className="header-logo" /></a>
                 </div>
-                <h2 className='Tieude2'>Đăng ký tài khoản</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-row">
-                        <div className="SignUp-form-group1">
-                            <label htmlFor="account">Tên tài khoản:</label>
-                            <input className='input-signup'
-                                type="text"
-                                id="account"
-                                value={account}
-                                onChange={(e) => setAccount(e.target.value)}
-                                required
+            </header>
+
+            <div className="signup-main">
+                {/* Form đăng ký */}
+                <div className="signup-form-container">
+                    <h2 className="signup-title">Đăng ký tài khoản</h2>
+                    <form onSubmit={handleSubmit} className="signup-form">
+                        <div className='signup-form-row'>
+                            {/* Tên tài khoản */}
+                            <div className="signup-form-group">
+                                <label htmlFor="account" className="signup-form-label">
+                                    Tên tài khoản:
+                                </label>
+                                <input
+                                    className="signup-input"
+                                    type="text"
+                                    id="account"
+                                    placeholder="Nhập tên tài khoản"
+                                    value={account}
+                                    onChange={(e) => setAccount(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            {/* Loại người dùng */}
+                            <div className="signup-form-group">
+                                <label htmlFor="authz_id" className="signup-form-label">
+                                    Loại người dùng:
+                                </label>
+                                <select
+                                    className="signup-input"
+                                    id="authz_id"
+                                    value={authz_id}
+                                    onChange={(e) => setAuthzId(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Lựa chọn loại tài khoản</option>
+                                    <option value="2">Cung cấp dịch vụ giáo dục</option>
+                                    <option value="3">Học sinh, sinh viên</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* Email */}
+                        <div className="signup-form-row">
+                            <div style={{ width: '100%' }} className="signup-form-group">
+                                <label htmlFor="email" className="signup-form-label">
+                                    Email:
+                                </label>
+                                <input
+                                    className="signup-input"
+                                    type="email"
+                                    id="email"
+                                    placeholder="Nhập email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className='signup-form-row'>
+                            {/* Mật khẩu */}
+                            <div className="signup-form-group">
+                                <label htmlFor="password" className="signup-form-label">
+                                    Mật khẩu:
+                                </label>
+                                <input
+                                    className="signup-input"
+                                    type="password"
+                                    id="password"
+                                    placeholder="Nhập mật khẩu"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            {/* Nhập lại mật khẩu */}
+                            <div className="signup-form-group">
+                                <label htmlFor="confirmPassword" className="signup-form-label">
+                                    Nhập lại mật khẩu:
+                                </label>
+                                <input
+                                    className="signup-input"
+                                    type="password"
+                                    id="confirmPassword"
+                                    placeholder="Nhập lại mật khẩu"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        {/* Đồng ý điều khoản */}
+                        <div className="signup-form-checkbox">
+                            <input
+                                type="checkbox"
+                                id="acceptTerms"
+                                checked={acceptedTerms}
+                                onChange={(e) => setAcceptedTerms(e.target.checked)}
                             />
+                            <label htmlFor="acceptTerms">
+                                Tôi đồng ý với <a href="#">Điều khoản</a> và <a href="#">Điều kiện</a>.
+                            </label>
                         </div>
-                        <div className="SignUp-form-group3">
-                            <label htmlFor="authz_id">Loại người dùng:</label>
-                            <select className='select-signup'
-                                id="authz_id"
-                                value={authz_id}
-                                onChange={(e) => setAuthzId(e.target.value)}
-                                required
-                            >
-                                <option value="">Lựa chọn loại tài khoản</option>
-                                <option value="2">Cung cấp dịch vụ giáo dục</option>
-                                <option value="3">Học sinh, sinh viên</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="SignUp-form-group2">
-                        <label htmlFor="email">Email:</label>
-                        <input className='input-signup'
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="form-row">
-                        <div className="SignUp-form-group1">
-                            <label htmlFor="password">Mật khẩu:</label>
-                            <input className='input-signup'
-                                type="password"
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="SignUp-form-group1">
-                            <label htmlFor="confirmPassword">Nhập lại mật khẩu:</label>
-                            <input className='input-signup'
-                                type="password"
-                                id="confirmPassword"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
-                            />
+
+                        {/* Nút đăng ký */}
+                        <button className="signup-btn" type="submit">
+                            Tạo Tài Khoản
+                        </button>
+                    </form>
+
+                    {/* Hiển thị thông báo lỗi hoặc thành công */}
+                    {error && <p className="error-message">{error}</p>}
+                    {success && <p className="success-message">{success}</p>}
+                    
+                    {/* Đăng nhập qua mạng xã hội */}
+                    <div className="social-signup">
+                        <span className="social-signup-text"> Hoặc đăng ký với </span>
+                        <div className="social-signup-buttons">
+                            <button className="social-signup-btn facebook"><img src="/img/authen/Facebook_Logo.svg" alt="fb" />Facebook</button>
+                            <button className="social-signup-btn google"><img src="/img/authen/Google_Logo.svg" alt="gg" />Google</button>
+                            <button className="social-signup-btn microsoft"><img src="/img/authen/Microsoft_Logo.svg" alt="mic" />Microsoft</button>
                         </div>
                     </div>
-                    <div className="checkbox-container">
-                        <input
-                            type="checkbox"
-                            id="acceptTerms"
-                            checked={acceptedTerms}
-                            onChange={(e) => setAcceptedTerms(e.target.checked)}
-                        />
-                        <label htmlFor="acceptTerms">
-                            Tôi đồng ý với <a href="">Điều khoản</a> và <a href="">Điều kiện</a>
-                        </label>
+
+                    {/* Chuyển hướng đăng nhập */}
+                    <div className="signin-section">
+                        <span>Đã có tài khoản? </span>
+                        <a href="/signin" className="signin-link">
+                            Đăng nhập
+                        </a>
                     </div>
-                    <button className='btn-signup' type="submit">Tạo Tài Khoản </button>
-                </form>
-                {error && <p className="error">{error}</p>}
-                {success && <p className="success">{success}</p>}
-                <p className="login-link">
-                    Bạn đã có tài khoản? <a href="/signin">Đăng nhập ngay</a>
-                </p>
-                <div className="signup-notes">
-                    <h3>Lưu ý</h3>
-                    <ul>
-                        <li><strong>Tên người dùng:</strong> Viết thường, không dấu, chỉ bao gồm chữ cái và số, tối đa 12 ký tự.</li>
-                        <li><strong>Mật khẩu:</strong> Bao gồm chữ in hoa, chữ in thường, số và ký tự đặc biệt, dài từ 6-12 ký tự.</li>
-                    </ul>
                 </div>
-            </div>
-            <div className="picture-side1">
-                <img src="./assets/Picture-Side.svg" alt="Description" className="login-image" />
             </div>
         </div>
     );
+
 }
 
 export default SignUp;

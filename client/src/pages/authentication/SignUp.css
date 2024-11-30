@@ -1,164 +1,224 @@
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Tổng thể */
 .signup-page {
     display: flex;
-    justify-content: center; /* Center the content horizontally */
-    align-items: center; /* Center the content vertically */
-    height: 100vh; 
-    margin-left: 700px;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #ffffff;
 }
 
-.signup-container{
-    width: 696px;
-    height: 773px;
-    flex-shrink: 0;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for style */
-    background-color: #ffffff; /* Background color for the form */
-    border-radius: 10px; /* Optional rounded corners */
-
-}
-.picture-side1 {
-    flex: 1; /* Take the remaining space */
-    display: flex;
-    justify-content: center; /* Center image horizontally */
-    align-items: center; /* Center image vertically */
-    
-}
-
-.picture-side1 img {
-    max-width: 696px; /* Responsive image */
-    height: 773px; /* Maintain aspect ratio */
-    border-radius: 8px;
-    margin-right: 690px; /* Optional: rounded corners */
-
-}
-.SignUp-form-group1 label{
-color: var(--grey-900, #0F172A);
-font-family: 'Inter', sans-serif;
-font-size: 18px;
-font-style: normal;
-font-weight: 600;
-line-height: 160%; 
-}
-.SignUp-form-group2 label{
-color: var(--grey-900, #0F172A);
-font-family: 'Inter', sans-serif;
-font-size: 18px;
-font-style: normal;
-font-weight: 600;
-line-height: 160%; 
-
-}
-.SignUp-form-group1 .input-signup{
-width: 320px;
-height: 58px;
-flex-shrink: 0;
-border-radius: 10px;
-border: 1px solid #CFD7D9;
-font-size: 20px;
-}
-.SignUp-form-group3 .select-signup{
- width: 330px;
-height: 58px;
-flex-shrink: 0;
-border-radius: 10px;
-border: 1px solid #CFD7D9;
-font-size: 18px;
-
-}
-.SignUp-form-group2 .input-signup{
-    width: 680px;
-    height: 58px;
-    flex-shrink: 0;
-    border-radius: 10px;
-border: 1px solid #CFD7D9;
-font-size: 18px;
-}
-.btn-signup{
-display: inline-flex;
-height: 48px;
-padding: 10px 24px;
-justify-content: center;
-align-items: center;
-gap: 6px;
-flex-shrink: 0;
-border-radius: 8px;
-background: var(--grey-text-dark, #020617);
-}
-.signup-container .form-row {
-    display: flex;
-    gap: 20px; /* Space between the two fields */
-    margin-bottom: 15px; /* Space below the row */
-}
-
-.SignUp-form-group {
-    flex: 1; /* Make each field take up equal space */
-}
-
-.input-signup, .select-signup {
+/* Header */
+.header {
+    background-color: #ffffff;
+    padding: 5px 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng để header nổi bật */
 }
 
-.signup-container label {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 5px;
-    display: block;
+.header-logo {
+    width: 10%;
+    height: auto;
 }
-.checkbox-container {
+
+/* Đẩy nội dung xuống dưới để không bị che */
+.signup-main {
+    margin-top: 80px; /* Điều chỉnh theo chiều cao của header */
+    width: 100%;
+    height: calc(100vh - 80px); /* Trừ chiều cao header để phù hợp viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/img/main_content/background_image.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Form */
+.signup-form-container {
+    width: 60%;
+    height: auto;
+    z-index: 500;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    background-color: rgba(63, 62, 62, 0.8); /* Lớp phủ mờ */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 2%;
+    border-radius: 20px;
+}
+
+.signup-content {
+    width: 100%;
+}
+
+.signup-form {
+    width: 100%;
+}
+
+.signup-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signup-form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    font-size: 20px;
+}
+
+.signup-form-group {
+    width: 48%; /* Chiếm một phần nhỏ của row */
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.signup-form-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.signup-input {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #CFD7D9;
+    border-radius: 5px;
+    font-size: 20px;
+}
+/* Đồng ý điều khoản */
+.signup-form-checkbox {
+    display: flex;
+    align-items: center; /* Canh giữa checkbox và label */
+    font-size: 20px; /* Đặt kích thước chữ phù hợp */
+    font-weight: 700;
+    color: #6c757d; /* Màu chữ cho label */
+    margin: 20px 0;
+    margin-left: 30px;
+}
+.signup-form-checkbox input {
+    width: 15px; /* Chiều rộng checkbox */
+    height: 15px; /* Chiều cao checkbox */
+    margin-right: 10px; /* Khoảng cách giữa checkbox và nhãn */
+    cursor: pointer; /* Con trỏ hiển thị khi di chuột */
+    transform: scale(1.5); /* Tăng kích thước bằng transform */
+    accent-color: #043873; /* Màu sắc của checkbox (tương thích trình duyệt hiện đại) */
+    border: 2px solid #CFD7D9; /* Viền checkbox */
+    border-radius: 4px; /* Bo góc nếu muốn */
+}
+.signup-form-checkbox label {
+    font-size: 20px; /* Đặt kích thước chữ phù hợp */
+    font-weight: 700;
+    color: #ffffff; /* Màu chữ cho label */
+}
+
+.signup-form-checkbox a {
+    color: #4F76F6; /* Màu chữ cho liên kết */
+    text-decoration: none; /* Loại bỏ gạch chân mặc định của liên kết */
+}
+
+.signup-form-checkbox a:hover {
+    text-decoration: underline; /* Gạch chân khi hover vào liên kết */
+}
+.signup-btn {
+    width: 100%;
+    padding: 20px;
+    background: #043873;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 20px;
+}
+
+.signup-btn:hover {
+    background: #4F76F6;
+}
+
+/* Social signup */
+.social-signup {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 20px;
+}
+
+.social-signup-text {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.social-signup-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-signup-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.facebook {
+    background: #ffffff;
+    color: #0866FF;
+    font-weight: 700;
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
+    justify-content: center;
+    gap: 15px;
 }
 
-.checkbox-container input[type="checkbox"] {
-    margin-right: 10px;
+.google {
+    background: #ffffff;
+    color: #EA4335;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
 
-.checkbox-container a {
-    color: #0073e6;
+.microsoft {
+    background: #ffffff;
+    color: #212529;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Signin */
+.signin-section {
+    text-align: center;
+    font-size: 20px;
+}
+.signin-section span {
+    color: #ffffff;
+}
+.signin-link {
+    color: #0056b3;
     text-decoration: none;
-    margin-left: 4px;
-    font-family: 'Inter', sans-serif;
-}
-
-.checkbox-container a:hover {
-    text-decoration: underline;
-}
-.signup-notes {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    color: #333;
-    font-size: 14px;
-}
-
-.signup-notes h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #0F172A; /* Match this color with your form's label color */
-}
-
-.signup-notes ul {
-    list-style-type: disc;
-    padding-left: 20px;
-}
-
-.signup-notes li {
-    margin-bottom: 8px;
-    line-height: 1.6;
-}
-.error {
-    color: red; /* Màu chữ cảnh báo */
-    font-size: 30px; /* Tăng kích thước chữ (bạn có thể điều chỉnh số này để phù hợp hơn) */
-    font-weight: bold; /* Tùy chọn: Làm đậm chữ */
-    margin-top: 10px; /* Tạo khoảng cách với phần tử phía trên */
+    font-weight: bold;
 }
