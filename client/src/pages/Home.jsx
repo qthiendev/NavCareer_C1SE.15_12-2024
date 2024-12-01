@@ -178,7 +178,7 @@ const navigate = useNavigate();
           <p className="description">
             Tạo ra một môi trường khám phá, học tập và phát triển liên tục, giúp mọi người đạt được mục tiêu nghề nghiệp của mình.
           </p>
-          <a className="test-button">
+          <a className="test-button" onClick={() => navigate('/servey')}>
             <p>THỰC HIỆN BÀI TEST</p>
             <img src="./img/main_content/arrow.svg" alt="" />
           </a>
