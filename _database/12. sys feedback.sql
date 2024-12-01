@@ -143,19 +143,23 @@ BEGIN
         WHERE 
             e.[user_id] = @userId AND e.course_id = @courseId;
 
+        -- Trả thông báo thay vì PRINT
+        SELECT N'Cảm ơn vì góp ý của bạn' AS Message;
+
         -- Commit transaction nếu thành công
         COMMIT TRANSACTION;
-        PRINT 'Feedback has been added successfully.';
     END
     ELSE
     BEGIN
+        -- Trả thông báo thay vì PRINT
+        SELECT N'Bạn chưa tham gia khóa học Này' AS Message;
+
         -- Rollback transaction nếu user không có enrollment
         ROLLBACK TRANSACTION;
-        PRINT 'User has not enrolled in the specified course.';
     END
 END;
-GO
---EXEC createFeedbackCourse @userId = 2, @courseId =10, @description= N'bzcvbzcvbzbz';
+go
+--EXEC createFeedbackCourse @userId = 1, @courseId =1, @description= N'bzcvbzcvbzkdfkjdkfjvafvkafvbz';
 
 
 

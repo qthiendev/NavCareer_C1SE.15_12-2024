@@ -24,7 +24,7 @@ function ViewCourse() {
                 { withCredentials: true } // Quan trọng: Để gửi cookie của session
             );
             if (response.status === 201) {
-                setMessage('Cảm ơn vì góp ý của bạn!');
+                setMessage(response.data.details);
                 setDescription('');
             } else {
                 setError(response.data.message);

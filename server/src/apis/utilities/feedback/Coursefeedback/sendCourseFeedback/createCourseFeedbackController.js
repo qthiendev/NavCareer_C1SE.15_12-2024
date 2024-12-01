@@ -8,20 +8,27 @@ const createCourseFeedback = async (req, res) => {
 
         // Validate input
         if (!description) {
-            console.warn(`[${now.toLocaleString()}] at createCourseFeedbackController.js/CreateCourseFeedback | Missing description.`);
+            console.warn(`[${now.toLocaleString()}] at createCourseFeedbackController.js/CreateCourseFeedback | Missing description .`);
             return res.status(400).json({
-                message: 'Feedback description is required.',
+                message: 'Feedback description and course_id are required.',
                 time: now.toLocaleString()
             });
         }
+        else if(!course_id){
+            console.warn(`[${now.toLocaleString()}] at createCourseFeedbackController.js/CreateCourseFeedback | Missing course_id.`);
+            return res.status(400).json({
+                message: 'Feedback description and course_id are required.',
+                time: now.toLocaleString()
+            });
+        }
+        // Gọi service để thực thi thủ tục
+        const { result, messages } = await tryCreateCourseFeedback(role, aid, description, course_id);
 
-        // Call the service to execute the stored procedure
-        const result = await tryCreateCourseFeedback(role, aid, description, course_id);
-
-        console.log(`[${now.toLocaleString()}] at createCourseFeedbackController.js/CreateCourseFeedback | Feedback created successfully.`);
+        console.log(`[${now.toLocaleString()}] at createCourseFeedbackController.js/CreateCourseFeedback | Feedback processed successfully.`);
         return res.status(201).json({
-            message: 'Feedback created successfully.',
-            result, // Optional: Include the result
+            message: 'Feedback processed successfully.',
+            details: messages, // Trả thông báo từ SQL
+            result,
             time: now.toLocaleString()
         });
     } catch (error) {
