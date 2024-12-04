@@ -1,302 +1,153 @@
 [
     {
         "Code": 1,
-        "Description": "Thiết kế và giám sát các dự án xây dựng như cầu và tòa nhà.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/03/29/12/47/architecture-1283726_960_720.jpg"
+        "Description": "Kỹ sư Robot công nghiệp",
+        "image_url": "https://cncvina.com.vn/uploads/6659/ky-su-va-chuyen-gia-bao-tri-large.webp"
     },
     {
         "Code": 2,
-        "Description": "Thu thập và phân tích dữ liệu để hỗ trợ quyết định kinh doanh.",
-        "image_url": "https://cdn.pixabay.com/photo/2019/04/15/15/45/data-4137080_960_720.jpg"
+        "Description": "Kỹ thuật viên ô tô điện",
+        "image_url": "https://duhocduc.vn/wp-content/uploads/2020/04/ky-thuat-dien-tu.jpg"
     },
     {
         "Code": 3,
-        "Description": "Tạo hình ảnh truyền tải thông điệp như logo và poster.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/03/22/15/39/poster-2163583_960_720.jpg"
+        "Description": "Kỹ thuật viên lắp đặt năng lượng mặt trời",
+        "image_url": "https://www.evn.com.vn/userfile/User/minhhanh/images/2020/5/4520cpcsolar.jpg"
     },
     {
         "Code": 4,
-        "Description": "Quản lý tuyển dụng và đào tạo nhân viên cho tổ chức.",
-        "image_url": "https://cdn.pixabay.com/photo/2020/04/14/14/40/meeting-5047573_960_720.jpg"
+        "Description": "Nhân viên kỹ thuật xây dựng",
+        "image_url": "https://www.umt.edu.vn/vi-vn/images/resize-770x0/upload/media/M646b32c625ab7/co-hoi-viec-lam-nganh-xay-dung.png?v=1.31"
     },
     {
         "Code": 5,
-        "Description": "Lập kế hoạch và triển khai chiến lược tiếp thị.",
-        "image_url": "https://cdn.pixabay.com/photo/2018/03/05/06/02/social-media-3190191_960_720.jpg"
+        "Description": "Kỹ thuật viên vận hành máy CNC",
+        "image_url": "https://esuhai.vn/upload/vieclamvadaotao/2018/11/13/154210438571.jpg"
     },
     {
         "Code": 6,
-        "Description": "Phân tích tài chính để đưa ra dự báo và khuyến nghị đầu tư.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/11/22/19/06/stock-1840760_960_720.jpg"
+        "Description": "Nhà nghiên cứu di truyền học",
+        "image_url": "https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/https://cms-prod.s3-sgn09.fptcloud.com/nhung_dieu_ban_can_biet_ve_lieu_phap_gen_gene_therapy_1_c74076a2ab.jpeg"
     },
     {
         "Code": 7,
-        "Description": "Phát triển và bảo trì phần mềm ứng dụng.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/12/28/09/47/technology-1931744_960_720.jpg"
+        "Description": "Nhà phân tích dữ liệu khoa học xã hội",
+        "image_url": "https://huongnghiep40.vn/wp-content/uploads/2020/05/huong-nghiep-40-chuyen-gia-phan-tich-du-lieu-3-scaled.jpg"
     },
     {
         "Code": 8,
-        "Description": "Tối ưu hóa trải nghiệm người dùng cho sản phẩm số.",
-        "image_url": "https://cdn.pixabay.com/photo/2020/11/02/14/17/user-experience-5708816_960_720.jpg"
+        "Description": "Nhà nghiên cứu trí tuệ nhân tạo",
+        "image_url": "https://cms.rightpath.edu.vn/uploads/TTNT_1f_1_ebe37be9c4.jpg"
     },
     {
         "Code": 9,
-        "Description": "Thiết kế các công trình xây dựng và không gian sống.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/12/28/09/48/architecture-1932165_960_720.jpg"
+        "Description": "Nhà vật lý học",
+        "image_url": "https://images2.thanhnien.vn/528068263637045248/2024/1/24/ptn-17060931410751835215357.jpg"
     },
     {
         "Code": 10,
-        "Description": "Nghiên cứu các hệ thống sống như động vật và thực vật.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/04/12/18/10/lab-2228619_960_720.jpg"
+        "Description": "Nhà sinh học biển",
+        "image_url": "https://work247.vn/pictures/images/nganh-hai-duong-hoc-5.jpg"
     },
     {
         "Code": 11,
-        "Description": "Quản lý sổ sách tài chính và chuẩn bị báo cáo.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/12/28/09/53/accounting-1932137_960_720.jpg"
+        "Description": "Nhà thiết kế đồ họa 3D",
+        "image_url": "https://blogin3d.com/wp-content/uploads/2018/02/thiet-ke-ky-thuat-ky-su-thiet-ke-may.jpg"
     },
     {
         "Code": 12,
-        "Description": "Giảng dạy và hướng dẫn học sinh trong học tập.",
-        "image_url": "https://cdn.pixabay.com/photo/2015/09/05/21/51/teaching-924904_960_720.jpg"
+        "Description": "Nhà thiết kế nội thất",
+        "image_url": "https://diaocthinhvuong.vn/wp-content/uploads/2023/02/nha-thiet-ke-thai-cong-ngoi-tren-sofa-scaled-1.jpg"
     },
     {
         "Code": 13,
-        "Description": "Hỗ trợ tinh thần và tư vấn tâm lý cho bệnh nhân.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/06/13/22/42/consulting-2402637_960_720.jpg"
+        "Description": "Nhạc sĩ điện tử",
+        "image_url": "https://kilala.vn/data/article/edmfb.png"
     },
     {
         "Code": 14,
-        "Description": "Đảm bảo dự án hoàn thành đúng thời hạn và ngân sách.",
-        "image_url": "https://cdn.pixabay.com/photo/2015/09/05/22/46/project-924905_960_720.jpg"
+        "Description": "Nhiếp ảnh gia chuyên nghiệp",
+        "image_url": "https://gobranding.com.vn/wp-content/uploads/2023/06/3-photographer-la-gi.jpg"
     },
     {
         "Code": 15,
-        "Description": "Thiết kế và bảo trì các hệ thống máy móc và cơ khí.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/08/19/10/46/engineering-1602840_960_720.jpg"
+        "Description": "Nhà thiết kế thời trang",
+        "image_url": "https://www.hoasen.edu.vn/tuyensinh/wp-content/uploads/sites/7/2023/03/hoc-thiet-ke-thoi-trang-can-nhung-gi-hinh-anh2.png"
     },
     {
         "Code": 16,
-        "Description": "Quảng bá thương hiệu qua các nền tảng trực tuyến.",
-        "image_url": "https://cdn.pixabay.com/photo/2019/10/10/18/51/social-media-4542105_960_720.jpg"
+        "Description": "Chuyên gia tâm lý học lâm sàng",
+        "image_url": "https://vinuni.edu.vn/wp-content/uploads/2024/08/tam-ly-hoc-lam-sang-la-gi-1.jpg"
     },
     {
         "Code": 17,
-        "Description": "Tạo nội dung bài viết để thu hút khách hàng.",
-        "image_url": "https://cdn.pixabay.com/photo/2015/05/31/11/56/startup-791585_960_720.jpg"
+        "Description": "Chuyên viên tư vấn giáo dục",
+        "image_url": "https://images.careerviet.vn/content/images/yeu-cau-ve-pham-chat-va-ki-nang-doi-voi-Education-Consultant-careerbuilder.jpg"
     },
     {
         "Code": 18,
-        "Description": "Cung cấp tư vấn và hỗ trợ cho các cá nhân và cộng đồng.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/11/14/22/18/meeting-2954050_960_720.jpg"
+        "Description": "Nhân viên công tác xã hội",
+        "image_url": "https://glints.com/vn/blog/wp-content/uploads/2023/12/nhan-vien-cong-tac-xa-hoi-la-gi-glints.jpg"
     },
     {
         "Code": 19,
-        "Description": "Nghiên cứu và phân tích các vấn đề môi trường.",
-        "image_url": "https://cdn.pixabay.com/photo/2015/05/15/14/56/environmental-768749_960_720.jpg"
+        "Description": "Giảng viên kỹ năng mềm",
+        "image_url": "https://media.licdn.com/dms/image/v2/C4E12AQF2hKoRdB7OcA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1534994033237?e=2147483647&v=beta&t=ezGbNwPkJ7dV-E7lMDtJ8lOuN0fuBVHmyQAA7eg380o"
     },
     {
         "Code": 20,
-        "Description": "Phát triển sản phẩm kết hợp giữa thẩm mỹ và chức năng.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/03/27/21/14/architecture-1283155_960_720.jpg"
+        "Description": "Chuyên viên truyền thông xã hội",
+        "image_url": "https://hrchannels.com/uptalent/attachments/images/20230323/112447979_chuyen-vien-truyen-thong-4.jpg"
     },
     {
         "Code": 21,
-        "Description": "Phân tích và giải thích dữ liệu thống kê phức tạp.",
-        "image_url": "https://cdn.pixabay.com/photo/2018/01/17/07/47/analytics-3088958_960_720.jpg"
+        "Description": "Chuyên gia khởi nghiệp công nghệ",
+        "image_url": "https://media.vneconomy.vn/640x360/images/upload/2022/11/09/khoi-nghiep-sang-tao.jpg"
     },
     {
         "Code": 22,
-        "Description": "Nghiên cứu các hiện tượng vật lý trong tự nhiên.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/08/30/01/10/physics-2690604_960_720.jpg"
+        "Description": "Quản lý chuỗi cung ứng",
+        "image_url": "https://hrchannels.com/uptalent/attachments/images/20240301/171459407_truong-phong-logistics-2.jpg"
     },
     {
         "Code": 23,
-        "Description": "Chuẩn bị và nấu ăn cho nhà hàng hoặc khách sạn.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/03/05/22/15/chef-1239241_960_720.jpg"
+        "Description": "Chuyên viên marketing số",
+        "image_url": "https://tanthoidai.com.vn/images/articles/2016/06/14/131103526244295000.jpg"
     },
     {
         "Code": 24,
-        "Description": "Lập kế hoạch và tổ chức các sự kiện quan trọng.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/09/09/14/16/conference-2738124_960_720.jpg"
+        "Description": "Quản lý dự án",
+        "image_url": "https://landing-assets.gapowork.com/uploads/mceu_455091453271682522941956_3fc35fbceb.png"
     },
     {
         "Code": 25,
-        "Description": "Xây dựng và quản lý doanh nghiệp của riêng mình.",
-        "image_url": "https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849825_960_720.jpg"
+        "Description": "Chuyên gia thương mại điện tử",
+        "image_url": "https://cdn.thuvienphapluat.vn//uploads/tintuc/2022/03/03/thuong-mai-dien-tu.jpg"
     },
     {
         "Code": 26,
-        "Description": "Quản lý các đội bán hàng và chiến lược kinh doanh.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/08/22/15/47/business-1613009_960_720.jpg"
+        "Description": "Nhân viên quản trị dữ liệu",
+        "image_url": "https://upload.tanca.io/api/upload/news/64c31e72bee1f8f0d0039f31?name=64c31e725bd24YUIS1487988-database-administrator-1.jpg"
     },
     {
         "Code": 27,
-        "Description": "Thiết kế và phát triển các thiết bị y sinh học.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/08/10/08/33/medicine-2617636_960_720.jpg"
+        "Description": "Chuyên viên kiểm toán CNTT",
+        "image_url": "https://media.tapchitaichinh.vn/w1480/images/upload/2023/11/10/3625e2de-45cc-4b14-bb92-b7139af37052.jpg"
     },
     {
         "Code": 28,
-        "Description": "Chăm sóc và điều trị cho động vật.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/11/29/09/32/animal-1868935_960_720.jpg"
+        "Description": "Chuyên viên quản trị nhân sự",
+        "image_url": "https://www.pace.edu.vn/uploads/news/2023/04/4-nhiem-vu-cua-quan-tri-nhan-su.jpg"
     },
     {
         "Code": 29,
-        "Description": "Hỗ trợ khách hàng cải thiện thể chất và sức khỏe.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/06/07/16/45/training-1440771_960_720.jpg"
+        "Description": "Chuyên viên xử lý tài liệu pháp lý",
+        "image_url": "https://hrchannels.com/uptalent/attachments/images/20201118/1605694981281-chuyen-vien-phap-che-va-nhung-su-that-lam-tuong-2.jpg"
     },
     {
         "Code": 30,
-        "Description": "Dịch văn bản và nội dung giữa các ngôn ngữ khác nhau.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/01/28/16/20/translate-1169727_960_720.jpg"
-    },
-    {
-        "Code": 31,
-        "Description": "Thiết kế và sản xuất trang phục thời trang.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/03/05/23/02/clothes-1239668_960_720.jpg"
-    },
-    {
-        "Code": 32,
-        "Description": "Nghiên cứu và phát triển hệ thống AI.",
-        "image_url": "https://cdn.pixabay.com/photo/2020/08/25/16/42/ai-5512448_960_720.jpg"
-    },
-    {
-        "Code": 33,
-        "Description": "Thiết kế và phát triển các sản phẩm hóa học.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/08/27/00/38/laboratory-2683736_960_720.jpg"
-    },
-    {
-        "Code": 34,
-        "Description": "Viết và xuất bản các bài báo và báo cáo.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/11/14/22/17/workspace-2954050_960_720.jpg"
-    },
-    {
-        "Code": 35,
-        "Description": "Chuẩn bị và cung cấp thuốc cho bệnh nhân.",
-        "image_url": "https://daihoctantrao.edu.vn/media/news/tim-hieu-tieu-chuan-va-nhiem-vu-cua-duoc-si-hang-3.jpg"
-    },
-    {
-        "Code": 36,
-        "Description": "Quản lý vòng đời phát triển sản phẩm.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/03/26/23/17/management-1287384_960_720.jpg"
-    },
-    {
-        "Code": 37,
-        "Description": "Hỗ trợ khách hàng trong việc giải quyết vấn đề.",
-        "image_url": "https://cdn.pixabay.com/photo/2018/03/02/20/52/helpdesk-3191754_960_720.jpg"
-    },
-    {
-        "Code": 38,
-        "Description": "Quản lý chuỗi cung ứng và logistics.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/11/28/13/54/logistics-1867126_960_720.jpg"
-    },
-    {
-        "Code": 39,
-        "Description": "Biên tập và chỉnh sửa nội dung video.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/08/08/02/18/video-2608731_960_720.jpg"
-    },
-    {
-        "Code": 40,
-        "Description": "Sáng tác và biểu diễn âm nhạc.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/07/27/14/47/band-1543260_960_720.jpg"
-    },
-    {
-        "Code": 41,
-        "Description": "Tư vấn và đại diện pháp lý cho khách hàng.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/02/19/10/00/lawyer-1209401_960_720.jpg"
-    },
-    {
-        "Code": 42,
-        "Description": "Quản lý mối quan hệ công chúng cho tổ chức.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/06/06/17/06/presentation-1439248_960_720.jpg"
-    },
-    {
-        "Code": 43,
-        "Description": "Thiết kế và bảo trì các hệ thống điện.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/02/19/10/01/engineer-1209636_960_720.jpg"
-    },
-    {
-        "Code": 44,
-        "Description": "Thiết kế và phát triển các trò chơi.",
-        "image_url": "https://cdn.pixabay.com/photo/2015/09/04/23/28/video-game-923814_960_720.jpg"
-    },
-    {
-        "Code": 45,
-        "Description": "Phân tích và trực quan hóa dữ liệu lớn.",
-        "image_url": "https://cdn.pixabay.com/photo/2018/05/18/19/57/statistics-3411474_960_720.jpg"
-    },
-    {
-        "Code": 46,
-        "Description": "Nghiên cứu về khoa học nông nghiệp.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/08/25/20/24/plantation-1625096_960_720.jpg"
-    },
-    {
-        "Code": 47,
-        "Description": "Hỗ trợ khách hàng tại ngân hàng.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/06/06/23/10/bank-2386362_960_720.jpg"
-    },
-    {
-        "Code": 48,
-        "Description": "Hướng dẫn khách du lịch trong các chuyến tham quan.",
-        "image_url": "https://cdn.pixabay.com/photo/2015/06/24/15/45/boats-820527_960_720.jpg"
-    },
-    {
-        "Code": 49,
-        "Description": "Thiết kế và chế tạo đồ nội thất gỗ.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/03/28/12/18/wood-2185135_960_720.jpg"
-    },
-    {
-        "Code": 50,
-        "Description": "Sửa chữa và bảo trì thiết bị cơ khí.",
-        "image_url": "https://cdn.pixabay.com/photo/2015/09/02/13/11/machine-918683_960_720.jpg"
-    },
-    {
-        "Code": 51,
-        "Description": "Chẩn đoán và điều trị bệnh cho con người.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/04/13/21/57/hospital-1322332_960_720.jpg"
-    },
-    {
-        "Code": 52,
-        "Description": "Thực hiện các ca phẫu thuật cho bệnh nhân.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/09/29/20/36/surgery-2798550_960_720.jpg"
-    },
-    {
-        "Code": 53,
-        "Description": "Cung cấp lời khuyên về dinh dưỡng.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/03/05/22/11/salad-1238659_960_720.jpg"
-    },
-    {
-        "Code": 54,
-        "Description": "Nghiên cứu và phát triển trong lĩnh vực khoa học.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/03/09/09/15/laboratory-1245720_960_720.jpg"
-    },
-    {
-        "Code": 55,
-        "Description": "Nghiên cứu và phân tích các bệnh dịch.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/11/08/05/27/scientist-1804728_960_720.jpg"
-    },
-    {
-        "Code": 56,
-        "Description": "Nghiên cứu hành vi và môi trường sống của động vật.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/03/30/13/40/wildlife-2186367_960_720.jpg"
-    },
-    {
-        "Code": 57,
-        "Description": "Nghiên cứu và quan sát các hiện tượng thiên văn.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/09/23/23/45/starry-sky-1792414_960_720.jpg"
-    },
-    {
-        "Code": 58,
-        "Description": "Phân tích và dự báo các xu hướng kinh tế.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/11/22/20/10/finance-1850733_960_720.jpg"
-    },
-    {
-        "Code": 59,
-        "Description": "Hỗ trợ và vận động cho quyền con người.",
-        "image_url": "https://cdn.pixabay.com/photo/2016/12/15/18/33/rights-1917078_960_720.jpg"
-    },
-    {
-        "Code": 60,
-        "Description": "Cải thiện sức khỏe cộng đồng qua giáo dục và dịch vụ y tế.",
-        "image_url": "https://cdn.pixabay.com/photo/2017/10/10/21/48/medical-2835901_960_720.jpg"
+        "Description": "Nhân viên kế toán quản trị",
+        "image_url": "https://images.careerviet.vn/content/images/ke%20toan-quan-tri-la-gi-careerbuilder.png"
     }
+    
 ]
