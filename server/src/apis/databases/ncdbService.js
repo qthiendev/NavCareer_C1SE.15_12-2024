@@ -10,6 +10,8 @@ const tryConnect = async (role) => {
             password: process.env[`${role}_PASSWORD`]
         };
 
+        console.log(dbConfig)
+
         const pool = new sql.ConnectionPool(dbConfig);
         await pool.connect();
 
