@@ -10,7 +10,8 @@ const now = new Date();
 
 const app = express();
 const PORT = 5000;
-const numCores = os.cpus().length;
+//const numCores = os.cpus().length;
+const numCores = 1;
 
 const redisClient = redis.createClient({ url: 'redis://127.0.0.1:6379' });
 
