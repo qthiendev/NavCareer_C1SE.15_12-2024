@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const { RedisStore } = require('connect-redis'); // Import the Redis session store
+const { RedisStore } = require('connect-redis');
 const redis = require('redis');
 const cors = require('cors');
 const cluster = require('cluster');
@@ -12,42 +12,63 @@ const app = express();
 const PORT = 5000;
 const numCores = os.cpus().length;
 
-let useRedis = true; // Flag to toggle Redis usage
+let useRedis = true;
 
 const corsOptions = {
     origin: 'http://localhost:5173',
     credentials: true,
 };
 
-// Configure Redis client
 const redisClient = redis.createClient({
     url: 'redis://127.0.0.1:6379',
+    socket: {
+        reconnectStrategy: (retries) => {
+            console.error(`[${now.toLocaleString()}] Redis connection attempt ${retries}`);
+            return retries > 3 ? new Error('Retry limit reached') : 1000; // Retry 3 times
+        },
+    },
 });
 
 async function connectRedis() {
     try {
         await redisClient.connect();
         console.log(`[${now.toLocaleString()}] Connected to Redis successfully.`);
+        monitorRedis(); // Start monitoring Redis events
     } catch (err) {
         console.error(`[${now.toLocaleString()}] Failed to connect to Redis:`, err.message);
-        useRedis = false; // Fallback to normal session if Redis connection fails
+        useRedis = false;
     }
 }
 
-// Middleware and session setup
+function monitorRedis() {
+    redisClient.on('error', (err) => {
+        console.error(`[${now.toLocaleString()}] Redis error:`, err.message);
+        handleCriticalFailure();
+    });
+
+    redisClient.on('end', () => {
+        console.error(`[${now.toLocaleString()}] Redis connection lost.`);
+        handleCriticalFailure();
+    });
+}
+
+function handleCriticalFailure() {
+    console.error(`[${now.toLocaleString()}] Critical error detected. Restarting server...`);
+    process.exit(1); // Exit the process to trigger a restart
+}
+
 function setupMiddleware(app) {
     app.use(cors(corsOptions));
     app.use(cookieParser());
 
-    // Configure session store
     const sessionOptions = {
         secret: 'NavCareerProject',
         resave: false,
         saveUninitialized: true,
         cookie: {
             httpOnly: true,
-            secure: false, // Set to true if using HTTPS
-            maxAge: 24 * 60 * 60 * 1000, // 1 day
+            secure: false,
+            maxAge: 24 * 60 * 60 * 1000,
         },
     };
 
@@ -63,7 +84,6 @@ function setupMiddleware(app) {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
-    // Initialize default session role
     app.use((req, res, next) => {
         if (!req.session.role) {
             req.session.role = 'NAV_GUEST';
@@ -72,7 +92,6 @@ function setupMiddleware(app) {
     });
 }
 
-// Main app logic
 async function startApp() {
     await connectRedis();
 
@@ -80,7 +99,6 @@ async function startApp() {
         console.clear();
         console.log(`[${now.toLocaleString()}] Master process running on PID: ${process.pid}`);
 
-        // Fork workers based on the number of CPU cores
         for (let i = 0; i < numCores; i++) {
             const worker = cluster.fork();
             console.log(`Forked worker with PID: ${worker.process.pid}`);
@@ -93,7 +111,6 @@ async function startApp() {
     } else {
         setupMiddleware(app);
 
-        // Define your routes
         app.use('/', require('./mainRouter'));
 
         app.listen(PORT, () => {
