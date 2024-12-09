@@ -36,6 +36,10 @@
   height: auto;
 }
 
+.home-logo:hover {
+  cursor: pointer;
+}
+
 /* Menu Icon */
 .menu-icon img {
   width: 32px;
