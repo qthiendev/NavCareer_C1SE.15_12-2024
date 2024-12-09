@@ -94,10 +94,20 @@ function Layout() {
         }
     };
 
+    // Hàm toggle hiển thị chatbot
     const toggleChatbot = () => {
         setShowChatbot(!showChatbot);
     };
 
+    // Hàm để đóng chatbot từ bên trong component Chatbot
+    const closeChatbot = () => {
+        setShowChatbot(false);
+    };
+
+    useEffect(() => {
+        // Đảm bảo rằng trạng thái của showChatbot là true khi trang vừa tải
+        setShowChatbot(true);
+    }, []);
     const handleSearch = () => {
         if (searchIndex.trim()) {
             navigate(`/search?index=${searchIndex}`);
@@ -122,9 +132,6 @@ function Layout() {
                     <div className='navbar-left'>
                         <div className="home-logo">
                             <a href="/"><img src="/img/Header/Logo.svg" alt="Logo" /></a>
-                        </div>
-                        <div className="menu-icon" onClick={toggleSidebar}>
-                            <img src="/img/Header/menu_icon.svg" alt="Menu" />
                         </div>
                     </div>
 
@@ -155,19 +162,13 @@ function Layout() {
                                 <span className="notification-icon">
                                     <img src="/img/Header/notify_icon.svg" alt="notification-icon" />
                                 </span>
-                                {showChatbot && (
-                                    <div className="chatbot-modal">
-                                        <Chatbot />
-                                    </div>
-                                )}
-                                <span className="chatbot-btn" onClick={toggleChatbot}>
-                                    <img src="/img/Header/chatbot_icon.svg" alt="chatbot" />
-                                </span>
+                                <div className="menu-icon" onClick={toggleSidebar}>
+                                    <img src="/img/Header/menu_icon.svg" alt="Menu" />
+                                </div>
                             </>
                         ) : (
-                            <div className="auth-link">
-                                <a href="/signin" className="signin">Đăng nhập</a>
-                                <a href="/signup" className="signup">Đăng ký</a>
+                            <div className="menu-icon" onClick={toggleSidebar}>
+                                <img src="/img/Header/menu_icon.svg" alt="Menu" />
                             </div>
                         )}
                     </div>
@@ -185,6 +186,18 @@ function Layout() {
                             <li><img src="/img/Header/test_icon.svg" alt="servey" /><a href="/servey">Trắc nghiệm hướng nghiệp</a></li>
                             <li><img src="/img/Header/course_icon.svg" alt="course" /><a href="/course/view">Khóa học</a></li>
                             <li><img src="/img/Header/about_icon.svg" alt="about" /><a href="/about">Về chúng tôi</a></li>
+                            {!isAdmin && !isESP && !isStudent && (
+                                <>
+                                    <li>
+                                        <img src="/img/Header/login_icon.svg" alt="signin-icon" />
+                                        <a href="/signin">Đăng nhập</a>
+                                    </li>
+                                    <li>
+                                        <img src="/img/Header/signup_icon.svg" alt="signup-icon" />
+                                        <a href="/signup">Đăng ký</a>
+                                    </li>
+                                </>
+                            )}
                             {isAdmin && <li><img src="/img/Header/admin_icon.svg" alt="admin" /><a href="/admin">Dành cho nhà quản trị</a></li>}
                             {isESP && <li><img src="/img/Header/esp_icon.svg" alt="esp" /><a href="/esp">Dành cho nhà cung cấp</a></li>}
                             {(isESP || isStudent) && (<li><img src="/img/Header/learning_icon.svg" alt="edu" /><a href="/edu">Học tập</a></li>)}
@@ -197,6 +210,7 @@ function Layout() {
                         </ul>
                     </div>
                     <div className={`backdrop ${isSidebarOpen ? 'show' : ''}`} onClick={closeSidebar}></div>
+
                 </>
             )}
 
@@ -252,6 +266,20 @@ function Layout() {
                 </div>
                 <p className='copyright'>&copy; C1SE.15</p>
             </footer>
+            {/* Chatbot container */}
+            <div className="pushup-chatbot-container">
+                {showChatbot ? (
+                    <Chatbot onClose={closeChatbot} />
+                ) : (
+                    <button className="chatbot-toggle-btn" onClick={toggleChatbot}>
+                        <img
+                            src="img/Header/chatbot_icon.svg"
+                            alt="Mở Chatbot"
+                            className="chatbot-toggle-icon"
+                        />
+                    </button>
+                )}
+            </div>
         </div>
     );
 }

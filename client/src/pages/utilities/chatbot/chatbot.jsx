@@ -5,10 +5,11 @@ import { Link, useNavigate } from 'react-router-dom'; // Import Link
 
 
 
-function Chatbot() {
+function Chatbot({ onClose }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [stage, setStage] = useState('welcome'); // Theo dõi luồng hội thoại
+  
 
   useEffect(() => {
     // Gửi tin nhắn chào mừng khi khởi động
@@ -36,6 +37,12 @@ function Chatbot() {
     setMessages([welcomeMessage,Consultation,cost,recommendations]);
   }, []);
 
+  const [showChatbot, setShowChatbot] = useState(true);
+
+  const toggleChatbot = () => {
+    setShowChatbot(!showChatbot);
+  };
+  
   const handleClickOption = (text) => {
     setInput(text);
     sendMessage();
@@ -444,34 +451,45 @@ const handleInputFields = async (input) => {
 
 
 
-  return (
-    <div className="chatbot-container">
-      <div className="chatbot-messages">
-        {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.sender}`}
-          onClick={() => msg.clickable && handleClickOption(msg.text)} // Nếu clickable, cho phép click
-            style={{ cursor: msg.clickable ? 'pointer' : 'default' }} // Thay đổi con trỏ nếu có thể click
-          >
-            {msg.text}
-          </div>
-        ))}
+return (
+  <>
+    {showChatbot && (
+      <div className="chatbot-container">
+        <div className="chatbot-header">
+          <a href="/"><img src="/img/Header/Logo.svg" alt="Logo" className="chatbot-logo" /></a>
+          <button className="chatbot-close-btn" onClick={onClose}>×</button>
+        </div>
+        <div className="chatbot-messages">
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`message ${msg.sender}`}
+              onClick={() => msg.clickable && handleClickOption(msg.text)} // Nếu clickable, cho phép click
+              style={{ cursor: msg.clickable ? "pointer" : "default" }} // Thay đổi con trỏ nếu có thể click
+            >
+              {msg.text}
+            </div>
+          ))}
+        </div>
+        <div className="chatbot-input">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                sendMessage();
+              }
+            }}
+            placeholder="Nhập câu trả lời của bạn tại đây ^^"
+          />
+          <button onClick={sendMessage}>Gửi</button>
+        </div>
       </div>
-      <div className="chatbot-input">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              sendMessage();
-            }
-          }}
-          placeholder="Type your message..."
-        />
-        <button onClick={sendMessage}>Send</button>
-      </div>
-    </div>
-  );
+    )}
+  </>
+);
+
 }
 
 export default Chatbot;
