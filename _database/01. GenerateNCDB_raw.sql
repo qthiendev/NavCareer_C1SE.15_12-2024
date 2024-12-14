@@ -79,6 +79,8 @@ create table Authentications (
     [identifier_email] varbinary(700) not null unique,
     [created_date] datetime default getdate() not null,
 	[auth_status] bit default 1 not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [authorization_id] int null,
     constraint fk_authentication_authorization_id foreign key ([authorization_id]) references Authorizations([authorization_id]) on delete set null on update cascade
 );
@@ -89,6 +91,8 @@ create table AuthProcedureBanned (
 	[id] int identity(0, 1) primary key,
 	[procedure_name] nvarchar(512) not null,
 	[authentication_id] int null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
 	constraint fk_auth_procedure_authentication_id foreign key ([authentication_id]) references Authentications([authentication_id]) on delete set null on update cascade
 );
 go
@@ -106,6 +110,7 @@ begin
 		from AuthProcedureBanned
 		where [authentication_id] = @aid
 			and [procedure_name] = @procedurename
+			and [delete_flag] = 0
 	)
     begin
         set @isbanned = 1;
@@ -128,6 +133,8 @@ create table Users (
     [user_address] nvarchar(512), 
     [user_created_date] datetime default getdate() not null,
 	[user_status] bit default 1 not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [authentication_id] int null,
     constraint fk_user_authentication_id foreign key ([authentication_id]) references Authentications([authentication_id]) on delete set null on update cascade 
 );
@@ -140,6 +147,8 @@ create table Payments (
 	[payment_description] nvarchar(512) not null,
 	[payment_date] datetime not null,
 	[payment_state] bit not null default 0,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
 	[authentication_id] int null,
     constraint fk_payment_authentication_id foreign key ([authentication_id]) references Authentications([authentication_id]) on delete set null on update cascade 
 );
@@ -150,6 +159,8 @@ create table SystemFeedbacks (
     [feedback_id] int identity(0, 1) primary key,
     [feedback_description] nvarchar(512) not null, 
     [feedback_date] datetime default getdate() not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [user_id] int null,
     constraint fk_feedback_user_id foreign key ([user_id]) references Users([user_id]) on delete set null on update cascade
 );
@@ -166,6 +177,8 @@ create table Courses (
     [course_created_date] datetime default getdate() not null,
 	[course_piority_index] int not null,
 	[course_status] bit default 1 not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [user_id] int null,
     constraint fk_course_provider_id foreign key ([user_id]) references Users([user_id]) on delete set null on update cascade
 );
@@ -177,6 +190,8 @@ create table Modules (
     [module_name] nvarchar(1024) not null, 
     [module_created_date] datetime default getdate() not null,
     [module_ordinal] int not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [course_id] int null,
     constraint fk_module_course_id foreign key ([course_id]) references Courses([course_id]) on delete set null on update cascade
 );
@@ -195,6 +210,8 @@ create table Collections (
     [collection_name] nvarchar(1024) not null, 
     [collection_created_date] datetime default getdate() not null,
     [collection_ordinal] int not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [collection_type_id] int null,
     [module_id] int null,
     constraint fk_collection_collection_type_id foreign key ([collection_type_id]) references CollectionTypes([collection_type_id]) on delete set null on update cascade,
@@ -214,6 +231,8 @@ create table Materials (
     [material_id] int identity(0, 1) primary key,
     [material_content] nvarchar(max), 
     [material_ordinal] int not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [material_type_id] int null,
     [collection_id] int null,
     constraint fk_material_material_type_id foreign key ([material_type_id]) references MaterialType([material_type_id]) on delete set null on update cascade, 
@@ -232,6 +251,8 @@ create table Questions (
     [question_id] int identity(0, 1) primary key,
     [question_description] nvarchar(max) not null, 
 	[question_ordinal] int not null, 
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [question_type_id] int null,
 	[material_id] int null,
     constraint fk_question_question_type_id foreign key ([question_type_id]) references QuestionTypes([question_type_id]) on delete set null on update cascade,
@@ -245,6 +266,8 @@ create table Answers (
     [answer_description] nvarchar(max) not null,
 	[answer_ordinal] int not null, 
     [answer_is_right] bit not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [question_id] int null,
     constraint fk_answer_question_id foreign key ([question_id]) references Questions([question_id]) on delete set null on update cascade
 );
@@ -255,6 +278,8 @@ create table Enrollments (
     [enrollment_id] int identity(0, 1) primary key,
     [enrollment_date] datetime default getdate() not null,
     [enrollment_is_complete] bit default 0 not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [user_id] int null,
     [course_id] int null,
     constraint fk_enrollment_student_id foreign key ([user_id]) references Users([user_id]) on delete set null,
@@ -265,6 +290,8 @@ go
 -- Tracking - enrollment tracking
 create table UserTracking (
     [tracking_id] int identity(0, 1) primary key,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [enrollment_id] int null,
     [collection_id] int null,
     constraint fk_tracking_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null,
@@ -277,6 +304,8 @@ create table Grades (
     [grade_id] int identity(0, 1) primary key,
     [grade_number] int not null,
     [graded_date] datetime default getdate() not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [enrollment_id] int null,
     [module_id] int null,
     constraint fk_grade_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null,
@@ -290,6 +319,8 @@ create table Accomplishments (
     [accomplishment_completion_date] datetime default getdate() not null,
     [accomplishment_overall_grade] int not null,
     [accomplishment_certificate_id] nvarchar(512) not null unique, 
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [enrollment_id] int null,
     constraint fk_accomplishment_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null on update cascade,
 );
@@ -300,6 +331,8 @@ create table CourseFeedbacks (
     [feedback_id] int identity(0, 1) primary key,
     [feedback_description] nvarchar(max) not null, 
     [feedback_date] datetime default getdate() not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [enrollment_id] int null,
     constraint fk_course_feedback_enrollment_id foreign key ([enrollment_id]) references Enrollments([enrollment_id]) on delete set null on update cascade
 );
@@ -308,13 +341,17 @@ go
 -- Fields - flagging field for filtering/searching
 create table Fields (
     [field_id] int identity(0, 1) primary key,
-    [field_name] nvarchar(512) not null 
+    [field_name] nvarchar(512) not null,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
 );
 go
 
 -- Course Field
 create table CourseField (
     [course_field_id] int identity(0, 1) primary key,
+	[delete_flag] bit default 0 not null,
+	[updated_date] datetime default getdate() not null,
     [course_id] int null,
     [field_id] int null,
     constraint fk_course_field_course_id foreign key (course_id) references Courses(course_id) on delete set null on update cascade,

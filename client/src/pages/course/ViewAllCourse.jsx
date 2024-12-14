@@ -54,10 +54,8 @@ const ViewAllCourse = () => {
 
     const handleDelete = async (course_id) => {
         try {
-            const response = await axios.delete('http://localhost:5000/course/delete', {
-                data: { course_id },
-                withCredentials: true,
-            });
+            const response = await axios.post(`http://localhost:5000/course/delete?course_id=${course_id}`, 
+                {}, { withCredentials: true });
 
             if (response.status === 200) {
                 alert('Xóa khóa học thành công!');

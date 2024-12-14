@@ -26,6 +26,8 @@ begin
 	from Authentications a
 		left join Users u on u.authentication_id = a.authentication_id
 		left join Authorizations az on az.authorization_id = a.authorization_id
+		where a.[delete_flag] = 0
+			and u.[delete_flag] = 0
 end
 go
 ------------------------------------------------------------------------------------------------------------
@@ -55,6 +57,8 @@ begin
 		left join Users u on u.authentication_id = a.authentication_id
 		left join Authorizations az on az.authorization_id = a.authorization_id
 	where a.[authentication_id] = @aid
+		and a.[delete_flag] = 0
+		and u.[delete_flag] = 0
 end
 go
 ------------------------------------------------------------------------------------------------------------
@@ -77,7 +81,8 @@ create procedure ModifyUser
     @user_email NVARCHAR(MAX), 
     @user_phone_number NVARCHAR(30), 
     @user_address NVARCHAR(MAX),
-    @user_status bit
+    @user_status bit,
+	@delete_flag bit
 as
 begin
     set nocount on; -- Avoids extra messages
@@ -118,19 +123,10 @@ begin
             where [authentication_id] = @authentication_id
         ) 
 		begin
-			declare @user_id int;
 
-			select top 1 @user_id = u1.[user_id] + 1
-			from Users u1
-				left join Users u2 on u1.[user_id] + 1 = u2.[user_id]
-			where u2.[user_id] is null
-			order by u1.[user_id];
-
-			if @user_id is null select @user_id = isnull(max([user_id]), 0) + 1 from Users;
-
-			insert into Users ([user_id], [user_full_name], [user_alias], [user_email], [user_birthdate], [user_gender], [user_phone_number], [user_address], [user_created_date], [authentication_id])
+			insert into Users ([user_full_name], [user_alias], [user_email], [user_birthdate], [user_gender], [user_phone_number], [user_address], [authentication_id])
 			values
-			(@user_id, @user_full_name, @user_alias, @user_email, @user_birthdate, @user_gender, @user_phone_number, @user_address, getdate(), @authentication_id);
+			(@user_full_name, @user_alias, @user_email, @user_birthdate, @user_gender, @user_phone_number, @user_address, @authentication_id);
 
 			if @@ROWCOUNT = 0
 			begin
@@ -150,7 +146,9 @@ begin
 			[user_email] = @user_email, 
 			[user_phone_number] = @user_phone_number, 
 			[user_address] = @user_address,
-			[user_status] = @user_status
+			[user_status] = @user_status,
+			[delete_flag] = @delete_flag,
+			[updated_date] = getdate()
 		where [authentication_id] = @authentication_id
 
 		if @@ROWCOUNT = 0
@@ -191,7 +189,9 @@ begin
         convert(nvarchar(max), decryptbypassphrase('NavCareerSecret', auth.[account])) as [account],
         [procedure_name]
     from Authentications auth
-    left join  AuthProcedureBanned apb on auth.[authentication_id] = apb.[authentication_id];
+		left join AuthProcedureBanned apb on auth.[authentication_id] = apb.[authentication_id]
+	where auth.[delete_flag] = 0
+		and apb.[delete_flag] = 0;
 end
 go
 ------------------------------------------------------------------------------------------------------------
@@ -206,7 +206,9 @@ begin
         [procedure_name]
     from Authentications auth
     left join  AuthProcedureBanned apb on auth.[authentication_id] = apb.[authentication_id]
-	where auth.[authorization_id] = 2;
+	where auth.[authorization_id] = 2
+		and auth.[delete_flag] = 0
+		and apb.[delete_flag] = 0;
 end
 go
 ------------------------------------------------------------------------------------------------------------
@@ -267,7 +269,8 @@ begin
         return;
     end
 
-    delete from AuthProcedureBanned
+    update AuthProcedureBanned
+	set [delete_flag] = 1
     where authentication_id = @authentication_id
       and procedure_name = @procedure_name;
 
@@ -292,6 +295,7 @@ begin
 		from AuthProcedureBanned
 		where [authentication_id] = @aid
 			and [procedure_name] = @procedure_name
+			and [delete_flag] = 0
 	) begin select 'BANNED'as [check] end;
 
 	select 'UNBANNED'as [check];

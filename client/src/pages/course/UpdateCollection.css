@@ -1,183 +1,204 @@
+/* Container for the whole collection page */
 .update-collection-container {
     max-width: 1280px;
     margin: 0 auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc; /* Soft background color */
 }
 
+/* Loading state style */
 .update-collection-loading {
     text-align: center;
     font-size: 1.5rem;
-    color: #555;
+    color: #333; /* Darker gray for readability */
 }
 
+/* Error message styling */
 .error {
-    color: red;
+    color: #e74c3c; /* Red for error messages */
     font-size: 1rem;
     margin-bottom: 20px;
     text-align: center;
 }
 
+/* Header section for collection */
 .collection-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .collection-header h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
     margin: 0;
-    font-size: 1.5rem;
-    font-weight: bold;
+    color: #2c3e50; /* Dark color for the title */
 }
 
 .preview-button {
     padding: 8px 15px;
-    background-color: #007bff;
+    background-color: #3498db; /* Blue button */
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 .preview-button:hover {
-    background-color: #0056b3;
+    background-color: #2980b9; /* Darker blue on hover */
 }
 
+/* Edit Mode Styles */
 .edit-mode label {
-    display: block;
     font-weight: bold;
     margin-top: 15px;
     margin-bottom: 5px;
+    color: #34495e; /* Dark gray label */
+    display: block;
 }
 
 .edit-mode input[type="text"],
-.edit-mode select {
+.edit-mode select,
+.edit-mode button {
     width: 100%;
     max-width: 500px;
-    padding: 10px;
+    padding: 12px;
+    margin-top: 10px;
     font-size: 1rem;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-bottom: 15px; /* Added margin for spacing */
+    transition: all 0.3s ease;
+}
+
+.edit-mode input[type="text"]:focus,
+.edit-mode select:focus {
+    border-color: #3498db; /* Blue border on focus */
 }
 
 .edit-mode button {
-    padding: 10px 15px;
-    background-color: #28a745;
+    background-color: #28a745; /* Green button */
     color: #fff;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
     margin-top: 10px;
 }
 
 .edit-mode button:hover {
-    background-color: #218838;
+    background-color: #218838; /* Darker green on hover */
 }
 
+/* Material Item Styles */
 .material-item {
-    margin-bottom: 20px;
-    padding: 15px;
+    margin-bottom: 25px; /* Increased bottom margin */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    position: relative;
-    background-color: #f9f9f9;
-    
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .material-item textarea {
-    width: 1225px;
-    height: 600px;
-    resize: none;
-    padding: 10px;
+    width: 100%;
+    height: 200px;
+    padding: 12px;
     font-size: 1rem;
+    border-radius: 6px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Margin below the textarea */
+    resize: vertical;
+    background-color: #f9f9f9;
 }
 
-.material-item img {
-    width: 1225px;
-    resize: none;
-    padding: 10px;
-    font-size: 1rem;
+.material-item img,
+.material-item video {
+    width: 100%;
+    max-height: 500px;
+    margin-bottom: 15px; /* Added margin */
+    border-radius: 6px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
 }
 
+/* Text Editor Styles */
 .text-editor {
     position: relative;
 }
 
-.text-editor textarea {
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: none;
-}
-
-.edit-mode ul {
-    list-style: none;
-    padding: 0px;
-}
-
 .text-editor .char-count {
     position: absolute;
-    top: 5px;
-    right: 10px;
+    top: 10px;
+    right: 15px;
     font-size: 0.8rem;
-    color: #666;
+    color: #888; /* Light gray color */
 }
 
-.media-preview {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-    display: block;
-}
-
+/* Material Actions: Move, Update, Delete buttons */
 .material-actions {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 10px;
-    margin-top: 10px;
+    gap: 15px;
+    margin-top: 15px; /* Margin at the top */
+}
+
+.material-actions button {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .material-actions select {
-    width: auto;
-    padding: 5px 10px;
+    padding: 8px 12px;
     font-size: 0.9rem;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.material-actions button {
-    padding: 8px 12px;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
 .material-actions button:first-of-type {
-    background-color: #ffc107;
+    background-color: #f39c12; /* Yellow button */
     color: #fff;
 }
 
 .material-actions button:first-of-type:hover {
-    background-color: #e0a800;
+    background-color: #e67e22; /* Darker yellow on hover */
 }
 
 .material-actions button:last-of-type {
-    background-color: #dc3545;
+    background-color: #e74c3c; /* Red button */
     color: #fff;
 }
 
 .material-actions button:last-of-type:hover {
-    background-color: #c82333;
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Input field for questions */
+.input-question {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px; /* More margin at the bottom */
+    background-color: #f9f9f9;
+}
+
+/* Button styles in Add Material Section */
+.add-material-buttons button {
+    padding: 12px 20px;
+    background-color: #3498db; /* Blue button */
+    color: #fff;
+    border-radius: 6px;
+    border: none;
+    margin-right: 15px;
+    transition: background-color 0.3s;
+    margin-bottom: 15px; /* Added margin at the bottom */
+}
+
+.add-material-buttons button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
 }

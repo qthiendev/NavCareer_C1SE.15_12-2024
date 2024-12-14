@@ -30,7 +30,9 @@ begin
 		left join Authorizations authz on authz.authorization_id = auth.authorization_id
 		left join Users u on u.[authentication_id] = auth.[authentication_id]
 	where convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', auth.[account])) = @account
-		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', auth.[password])) = @password;
+		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', auth.[password])) = @password
+		and auth.[delete_flag] = 0
+		and u.[delete_flag] = 0;
 end
 go
 -- exec SignIn 'test', 'test'
@@ -61,8 +63,8 @@ begin
     set @encoded_password = EncryptByPassPhrase('NavCareerSecret', @password);
 	set @encoded_identifier_email = EncryptByPassPhrase('NavCareerSecret', @identifier_email);
     
-    insert into Authentications([account], [password], [identifier_email], [created_date], [authorization_id], [auth_status])
-    values (@encoded_account, @encoded_password, @encoded_identifier_email, getdate(), @authorization_id, 1);
+    insert into Authentications([account], [password], [identifier_email], [authorization_id], [auth_status])
+    values (@encoded_account, @encoded_password, @encoded_identifier_email, @authorization_id, 1);
 
 	if @@ROWCOUNT = 1
 	begin

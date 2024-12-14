@@ -15,54 +15,63 @@ const UpdateCollection = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
+    const fetchCollectionData = async (course_id, module_id, collection_id) => {
+        try {
+            if (!course_id || !module_id || !collection_id) return;
+
+            setLoading(true);
+
+            const response = await axios.get(
+                `http://localhost:5000/course/read-full?course_id=${course_id}`,
+                { withCredentials: true }
+            );
+
+            const module = response.data.modules.find(m => m.module_id === Number(module_id));
+            const collection = module.collections.find(c => c.collection_id === Number(collection_id));
+            const mediaRequests = [];
+
+            collection.materials.forEach((material) => {
+                if (material.material_type_name === 'Image' || material.material_type_name === 'Video') {
+                    const mediaRequest = axios.get('http://localhost:5000/edu/media', {
+                        params: {
+                            c: course_id,
+                            m: module.module_ordinal,
+                            co: collection.collection_ordinal,
+                            filePath: material.material_content,
+                        },
+                        responseType: 'arraybuffer',
+                        withCredentials: true,
+                    }).then(response => {
+                        const blob = new Blob([response.data], { type: response.headers['content-type'] });
+                        const url = URL.createObjectURL(blob);
+                        return { [material.material_ordinal]: url };
+                    });
+                    mediaRequests.push(mediaRequest);
+                }
+            });
+
+            const mediaResults = await Promise.all(mediaRequests);
+            const urlMap = mediaResults.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+
+            setModuleOrdinal(module.module_ordinal);
+            setCollectionOrdinal(collection.collection_ordinal);
+            setCollectionName(collection.collection_name);
+            setCollectionType(collection.collection_type_id);
+            setMaterials(collection.materials);
+            setMediaUrls(urlMap);
+            setErrorMessage('');
+        } catch (error) {
+            console.error('Error fetching collection:', error);
+            setErrorMessage('Failed to load collection data.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchCollectionData = async () => {
-            try {
-                const response = await axios.get(
-                    `http://localhost:5000/course/read-full?course_id=${course_id}`,
-                    { withCredentials: true }
-                );
-                const module = response.data.modules.find(m => m.module_id === Number(module_id));
-                const collection = module.collections.find(c => c.collection_id === Number(collection_id));
-                const mediaRequests = [];
+        if (!course_id || !module_id || !collection_id) return;
 
-                collection.materials.forEach((material) => {
-                    if (material.material_type_name === 'Image' || material.material_type_name === 'Video') {
-                        const mediaRequest = axios.get('http://localhost:5000/edu/media', {
-                            params: {
-                                c: course_id,
-                                m: module.module_ordinal,
-                                co: collection.collection_ordinal,
-                                filePath: material.material_content,
-                            },
-                            responseType: 'arraybuffer',
-                            withCredentials: true,
-                        }).then(response => {
-                            const blob = new Blob([response.data], { type: response.headers['content-type'] });
-                            const url = URL.createObjectURL(blob);
-                            return { [material.material_ordinal]: url };
-                        });
-                        mediaRequests.push(mediaRequest);
-                    }
-                });
-
-                const mediaResults = await Promise.all(mediaRequests);
-                const urlMap = mediaResults.reduce((acc, curr) => ({ ...acc, ...curr }), {});
-
-                setModuleOrdinal(module.module_ordinal);
-                setCollectionOrdinal(collection.collection_ordinal);
-                setCollectionName(collection.collection_name);
-                setCollectionType(collection.collection_type_id);
-                setMaterials(collection.materials);
-                setMediaUrls(urlMap);
-            } catch (error) {
-                console.error('Error fetching collection:', error);
-                setErrorMessage('Failed to load collection data.');
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchCollectionData();
+        fetchCollectionData(course_id, module_id, collection_id);
     }, [course_id, module_id, collection_id, navigate]);
 
     const handleCollectionUpdate = async () => {
@@ -76,10 +85,10 @@ const UpdateCollection = () => {
                 },
                 withCredentials: true,
             });
-            alert('Collection updated successfully!');
+
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            console.error('Failed to update collection:', error);
-            setErrorMessage('Failed to update collection.');
+            setErrorMessage('Cập nhật thất bại.');
         }
     };
 
@@ -111,10 +120,9 @@ const UpdateCollection = () => {
                 withCredentials: true,
             });
 
-            navigate(0);
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            console.error('Failed to create material:', error);
-            setErrorMessage('Failed to create material.');
+            setErrorMessage('Thêm thất bại.');
         }
     };
 
@@ -127,10 +135,10 @@ const UpdateCollection = () => {
                 },
                 withCredentials: true,
             });
-            setMaterials(materials.filter((material) => material.material_id !== materialId));
+
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            console.error('Failed to delete material:', error);
-            setErrorMessage('Failed to delete material.');
+            setErrorMessage('Xóa thất bại');
         }
     };
 
@@ -149,9 +157,9 @@ const UpdateCollection = () => {
                     withCredentials: true
                 });
 
-            navigate(0);
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            alert("Cập nhật thất bại");
+            setErrorMessage('Xóa thất bại.');
         }
     };
 
@@ -180,7 +188,6 @@ const UpdateCollection = () => {
                     withCredentials: true,
                     onUploadProgress: (progressEvent) => {
                         const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-                        console.log(`Upload Progress: ${progress}%`);
                     },
                 }
             );
@@ -188,8 +195,6 @@ const UpdateCollection = () => {
             if (uploadResponse.status !== 200) {
                 throw new Error('Failed to upload media');
             }
-
-            console.log('Media uploaded successfully:', uploadResponse.data);
 
             const updateResponse = await axios.post(
                 'http://localhost:5000/course/module/collection/material/update',
@@ -209,10 +214,9 @@ const UpdateCollection = () => {
                 throw new Error('Failed to update material metadata');
             }
 
-            alert('Material updated successfully!');
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            console.error('Error in handleMaterialMediaUpdate:', error.message);
-            alert('Failed to upload or update material.');
+            setErrorMessage('Cập nhật thất bại.');
         }
     };
 
@@ -236,18 +240,16 @@ const UpdateCollection = () => {
                 }
             );
 
-            // Refresh the page to show updated ordinals
-            navigate(0);
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            console.error('Failed to update material ordinals:', error);
-            alert('Failed to update material ordinals');
+            setErrorMessage('Thay đổi thứ tự thất bại.');
         }
     };
 
     const handleQuestionUpdate = async (materialId, questionId, description, typeId) => {
         try {
             if (!questionId) {
-                const createResponse = await axios.post('http://localhost:5000/course/module/collection/question/create', null, {
+                await axios.post('http://localhost:5000/course/module/collection/question/create', null, {
                     params: {
                         material_id: materialId,
                         question_description: 'New Question',
@@ -255,18 +257,6 @@ const UpdateCollection = () => {
                     },
                     withCredentials: true,
                 });
-
-                const newQuestion = createResponse.data;
-
-                setMaterials(
-                    materials.map((m) =>
-                        m.material_id === materialId
-                            ? { ...m, questions: [newQuestion] }
-                            : m
-                    )
-                );
-
-                navigate(0);
             } else {
                 await axios.post('http://localhost:5000/course/module/collection/question/update', null, {
                     params: {
@@ -277,20 +267,18 @@ const UpdateCollection = () => {
                     },
                     withCredentials: true,
                 });
-                alert('Question updated successfully!');
             }
 
-            navigate(0); // Refresh page to reflect changes
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            console.error('Failed to create/update question:', error);
-            alert('Failed to create/update question.');
+            setErrorMessage('Cập nhật thất bại.');
         }
     };
 
 
     const handleAnswerCreate = async (questionId) => {
         try {
-            const response = await axios.post('http://localhost:5000/course/module/collection/answer/create', null, {
+            await axios.post('http://localhost:5000/course/module/collection/answer/create', null, {
                 params: {
                     question_id: questionId,
                     answer_description: 'New Answer',
@@ -298,16 +286,10 @@ const UpdateCollection = () => {
                 },
                 withCredentials: true,
             });
-            const updatedMaterials = materials.map((material) =>
-                material.questions?.[0]?.question_id === questionId
-                    ? { ...material, questions: [{ ...material.questions[0], answers: [...material.questions[0].answers, response.data] }] }
-                    : material
-            );
-            setMaterials(updatedMaterials);
-            navigate(0);
+
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            console.error('Failed to create answer:', error);
-            alert('Failed to create answer.');
+            setErrorMessage('Thêm thất bại.');
         }
     };
 
@@ -321,11 +303,10 @@ const UpdateCollection = () => {
                 },
                 withCredentials: true,
             });
-            alert('Answer updated successfully!');
-            navigate(0);
+
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            console.error('Failed to update answer:', error);
-            alert('Failed to update answer.');
+            setErrorMessage('Cập nhật thất bại.');
         }
     };
 
@@ -335,15 +316,10 @@ const UpdateCollection = () => {
                 params: { answer_id: answerId },
                 withCredentials: true,
             });
-            const updatedMaterials = materials.map((material) =>
-                material.questions?.[0]?.question_id === questionId
-                    ? { ...material, questions: [{ ...material.questions[0], answers: material.questions[0].answers.filter((a) => a.answer_id !== answerId) }] }
-                    : material
-            );
-            setMaterials(updatedMaterials);
+
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            console.error('Failed to delete answer:', error);
-            alert('Failed to delete answer.');
+            setErrorMessage('Xóa thất bại.');
         }
     };
 
@@ -360,24 +336,23 @@ const UpdateCollection = () => {
                 },
                 withCredentials: true,
             });
-            alert('Answer order updated successfully!');
-            navigate(0);
+
+            fetchCollectionData(course_id, module_id, collection_id);
         } catch (error) {
-            console.error('Failed to update answer ordinal:', error);
-            alert('Failed to update answer ordinal.');
+            setErrorMessage('Thay đổi thứ tự thất bại.');
         }
     };
 
 
     if (loading) {
-        return <div className="loading">Loading...</div>;
+        return <div className="loading">Đang tải...</div>;
     }
 
     return (
         <div className="update-collection-container">
             {errorMessage && <div className="error">{errorMessage}</div>}
             <div className="collection-header">
-                <h2>Edit Collection</h2>
+                <h2>Cập nhật bài học</h2>
                 <a
                     href={`http://localhost:5173/edu/collection?c=${course_id}&m=${moduleOrdinal}&co=${collectionOrdinal}`}
                     target="_blank"
@@ -389,7 +364,7 @@ const UpdateCollection = () => {
             </div>
 
             <div className="edit-section">
-                <label>Collection Name</label>
+                <label>Tên: </label>
                 <input
                     type="text"
                     value={collectionName}
@@ -399,7 +374,6 @@ const UpdateCollection = () => {
             </div>
 
             <div className="materials-section">
-                <h3>Materials</h3>
                 {materials.map((material) => (
                     <div key={material.material_id} className="material-item">
                         {material.material_type_name === 'Text' && (
@@ -523,7 +497,8 @@ const UpdateCollection = () => {
                                 ) : (
                                     // If question exists, show inputs for description, type, and answers
                                     <div>
-                                        <textarea
+                                        <input
+                                            className="input-question"
                                             value={material.questions[0].question_description}
                                             onChange={(e) =>
                                                 setMaterials(
@@ -531,10 +506,12 @@ const UpdateCollection = () => {
                                                         m.material_id === material.material_id
                                                             ? {
                                                                 ...m,
-                                                                questions: [{
-                                                                    ...m.questions[0],
-                                                                    question_description: e.target.value
-                                                                }]
+                                                                questions: [
+                                                                    {
+                                                                        ...m.questions[0],
+                                                                        question_description: e.target.value
+                                                                    }
+                                                                ]
                                                             }
                                                             : m
                                                     )

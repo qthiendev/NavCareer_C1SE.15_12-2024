@@ -27,4 +27,4 @@ const sendMultipleRequests = async (numRequests) => {
 };
 
 // Send 10,000 requests
-sendMultipleRequests(100);
+sendMultipleRequests(1000);

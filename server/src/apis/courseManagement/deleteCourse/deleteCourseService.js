@@ -1,19 +1,26 @@
 const ncbd = require('../../databases/ncdbService');
 
-const tryDeleteCourse = async (aid, role, course_id) => {
+const tryDeleteCourse = async (aid, course_id) => {
     try {
-        if (Number.isNaN(course_id))
+        if (Number.isNaN(aid)) 
+            throw new Error(`'aid' must provided.`);
+        
+        if (Number.isNaN(course_id)) 
             throw new Error(`'course_id' must provided.`);
 
-        const delCourse = await ncbd.query(role,
-            `execute DeleteCourse @aid, @course_id`,
-            { aid, course_id});
+        // Calling the stored procedure to delete the course
+        const deleteCourse = await ncbd.query('NAV_ESP', 
+            `execute DeleteCourse @aid, @course_id`, 
+            {
+                aid: aid,
+                course_id: course_id
+            });
 
-        return delCourse[0].check;
+        return deleteCourse[0].check;
 
     } catch (err) {
-        throw new Error(`deleteCourseService.js/tryDeleteCourse| ${err.message}`);
+        throw new Error(`deleteCourseService.js/tryDeleteCourse | ${err.message}`);
     }
 };
 
-module.exports = { tryDeleteCourse };   
+module.exports = { tryDeleteCourse };

@@ -235,7 +235,8 @@ begin
     end
 
     -- Delete the specified module
-    delete from Modules
+    update Modules
+	set [delete_flag] = 1
     where [course_id] = @course_id
         and [module_id] = @module_id;
 
@@ -508,7 +509,8 @@ begin
         return;
     end
 
-    delete from Collections
+    update Collections
+	set [delete_flag] = 1
     where [collection_id] = @collection_id
         and [module_id] = @module_id;
 
@@ -781,7 +783,12 @@ begin
         return;
     end
 
-    delete from Materials
+	update Questions
+	set [delete_flag] = 1
+	where [material_id] = @material_id
+
+    update Materials
+	set [delete_flag] = 1
     where [material_id] = @material_id
         and [collection_id] = @collection_id;
 
@@ -948,7 +955,8 @@ begin
         return;
     end
 
-    delete from Questions
+    update Questions
+	set [delete_flag] = 1
     where [question_id] = @question_id;
 
     if @@ROWCOUNT = 1
@@ -1115,7 +1123,8 @@ begin
         return;
     end
 
-    delete from Answers
+    update Answers
+	set [delete_flag] = 1
     where [answer_id] = @answer_id;
 
     if @@ROWCOUNT = 1

@@ -20,14 +20,14 @@ begin
         a.[answer_description],
         a.[answer_is_right]
     from Courses c
-        left join Modules m on m.[course_id] = c.[course_id]
-        left join Collections cl on cl.[module_id] = m.[module_id]
+        left join Modules m on m.[course_id] = c.[course_id] and m.[delete_flag] = 0
+        left join Collections cl on cl.[module_id] = m.[module_id] and cl.[delete_flag] = 0
         left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_type_id]
-        left join Materials ma on ma.[collection_id] = cl.[collection_id]
+        left join Materials ma on ma.[collection_id] = cl.[collection_id] and ma.[delete_flag] = 0
         left join MaterialType mat on mat.[material_type_id] = ma.[material_type_id]
-        left join Questions q on q.[material_id] = ma.[material_id]
+        left join Questions q on q.[material_id] = ma.[material_id] and q.[delete_flag] = 0
         left join QuestionTypes qt on qt.[question_type_id] = q.[question_type_id]
-        left join Answers a on a.[question_id] = q.[question_id]
+        left join Answers a on a.[question_id] = q.[question_id] and a.[delete_flag] = 0
     where c.[course_id] = @course_id and cl.[collection_ordinal] = @collection_ordinal and m.[module_ordinal] = @module_ordinal
     order by m.[module_ordinal], cl.[collection_ordinal], ma.[material_ordinal], q.[question_ordinal], a.[answer_ordinal];
 end
@@ -166,8 +166,8 @@ begin
 		c.[course_short_description],
 		c.[course_price]
 	from Enrollments e
-		join Users u on u.[user_id] = e.[user_id]
-		join Courses c on c.[course_id] = e.[course_id]
+		join Users u on u.[user_id] = e.[user_id] and u.[delete_flag] = 0
+		join Courses c on c.[course_id] = e.[course_id] and c.[delete_flag] = 0
 	where e.[user_id] = @user_id
 end
 go
@@ -245,8 +245,8 @@ begin
 		c.[course_short_description],
 		c.[course_price]
 	from Enrollments e
-		join Users u on u.[user_id] = e.[user_id]
-		join Courses c on c.[course_id] = e.[course_id]
+		join Users u on u.[user_id] = e.[user_id] and u.[delete_flag] = 0
+		join Courses c on c.[course_id] = e.[course_id] and c.[delete_flag] = 0
 	where e.[user_id] = @user_id
 		and e.[course_id] = @course_id
 end
@@ -289,7 +289,7 @@ as
 begin
 	select [payment_id], [payment_description], [payment_transaction_id], [payment_date], [authentication_id]
 	from Payments
-	where [payment_transaction_id] = @payment_transaction_id and [authentication_id] = @aid
+	where [payment_transaction_id] = @payment_transaction_id and [authentication_id] = @aid and [delete_flag] = 0
 end
 go
 ------------------------------------------------------------------------------------------------------------
@@ -309,7 +309,7 @@ begin
 
 	update Payments
 	set [payment_state] = 1
-	where [payment_transaction_id] = @payment_transaction_id and [authentication_id] = @aid
+	where [payment_transaction_id] = @payment_transaction_id and [authentication_id] = @aid and [delete_flag] = 0
 
 
 	if @@ROWCOUNT = 1
@@ -384,6 +384,7 @@ begin
 	select [tracking_id], [enrollment_id], [collection_id]
 	from UserTracking
 	where [enrollment_id] = @enrollment_id
+		and [delete_flag] = 0
 end
 go
 ------------------------------------------------------------------------------------------------------------
@@ -446,7 +447,7 @@ begin
 
 	select [grade_id], [grade_number], [graded_date], [enrollment_id], [module_id]
 	from Grades
-	where [enrollment_id] = @enrollment_id and [module_id] = @module_id
+	where [enrollment_id] = @enrollment_id and [module_id] = @module_id and [delete_flag] = 0
 end
 go
 ------------------------------------------------------------------------------------------------------------
@@ -573,8 +574,8 @@ go
 create procedure ReadAccomplishment @certificate_id nvarchar(max)
 as
 begin
-
-	select a.[accomplishment_id], 
+	select 
+		a.[accomplishment_id], 
 		a.[accomplishment_completion_date],
 		a.[accomplishment_overall_grade],
 		a.[accomplishment_certificate_id],
@@ -590,11 +591,13 @@ begin
 		join Enrollments e on e.[enrollment_id] = a.[enrollment_id]
 		join Courses c on c.[course_id] = e.[course_id]
 		join Users us on us.[user_id] = e.[user_id]
-		join Users uc on uc.[user_id] = c.[user_id]
-	where [accomplishment_certificate_id] = @certificate_id
-
+		left join Users uc on uc.[user_id] = c.[user_id]
+	where 
+		a.[accomplishment_certificate_id] = @certificate_id
+		and a.[delete_flag] = 0
 end
 go
+
 -- ReadAccomplishment "72TH1SFBW83RA8X1U6JGJJ1A"
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------

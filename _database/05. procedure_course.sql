@@ -26,7 +26,10 @@ BEGIN
     INNER JOIN 
         Fields f ON cf.field_id = f.field_id
     WHERE 
-        f.field_name = @fieldName;
+        f.field_name = @fieldName
+		and c.[delete_flag] = 0
+		and cf.[delete_flag] = 0
+		and f.[delete_flag] = 0;
 END;
 GO
 -- exec GetAllCoursesByFieldName @fieldName= N'Kỹ sư Robot công nghiệp'
@@ -41,13 +44,14 @@ as
 begin
 	select Fields.field_name
 	from Fields
+	where [delete_flag] = 0;
 end;
 go
-exec getField
+-- exec getField
 
- --lọc giá: từ khoảng đến khoảng
+--lọc giá: từ khoảng đến khoảng
 
- if object_id('SortCoursesByFieldAndPrice', 'P') is not null drop procedure SortCoursesByFieldAndPrice;
+if object_id('SortCoursesByFieldAndPrice', 'P') is not null drop procedure SortCoursesByFieldAndPrice;
 go
 CREATE PROCEDURE SortCoursesByFieldAndPrice
     @fieldName NVARCHAR(50) = NULL, 
@@ -71,6 +75,9 @@ BEGIN
 		(f.field_name = @fieldName) AND
         (@min_price IS NULL OR c.course_price >= @min_price) AND
         (@max_price IS NULL OR c.course_price <= @max_price)
+		and f.[delete_flag] = 0
+		and c.[delete_flag] = 0
+		and cf.[delete_flag] = 0
 	order by c.course_price asc
 END;
 GO
@@ -94,12 +101,13 @@ begin
         Courses c
     WHERE 
         (c.course_price >= @min_price AND c.course_price <= @max_price)
+		and [delete_flag] = 0
 	order by c.course_price asc
 END;
 GO
 
-select * from Courses
---exec sortByPrizeOnly @min_price=3000000, @max_price=5000000
+-- select * from Courses
+-- exec sortByPrizeOnly @min_price=3000000, @max_price=5000000
 
 
 if object_id('selectTop3Course', 'P') is not null drop procedure selectTop3Course;
@@ -116,6 +124,8 @@ begin
     count(e.[user_id]) as [enrollment_count]
 from Courses c
 left join Enrollments e on c.[course_id] = e.[course_id]
+where c.[delete_flag] = 0
+	and e.[delete_flag] = 0
 group by 
     c.[course_id],
     c.[course_name],
@@ -164,6 +174,9 @@ begin
 		left join Modules m on m.[course_id] = c.[course_id]
 		join Users u on u.[user_id] = c.[user_id]
 	where c.course_id = @course_id
+		and c.[delete_flag] = 0
+		and m.[delete_flag] = 0
+		and u.[delete_flag] = 0
 	order by m.[module_ordinal];
 end
 go
@@ -302,7 +315,8 @@ begin
 		[course_full_description] = @course_full_description,
 		[course_price] = @course_price,
 		[course_duration] = @course_duration, 
-		[course_status] = @course_status
+		[course_status] = @course_status,
+		[updated_date] = getdate()
 	where [user_id] = @user_id
 		and [course_id] = @course_id
 	
@@ -320,6 +334,70 @@ go
 -- exec ReadCourse 2
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
+
+if object_id('DeleteCourse', 'P') is not null drop procedure DeleteCourse;
+go
+create procedure DeleteCourse @aid int, @course_id int
+as
+begin
+
+	declare @IsBanned BIT;
+	set @IsBanned = dbo.IsUserBanned(@aid, 'UpdateCourse');
+    if @IsBanned = 1 
+	begin
+		select 'BANNED' as [check];
+		return;
+	end
+
+	declare @user_id int;
+
+	select @user_id = [user_id]
+	from Users
+	where [authentication_id] = @aid
+
+	if (@user_id is null)
+	begin
+		select 'U_UID' as [check];
+		return;
+	end
+
+	if not exists (
+		select 1
+		from Courses
+		where [course_id] = @course_id)
+	begin
+		select 'U_CID' as [check];
+		return;
+	end
+
+	if not exists (
+		select 1
+		from Authentications auth join Authorizations authz on authz.authorization_id = auth.authorization_id
+		where auth.authentication_id = @aid and authz.role = 'NAV_ESP')
+	begin
+		select 'U_ROLE' as [check];
+		return;
+	end
+
+	update Courses
+	set [delete_flag] = 1,
+		[updated_date] = getdate()
+	where [user_id] = @user_id
+		and [course_id] = @course_id
+	
+	if @@ROWCOUNT = 1
+	begin
+		select 'SUCCESSED' as [check];
+		return;
+	end
+
+	select 'FAILED' as [check];
+
+end
+go
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+
 if object_id('ReadUserCourses', 'P') is not null drop procedure ReadUserCourses;
 go
 create procedure ReadUserCourses @aid int
@@ -349,6 +427,7 @@ begin
 		[course_status]
 	from Courses
 	where [user_id] = @user_id
+		and [delete_flag] = 0
 end
 go
 -- exec ViewUserCourses 1
@@ -362,54 +441,54 @@ begin
     if not exists (
         select 1
         from Courses
-        where [course_id] = @course_id)
+        where [course_id] = @course_id and [delete_flag] = 0)
     begin
-        select 'U_CID' as [check]
+        select 'U_CID' as [check];
         return;
     end
 
     select u.[user_id],
-		u.[authentication_id],
-		u.[user_full_name],
-		c.[course_id],
-        c.[course_name], 
-        c.[course_short_description],
-        c.[course_full_description],
-        c.[course_price],
-        c.[course_duration],
-        c.[course_status],
-		m.[module_id],
-        m.[module_ordinal],
-        m.[module_name],
-		cl.[collection_type_id],
-        clt.[collection_type_name],
-		cl.[collection_id],
-        cl.[collection_ordinal],
-        cl.[collection_name],
-		mat.[material_type_id],
-        mat.[material_type_name],
-		ma.[material_id],
-        ma.[material_ordinal],
-        ma.[material_content],
-		qt.[question_type_id],
-        qt.[question_type_name],
-		q.[question_id],
-        q.[question_ordinal],
-        q.[question_description],
-		a.[answer_id],
-        a.[answer_ordinal],
-        a.[answer_description],
-        a.[answer_is_right]
+           u.[authentication_id],
+           u.[user_full_name],
+           c.[course_id],
+           c.[course_name], 
+           c.[course_short_description],
+           c.[course_full_description],
+           c.[course_price],
+           c.[course_duration],
+           c.[course_status],
+           m.[module_id],
+           m.[module_ordinal],
+           m.[module_name],
+           cl.[collection_type_id],
+           clt.[collection_type_name],
+           cl.[collection_id],
+           cl.[collection_ordinal],
+           cl.[collection_name],
+           mat.[material_type_id],
+           mat.[material_type_name],
+           ma.[material_id],
+           ma.[material_ordinal],
+           ma.[material_content],
+           qt.[question_type_id],
+           qt.[question_type_name],
+           q.[question_id],
+           q.[question_ordinal],
+           q.[question_description],
+           a.[answer_id],
+           a.[answer_ordinal],
+           a.[answer_description],
+           a.[answer_is_right]
     from Courses c
-        left join Modules m on m.[course_id] = c.[course_id]
+        left join Modules m on m.[course_id] = c.[course_id] and m.[delete_flag] = 0
         left join Users u on u.[user_id] = c.[user_id]
-        left join Collections cl on cl.[module_id] = m.[module_id]
-        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_id]
-        left join Materials ma on ma.[collection_id] = cl.[collection_id]
+        left join Collections cl on cl.[module_id] = m.[module_id] and cl.[delete_flag] = 0
+        left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_type_id]
+        left join Materials ma on ma.[collection_id] = cl.[collection_id] and ma.[delete_flag] = 0
         left join MaterialType mat on mat.[material_type_id] = ma.[material_type_id]
-        left join Questions q on q.[material_id] = ma.[material_id]
+        left join Questions q on q.[material_id] = ma.[material_id] and q.[delete_flag] = 0
         left join QuestionTypes qt on qt.[question_type_id] = q.[question_type_id]
-        left join Answers a on a.[question_id] = q.[question_id]
+        left join Answers a on a.[question_id] = q.[question_id] and a.[delete_flag] = 0
     where c.course_id = @course_id
     order by m.[module_ordinal], cl.[collection_ordinal], ma.[material_ordinal], q.[question_ordinal], a.[answer_ordinal];
 end
@@ -425,11 +504,11 @@ grant execute on dbo.ReadCourse to [NAV_STUDENT];
 
 grant execute on dbo.CreateCourse to [NAV_ESP];
 grant execute on dbo.UpdateCourse to [NAV_ESP];
+grant execute on dbo.DeleteCourse to [NAV_ESP];
 grant execute on dbo.ReadUserCourses to [NAV_ESP];
 grant execute on dbo.ReadFullCourse to [NAV_ESP];
 
-grant execute on dbo.CreateCourse to [NAV_ADMIN];
-grant execute on dbo.UpdateCourse to [NAV_ADMIN];
+
 grant execute on dbo.ReadUserCourses to [NAV_ADMIN];
 grant execute on dbo.ReadFullCourse to [NAV_ADMIN];
 

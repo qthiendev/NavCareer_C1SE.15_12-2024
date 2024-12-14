@@ -7,11 +7,12 @@ const cors = require('cors');
 const cluster = require('cluster');
 const os = require('os');
 const now = new Date();
+const helmet = require('helmet'); // Import helmet for security headers
+const rateLimit = require('express-rate-limit'); // Import express-rate-limit
 
 const app = express();
 const PORT = 5000;
-//const numCores = os.cpus().length;
-const numCores = 1;
+const numCores = os.cpus().length;
 
 let useRedis = true;
 
@@ -30,37 +31,33 @@ const redisClient = redis.createClient({
     },
 });
 
-async function connectRedis() {
+// Async function to connect to Redis
+const connectRedis = async () => {
     try {
         await redisClient.connect();
         console.log(`[${now.toLocaleString()}] Connected to Redis successfully.`);
-        monitorRedis(); // Start monitoring Redis events
     } catch (err) {
         console.error(`[${now.toLocaleString()}] Failed to connect to Redis:`, err.message);
         useRedis = false;
     }
-}
+};
 
-function monitorRedis() {
-    redisClient.on('error', (err) => {
-        console.error(`[${now.toLocaleString()}] Redis error:`, err.message);
-        handleCriticalFailure();
-    });
-
-    redisClient.on('end', () => {
-        console.error(`[${now.toLocaleString()}] Redis connection lost.`);
-        handleCriticalFailure();
-    });
-}
-
-function handleCriticalFailure() {
-    console.error(`[${now.toLocaleString()}] Critical error detected. Restarting server...`);
-    process.exit(1); // Exit the process to trigger a restart
-}
-
-function setupMiddleware(app) {
+// Async function to set up middleware
+const setupMiddleware = (app) => {
     app.use(cors(corsOptions));
     app.use(cookieParser());
+
+    // Helmet for security headers
+    app.use(helmet());
+
+    // Rate limiter to prevent abuse
+    const limiter = rateLimit({
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        max: 100, // Limit each IP to 100 requests per windowMs
+        message: 'Too many requests from this IP, please try again later.',
+    });
+
+    //app.use(limiter);
 
     const sessionOptions = {
         secret: 'NavCareerProject',
@@ -91,9 +88,10 @@ function setupMiddleware(app) {
         }
         next();
     });
-}
+};
 
-async function startApp() {
+// Async function to start the app
+const startApp = async () => {
     await connectRedis();
 
     if (useRedis && cluster.isMaster) {
@@ -118,6 +116,6 @@ async function startApp() {
             console.log(`[${now.toLocaleString()}] Worker process [PID: ${process.pid}] running on http://localhost:${PORT}`);
         });
     }
-}
+};
 
 startApp();
