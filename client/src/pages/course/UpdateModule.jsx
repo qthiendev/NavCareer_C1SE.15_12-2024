@@ -11,31 +11,70 @@ function UpdateModule() {
     const [errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
 
+    const [isBanned, setIsBanned] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
     useEffect(() => {
-        const fetchModuleData = async () => {
+        const checkBanStatus = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/course/read-full?course_id=${course_id}`, { withCredentials: true });
-                const data = response.data;
-
-                const module = data.modules?.find((mod) => mod.module_id === parseInt(module_id));
-                if (!module) {
-                    alert("Cannot find module");
-                    navigate(-1);
-                    return;
-                }
-
-                setModuleData(module);
-                setCollections(module.collections || []);
+                await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateCourse', { withCredentials: true });
+                setIsBanned(true);
             } catch (error) {
-                alert("Failed to fetch module data");
-                navigate(-1);
-            } finally {
-                setLoading(false);
+                console.error('Failed to check ban status:', error);
+                alert('BANNED');
+                navigate('/');
             }
         };
 
+        checkBanStatus();
+    }, [navigate]);
+
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            if (!isBanned) return;
+            try {
+                const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
+                if (response.status === 200) {
+                    setIsAuthorized(true);
+                } else {
+                    navigate('/');
+                }
+            } catch (error) {
+                console.error('Authorization check failed:', error);
+                navigate('/');
+            }
+        };
+
+        checkAuthorization();
+    }, [isBanned, navigate]);
+
+    const fetchModuleData = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get(`http://localhost:5000/course/read-full?course_id=${course_id}`, { withCredentials: true });
+            const data = response.data;
+
+            const module = data.modules?.find((mod) => mod.module_id === parseInt(module_id));
+            if (!module) {
+                alert("Cannot find module");
+                navigate(-1);
+                return;
+            }
+
+            setModuleData(module);
+            setCollections(module.collections || []);
+        } catch (error) {
+            alert("Failed to fetch module data");
+            navigate(-1);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (!course_id || !module_id || !isAuthorized) return;
         fetchModuleData();
-    }, [course_id, module_id, navigate]);
+    }, [course_id, module_id, isAuthorized, navigate]);
 
     const handleUpdateModule = async (e) => {
         e.preventDefault();
@@ -77,7 +116,7 @@ function UpdateModule() {
             });
 
             alert('Collection ordinals updated successfully');
-            navigate(0); // Refresh the page to reflect the changes
+            fetchModuleData();
         } catch (error) {
             alert('Failed to update collection ordinals');
         }
@@ -93,7 +132,7 @@ function UpdateModule() {
                 withCredentials: true,
             });
             alert('Collection deleted successfully');
-            setCollections(collections.filter((col) => col.collection_id !== collection_id));
+            fetchModuleData();
         } catch (error) {
             alert('Failed to delete collection');
         }
@@ -110,7 +149,7 @@ function UpdateModule() {
                 withCredentials: true,
             });
             alert('Collection added successfully');
-            navigate(0);
+            fetchModuleData();
         } catch (error) {
             alert('Failed to add collection');
         }
@@ -128,7 +167,7 @@ function UpdateModule() {
                 withCredentials: true,
             });
             alert('Collection updated successfully');
-            navigate(0);
+            fetchModuleData();
         } catch (error) {
             alert('Failed to update collection');
         }

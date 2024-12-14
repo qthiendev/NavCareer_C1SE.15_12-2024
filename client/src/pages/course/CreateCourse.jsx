@@ -14,7 +14,7 @@ function CreateCourse() {
     const [error, setError] = useState(null);
     const [banChecked, setBanChecked] = useState(false);
     const [espChecked, setESPChecked] = useState(false);
-    
+
     // Check ban status
     useEffect(() => {
         const checkBanStatus = async () => {
@@ -81,98 +81,75 @@ function CreateCourse() {
 
     return (
         <div className="create-course-container">
-            <div className="create-course-left-panel">
-                <div className="create-course-header">
-                    
-                    <h2 className="create-course-name">NAV CAREER</h2> 
-                    <h2 className="create-course-name">Thêm hồ sơ</h2>
-                    {/* <button className="create-course-share-btn">
-                        <img src="/img/student_profile/share_icon.svg" alt="Share" className="share-icon" />
-                        Chia sẻ hồ sơ
-                    </button> */}
-                </div>
-                <div className="create-course-menu">
-                    <ul>
-                        <li className="create-course-menu-item active">Thêm khóa học</li>
-                        <li className="create-course-menu-item">Các khoá học</li>
-                        <li className="create-course-menu-item">Giảng viên yêu thích</li>
-                        <li className="create-course-menu-item">Tin nhắn</li>
-                        <li style={{ border: 'none' }} className="create-course-menu-item">Liên hệ admin</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div className="create-course-right-panel">
-                <div className="create-course-info">
-                    <form onSubmit={handleSubmit}>
-                        <div className="create-course-form">
-                            <div className="create-course-form-row">
-                                <div className="create-course-form-group">
-                                    <label htmlFor="course_name">Tên khóa học: </label>
-                                    <input
-                                        type="text"
-                                        id="course_name"
-                                        value={courseName}
-                                        onChange={(e) => setCourseName(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className="create-course-form-group">
-                                    <label htmlFor="course_short_description">Mô tả khóa học: </label>
-                                    <input
-                                        type="text"
-                                        id="course_short_description"
-                                        value={courseShortDescription}
-                                        onChange={(e) => setCourseShortDescription(e.target.value)}
-                                        required
-                                    />
-                                </div>
+            <div className="create-course-info">
+                <form onSubmit={handleSubmit}>
+                    <div className="create-course-form">
+                        <div className="create-course-form-row">
+                            <div className="create-course-form-group">
+                                <label htmlFor="course_name">Tên khóa học: </label>
+                                <input
+                                    type="text"
+                                    id="course_name"
+                                    value={courseName}
+                                    onChange={(e) => setCourseName(e.target.value)}
+                                    required
+                                />
                             </div>
-                            <div className="create-course-form-row">
-                                <div className="create-course-form-group">
-                                    <label htmlFor="course_full_description">Thông tin khóa học: </label>
-                                    <textarea
-                                        id="course_full_description"
-                                        value={courseFullDescription}
-                                        onChange={(e) => setCourseFullDescription(e.target.value)}
-                                        required
-                                    />
-                                </div>
+                            <div className="create-course-form-group">
+                                <label htmlFor="course_short_description">Mô tả khóa học: </label>
+                                <input
+                                    type="text"
+                                    id="course_short_description"
+                                    value={courseShortDescription}
+                                    onChange={(e) => setCourseShortDescription(e.target.value)}
+                                    required
+                                />
                             </div>
-                            <div className="create-course-form-row">
-                                <div className="create-course-form-group">
-                                    <label htmlFor="course_price">Giá: </label>
-                                    <input
-                                        type="number"
-                                        id="course_price"
-                                        value={coursePrice}
-                                        onChange={(e) => setCoursePrice(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className="create-course-form-group">
-                                    <label htmlFor="course_duration">Số giờ học: </label>
-                                    <input
-                                        type="text"
-                                        id="course_duration"
-                                        value={courseDuration}
-                                        onChange={(e) => setCourseDuration(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="create-course-form-row">
-                                <button type="submit">Tạo Khóa Học</button>
-                            </div>
-                            <div className="create-course-form-row">
-                                <button className="create-course-black-btn" onClick={() => navigate('/esp/course/view-all')}>
-                                    Tạo hồ sơ
-                                </button>
-                            </div>
-                            {error && <p className="error-message">{error}</p>}
                         </div>
-                    </form>
-                </div>
+                        <div className="create-course-form-row">
+                            <div className="create-course-form-group">
+                                <label htmlFor="course_full_description">Thông tin khóa học: </label>
+                                <textarea
+                                    id="course_full_description"
+                                    value={courseFullDescription}
+                                    onChange={(e) => setCourseFullDescription(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="create-course-form-row">
+                            <div className="create-course-form-group">
+                                <label htmlFor="course_price">Giá: </label>
+                                <input
+                                    type="number"
+                                    id="course_price"
+                                    value={coursePrice}
+                                    onChange={(e) => setCoursePrice(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="create-course-form-group">
+                                <label htmlFor="course_duration">Số giờ học: </label>
+                                <input
+                                    type="text"
+                                    id="course_duration"
+                                    value={courseDuration}
+                                    onChange={(e) => setCourseDuration(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="create-course-form-row">
+                            <button type="submit">Tạo Khóa Học</button>
+                        </div>
+                        <div className="create-course-form-row">
+                            <button className="create-course-black-btn" onClick={() => navigate('/esp/course/view-all')}>
+                                Tạo hồ sơ
+                            </button>
+                        </div>
+                        {error && <p className="error-message">{error}</p>}
+                    </div>
+                </form>
             </div>
         </div>
     );

@@ -14,6 +14,44 @@ function UpdateCourse() {
     const [isBanned, setIsBanned] = useState(false);
     const [isAuthorized, setIsAuthorized] = useState(false);
 
+    const fetchCourseData = async () => {
+        if (!isBanned || !isAuthorized) return;
+        try {
+            setLoading(true);
+            setModules(null);
+            setCourseData(null);
+
+            const response = await axios.get(`http://localhost:5000/course/read-full?course_id=${course_id}`, { withCredentials: true });
+            const data = response.data;
+
+            setCourseData({
+                course_id: data.course_id,
+                authentication_id: data.authentication_id,
+                course_name: data.course_name,
+                course_short_description: data.course_short_description,
+                course_full_description: data.course_full_description,
+                course_price: data.course_price >= 1000 || data.course_price === 0 ? data.course_price : 1000,
+                course_duration: data.course_duration,
+                course_status: Boolean(data.course_status),
+                user_id: data.user_id,
+                user_full_name: data.user_full_name,
+            });
+
+            const filteredModules = (data.modules || []).map(module => ({
+                module_id: module.module_id,
+                module_name: module.module_name,
+                module_ordinal: module.module_ordinal
+            }));
+
+            setModules(filteredModules);
+        } catch (error) {
+            alert("Cannot find course");
+            navigate(-1);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         const checkBanStatus = async () => {
             try {
@@ -22,7 +60,7 @@ function UpdateCourse() {
             } catch (error) {
                 console.error('Failed to check ban status:', error);
                 alert('BANNED');
-                navigate(-1);
+                navigate('/');
             }
         };
 
@@ -49,37 +87,8 @@ function UpdateCourse() {
     }, [isBanned, navigate]);
 
     useEffect(() => {
-        const fetchCourseData = async () => {
-            if (!isBanned || !isAuthorized) return;
-            try {
-                const response = await axios.get(`http://localhost:5000/course/read-full?course_id=${course_id}`, { withCredentials: true });
-                const data = response.data;
-                setCourseData({
-                    course_id: data.course_id,
-                    authentication_id: data.authentication_id,
-                    course_name: data.course_name,
-                    course_short_description: data.course_short_description,
-                    course_full_description: data.course_full_description,
-                    course_price: data.course_price >= 1000 || data.course_price === 0 ? data.course_price : 1000,
-                    course_duration: data.course_duration,
-                    course_status: Boolean(data.course_status),
-                    user_id: data.user_id,
-                    user_full_name: data.user_full_name,
-                });
-                const filteredModules = (data.modules || []).map(module => ({
-                    module_id: module.module_id,
-                    module_name: module.module_name,
-                    module_ordinal: module.module_ordinal
-                }));
-                setModules(filteredModules);
-            } catch (error) {
-                alert("Cannot find course");
-                navigate(-1);
-            } finally {
-                setLoading(false);
-            }
-        };
-
+        if (!isBanned || !isAuthorized) return;
+        
         fetchCourseData();
     }, [course_id, isBanned, isAuthorized, navigate]);
 
@@ -99,8 +108,8 @@ function UpdateCourse() {
                 course_id: Number(course_id),
                 ...courseData
             }, { withCredentials: true });
-            alert('Course updated successfully');
-            navigate(0);
+            alert('Cập nhật khóa học thành công');
+            fetchCourseData();
         } catch (error) {
             setErrorMessage('Failed to update course. Please try again later.');
             console.error('Failed to update course:', error);
@@ -111,8 +120,8 @@ function UpdateCourse() {
         try {
             await axios.post(`http://localhost:5000/course/module/delete?course_id=${course_id}&module_id=${module_id}`, {},
                 { withCredentials: true });
-            alert('Module deleted successfully');
-            navigate(0);
+            alert('Cập nhật module thành công');
+            fetchCourseData();
         } catch (error) {
             console.error('Failed to delete module:', error);
             alert('Failed to delete module');
@@ -124,7 +133,7 @@ function UpdateCourse() {
             await axios.post(`http://localhost:5000/course/module/create?course_id=${course_id}&module_name=Module mới`, {},
                 { withCredentials: true });
             alert('Module added successfully');
-            navigate(0);
+            fetchCourseData();
         } catch (error) {
             console.error('Failed to delete module:', error);
             alert('Failed to add module');

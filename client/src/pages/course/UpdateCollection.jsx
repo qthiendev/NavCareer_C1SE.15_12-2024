@@ -13,6 +13,8 @@ const UpdateCollection = () => {
     const [mediaUrls, setMediaUrls] = useState({});
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+    const [isBanned, setIsBanned] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);
     const navigate = useNavigate();
 
     const fetchCollectionData = async (course_id, module_id, collection_id) => {
@@ -69,10 +71,44 @@ const UpdateCollection = () => {
     };
 
     useEffect(() => {
-        if (!course_id || !module_id || !collection_id) return;
+        const checkBanStatus = async () => {
+            try {
+                await axios.get('http://localhost:5000/admin/user/ban/check?procedure_name=UpdateCourse', { withCredentials: true });
+                setIsBanned(true);
+            } catch (error) {
+                console.error('Failed to check ban status:', error);
+                alert('BANNED');
+                navigate(-1);
+            }
+        };
+
+        checkBanStatus();
+    }, [navigate]);
+
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            if (!isBanned) return;
+            try {
+                const response = await axios.get('http://localhost:5000/authz/esp', { withCredentials: true });
+                if (response.status === 200) {
+                    setIsAuthorized(true);
+                } else {
+                    navigate('/');
+                }
+            } catch (error) {
+                console.error('Authorization check failed:', error);
+                navigate('/');
+            }
+        };
+
+        checkAuthorization();
+    }, [isBanned, navigate]);
+
+    useEffect(() => {
+        if (!course_id || !module_id || !collection_id || !isAuthorized) return;
 
         fetchCollectionData(course_id, module_id, collection_id);
-    }, [course_id, module_id, collection_id, navigate]);
+    }, [course_id, module_id, collection_id, isAuthorized, navigate]);
 
     const handleCollectionUpdate = async () => {
         try {

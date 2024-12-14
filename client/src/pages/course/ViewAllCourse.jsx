@@ -86,9 +86,6 @@ const ViewAllCourse = () => {
                     <tr>
                         <th>ID Khóa học</th>
                         <th>Tên Khóa học</th>
-                        <th>Giá</th>
-                        <th>Thời gian</th>
-                        <th>Tổng số Module</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -104,9 +101,6 @@ const ViewAllCourse = () => {
                                     {course.course_name}
                                 </Link>
                             </td>
-                            <td>{course.course_price}</td>
-                            <td>{course.duration}</td>
-                            <td>{course.total_module}</td>
                             <td>
                                 <button onClick={() => handleEdit(course.course_id)}>Chỉnh sửa</button>
                                 <button onClick={() => handleDelete(course.course_id)}>Xóa</button>

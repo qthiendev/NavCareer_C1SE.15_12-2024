@@ -1,128 +1,31 @@
 .create-course-container {
-  display: flex;
-  background-color: #f0f0f0;
-  padding: 20px;
-  width: 100%;
-  height: 100vh;
-}
-
-
-.create-course-left-panel {
-  width: 30%;
   background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-.create-course-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.create-course-avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-}
-
-.create-course-name {
-  font-size: 1.2em;
-  font-weight: bold;
-  margin: 5px 0;
-}
-
-.create-course-bio {
-  font-size: 0.9em;
-  color: gray;
-  margin-bottom: 15px;
-}
-
-
-.create-course-share-btn {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-
-.create-course-share-btn:hover {
-  background-color: #0056b3;
-}
-
-.share-icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-}
-
-
-.create-course-menu {
-  margin-top: 30px;
-  width: 100%;
-}
-
-.create-course-menu ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.create-course-menu-item {
-  padding: 10px;
-  font-size: 16px;
-  color: #333;
-  cursor: pointer;
-  text-align: center;
-}
-
-.create-course-menu-item.active,
-.create-course-menu-item:hover {
-  background-color: #007bff;
-  color: white;
-}
-
-
-.create-course-right-panel {
-  width: 70%;
-  padding-left: 30px;
-  padding-right: 30px;
-  box-sizing: border-box;
+  align-items: flex-start;
 }
 
 .create-course-info {
-  background-color: white;
+  background-color: rgb(240, 240, 240);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 30px;
   width: 100%;
+  max-width: 900px; /* To prevent it from being too wide on large screens */
 }
-
 
 .create-course-form {
   display: flex;
   flex-direction: column;
-  width: 100%; /* Full width form */
+  width: 100%;
 }
-
 
 .create-course-form-row {
   display: flex;
-  gap: 30px; /* Increased gap between form groups */
+  gap: 30px;
   margin-bottom: 20px;
 }
-
 
 .create-course-form-group {
   flex: 1;
@@ -144,14 +47,11 @@
   font-size: 14px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  resize: none;
 }
 
 textarea#create-course-form-full-description {
   height: 150px;
 }
-
-
 
 .create-course-black-btn,
 .create-course-share-btn {
@@ -173,7 +73,6 @@ textarea#create-course-form-full-description {
 
 .create-course-share-btn {
   background-color: #007bff;
-  margin-top: 20px;
 }
 
 .create-course-share-btn:hover {

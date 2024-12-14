@@ -29,8 +29,6 @@ function Feedback() {
         }
     };
 
-
-
     return (
         <div className="feedback-container">
             <div className="feedback-left">
