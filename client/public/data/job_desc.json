@@ -2,152 +2,181 @@
     {
         "Code": 1,
         "Description": "Kỹ sư Robot công nghiệp",
-        "image_url": "https://cncvina.com.vn/uploads/6659/ky-su-va-chuyen-gia-bao-tri-large.webp"
+        "image_url": "https://cncvina.com.vn/uploads/6659/ky-su-va-chuyen-gia-bao-tri-large.webp",
+        "name": "Kỹ sư Robot công nghiệp"
     },
     {
         "Code": 2,
         "Description": "Kỹ thuật viên ô tô điện",
-        "image_url": "https://duhocduc.vn/wp-content/uploads/2020/04/ky-thuat-dien-tu.jpg"
+        "image_url": "https://duhocduc.vn/wp-content/uploads/2020/04/ky-thuat-dien-tu.jpg",
+        "name": "Kỹ thuật viên ô tô điện"
     },
     {
         "Code": 3,
         "Description": "Kỹ thuật viên lắp đặt năng lượng mặt trời",
-        "image_url": "https://www.evn.com.vn/userfile/User/minhhanh/images/2020/5/4520cpcsolar.jpg"
+        "image_url": "https://www.evn.com.vn/userfile/User/minhhanh/images/2020/5/4520cpcsolar.jpg",
+        "name": "Kỹ thuật viên lắp đặt năng lượng mặt trời"
     },
     {
         "Code": 4,
         "Description": "Nhân viên kỹ thuật xây dựng",
-        "image_url": "https://www.umt.edu.vn/vi-vn/images/resize-770x0/upload/media/M646b32c625ab7/co-hoi-viec-lam-nganh-xay-dung.png?v=1.31"
+        "image_url": "https://www.umt.edu.vn/vi-vn/images/resize-770x0/upload/media/M646b32c625ab7/co-hoi-viec-lam-nganh-xay-dung.png?v=1.31",
+        "name": "Nhân viên kỹ thuật xây dựng"
     },
     {
         "Code": 5,
         "Description": "Kỹ thuật viên vận hành máy CNC",
-        "image_url": "https://esuhai.vn/upload/vieclamvadaotao/2018/11/13/154210438571.jpg"
+        "image_url": "https://esuhai.vn/upload/vieclamvadaotao/2018/11/13/154210438571.jpg",
+        "name": "Kỹ thuật viên vận hành máy CNC"
     },
     {
         "Code": 6,
         "Description": "Nhà nghiên cứu di truyền học",
-        "image_url": "https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/https://cms-prod.s3-sgn09.fptcloud.com/nhung_dieu_ban_can_biet_ve_lieu_phap_gen_gene_therapy_1_c74076a2ab.jpeg"
+        "image_url": "https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/https://cms-prod.s3-sgn09.fptcloud.com/nhung_dieu_ban_can_biet_ve_lieu_phap_gen_gene_therapy_1_c74076a2ab.jpeg",
+        "name": "Nhà nghiên cứu di truyền học"
     },
     {
         "Code": 7,
         "Description": "Nhà phân tích dữ liệu khoa học xã hội",
-        "image_url": "https://huongnghiep40.vn/wp-content/uploads/2020/05/huong-nghiep-40-chuyen-gia-phan-tich-du-lieu-3-scaled.jpg"
+        "image_url": "https://huongnghiep40.vn/wp-content/uploads/2020/05/huong-nghiep-40-chuyen-gia-phan-tich-du-lieu-3-scaled.jpg",
+        "name": "Nhà phân tích dữ liệu khoa học xã hội"
     },
     {
         "Code": 8,
         "Description": "Nhà nghiên cứu trí tuệ nhân tạo",
-        "image_url": "https://cms.rightpath.edu.vn/uploads/TTNT_1f_1_ebe37be9c4.jpg"
+        "image_url": "https://cms.rightpath.edu.vn/uploads/TTNT_1f_1_ebe37be9c4.jpg",
+        "name": "Nhà nghiên cứu trí tuệ nhân tạo"
     },
     {
         "Code": 9,
         "Description": "Nhà vật lý học",
-        "image_url": "https://images2.thanhnien.vn/528068263637045248/2024/1/24/ptn-17060931410751835215357.jpg"
+        "image_url": "https://images2.thanhnien.vn/528068263637045248/2024/1/24/ptn-17060931410751835215357.jpg",
+        "name": "Nhà vật lý học"
     },
     {
         "Code": 10,
         "Description": "Nhà sinh học biển",
-        "image_url": "https://work247.vn/pictures/images/nganh-hai-duong-hoc-5.jpg"
+        "image_url": "https://work247.vn/pictures/images/nganh-hai-duong-hoc-5.jpg",
+        "name": "Nhà sinh học biển"
     },
     {
         "Code": 11,
         "Description": "Nhà thiết kế đồ họa 3D",
-        "image_url": "https://blogin3d.com/wp-content/uploads/2018/02/thiet-ke-ky-thuat-ky-su-thiet-ke-may.jpg"
+        "image_url": "https://blogin3d.com/wp-content/uploads/2018/02/thiet-ke-ky-thuat-ky-su-thiet-ke-may.jpg",
+        "name": "Nhà thiết kế đồ họa 3D"
     },
     {
         "Code": 12,
         "Description": "Nhà thiết kế nội thất",
-        "image_url": "https://diaocthinhvuong.vn/wp-content/uploads/2023/02/nha-thiet-ke-thai-cong-ngoi-tren-sofa-scaled-1.jpg"
+        "image_url": "https://diaocthinhvuong.vn/wp-content/uploads/2023/02/nha-thiet-ke-thai-cong-ngoi-tren-sofa-scaled-1.jpg",
+        "name": "Nhà thiết kế nội thất"
     },
     {
         "Code": 13,
         "Description": "Nhạc sĩ điện tử",
-        "image_url": "https://kilala.vn/data/article/edmfb.png"
+        "image_url": "https://kilala.vn/data/article/edmfb.png",
+        "name": "Nhạc sĩ điện tử"
     },
     {
         "Code": 14,
         "Description": "Nhiếp ảnh gia chuyên nghiệp",
-        "image_url": "https://gobranding.com.vn/wp-content/uploads/2023/06/3-photographer-la-gi.jpg"
+        "image_url": "https://gobranding.com.vn/wp-content/uploads/2023/06/3-photographer-la-gi.jpg",
+        "name": "Nhiếp ảnh gia chuyên nghiệp"
     },
     {
         "Code": 15,
         "Description": "Nhà thiết kế thời trang",
-        "image_url": "https://www.hoasen.edu.vn/tuyensinh/wp-content/uploads/sites/7/2023/03/hoc-thiet-ke-thoi-trang-can-nhung-gi-hinh-anh2.png"
+        "image_url": "https://www.hoasen.edu.vn/tuyensinh/wp-content/uploads/sites/7/2023/03/hoc-thiet-ke-thoi-trang-can-nhung-gi-hinh-anh2.png",
+        "name": "Nhà thiết kế thời trang"
     },
     {
         "Code": 16,
         "Description": "Chuyên gia tâm lý học lâm sàng",
-        "image_url": "https://vinuni.edu.vn/wp-content/uploads/2024/08/tam-ly-hoc-lam-sang-la-gi-1.jpg"
+        "image_url": "https://vinuni.edu.vn/wp-content/uploads/2024/08/tam-ly-hoc-lam-sang-la-gi-1.jpg",
+        "name": "Chuyên gia tâm lý học lâm sàng"
     },
     {
         "Code": 17,
         "Description": "Chuyên viên tư vấn giáo dục",
-        "image_url": "https://images.careerviet.vn/content/images/yeu-cau-ve-pham-chat-va-ki-nang-doi-voi-Education-Consultant-careerbuilder.jpg"
+        "image_url": "https://images.careerviet.vn/content/images/yeu-cau-ve-pham-chat-va-ki-nang-doi-voi-Education-Consultant-careerbuilder.jpg",
+        "name": "Chuyên viên tư vấn giáo dục"
     },
     {
         "Code": 18,
         "Description": "Nhân viên công tác xã hội",
-        "image_url": "https://glints.com/vn/blog/wp-content/uploads/2023/12/nhan-vien-cong-tac-xa-hoi-la-gi-glints.jpg"
+        "image_url": "https://glints.com/vn/blog/wp-content/uploads/2023/12/nhan-vien-cong-tac-xa-hoi-la-gi-glints.jpg",
+        "name": "Nhân viên công tác xã hội"
     },
     {
         "Code": 19,
         "Description": "Giảng viên kỹ năng mềm",
-        "image_url": "https://media.licdn.com/dms/image/v2/C4E12AQF2hKoRdB7OcA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1534994033237?e=2147483647&v=beta&t=ezGbNwPkJ7dV-E7lMDtJ8lOuN0fuBVHmyQAA7eg380o"
+        "image_url": "https://media.licdn.com/dms/image/v2/C4E12AQF2hKoRdB7OcA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1534994033237?e=2147483647&v=beta&t=ezGbNwPkJ7dV-E7lMDtJ8lOuN0fuBVHmyQAA7eg380o",
+        "name": "Giảng viên kỹ năng mềm"
     },
     {
         "Code": 20,
         "Description": "Chuyên viên truyền thông xã hội",
-        "image_url": "https://hrchannels.com/uptalent/attachments/images/20230323/112447979_chuyen-vien-truyen-thong-4.jpg"
+        "image_url": "https://hrchannels.com/uptalent/attachments/images/20230323/112447979_chuyen-vien-truyen-thong-4.jpg",
+        "name": "Chuyên viên truyền thông xã hội"
     },
     {
         "Code": 21,
         "Description": "Chuyên gia khởi nghiệp công nghệ",
-        "image_url": "https://media.vneconomy.vn/640x360/images/upload/2022/11/09/khoi-nghiep-sang-tao.jpg"
+        "image_url": "https://media.vneconomy.vn/640x360/images/upload/2022/11/09/khoi-nghiep-sang-tao.jpg",
+        "name": "Chuyên gia khởi nghiệp công nghệ"
     },
     {
         "Code": 22,
         "Description": "Quản lý chuỗi cung ứng",
-        "image_url": "https://hrchannels.com/uptalent/attachments/images/20240301/171459407_truong-phong-logistics-2.jpg"
+        "image_url": "https://hrchannels.com/uptalent/attachments/images/20240301/171459407_truong-phong-logistics-2.jpg",
+        "name": "Quản lý chuỗi cung ứng"
     },
     {
         "Code": 23,
         "Description": "Chuyên viên marketing số",
-        "image_url": "https://tanthoidai.com.vn/images/articles/2016/06/14/131103526244295000.jpg"
+        "image_url": "https://tanthoidai.com.vn/images/articles/2016/06/14/131103526244295000.jpg",
+        "name": "Chuyên viên marketing số"
     },
     {
         "Code": 24,
         "Description": "Quản lý dự án",
-        "image_url": "https://landing-assets.gapowork.com/uploads/mceu_455091453271682522941956_3fc35fbceb.png"
+        "image_url": "https://landing-assets.gapowork.com/uploads/mceu_455091453271682522941956_3fc35fbceb.png",
+        "name": "Quản lý dự án"
     },
     {
         "Code": 25,
         "Description": "Chuyên gia thương mại điện tử",
-        "image_url": "https://cdn.thuvienphapluat.vn//uploads/tintuc/2022/03/03/thuong-mai-dien-tu.jpg"
+        "image_url": "https://cdn.thuvienphapluat.vn//uploads/tintuc/2022/03/03/thuong-mai-dien-tu.jpg",
+        "name": "Chuyên gia thương mại điện tử"
     },
     {
         "Code": 26,
         "Description": "Nhân viên quản trị dữ liệu",
-        "image_url": "https://upload.tanca.io/api/upload/news/64c31e72bee1f8f0d0039f31?name=64c31e725bd24YUIS1487988-database-administrator-1.jpg"
+        "image_url": "https://upload.tanca.io/api/upload/news/64c31e72bee1f8f0d0039f31?name=64c31e725bd24YUIS1487988-database-administrator-1.jpg",
+        "name": "Nhân viên quản trị dữ liệu"
     },
     {
         "Code": 27,
         "Description": "Chuyên viên kiểm toán CNTT",
-        "image_url": "https://media.tapchitaichinh.vn/w1480/images/upload/2023/11/10/3625e2de-45cc-4b14-bb92-b7139af37052.jpg"
+        "image_url": "https://media.tapchitaichinh.vn/w1480/images/upload/2023/11/10/3625e2de-45cc-4b14-bb92-b7139af37052.jpg",
+        "name": "Chuyên viên kiểm toán CNTT"
     },
     {
         "Code": 28,
         "Description": "Chuyên viên quản trị nhân sự",
-        "image_url": "https://www.pace.edu.vn/uploads/news/2023/04/4-nhiem-vu-cua-quan-tri-nhan-su.jpg"
+        "image_url": "https://www.pace.edu.vn/uploads/news/2023/04/4-nhiem-vu-cua-quan-tri-nhan-su.jpg",
+        "name": "Chuyên viên quản trị nhân sự"
     },
     {
         "Code": 29,
         "Description": "Chuyên viên xử lý tài liệu pháp lý",
-        "image_url": "https://hrchannels.com/uptalent/attachments/images/20201118/1605694981281-chuyen-vien-phap-che-va-nhung-su-that-lam-tuong-2.jpg"
+        "image_url": "https://hrchannels.com/uptalent/attachments/images/20201118/1605694981281-chuyen-vien-phap-che-va-nhung-su-that-lam-tuong-2.jpg",
+        "name": "Chuyên viên xử lý tài liệu pháp lý"
     },
     {
         "Code": 30,
         "Description": "Nhân viên kế toán quản trị",
-        "image_url": "https://images.careerviet.vn/content/images/ke%20toan-quan-tri-la-gi-careerbuilder.png"
+        "image_url": "https://images.careerviet.vn/content/images/ke%20toan-quan-tri-la-gi-careerbuilder.png",
+        "name": "Nhân viên kế toán quản trị"
     }
-    
 ]

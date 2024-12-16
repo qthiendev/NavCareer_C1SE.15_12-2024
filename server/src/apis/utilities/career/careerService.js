@@ -3,8 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const csv = require('csv-parser');
 
-const predictPythonPath = path.resolve(__dirname, '../../../../../nav_model/nodejs_predict.py');
-const savePythonPath = path.resolve(__dirname, '../../../../../nav_model/nodejs_predict_save.py');
+const predictPythonPath = path.resolve(__dirname, '../../../../../Career-Predict-Model/nodejs_predict.py');
+const savePythonPath = path.resolve(__dirname, '../../../../../Career-Predict-Model/nodejs_predict_save.py');
 
 const tryPredict = (data) => {
     return new Promise((resolve, reject) => {
@@ -57,8 +57,8 @@ const trySaveResponse = async (responses, jobName) => {
 };
 
 const tryGetAvailableCareer = async () => {
-    const version = 'v1.3';
-    const filePath = path.join(__dirname, `../../../../../nav_model/data/${version}/careers.csv`);
+    const version = 'v1.2';
+    const filePath = path.join(__dirname, `../../../../../Career-Predict-Model/data/${version}/careers.csv`);
     const careers = [];
 
     return new Promise((resolve, reject) => {
