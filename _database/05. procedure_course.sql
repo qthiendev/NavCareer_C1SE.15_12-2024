@@ -171,16 +171,14 @@ begin
 		m.[module_ordinal],
 		m.[module_name]
 	from Courses c
-		left join Modules m on m.[course_id] = c.[course_id]
-		join Users u on u.[user_id] = c.[user_id]
+		left join Modules m on m.[course_id] = c.[course_id] and m.[delete_flag] = 0
+		join Users u on u.[user_id] = c.[user_id] and u.[delete_flag] = 0
 	where c.course_id = @course_id
 		and c.[delete_flag] = 0
-		and m.[delete_flag] = 0
-		and u.[delete_flag] = 0
 	order by m.[module_ordinal];
 end
 go
--- exec ReadCourse 0
+-- exec ReadCourse 1
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 if object_id('CreateCourse', 'P') is not null drop procedure CreateCourse;
