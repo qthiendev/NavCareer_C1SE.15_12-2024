@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './servey.css';
+import CoursesList from './coursesList';
 
 function Servey() {
     const [activeTab, setActiveTab] = useState("1");
@@ -291,52 +292,58 @@ function Servey() {
                                     <p>Kết quả có thể mất tới một vài phút để phân tích, vui lòng đợi...</p>
                                 </div>
                             ) : result ? (
-                                <div className="result-layout">
-                                    <div className="result-text">
-                                        <h3 className="job-header">Kết quả dự đoán nghề nghiệp của bạn là:</h3>
-                                        <h2 className="job-title">{result[2]}</h2>
+                                <div className='result-layout-content'>
+                                    <div className="result-layout">
+                                        <div className="result-text">
+                                            <h3 className="job-header">Kết quả dự đoán nghề nghiệp của bạn là:</h3>
+                                            <h2 className="job-title">{result[2]}</h2>
+                                            
+                                            {isSatisfied === null && (
+                                                <div className="satisfaction-question">
+                                                    <p>Bạn có hài lòng với kết quả này không?</p>
+                                                    <button onClick={() => handleSatisfactionChange(true)}>Có</button>
+                                                    <button onClick={() => handleSatisfactionChange(false)}>Không</button>
+                                                </div>
+                                            )}
 
-                                        {isSatisfied === null && (
-                                            <div className="satisfaction-question">
-                                                <p>Bạn có hài lòng với kết quả này không?</p>
-                                                <button onClick={() => handleSatisfactionChange(true)}>Có</button>
-                                                <button onClick={() => handleSatisfactionChange(false)}>Không</button>
-                                            </div>
-                                        )}
+                                            {isSatisfied === false && feedbackMessage === null && (
+                                                <div className="alternate-career">
+                                                    <input
+                                                        type="text"
+                                                        value={userInputCareer}
+                                                        onChange={handleCareerInput}
+                                                        placeholder="Nhập nghề nghiệp mong muốn"
+                                                    />
+                                                    {filteredCareers.length > 0 && (
+                                                        <ul className="autocomplete-list">
+                                                            {filteredCareers.map((career, index) => (
+                                                                <li key={index} onClick={() => setUserInputCareer(career)}>
+                                                                    {career}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                    <button onClick={handleSaveCareer} disabled={submissionLoading}>
+                                                        {submissionLoading ? "Đang gửi..." : "Gửi câu trả lời"}
+                                                    </button>
+                                                </div>
+                                            )}
 
-                                        {isSatisfied === false && feedbackMessage === null && (
-                                            <div className="alternate-career">
-                                                <input
-                                                    type="text"
-                                                    value={userInputCareer}
-                                                    onChange={handleCareerInput}
-                                                    placeholder="Nhập nghề nghiệp mong muốn"
-                                                />
-                                                {filteredCareers.length > 0 && (
-                                                    <ul className="autocomplete-list">
-                                                        {filteredCareers.map((career, index) => (
-                                                            <li key={index} onClick={() => setUserInputCareer(career)}>
-                                                                {career}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                                <button onClick={handleSaveCareer} disabled={submissionLoading}>
-                                                    {submissionLoading ? "Đang gửi..." : "Gửi câu trả lời"}
-                                                </button>
-                                            </div>
-                                        )}
+                                            {feedbackMessage && <p className="feedback-message">{feedbackMessage}</p>}
 
-                                        {feedbackMessage && <p className="feedback-message">{feedbackMessage}</p>}
-
-                                        <p className="job-description">{jobDetails?.Description}</p>
+                                            <p className="job-description">{jobDetails?.Description}</p>
+                                        </div>
+                                        <div className="result-image">
+                                            <img
+                                                src={jobDetails?.image_url}
+                                                alt={jobDetails?.["Career Name (Vietnamese)"] || "Hình ảnh không khả dụng"}
+                                                className="job-image"
+                                            />
+                                        </div>
+                                        
                                     </div>
-                                    <div className="result-image">
-                                        <img
-                                            src={jobDetails?.image_url}
-                                            alt={jobDetails?.["Career Name (Vietnamese)"] || "Hình ảnh không khả dụng"}
-                                            className="job-image"
-                                        />
+                                    <div className='List-couses'>
+                                        <CoursesList className="CourseList" fieldName={result[2]} />
                                     </div>
                                 </div>
                             ) : (

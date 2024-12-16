@@ -454,6 +454,14 @@
     color: #fff;
 }
 
+.result-layout-content {
+    display: flex;
+    flex-direction: column; /* Sắp xếp các phần tử con theo chiều dọc */
+    gap: 20px; /* Khoảng cách giữa các phần tử */
+    width: 100%;
+    margin-top: 20px;
+}
+
 .result-layout {
     display: flex;
     justify-content: space-between;
@@ -502,4 +510,8 @@
     height: auto;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.CourseList {
+    width: 100%; /* Chiếm toàn bộ chiều rộng container */
 }

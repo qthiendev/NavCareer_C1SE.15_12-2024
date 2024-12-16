@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Chatbot.css';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; // Import Link
@@ -10,7 +10,14 @@ function Chatbot({ onClose }) {
   const [input, setInput] = useState('');
   const [stage, setStage] = useState('welcome'); // Theo dõi luồng hội thoại
   
+  const messagesEndRef = useRef(null);
 
+  useEffect(() => {
+    // Cuộn xuống cuối mỗi khi `messages` thay đổi
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  
   useEffect(() => {
     // Gửi tin nhắn chào mừng khi khởi động
     const welcomeMessage = {
@@ -34,7 +41,13 @@ function Chatbot({ onClose }) {
         clickable: true
 
       };
-    setMessages([welcomeMessage,Consultation,cost,recommendations]);
+      const quickConsultation = {
+        sender: 'bot',
+        text: 'Khảo sát nhanh',
+        clickable: true
+
+      };
+    setMessages([welcomeMessage,Consultation,cost,recommendations,quickConsultation]);
   }, []);
 
   const [showChatbot, setShowChatbot] = useState(true);
@@ -71,6 +84,9 @@ function Chatbot({ onClose }) {
         case 'awaitingPriceInfo':
           handleAwaitingPriceInfo(input);
           break;
+        case 'quickConsultation':
+          handleQuickConsultation(input);
+          break;
         case 'end':
         handleEnding(input);
         break;
@@ -99,13 +115,14 @@ function Chatbot({ onClose }) {
       } else if (lowerInput.includes('giá')) {
         setMessages(prev => [...prev, { sender: 'bot', text: 'Vui lòng cho tôi biết lĩnh vực và khoảng giá mà bạn quan tâm (ví dụ: lĩnh vực Nghệ Thuật từ 2000000 đến 5000000 ).' }]);
         setStage('awaitingPriceInfo');
+      } else if (lowerInput.includes('nhanh')) {
+        setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn là học sinh hay sinh viên bạn có đam mê hay có ước mơ gì trong tương lai hay không?.' }]);
+        setStage('quickConsultation');
       } else if (lowerInput.includes('đề xuất')) {
         handleCourseRecommendation();
-      } 
-       else if (lowerInput.includes('cảm ơn')||lowerInput.includes('thanks')) {
+      } else if (lowerInput.includes('cảm ơn')||lowerInput.includes('thanks')) {
           handleEnding();
-      }
-      else {
+      } else {
         setMessages(prev => [...prev, { sender: 'bot', text: 'Xin lỗi, bạn có thể nhập lại được không' }]);
       }
     }
@@ -115,85 +132,83 @@ function Chatbot({ onClose }) {
     }
 };
 // hàm in ra khóa học mỗi tin nhắn là 1 khóa học dùng vòng for
-const displayCourses = (courses, formatCourseText) => {
-  
-  
-  courses.forEach((course, index) => {
+  const displayCourses = (courses, formatCourseText) => {
+    courses.forEach((course, index) => {
+      setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: 'bot',
+            text: formatCourseText(course) // Sử dụng hàm định dạng văn bản
+          }
+        ]);
+      }, index * 1000); // 1000ms delay for each message
+    });
+    
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
-        {
-          sender: 'bot',
-          text: formatCourseText(course) // Sử dụng hàm định dạng văn bản
+        { 
+          sender: 'bot', 
+          text: 'Trên đây là những khóa học mà chúng tôi có thể gửi đến bạn!' 
         }
       ]);
-    }, index * 1000); // 1000ms delay for each message
-  });
-  
-  setTimeout(() => {
-    setMessages((prev) => [
-      ...prev,
-      { 
-        sender: 'bot', 
-        text: 'Trên đây là những khóa học mà chúng tôi có thể gửi đến bạn!' 
-      }
-    ]);
-    changeStage();
-  }, courses.length * 1000); // delay based on the number of courses
-};
+      changeStage();
+    }, courses.length * 1000); // delay based on the number of courses
+  };
 
-  // Tư vấn khóa học
-  
-const [awaitingCourseName, setAwaitingCourseName] = useState(false);
-
-const handleCourseConsultation = async (input) => {
-    const lowerInput = input.toLowerCase(); // Chuyển input về chữ thường để dễ so sánh
-  
-    // Xử lý khi người dùng nhập "chưa"
-    if (lowerInput.includes('chưa')) {
-      setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn hãy nhấn vào link dưới đây để làm thử bài test nhằm hiểu rõ hơn về lĩnh vực phù hợp nhé! ' }]);
-      
-      setMessages(prev => [...prev, { sender: 'bot', text: <div className='linkServey'> <span role="gridcell"><a className='link-servey' href="http://localhost:5173/servey" target="_blank" rel="link">http://localhost:5173/servey</a></span>
-      </div> }]);
-      setMessages(prev => [...prev, { sender: 'bot', text: 'Giờ bạn hãy nhập vào khóa học mà hệ thống đã đề xuất nhé!' }]);
-      
-      setAwaitingCourseName(true);
-      
-    } 
-    else if (lowerInput.includes('rồi') || lowerInput.includes('xong')|| lowerInput.includes('mới')) {
-        setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn thuộc lĩnh vực nào nhỉ? Vui lòng nhập tên khóa học bạn quan tâm.' }]);
-        
-        // Đặt biến cờ để chờ người dùng nhập tên khóa học
-        setAwaitingCourseName(true);
-    } 
-    else if (awaitingCourseName) {
-        await sendMessageToBot(input);
-        // setAwaitingCourseName(false);
-      } 
-    else {
-        setMessages(prev => [...prev, { sender: 'bot', text: 'Xin lỗi, bạn đã làm bài test chưa? Hãy trả lời "chưa" hoặc "rồi" để tớ hỗ trợ bạn nhé!' }]);
-    }
-};
-
-const handleInputFields = async (input) => {
-  try {
-    const fieldName = input.toLowerCase().trim(); // Chuyển input sang chữ thường và loại bỏ khoảng trắng thừa
-    const response = await axios.get('http://localhost:5000/chatbot/getfield');
-    const dataField = response.data.Fields; // Giả sử `Fields` là mảng chứa tên lĩnh vực trong dữ liệu trả về
-    let matchedField = null; // Khởi tạo biến để lưu trữ kết quả nếu tìm thấy
-    for (let field of dataField) {
-      // Kiểm tra xem fieldName có chứa tên field không
-      if (fieldName.includes(field.field_name.toLowerCase())) {
-          matchedField = field;
-      }
-    }
-  return matchedField.field_name
-  }
-  catch{
-    console.log("error");
+    // Tư vấn khóa học
     
+  const [awaitingCourseName, setAwaitingCourseName] = useState(false);
+  const handleCourseConsultation = async (input) => {
+      const lowerInput = input.toLowerCase(); // Chuyển input về chữ thường để dễ so sánh
+    
+      // Xử lý khi người dùng nhập "chưa"
+      if (lowerInput.includes('chưa')) {
+        setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn hãy nhấn vào link dưới đây để làm thử bài test nhằm hiểu rõ hơn về lĩnh vực phù hợp nhé! ' }]);
+        
+        setMessages(prev => [...prev, { sender: 'bot', text: <div className='linkServey'> <span role="gridcell"><a className='link-servey' href="http://localhost:5173/servey" target="_blank" rel="link">http://localhost:5173/servey</a></span>
+        </div> }]);
+        setMessages(prev => [...prev, { sender: 'bot', text: 'Giờ bạn hãy nhập vào khóa học mà hệ thống đã đề xuất nhé!' }]);
+        
+        setAwaitingCourseName(true);
+        
+      } 
+      else if (lowerInput.includes('rồi') || lowerInput.includes('xong')|| lowerInput.includes('mới')) {
+          setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn thuộc lĩnh vực nào nhỉ? Vui lòng nhập tên khóa học bạn quan tâm.' }]);
+          
+          // Đặt biến cờ để chờ người dùng nhập tên khóa học
+          setAwaitingCourseName(true);
+      } 
+      else if (awaitingCourseName) {
+          await sendMessageToBot(input);
+          // setAwaitingCourseName(false);
+        } 
+      else {
+          setMessages(prev => [...prev, { sender: 'bot', text: 'Xin lỗi, bạn đã làm bài test chưa? Hãy trả lời "chưa" hoặc "rồi" để tớ hỗ trợ bạn nhé!' }]);
+      }
+  };
+
+  const handleInputFields = async (input) => {
+    try {
+      const fieldName = input.toLowerCase().trim(); // Chuyển input sang chữ thường và loại bỏ khoảng trắng thừa
+      const response = await axios.get('http://localhost:5000/chatbot/getfield');
+      const dataField = response.data.Fields; // Giả sử `Fields` là mảng chứa tên lĩnh vực trong dữ liệu trả về
+      let matchedField = null; // Khởi tạo biến để lưu trữ kết quả nếu tìm thấy
+      for (let field of dataField) {
+        // Kiểm tra xem fieldName có chứa tên field không
+        if (fieldName.includes(field.field_name.toLowerCase())) {
+            matchedField = field;
+        }
+      }
+    return matchedField.field_name
+    }
+    catch{
+      console.log("error");
+      
+    }
   }
-}
+
   const sendMessageToBot = async (input) => {
     try {
 
@@ -235,7 +250,6 @@ const handleInputFields = async (input) => {
         setMessages(prev => [...prev, { sender: 'bot', text: 'Có lỗi xảy ra khi kết nối với hệ thống.' }]);
     }
 };
-
 
   // Xử lý giá cả khóa học
   const handleAwaitingPriceInfo = async (input) => {
@@ -380,7 +394,6 @@ const handleInputFields = async (input) => {
           }
         }
   };
-  
 
   // Đề xuất khóa học
   const handleCourseRecommendation = async () => {
@@ -411,43 +424,21 @@ const handleInputFields = async (input) => {
     }
   };
 
-
+  const handleQuickConsultation = async (input) => {
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/chat', {
+        message: input,
+      });
   
-// const handleQuickConsultation = async (input) => {
-//   const responseMessage = { sender: 'bot', text: 'Đang tìm câu trả lời, vui lòng chờ...' };
-//   setMessages(prev => [...prev, responseMessage]);
-//   const question = ".Which major is suitable for me when I have the following interests: " + input;
-//   const context = "Customers are not sure which major to choose to suit themselves and they need your help, they provide their interests and from those interests you will suggest suitable majors for them.You are the course provider, the user will provide personal preferences from which you will give an idea of ​​what that person is like and what industry they will belong to. ";
-//   console.log(question);
-  
-//   try {
-//       // Gọi Hugging Face API
-//       const response = await axios.post(
-//           'https://api-inference.huggingface.co/models/twmkn9/albert-base-v2-squad2', 
-//           {
-//               inputs: {
-//                   question: question,
-//                   context: context
-//               }
-//           },
-//           {
-//               headers: {
-//                   'Authorization': `Bearer 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`, // Thay YOUR_HUGGING_FACE_API_KEY bằng API Key của bạn
-//                   'Content-Type': 'application/json'
-//               }
-//           }
-//       );
-
-//       const answer = response.data?.answer || "Không tìm thấy câu trả lời phù hợp.";
-//       setMessages(prev => [...prev, { sender: 'bot', text: answer }]);
-//      changeStage();
-
-//   } catch (error) {
-//       console.error('Error fetching data from Hugging Face API', error);
-//       setMessages(prev => [...prev, { sender: 'bot', text: 'Đã xảy ra lỗi khi gọi API. Vui lòng thử lại sau.' }]);
-//      changeStage();
-//   }
-// };
+      const answer = response.data?.response || "Không tìm thấy câu trả lời phù hợp.";
+      setMessages((prev) => [...prev, { sender: 'bot', text: answer }]);
+      changeStage();
+    } catch (error) {
+      console.error('Error fetching data from API:', error);
+      setMessages((prev) => [...prev, { sender: 'bot', text: 'Đã xảy ra lỗi khi gọi API. Vui lòng thử lại sau.' }]);
+      changeStage();
+    }
+  };
 
 
 
@@ -470,6 +461,7 @@ return (
               {msg.text}
             </div>
           ))}
+          <div ref={messagesEndRef}></div>
         </div>
         <div className="chatbot-input">
           <input
