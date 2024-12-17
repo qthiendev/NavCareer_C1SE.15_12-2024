@@ -36,13 +36,14 @@
   }
   
   .view-profile-avatar {
-    width: 80%;
-    height: 80%;
-    border-radius: 50%;
-    object-fit: cover;
+    width: 180px; /* Cố định chiều rộng */
+    height: 180px; /* Cố định chiều cao */
+    border-radius: 50%; /* Bo tròn hình thành hình tròn */
+    object-fit: cover; /* Đảm bảo ảnh vừa khít trong khung */
     margin-bottom: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
-  }
+}
+
   
   .view-profile-name {
     font-size: 20px;

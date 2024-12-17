@@ -136,14 +136,14 @@ function Layout() {
                 <nav className="navbar">
                     <div className='navbar-left'>
                         <div className="home-logo">
-                            <a onClick={() => { navigate('/') }}><img src="/img/Header/Logo.svg" alt="Logo" /></a>
+                            <a onClick={() => { navigate('/') }}><img src="../img/Header/Logo.svg" alt="Logo" /></a>
                         </div>
                     </div>
 
                     <div className="search-bar">
                         <div className="searchbar-container">
                             <div className="searchbar-icon-container">
-                                <img className="searchbar-icon" src='/img/Header/search_icon.svg' alt='search-icon' />
+                                <img className="searchbar-icon" src='../img/Header/search_icon.svg' alt='search-icon' />
                             </div>
                             <div className="searchbar-input-container">
                                 <input
@@ -162,18 +162,18 @@ function Layout() {
                         {isAdmin || isESP || isStudent ? (
                             <>
                                 <div className="user-image" onClick={() => navigate('/profile/self')}>
-                                    <img src="/img/Header/userprf_icon.svg" alt="User" />
+                                    <img src="../img/Header/userprf_icon.svg" alt="User" />
                                 </div>
                                 <span className="notification-icon">
-                                    <img src="/img/Header/notify_icon.svg" alt="notification-icon" />
+                                    <img src="../img/Header/notify_icon.svg" alt="notification-icon" />
                                 </span>
                                 <div className="menu-icon" onClick={toggleSidebar}>
-                                    <img src="/img/Header/menu_icon.svg" alt="Menu" />
+                                    <img src="../img/Header/menu_icon.svg" alt="Menu" />
                                 </div>
                             </>
                         ) : (
                             <div className="menu-icon" onClick={toggleSidebar}>
-                                <img src="/img/Header/menu_icon.svg" alt="Menu" />
+                                <img src="../img/Header/menu_icon.svg" alt="Menu" />
                             </div>
                         )}
                     </div>
@@ -184,33 +184,33 @@ function Layout() {
                 <>
                     <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
                         <div className="sidebar-header">
-                            <a onClick={() => navigate('/')}><img src="/img/Header/home_sidebar.svg" alt="Logo" className="sidebar-logo" /></a>
+                            <a onClick={() => navigate('/')}><img src="../img/Header/home_sidebar.svg" alt="Logo" className="sidebar-logo" /></a>
                             <button className="close-sidebar-btn" onClick={closeSidebar}>×</button>
                         </div>
                         <ul className="sidebar-nav">
-                            <li><img src="/img/Header/test_icon.svg" alt="servey" /><a onClick={() => navigate('/servey')}>Trắc nghiệm hướng nghiệp</a></li>
-                            <li><img src="/img/Header/course_icon.svg" alt="course" /><a onClick={() => navigate('/course/view')}>Khóa học</a></li>
-                            <li><img src="/img/Header/about_icon.svg" alt="about" /><a onClick={() => navigate('/about')}>Về chúng tôi</a></li>
+                            <li><img src="../img/Header/test_icon.svg" alt="servey" /><a onClick={() => navigate('/servey')}>Trắc nghiệm hướng nghiệp</a></li>
+                            <li><img src="../img/Header/course_icon.svg" alt="course" /><a onClick={() => navigate('/course/view')}>Khóa học</a></li>
+                            <li><img src="../img/Header/about_icon.svg" alt="about" /><a onClick={() => navigate('/about')}>Về chúng tôi</a></li>
                             {!isAdmin && !isESP && !isStudent && (
                                 <>
                                     <li>
-                                        <img src="/img/Header/login_icon.svg" alt="signin-icon" />
+                                        <img src="../img/Header/login_icon.svg" alt="signin-icon" />
                                         <a onClick={() => navigate('/signin')}>Đăng nhập</a>
                                     </li>
                                     <li>
-                                        <img src="/img/Header/signup_icon.svg" alt="signup-icon" />
+                                        <img src="../img/Header/signup_icon.svg" alt="signup-icon" />
                                         <a onClick={() => navigate('/signup')}>Đăng ký</a>
                                     </li>
                                 </>
                             )}
-                            {isAdmin && <li><img src="/img/Header/admin_icon.svg" alt="admin" /><a onClick={() => { navigate('/admin') }}>Dành cho nhà quản trị</a></li>}
-                            {isESP && <li><img src="/img/Header/esp_icon.svg" alt="esp" /><a onClick={() => { navigate('/esp') }}>Dành cho nhà cung cấp</a></li>}
-                            {(isESP || isStudent) && (<li><img src="/img/Header/learning_icon.svg" alt="edu" /><a onClick={() => { navigate('/edu') }}>Học tập</a></li>)}
+                            {isAdmin && <li><img src="../img/Header/admin_icon.svg" alt="admin" /><a onClick={() => { navigate('/admin') }}>Dành cho nhà quản trị</a></li>}
+                            {isESP && <li><img src="../img/Header/esp_icon.svg" alt="esp" /><a onClick={() => { navigate('/esp') }}>Dành cho nhà cung cấp</a></li>}
+                            {(isESP || isStudent) && (<li><img src="../img/Header/learning_icon.svg" alt="edu" /><a onClick={() => { navigate('/edu') }}>Học tập</a></li>)}
                             {(isAdmin || isESP || isStudent) && (
-                                <li><img src="/img/Header/setting_icon.svg" alt="settings" /><a onClick={() => { navigate('/settings') }} >Cài đặt</a></li>
+                                <li><img src="../img/Header/setting_icon.svg" alt="settings" /><a onClick={() => { navigate('/settings') }} >Cài đặt</a></li>
                             )}
                             {(isAdmin || isESP || isStudent) && (
-                                <li id="signout-btn" onClick={handleSignOut}><img src="/img/Header/signout_icon.svg" alt="sigout-btn" />Đăng xuất</li>
+                                <li id="signout-btn" onClick={handleSignOut}><img src="../img/Header/signout_icon.svg" alt="sigout-btn" />Đăng xuất</li>
                             )}
                         </ul>
                     </div>
@@ -227,19 +227,19 @@ function Layout() {
                 <div className="footer_container">
                     <div className="logo-info">
                         <div className="logo">
-                            <img src="img/Header/Logo.svg" alt="Logo" />
+                            <img src="../img/Header/Logo.svg" alt="Logo" />
                         </div>
                         <ul>
                             <li>
-                                <img src="img/Footer/mail_white_vector.svg" alt="" />
+                                <img src="../img/Footer/mail_white_vector.svg" alt="" />
                                 <p>hello@navcareer.com</p>
                             </li>
                             <li>
-                                <img src="img/Footer/phone_white_vector.svg" alt="" />
+                                <img src="../img/Footer/phone_white_vector.svg" alt="" />
                                 <p>+91 91813 23 2309</p>
                             </li>
                             <li>
-                                <img style={{ padding: "2px" }} src="img/Footer/location_white_vector.svg" alt="" />
+                                <img style={{ padding: "2px" }} src="../img/Footer/location_white_vector.svg" alt="" />
                                 <p>Somewhere in the World</p>
                             </li>
                         </ul>
@@ -263,9 +263,9 @@ function Layout() {
                     <div className="social-media">
                         <h3>Kết nối với chúng tôi</h3>
                         <ul>
-                            <li><a onClick={() => { navigate('') }}><img src="img/Footer/fb_vector.svg" alt="" /></a></li>
-                            <li><a onClick={() => { navigate('') }}><img src="img/Footer/linkedin_vector.svg" alt="" /></a></li>
-                            <li><a onClick={() => { navigate('') }}><img src="img/Footer/twitter_vector.svg" alt="" /></a></li>
+                            <li><a onClick={() => { navigate('') }}><img src="../img/Footer/fb_vector.svg" alt="" /></a></li>
+                            <li><a onClick={() => { navigate('') }}><img src="../img/Footer/linkedin_vector.svg" alt="" /></a></li>
+                            <li><a onClick={() => { navigate('') }}><img src="../img/Footer/twitter_vector.svg" alt="" /></a></li>
                         </ul>
                     </div>
                 </div>
@@ -278,7 +278,7 @@ function Layout() {
                 ) : (
                     <button className="chatbot-toggle-btn" onClick={toggleChatbot}>
                         <img
-                            src="img/Header/chatbot_icon.svg"
+                            src="../img/Header/chatbot_icon.svg"
                             alt="Mở Chatbot"
                             className="chatbot-toggle-icon"
                         />

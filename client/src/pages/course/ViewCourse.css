@@ -4,108 +4,157 @@
   justify-content: flex-start;
   align-items: stretch;
   background-color: #ffffff;
-  padding: 2%;
+  padding: 3%; /* Tăng padding để giãn cách tổng thể */
 }
 
 .view-course-header-container {
   background-color: #f2f2f2; /* Màu xám nhẹ */
-  padding: 20px; /* Khoảng cách xung quanh phần header */
-  border-radius: 8px; /* Góc bo tròn cho phần header */
-  margin-bottom: 20px; /* Khoảng cách giữa header và body */
+  padding: 25px; /* Tăng khoảng cách bên trong header */
+  border-radius: 10px; /* Tăng góc bo tròn */
+  margin-bottom: 30px; /* Tăng khoảng cách giữa header và body */
 }
 
 .view-course-header {
   display: flex;
   justify-content: space-between;
-  align-items: stretch; /* Đảm bảo các phần tử con trong header có chiều cao bằng nhau */
-  gap: 15px; /* Khoảng cách nhỏ giữa view-course-left và view-course-right */
+  align-items: stretch;
+  gap: 20px; /* Tăng khoảng cách giữa view-course-left và view-course-right */
 }
 
 .view-course-body {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  width: calc(100% - 28% - 67px); /* Giảm bớt khoảng cách để chiều rộng nhỏ hơn 1 chút */
+  gap: 40px; /* Tăng khoảng cách giữa các khối trong body */
+  width: calc(100% - 28% - 67px); /* Giảm bớt khoảng cách để chiều rộng nhỏ hơn */
 }
 
 .view-course-details {
   background-color: #E6F2FF; /* Nền xanh nhạt */
   border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px; /* Tăng padding */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px; /* Tăng khoảng cách dưới */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Khoảng cách giữa các phần tử bên trong */
 }
 
 .view-course-details h3 {
-  font-size: 26px;
+  font-size: 28px; /* Kích thước chữ lớn hơn */
   font-weight: bold;
   color: #043873;
+  border-bottom: 2px solid #77B6EA; /* Thêm gạch dưới nhấn mạnh */
+  padding-bottom: 10px;
+  margin-bottom: 15px; /* Khoảng cách giữa tiêu đề và nội dung */
 }
 
+.view-course-details p {
+  font-size: 18px;
+  color: #333333;
+  line-height: 1.8; /* Khoảng cách dòng lớn hơn để dễ đọc */
+  margin-bottom: 15px;
+}
+
+.view-course-detail {
+  list-style: none; /* Bỏ bullet mặc định */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Khoảng cách giữa các mục trong danh sách */
+}
+
+.view-course-detail li {
+  font-size: 18px;
+  color: #555555;
+  background: #ffffff; /* Nền trắng nổi bật */
+  border: 1px solid #DDEAF7; /* Đường viền nhẹ */
+  border-radius: 8px; /* Góc bo tròn */
+  padding: 12px 20px; /* Padding bên trong */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Bóng đổ nhẹ */
+}
+
+.view-course-detail li:hover {
+  background: #F2F9FF; /* Thay đổi màu nền khi hover */
+}
+
+.view-course-details ul {
+  margin: 0;
+  padding: 0;
+}
+
+.view-course-details ul li {
+  margin-bottom: 10px;
+}
+
+.view-course-details ul li:last-child {
+  margin-bottom: 0; /* Xóa khoảng cách dưới cùng */
+}
+
+
 .view-course-left {
-  flex: 1; /* Phần còn lại sẽ chiếm toàn bộ chiều rộng còn lại */
+  flex: 1;
   background-color: #fff;
   border: 1px solid rgba(226, 232, 240, 1);
   border-radius: 10px;
-  padding: 20px;
+  padding: 25px; /* Tăng padding */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  gap: 20px; /* Khoảng cách giữa các phần tử bên trong */
 }
 
 .view-course-right {
-  width: 28%; /* Chiều rộng cố định là 28% */
+  width: 28%;
   background-color: #ffffff;
   border: 1px solid rgba(226, 232, 240, 1);
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 10px; /* Tăng góc bo tròn */
+  padding: 25px; /* Tăng padding */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 15px; /* Thêm khoảng cách giữa các thành phần bên trong */
 }
 
 .view-course-infor {
-  width: 100%; /* Đảm bảo rằng .view-course-infor sẽ chiếm hết chiều rộng của view-course-left */
-  box-sizing: border-box; /* Bao gồm cả padding và border trong tính toán chiều rộng */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .view-course-infor h3 {
-  font-size: 30px;
+  font-size: 32px; /* Tăng font-size */
   font-weight: bold;
   color: #043873;
-  margin: 0;
-  padding: 0;
-  width: 100%; /* Đảm bảo rằng h3 sẽ chiếm hết chiều rộng của view-course-infor */
-  word-wrap: break-word; /* Ngắt từ nếu nội dung quá dài */
+  margin: 0 0 15px; /* Thêm khoảng cách dưới tiêu đề */
 }
 
 .view-course-infor p {
-  font-size: 120%;
+  font-size: 18px; /* Tăng font-size */
   color: #333;
-  line-height: 1.5;
-  width: 100%; /* Đảm bảo rằng p sẽ chiếm hết chiều rộng của view-course-infor */
-  word-wrap: break-word; /* Ngắt từ nếu nội dung quá dài */
+  line-height: 1.7; /* Tăng khoảng cách dòng */
+  margin-bottom: 20px; /* Thêm khoảng cách dưới đoạn văn */
 }
 
 .course-image {
   width: 100%;
-  border-radius: 8px;
-  margin-bottom: 15px;
+  border-radius: 12px; /* Tăng bo tròn cho hình ảnh */
+  margin-bottom: 20px; /* Thêm khoảng cách dưới hình ảnh */
 }
 
 .course-price label {
   color: #77F2A1;
-  font-size: 18px;
+  font-size: 20px; /* Tăng kích thước chữ */
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 25px; /* Tăng khoảng cách dưới */
 }
 
 .view-course-btn-join {
   background-color: #043873;
   color: white;
-  font-size: 120%;
-  padding: 12px 24px;
-  border-radius: 8px;
+  font-size: 18px; /* Tăng kích thước chữ */
+  padding: 15px 30px; /* Tăng padding */
+  border-radius: 10px; /* Tăng góc bo tròn */
   cursor: pointer;
   width: 100%;
   transition: background-color 0.3s ease;

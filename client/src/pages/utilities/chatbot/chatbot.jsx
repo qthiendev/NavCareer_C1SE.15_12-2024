@@ -447,7 +447,7 @@ return (
     {showChatbot && (
       <div className="chatbot-container">
         <div className="chatbot-header">
-          <a href="/"><img src="/img/Header/Logo.svg" alt="Logo" className="chatbot-logo" /></a>
+          <a href="/"><img src="../img/Header/Logo.svg" alt="Logo" className="chatbot-logo" /></a>
           <button className="chatbot-close-btn" onClick={onClose}>×</button>
         </div>
         <div className="chatbot-messages">
