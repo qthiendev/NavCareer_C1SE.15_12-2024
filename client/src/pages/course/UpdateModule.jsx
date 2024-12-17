@@ -51,18 +51,20 @@ function UpdateModule() {
     const fetchModuleData = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`http://localhost:5000/course/read-full?course_id=${course_id}`, { withCredentials: true });
-            const data = response.data;
 
-            const module = data.modules?.find((mod) => mod.module_id === parseInt(module_id));
-            if (!module) {
-                alert("Cannot find module");
-                navigate(-1);
-                return;
+            if (!course_id || !module_id || !isAuthorized) return;
+
+            const response = await axios.get(`http://localhost:5000/course/read-full?course_id=${course_id}`, { withCredentials: true });
+
+            const module = response.data.modules.find(m => m.module_id === parseInt(module_id));
+
+            if (module) {
+                setModuleData(module);
+                setCollections(module.collections || []);
+            } else {
+                alert("Module not found");
             }
 
-            setModuleData(module);
-            setCollections(module.collections || []);
         } catch (error) {
             alert("Failed to fetch module data");
             navigate(-1);
@@ -72,7 +74,6 @@ function UpdateModule() {
     };
 
     useEffect(() => {
-        if (!course_id || !module_id || !isAuthorized) return;
         fetchModuleData();
     }, [course_id, module_id, isAuthorized, navigate]);
 
@@ -192,7 +193,7 @@ function UpdateModule() {
             </form>
             <h3>Collections</h3>
             <ul>
-                {collections.map((collection) => (
+                {collections && collections.map((collection) => (
                     <li key={collection.collection_id}>
                         <div className="collection-item">
                             <input

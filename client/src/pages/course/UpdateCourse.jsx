@@ -6,7 +6,7 @@ import './UpdateCourse.css';
 function UpdateCourse() {
     const { course_id } = useParams();
     const [courseData, setCourseData] = useState({});
-    const [modules, setModules] = useState([]);
+    const [modules, setModules] = useState(null);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ function UpdateCourse() {
     const [isAuthorized, setIsAuthorized] = useState(false);
 
     const fetchCourseData = async () => {
-        if (!isBanned || !isAuthorized) return;
+        if (!course_id || !isBanned || !isAuthorized) return;
         try {
             setLoading(true);
             setModules(null);
@@ -37,6 +37,12 @@ function UpdateCourse() {
                 user_full_name: data.user_full_name,
             });
 
+            if (modules)
+
+            console.log(data)
+
+            if (!data.modules[0].module_id) return;
+            
             const filteredModules = (data.modules || []).map(module => ({
                 module_id: module.module_id,
                 module_name: module.module_name,
@@ -44,6 +50,7 @@ function UpdateCourse() {
             }));
 
             setModules(filteredModules);
+         
         } catch (error) {
             alert("Cannot find course");
             navigate(-1);
@@ -87,9 +94,7 @@ function UpdateCourse() {
     }, [isBanned, navigate]);
 
     useEffect(() => {
-        if (!isBanned || !isAuthorized) return;
-        
-        fetchCourseData();
+        fetchCourseData(course_id, isBanned, isAuthorized);
     }, [course_id, isBanned, isAuthorized, navigate]);
 
     const handleUpdateCourse = async (e) => {
@@ -240,7 +245,7 @@ function UpdateCourse() {
             </form>
             <h3>Modules</h3>
             <ul>
-                {modules.map((module, index) => (
+                {modules && modules.length > 0 && modules.map((module, index) => (
                     <li key={module.module_id}>
                         <div className="module-item">
                             <select
@@ -252,7 +257,7 @@ function UpdateCourse() {
                                 ))}
                             </select>
                             <span className="module-name">{module.module_name}</span>
-                            <button onClick={() => navigate(`/esp/course/0/module/${module.module_id}/update`)}>Modify</button>
+                            <button onClick={() => navigate(`/esp/course/${course_id}/module/${module.module_id}/update`)}>Modify</button>
                             <button onClick={() => handleDeleteModule(courseData.course_id, module.module_id)}>Delete</button>
                         </div>
                     </li>
