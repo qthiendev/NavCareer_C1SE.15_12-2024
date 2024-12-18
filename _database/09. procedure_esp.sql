@@ -41,7 +41,7 @@ begin
 
 	select @latest_module_ordinal = [module_ordinal] + 1
 	from Modules
-	where [course_id] = @course_id
+	where [course_id] = @course_id and [delete_flag] = 0
 	order by [module_ordinal]
 
 	if (@latest_module_ordinal is null) set @latest_module_ordinal = 0
@@ -298,7 +298,7 @@ begin
 
 	select @latest_collection_ordinal = [collection_ordinal] + 1
 	from Collections
-	where [module_id] = @module_id
+	where [module_id] = @module_id and [delete_flag] = 0
 	order by [collection_ordinal]
 
 	if (@latest_collection_ordinal is null) set @latest_collection_ordinal = 0
@@ -572,7 +572,7 @@ begin
 
 	select @latest_material_ordinal = [material_ordinal] + 1
 	from Materials
-	where [collection_id] = @collection_id
+	where [collection_id] = @collection_id and [delete_flag] = 0
 	order by [material_ordinal]
 
 	if (@latest_material_ordinal is null) set @latest_material_ordinal = 0
@@ -849,7 +849,7 @@ begin
     declare @latest_question_ordinal int;
     select @latest_question_ordinal = ISNULL(MAX(question_ordinal), 0) + 1
     from Questions
-    where [material_id] = @material_id;
+    where [material_id] = @material_id and [delete_flag] = 0;
 
     insert into Questions ([question_description], [question_ordinal], [question_type_id], [material_id])
     values (@question_description, @latest_question_ordinal, @question_type_id, @material_id);
@@ -1011,7 +1011,7 @@ begin
     declare @latest_answer_ordinal int;
     select @latest_answer_ordinal = ISNULL(MAX(answer_ordinal), 0) + 1
     from Answers
-    where [question_id] = @question_id;
+    where [question_id] = @question_id and [delete_flag] = 0;
 
     insert into Answers ([answer_description], [answer_ordinal], [answer_is_right], [question_id])
     values (@answer_description, @latest_answer_ordinal, @answer_is_right, @question_id);
