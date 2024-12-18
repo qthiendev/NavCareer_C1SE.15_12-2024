@@ -37,11 +37,9 @@ function UpdateCourse() {
                 user_full_name: data.user_full_name,
             });
 
-            if (modules)
+            console.log(data.modules[0].module_name)
 
-            console.log(data)
-
-            if (!data.modules[0].module_id) return;
+            if (!data.modules[0].module_name) return;
             
             const filteredModules = (data.modules || []).map(module => ({
                 module_id: module.module_id,

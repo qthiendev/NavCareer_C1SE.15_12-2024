@@ -237,7 +237,7 @@ const UpdateCollection = () => {
                 null,
                 {
                     params: {
-                        collection_id: collectionOrdinal,
+                        collection_id: collection_id,
                         material_id: materialId,
                         material_content: fileName,
                         material_type_id: type === 'Image' ? 1 : 2,

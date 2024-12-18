@@ -48,8 +48,8 @@ begin
 		cl.[collection_ordinal],
         cl.[collection_name]
     from Courses c
-        left join Modules m on m.[course_id] = c.[course_id]
-        left join Collections cl on cl.[module_id] = m.[module_id]
+        left join Modules m on m.[course_id] = c.[course_id] and m.[delete_flag] = 0
+        left join Collections cl on cl.[module_id] = m.[module_id] and cl.[delete_flag] = 0
         left join CollectionTypes clt on clt.[collection_type_id] = cl.[collection_type_id]
     where c.[course_id] = @course_id
     order by m.[module_ordinal], cl.[collection_ordinal];
