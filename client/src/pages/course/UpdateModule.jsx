@@ -125,7 +125,7 @@ function UpdateModule() {
 
     const handleDeleteCollection = async (collection_id) => {
         try {
-            await axios.post(`http://localhost:5000/course/update/module/collection/delete`, null, {
+            await axios.post(`http://localhost:5000/course/module/collection/delete`, null, {
                 params: {
                     collection_id,
                     module_id,
