@@ -4,7 +4,7 @@ import axios from 'axios';
 import './ViewProfile.css';
 
 const CourseCard = ({ image, title, price, duration, videos, students, rating }) => (
-    <div className="course-card">
+    <div className="vf-course-card">
       <img src={image} alt={title} className="course-image" />
       <div className="course-info">
         <div className="course-header">

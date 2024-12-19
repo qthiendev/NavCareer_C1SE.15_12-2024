@@ -75,59 +75,74 @@ function UpdateProfile() {
                     avatar: file,
                 }));
             } else {
-                alert('Please select a valid PNG or JPEG image.');
+                alert('Vui lòng chọn ảnh có định dạng PNG hoặc JPEG.');
             }
         }
     };
 
     const handleValidation = () => {
-        const newError = {}; // Đổi thành `newError` thay vì `newErrors`
-      
-        if (!profile.user_full_name) {
+        const newError = {};
+    
+        // Họ và tên
+        if (!profile.user_full_name?.trim()) {
             newError.user_full_name = "Họ và tên không được để trống.";
         } else if (/[@#$%]/.test(profile.user_full_name) || profile.user_full_name.length > 50) {
-            newError.user_full_name = "Tạo hồ sơ thất bại vui lòng thử lại.";
+            newError.user_full_name = "Họ và tên không được chứa ký tự đặc biệt và tối đa 50 ký tự.";
         }
-      
-        if (!profile.user_phone_number) {
+    
+        // Số điện thoại
+        if (!profile.user_phone_number?.trim()) {
             newError.user_phone_number = "Số điện thoại phải là 10 chữ số.";
         } else if (!/^\d{10}$/.test(profile.user_phone_number)) {
             newError.user_phone_number = "Số điện thoại phải là 10 chữ số.";
         }
-      
-        if (!profile.user_email) {
-            newError.user_email = "Email không hợp lệ.";
-        } else if (!/\S+@\S+\.\S+/.test(profile.user_email)) {
+    
+        // Email
+        if (!profile.user_email?.trim()) {
+            newError.user_email = "Email không được để trống.";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.user_email)) {
             newError.user_email = "Email không hợp lệ.";
         }
-      
-        if (!profile.user_gender) {
+    
+        // Giới tính
+        if (profile.user_gender === null || profile.user_gender === '' || profile.user_gender === undefined) {
             newError.user_gender = "Vui lòng chọn giới tính.";
         }
-      
+    
+        // Ngày sinh
         if (!day || !month || !year) {
             newError.user_birthdate = "Vui lòng chọn đầy đủ ngày, tháng, năm sinh.";
         } else {
-            const date = new Date(year, month - 1, day);
-            if (isNaN(date.getTime()) || date.getDate() !== parseInt(day)) {
-                newError.user_birthdate = "Tạo hồ sơ thất bại vui lòng thử lại.";
+            const today = new Date();
+            const birthDate = new Date(year, month - 1, day);
+    
+            if (isNaN(birthDate.getTime()) || birthDate.getDate() !== parseInt(day)) {
+                newError.user_birthdate = "Ngày sinh không hợp lệ.";
             } else {
-                const age = new Date().getFullYear() - date.getFullYear();
-                if (age < 16) {
-                    newError.user_birthdate = "Ngày sinh chưa hợp lệ.";
+                const age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                const dayDiff = today.getDate() - birthDate.getDate();
+    
+                const isUnder16 = age < 16 || (age === 16 && (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)));
+    
+                if (birthDate > today) {
+                    newError.user_birthdate = "Ngày sinh không được là ngày trong tương lai.";
+                } else if (isUnder16) {
+                    newError.user_birthdate = "Tuổi phải từ 16 trở lên.";
                 }
             }
         }
-      
-        if (!profile.user_address) {
+    
+        // Địa chỉ liên lạc
+        if (!profile.user_address?.trim()) {
             newError.user_address = "Địa chỉ không được để trống.";
         } else if (profile.user_address.length > 50) {
-            newError.user_address = "Tạo hồ sơ thất bại vui lòng thử lại.";
+            newError.user_address = "Địa chỉ tối đa 50 ký tự.";
         }
-      
-        setError(newError); // Cập nhật `error`
+    
+        setError(newError);
         return Object.keys(newError).length === 0;
-    };
+    };    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -155,13 +170,13 @@ function UpdateProfile() {
                     formData,
                     { withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } }
                 );
-                alert('Profile updated successfully!');
+                alert('Cập nhật hồ sơ thành công.');
                 navigate(-1);
             } catch {
-                setError((prev) => ({ ...prev, general: 'Failed to update profile.' }));
+                setError((prev) => ({ ...prev, general: 'Cập nhật hồ sơ thất bại. Vui lòng thử lại.' }));
             }
         } else {
-            console.log('Validation failed. Please correct the errors.');
+            console.log('Xác thực không thành công. Vui lòng sửa lỗi.');
         }
     };
     
@@ -256,7 +271,6 @@ function UpdateProfile() {
                                 name='user_email'
                                 value={profile?.user_email || ''}
                                 onChange={handleInputChange}
-                                required
                             />
                             {error.user_email && <h1 className="error-message">{error.user_email}</h1>}
                         </div>

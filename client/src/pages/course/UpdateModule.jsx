@@ -84,6 +84,11 @@ function UpdateModule() {
             return;
         }
 
+        if (moduleData.module_name.length > 255) {
+            setErrorMessage('Module name cannot exceed 255 characters.');
+            return;
+        }        
+
         try {
             await axios.post(`http://localhost:5000/course/module/update`, null, {
                 params: {

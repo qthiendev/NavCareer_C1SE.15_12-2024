@@ -12,16 +12,34 @@ function ViewCourse() {
     const [description, setDescription] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const checkAuthStatus = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/auth/status', { withCredentials: true });
+            setIsLoggedIn(response.data.isLoggedIn); // Cập nhật trạng thái đăng nhập
+        } catch (err) {
+            console.error('Failed to check authentication status:', err);
+            setIsLoggedIn(false);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage('');
         setError('');
+
+        // Kiểm tra trạng thái đăng nhập
+        if (!isLoggedIn) {
+            setError('Bạn phải đăng nhập để gửi phản hồi đối với khóa học.');
+            return;
+        }
+
         try {
             const response = await axios.post(
                 'http://localhost:5000/feedback/createCourseFeedback',
                 { description, course_id },
-                { withCredentials: true } // Quan trọng: Để gửi cookie của session
+                { withCredentials: true } // Gửi cookie của session
             );
             if (response.status === 201) {
                 setMessage(response.data.details);
@@ -30,8 +48,13 @@ function ViewCourse() {
                 setError(response.data.message);
             }
         } catch (err) {
-            console.error('Lỗi:', err.message);
-            setError('Đã xảy ra lỗi, vui lòng thử lại.');
+            if (err.response) {
+                console.error('Server error:', err.response.data);
+                setError(err.response.data.message || 'Đã xảy ra lỗi từ server.');
+            } else {
+                console.error('Error:', err.message);
+                setError('Không thể kết nối đến server. Vui lòng thử lại.');
+            }
         }
     };
 

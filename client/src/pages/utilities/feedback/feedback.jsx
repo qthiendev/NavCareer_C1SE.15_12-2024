@@ -11,6 +11,13 @@ function Feedback() {
         e.preventDefault();
         setMessage('');
         setError('');
+        
+        // Kiểm tra nội dung phản hồi
+        if (!description.trim()) {
+            setError('Nội dung phản hồi không được để trống.');
+            return;
+        }
+
         try {
             const response = await axios.post(
                 'http://localhost:5000/feedback/createFeedback',

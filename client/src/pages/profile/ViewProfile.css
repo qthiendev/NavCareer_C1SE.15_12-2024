@@ -1,308 +1,307 @@
 .view-profile-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    background-color: rgba(207, 215, 217, 0.2); /* màu #CFD7D9 với độ đậm 20% */
-    padding: 20px;
-    height: auto; /* Chiều cao toàn màn hình */
-    font-family: 'Inter', sans-serif;
-  }
-  
-  .view-left-panel {
-    width: 39%;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
-    position: sticky;
-    top: 20px; /* Giữ vị trí khi cuộn trang */
-  }
-  
-  .view-right-panel {
-    width: 59%;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    position: sticky;
-    top: 20px; /* Giữ vị trí khi cuộn trang */
-  }
-  .view-profile-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Căn giữa nội dung theo chiều ngang */
-    margin-bottom: 20px;
-  }
-  
-  .view-profile-avatar {
-    width: 180px; /* Cố định chiều rộng */
-    height: 180px; /* Cố định chiều cao */
-    border-radius: 50%; /* Bo tròn hình thành hình tròn */
-    object-fit: cover; /* Đảm bảo ảnh vừa khít trong khung */
-    margin-bottom: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: rgba(207, 215, 217, 0.2); /* màu #CFD7D9 với độ đậm 20% */
+  padding: 20px;
+  height: auto; /* Chiều cao toàn màn hình */
+  font-family: 'Inter', sans-serif;
 }
 
-  
-  .view-profile-name {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #043873;
-  }
-  
-  .view-share-profile-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    border: 1px solid #d1d5db;
-    padding: 8px 16px;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    color: #4b5563;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .view-share-profile-btn:hover {
-    background-color: #f3f4f6;
-  }
-  
-  .view-share-icon {
-    margin-right: 8px; /* Khoảng cách giữa icon và text */
-    font-size: 1rem; /* Điều chỉnh kích thước icon */
-    color: #4b5563; /* Màu của icon */
-  }  
-  
-  .view-right-panel {
-    width: 100%;
-    max-width: 69%;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-left: 20px; /* Khoảng cách giữa left-panel và right-panel */
-  }
-  .view-information {
-    padding: 20px;
-    text-align: left; /* Căn trái toàn bộ nội dung */
-    width: 88%; /* Đặt chiều rộng cố định cho khối */
-    margin-bottom: 4%;
-    border-radius: 2%;
-    border: #CFD7D9 solid 1px;
+.view-left-panel {
+  width: 39%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  position: sticky;
+  top: 20px; /* Giữ vị trí khi cuộn trang */
 }
 
-.view-information h2 {
-    font-size: 20px;
-    font-weight: bold;
-    color: #043873; /* Màu chữ cho tiêu đề */
-    text-align: left; /* Căn trái tiêu đề */
-    margin-bottom: 15px;
+.view-right-panel {
+  width: 59%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  position: sticky;
+  top: 20px; /* Giữ vị trí khi cuộn trang */
+}
+.view-profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Căn giữa nội dung theo chiều ngang */
+  margin-bottom: 20px;
 }
 
-.info-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    font-size: 14px; /* Kích thước font */
-    color: #212529; /* Màu chữ chính */
+.view-profile-avatar {
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
 }
 
-.info-icon {
-    width: 6%; /* Kích thước icon */
-    height: 6%;
-    margin-right: 10px; /* Khoảng cách giữa icon và text */
-    filter: grayscale(100%); /* Hiệu ứng làm icon có màu xám */
-}
-
-.info-item p {
-    margin: 0;
-    font-weight: normal; /* Độ đậm của chữ */
-    color: #212529;
-    font-size: 16px;
-}
-
-.view-user-profile-info h3 {
-  text-align: left;
+.view-profile-name {
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #043873;
 }
 
-.courses-grid {
+.view-share-profile-btn {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  color: #4b5563;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 10px 0;
 }
 
-.course-card {
-  width: 45%; /* Hai thẻ mỗi hàng */
-  background-color: #fff;
+.view-share-profile-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.view-share-icon {
+  margin-right: 8px; /* Khoảng cách giữa icon và text */
+  font-size: 1rem; /* Điều chỉnh kích thước icon */
+  color: #4b5563; /* Màu của icon */
+}  
+
+.view-right-panel {
+  width: 100%;
+  max-width: 69%;
+  background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Thêm hiệu ứng chuyển động */
+  padding: 20px;
+  margin-left: 20px; /* Khoảng cách giữa left-panel và right-panel */
+}
+.view-information {
+  padding: 20px;
+  text-align: left; /* Căn trái toàn bộ nội dung */
+  width: 88%; /* Đặt chiều rộng cố định cho khối */
+  margin-bottom: 4%;
+  border-radius: 2%;
+  border: #CFD7D9 solid 1px;
 }
 
-.course-card:hover {
-  transform: translateY(-10px); /* Thẻ nổi lên */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Tăng hiệu ứng đổ bóng khi hover */
+.view-information h2 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #043873; /* Màu chữ cho tiêu đề */
+  text-align: left; /* Căn trái tiêu đề */
+  margin-bottom: 15px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px; /* Kích thước font */
+  color: #212529; /* Màu chữ chính */
+}
+
+.info-icon {
+  width: 6%; /* Kích thước icon */
+  height: 6%;
+  margin-right: 10px; /* Khoảng cách giữa icon và text */
+  filter: grayscale(100%); /* Hiệu ứng làm icon có màu xám */
+}
+
+.info-item p {
+  margin: 0;
+  font-weight: normal; /* Độ đậm của chữ */
+  color: #212529;
+  font-size: 16px;
+}
+
+.view-user-profile-info h3 {
+text-align: left;
+font-size: 20px;
+font-weight: bold;
+margin-bottom: 20px;
+color: #043873;
+}
+
+.courses-grid {
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+justify-content: space-between;
+}
+
+.vf-course-card {
+width: 49%; /* Hai thẻ mỗi hàng */
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease, box-shadow 0.3s ease; /* Thêm hiệu ứng chuyển động */
+}
+
+.vf-course-card:hover {
+transform: translateY(-10px); /* Thẻ nổi lên */
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Tăng hiệu ứng đổ bóng khi hover */
 }
 
 
 .course-info {
-  display: flex;
-  flex-direction: column; /* Hiển thị các phần tử theo hàng dọc */
-  padding: 15px;
+display: flex;
+flex-direction: column; /* Hiển thị các phần tử theo hàng dọc */
+padding: 15px;
 }
 
 .course-header {
-  display: flex;
-  justify-content: space-between; /* Hiển thị các span trong course-header theo hàng ngang */
-  align-items: center;
-  margin-bottom: 10px;
+display: flex;
+justify-content: space-between; /* Hiển thị các span trong course-header theo hàng ngang */
+align-items: center;
+margin-bottom: 10px;
 }
 
 .course-details {
-  display: flex;
-  justify-content: space-between; /* Hiển thị các span trong course-details theo hàng ngang */
-  align-items: center;
+display: flex;
+justify-content: space-between; /* Hiển thị các span trong course-details theo hàng ngang */
+align-items: center;
 }
 
 .course-price {
-  font-size: 1rem;
-  font-weight: bold;
+font-size: 1rem;
+font-weight: bold;
 }
 .course-rating {
-  display: flex;
-  align-items: center; /* Aligns items in the center vertically */
-  font-size: 1rem;
-  font-weight: bold;
-  color: #212529;
+display: flex;
+align-items: center; /* Aligns items in the center vertically */
+font-size: 1rem;
+font-weight: bold;
+color: #212529;
 }
 
 .course-rating img {
-  width: 16px; /* Set icon size */
-  height: 16px;
-  margin-right: 5px; /* Spacing between icon and text */
-  vertical-align: middle; /* Ensures the icon aligns with the text */
+width: 16px; /* Set icon size */
+height: 16px;
+margin-right: 5px; /* Spacing between icon and text */
+vertical-align: middle; /* Ensures the icon aligns with the text */
 }
 
 .course-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 10px;
+font-size: 1.2rem;
+font-weight: bold;
+margin-bottom: 10px;
 }
 
 .course-details span {
-  font-size: 0.9rem;
-  color: #666;
-  padding: 0 5px; /* Tạo khoảng cách giữa các span */
+font-size: 0.9rem;
+color: #666;
+padding: 0 5px; /* Tạo khoảng cách giữa các span */
 }
 
 .course-image {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 10px 10px 0 0;
+width: 100%;
+height: auto;
+object-fit: cover;
+border-radius: 10px 10px 0 0;
 }
 
 .mentors-grid {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-between;
+width: 100%;
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+justify-content: space-between;
 }
 
 .mentor-card {
-  width: 30%; /* Đảm bảo 3 thẻ mỗi hàng */
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+width: 30%; /* Đảm bảo 3 thẻ mỗi hàng */
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+text-align: center;
 }
 
 .mentor-image {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 10px 10px 0 0;
+width: 100%;
+height: auto;
+object-fit: cover;
+border-radius: 10px 10px 0 0;
 }
 
 .mentor-info {
-  padding: 10px;
+padding: 10px;
 }
 
 .mentor-name {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 5px;
+font-size: 1.2rem;
+font-weight: bold;
+margin-bottom: 5px;
 }
 
 .mentor-title {
-  font-size: 1rem;
-  color: #666;
+font-size: 1rem;
+color: #666;
 }
 
 .pagination-wrapper {
-  width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều ngang */
-  display: flex;
-  justify-content: center; /* Căn giữa phân trang */
-  margin-top: 20px;
+width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều ngang */
+display: flex;
+justify-content: center; /* Căn giữa phân trang */
+margin-top: 20px;
 }
 
 .view-profile-pagination {
-  display: flex;
-  justify-content: center;
-  width: 100%; /* Chiếm toàn bộ chiều ngang */
+display: flex;
+justify-content: center;
+width: 100%; /* Chiếm toàn bộ chiều ngang */
 }
 
 
 .view-profile-page-button {
-  width: 36px; /* Make width and height equal for circular shape */
-  height: 36px;
-  background-color: #CFD7D9;
-  border: none; /* Remove default button border */
-  border-radius: 50%; /* Makes the button circular */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin: 0 5px;
+width: 36px; /* Make width and height equal for circular shape */
+height: 36px;
+background-color: #CFD7D9;
+border: none; /* Remove default button border */
+border-radius: 50%; /* Makes the button circular */
+display: flex;
+align-items: center;
+justify-content: center;
+color: #ffffff;
+font-size: 1rem;
+cursor: pointer;
+transition: background-color 0.3s ease;
+margin: 0 5px;
 }
 
 .view-profile-page-button.active {
-  background-color: #4F76F6;
-  color: #ffffff;
+background-color: #4F76F6;
+color: #ffffff;
 }
 
 .view-profile-page-button:hover {
-  background-color: #4F76F6; /* Changes color on hover for better interactivity */
+background-color: #4F76F6; /* Changes color on hover for better interactivity */
 }
 
 
-  /* Căn chỉnh nút submit */
-  .view-btn-edit {
-    background-color: #043873;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%; /* Chiếm toàn bộ chiều ngang */
-    text-align: center;
-    margin-top: 20px; /* Khoảng cách trên */
-  }
-  
-  .view-btn-edit:hover {
-    background-color: #4F76F6;
-  }
-  
+/* Căn chỉnh nút submit */
+.view-btn-edit {
+  background-color: #043873;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%; /* Chiếm toàn bộ chiều ngang */
+  text-align: center;
+  margin-top: 20px; /* Khoảng cách trên */
+}
+
+.view-btn-edit:hover {
+  background-color: #4F76F6;
+}

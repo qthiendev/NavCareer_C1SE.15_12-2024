@@ -50,36 +50,71 @@ const ProfileForm = () => {
     // Validation logic
     const validateForm = () => {
         const newErrors = {};
-
+    
+        // Họ và tên
         if (!formData.fullName.trim()) {
             newErrors.fullName = "Họ và tên không được để trống.";
+        } else if (/[@#$%]/.test(formData.fullName) || formData.fullName.length > 50) {
+            newErrors.fullName = "Họ và tên không được chứa ký tự đặc biệt và tối đa 50 ký tự.";
         }
-
-        if (!/^[0-9]{10}$/.test(formData.phoneNumber)) {
-            newErrors.phoneNumber = "SDT phải là 10 chữ số.";
+    
+        // Số điện thoại
+        if (!formData.phoneNumber.trim()) {
+            newErrors.phoneNumber = "Số điện thoại phải là 10 chữ số.";
+        } else if (!/^\d{10}$/.test(formData.phoneNumber)) {
+            newErrors.phoneNumber = "Số điện thoại phải là 10 chữ số.";
         }
-
+    
+        // Email
+        if (!formData.email.trim()) {
+            newErrors.email = "Email không được để trống.";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = "Email không hợp lệ.";
+        }
+    
+        // Giới tính
         if (!formData.gender) {
             newErrors.gender = "Vui lòng chọn giới tính.";
         }
-
+    
+        // Ngày sinh
         if (!formData.birthDay || !formData.birthMonth || !formData.birthYear) {
             newErrors.birthDate = "Vui lòng chọn đầy đủ ngày, tháng, năm sinh.";
+        } else {
+            const today = new Date();
+            const birthDate = new Date(formData.birthYear, formData.birthMonth - 1, formData.birthDay);
+    
+            if (isNaN(birthDate.getTime()) || birthDate.getDate() !== parseInt(formData.birthDay)) {
+                newErrors.birthDate = "Ngày sinh không hợp lệ.";
+            } else {
+                const age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                const dayDiff = today.getDate() - birthDate.getDate();
+    
+                const isUnder16 = age < 16 || (age === 16 && (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)));
+    
+                if (birthDate > today) {
+                    newErrors.birthDate = "Ngày sinh không được là ngày trong tương lai.";
+                } else if (isUnder16) {
+                    newErrors.birthDate = "Tuổi phải từ 16 trở lên.";
+                }
+            }
         }
-
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = "Email không hợp lệ.";
-        }
-
-        if (!formData.address || formData.address.trim() === "") {
+    
+        // Địa chỉ liên lạc
+        if (!formData.address.trim()) {
             newErrors.address = "Địa chỉ không được để trống.";
+        } else if (formData.address.length > 50) {
+            newErrors.address = "Địa chỉ tối đa 50 ký tự.";
         }
-        
+    
         setErrors(newErrors);
-
+    
         // Form is valid if there are no errors
         return Object.keys(newErrors).length === 0;
     };
+    
+    
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
