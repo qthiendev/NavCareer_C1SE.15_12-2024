@@ -97,7 +97,7 @@ function Chatbot({ onClose }) {
 
   // Xử lý lựa chọn ban đầu
   const changeStage = () => {
-    setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn muốn tôi hỗ trợ thêm về tư vấn các khóa học, về giá cả hay đề xuất một vài khóa học' }]);
+    setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn muốn tôi hỗ trợ thêm về tư vấn các khóa học, về giá cả hay đề xuất một vài khóa học không?' }]);
     setStage('welcome');
   };
   const handleEnding = () =>{
@@ -425,21 +425,31 @@ function Chatbot({ onClose }) {
   };
 
   const handleQuickConsultation = async (input) => {
-    try {
-      const response = await axios.post('http://127.0.0.1:5000/chat', {
-        message: input,
-      });
-  
-      const answer = response.data?.response || "Không tìm thấy câu trả lời phù hợp.";
-      setMessages((prev) => [...prev, { sender: 'bot', text: answer }]);
-      changeStage();
-    } catch (error) {
-      console.error('Error fetching data from API:', error);
-      setMessages((prev) => [...prev, { sender: 'bot', text: 'Đã xảy ra lỗi khi gọi API. Vui lòng thử lại sau.' }]);
+    const lowerInput = input.toLowerCase();
+
+    if(lowerInput.includes('thanks')||lowerInput.includes('ok')||lowerInput.includes('bye')||lowerInput.includes('good bye')||lowerInput.includes('cảm ơn')){
       changeStage();
     }
+    else{
+      try {
+        const response = await axios.post('http://127.0.0.1:5000/chat', {
+          message: input,
+        });
+    
+        const answer = response.data?.response || "Không tìm thấy câu trả lời phù hợp.";
+        setMessages((prev) => [...prev, { sender: 'bot', text: answer }]);
+      } catch (error) {
+        console.error('Error fetching data from API:', error);
+        setMessages((prev) => [...prev, { sender: 'bot', text: 'Đã xảy ra lỗi khi gọi API. Vui lòng thử lại sau.' }]);
+        changeStage();
+      }
+    }
+    
   };
-
+//sinh viên
+//Tôi học ngành IT
+//Tôi muốn làm lập trình viên
+//Robot và tự động hóa
 
 
 return (
