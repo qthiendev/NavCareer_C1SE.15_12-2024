@@ -31,8 +31,7 @@ begin
 		left join Users u on u.[authentication_id] = auth.[authentication_id]
 	where convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', auth.[account])) = @account
 		and convert(nvarchar(max), DecryptByPassPhrase('NavCareerSecret', auth.[password])) = @password
-		and auth.[delete_flag] = 0
-		and u.[delete_flag] = 0;
+		and auth.[delete_flag] = 0;
 end
 go
 -- exec SignIn 'test', 'test'

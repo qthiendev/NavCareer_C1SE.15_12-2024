@@ -133,7 +133,7 @@ const ProfileForm = () => {
 
             try {
                 await axios.post('http://localhost:5000/profile/create', formSubmissionData, { withCredentials: true });
-                navigate(`/profile/${aid}`);
+                navigate(`/profile/self`);
             } catch (error) {
                 setNoti('Tạo hồ sơ thất bại. Vui lòng thử lại.');
                 console.error('Failed to create profile:', error);

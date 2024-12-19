@@ -140,12 +140,7 @@ function CreateCourse() {
                             </div>
                         </div>
                         <div className="create-course-form-row">
-                            <button type="submit">Tạo Khóa Học</button>
-                        </div>
-                        <div className="create-course-form-row">
-                            <button className="create-course-black-btn" onClick={() => navigate('/esp/course/view-all')}>
-                                Tạo hồ sơ
-                            </button>
+                            <button className="create-course-black-btn" type="submit">Tạo Khóa Học</button>
                         </div>
                         {error && <p className="error-message">{error}</p>}
                     </div>
