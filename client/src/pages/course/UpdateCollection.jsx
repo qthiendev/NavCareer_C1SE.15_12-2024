@@ -15,6 +15,9 @@ const UpdateCollection = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [isBanned, setIsBanned] = useState(false);
     const [isAuthorized, setIsAuthorized] = useState(false);
+    const [questions, setQuestions] = useState([]);
+    const [fileName, setFileName] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const navigate = useNavigate();
 
     const fetchCollectionData = async (course_id, module_id, collection_id) => {
@@ -127,6 +130,63 @@ const UpdateCollection = () => {
             setErrorMessage('Cập nhật thất bại.');
         }
     };
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    if (jsonData.questions && Array.isArray(jsonData.questions)) {
+                        setQuestions(jsonData.questions);
+                        setFileName(file.name);
+                        setErrorMessage('');
+                        setSuccessMessage('Questions loaded successfully!');
+                    } else {
+                        setErrorMessage('Invalid JSON format: Missing or invalid "questions" array.');
+                    }
+                } catch (error) {
+                    setErrorMessage('Invalid JSON file. Please check the file format.');
+                }
+            };
+            reader.readAsText(file);
+        }
+    };
+
+    const handleImportQuiz = async () => {
+        if (!questions.length) {
+            setErrorMessage('No questions to import. Please load a valid JSON file.');
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const response = await axios.post(
+                'http://localhost:5000/course/module/collection/import-quiz',
+                {
+                    course_id: Number.parseInt(course_id),
+                    collection_id: Number.parseInt(collection_id),
+                    questions,
+                },
+                { withCredentials: true }
+            );
+
+            if (response.status === 200) {
+                setSuccessMessage('Quiz imported successfully!');
+                fetchCollectionData(course_id, module_id, collection_id);
+                setErrorMessage('');
+            } else {
+                setErrorMessage('Failed to import quiz. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error importing quiz:', error);
+            setErrorMessage('An error occurred while importing the quiz.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     const handleMaterialCreate = async (type) => {
         try {
@@ -398,6 +458,21 @@ const UpdateCollection = () => {
                     Preview
                 </a>
             </div>
+
+            <div className="file-input-section">
+                <label htmlFor="quizFile">Load JSON File:</label>
+                <input
+                    type="file"
+                    id="quizFile"
+                    accept="application/json"
+                    onChange={handleFileChange}
+                />
+                {fileName && <p>Loaded File: {fileName}</p>}
+            </div>
+
+            <button onClick={handleImportQuiz} className="import-button">
+                Import Quiz
+            </button>
 
             <div className="edit-section">
                 <label>Tên: </label>
