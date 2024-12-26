@@ -8,14 +8,16 @@
   }
   
   .image-container {
-    background-image: url('./img/main_content/background_image.jpg');
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)), 
+                      url('./img/main_content/background_image.jpg');
     background-size: cover;
     background-position: center;
-    height: 100vh;  /* Đảm bảo ảnh bao phủ toàn bộ chiều cao của viewport */
+    height: 100vh; /* Đảm bảo ảnh bao phủ toàn bộ chiều cao của viewport */
     display: flex;
     align-items: center;
     position: relative;
   }
+  
   
   .content {
     padding: 0 5%;

@@ -1,61 +1,57 @@
+.image-container {
+    background-image:url('/img/main_content/background_image.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Đảm bảo ảnh bao phủ toàn bộ chiều cao của viewport */
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
 .payment__container {
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #f8f9fa;
+    width: 40%;
+    margin: 50px auto;
+    padding: 30px 50px;
+    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    font-family: Arial, sans-serif;
+    color: #333;
 }
 
-.payment__loading {
-    text-align: center;
-    color: #007bff;
-    font-weight: bold;
+.payment__item {
+    margin: 10px 0;
+    font-size: 25px;
 }
 
-.payment__status {
-    margin-top: 15px;
-    padding: 10px;
-    font-size: 1.1em;
-    text-align: center;
-    border-radius: 5px;
-}
-
-.payment__status--success {
-    color: #28a745;
-    background-color: #e9f7ef;
-}
-
-.payment__status--failure {
-    color: #dc3545;
-    background-color: #f8d7da;
-}
-
-.payment__button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 12px;
-    font-size: 1.2em;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.payment__item strong {
+    color: #4F76F6;
+    font-size: 25px;
 }
 
 .payment__button--pay {
-    background-color: #007bff;
-    color: white;
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 25px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4F76F6;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
 .payment__button--pay:hover {
     background-color: #0056b3;
 }
 
-.payment__button--success {
-    background-color: #28a745;
-    color: white;
-}
-
-.payment__button--success:hover {
-    background-color: #218838;
+.payment__loading {
+    text-align: center;
+    font-size: 18px;
+    color: #007bff;
+    font-weight: bold;
 }
