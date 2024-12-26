@@ -11,7 +11,7 @@ const chat = async (req, res) => {
     console.log(`Python script path: ${pythonScriptPath}`);
 
     // Khởi tạo Python script với tham số userMessage
-    const pythonProcess = spawn('python', [pythonScriptPath, userMessage]);
+    const pythonProcess = spawn('python -3.11', [pythonScriptPath, userMessage]);
 
     let responseData = ''; // Biến lưu trữ dữ liệu trả về từ Python
 
