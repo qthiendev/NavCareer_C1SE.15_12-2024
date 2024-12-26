@@ -171,7 +171,7 @@ const navigate = useNavigate();
 
   return (
     <div className="home-container">
-      <div className="image-container">
+      <div className="homeimage-container">
         <div className="content">
           <h1 style={{ color: '#77F2A1' }} className="heading">Khám phá tiềm năng, </h1>
           <h1 style={{ color: '#4F76F6' }} className="heading">xây dựng sự nghiệp</h1>
