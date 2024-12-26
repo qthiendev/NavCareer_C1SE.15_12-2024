@@ -7,10 +7,9 @@ function Payment() {
     const navigate = useNavigate();
     const [authCheck, setAuthCheck] = useState(false);
     const [courseData, setCourseData] = useState(null);
-    const [courseCheck, setCourseCheck] = useState(false);
-    const [searchParams] = useSearchParams();
     const [loading, setLoading] = useState(true);
 
+    const [searchParams] = useSearchParams();
     const course_id = searchParams.get('course_id');
 
     useEffect(() => {
@@ -37,7 +36,6 @@ function Payment() {
             try {
                 const response = await axios.get(`http://localhost:5000/course/read?course_id=${course_id}`, { withCredentials: true });
                 setCourseData(response.data);
-                setCourseCheck(true);
             } catch (error) {
                 console.error('Failed to fetch course data:', error);
                 navigate('/');
@@ -49,26 +47,7 @@ function Payment() {
         fetchCourseData();
     }, [authCheck, course_id, navigate]);
 
-    useEffect(() => {
-        const fetchEnrollmentData = async () => {
-            if (!courseCheck || !course_id || !authCheck) return;
-            try {
-                const response = await axios.get(`http://localhost:5000/edu/read-enroll-of?course_id=${course_id}`, { withCredentials: true });
-                if (response.status === 200) {
-                    alert('Bạn đã tham gia khóa học này!');
-                    navigate(`/edu/collection?c=${course_id}&m=0&co=0`);
-                }
-            } catch (error) {
-                console.error('Failed to fetch enrollment data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchEnrollmentData();
-    }, [authCheck, courseCheck, course_id, navigate]);
-
-    const handlePayment = async (course_id) => {
+    const handlePayment = async () => {
         try {
             const response = await axios.post(`http://localhost:5000/edu/payment/create?course_id=${course_id}`, {}, { withCredentials: true });
             window.location.href = response.data.orderurl;
@@ -86,16 +65,18 @@ function Payment() {
     }
 
     return (
-        <div className='payment__container'>
-            <p><strong>Tên khóa học:</strong> {courseData.course_name}</p>
-            <p><strong>Nhà cung cấp:</strong> {courseData.user_full_name}</p>
-            <p><strong>Giá:</strong> {courseData.course_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
-            <p><strong>Thời gian dự kiến:</strong> {courseData.course_duration}</p>
-
-            <button className='payment__button--pay' onClick={() => handlePayment(course_id)}>
-                Thanh toán ngay
-            </button>
+        <div className="image-container">
+            <div className="payment__container">
+                <p className="payment__item"><strong>Tên khóa học:</strong> {courseData.course_name}</p>
+                <p className="payment__item"><strong>Nhà cung cấp:</strong> {courseData.user_full_name}</p>
+                <p className="payment__item"><strong>Giá:</strong> {courseData.course_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+                <p className="payment__item"><strong>Thời gian dự kiến:</strong> {courseData.course_duration} Giờ</p>
+                <button className="payment__button--pay" onClick={handlePayment}>
+                    Thanh toán ngay
+                </button>
+            </div>
         </div>
+
     );
 }
 
