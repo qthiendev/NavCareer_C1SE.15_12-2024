@@ -113,19 +113,20 @@
   }
 
   .courseChat h1 {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: normal !important;
     color: #333;
     margin:  0 !important;
   }
   .linkServey a {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: normal !important;
     color: #333;
     margin:  0 !important;
   }
   .course-link{
     text-decoration: none !important;
+    padding: 0 !important;
   }
 /* Header của sidebar */
 .chatbot-header {
