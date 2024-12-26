@@ -1,181 +1,181 @@
 [
     {
         "Code": 1,
-        "Description": "Kỹ sư Robot công nghiệp",
+        "Description": "Thiết kế, lập trình và bảo trì hệ thống robot công nghiệp, bao gồm các robot tự động hóa trong sản xuất và lắp ráp.",
         "image_url": "https://cncvina.com.vn/uploads/6659/ky-su-va-chuyen-gia-bao-tri-large.webp",
         "name": "Kỹ sư Robot công nghiệp"
     },
     {
         "Code": 2,
-        "Description": "Kỹ thuật viên ô tô điện",
+        "Description": "Chẩn đoán, sửa chữa và bảo dưỡng các hệ thống và linh kiện ô tô điện, bao gồm pin, động cơ và hệ thống điều khiển điện tử.",
         "image_url": "https://duhocduc.vn/wp-content/uploads/2020/04/ky-thuat-dien-tu.jpg",
         "name": "Kỹ thuật viên ô tô điện"
     },
     {
         "Code": 3,
-        "Description": "Kỹ thuật viên lắp đặt năng lượng mặt trời",
+        "Description": "Lắp đặt và bảo trì các hệ thống năng lượng mặt trời, đảm bảo hiệu suất hoạt động tối ưu và phù hợp với yêu cầu kỹ thuật.",
         "image_url": "https://www.evn.com.vn/userfile/User/minhhanh/images/2020/5/4520cpcsolar.jpg",
         "name": "Kỹ thuật viên lắp đặt năng lượng mặt trời"
     },
     {
         "Code": 4,
-        "Description": "Nhân viên kỹ thuật xây dựng",
+        "Description": "Hỗ trợ kỹ thuật trong các dự án xây dựng, bao gồm quản lý tiến độ, kiểm tra chất lượng và tuân thủ các tiêu chuẩn an toàn.",
         "image_url": "https://www.umt.edu.vn/vi-vn/images/resize-770x0/upload/media/M646b32c625ab7/co-hoi-viec-lam-nganh-xay-dung.png?v=1.31",
         "name": "Nhân viên kỹ thuật xây dựng"
     },
     {
         "Code": 5,
-        "Description": "Kỹ thuật viên vận hành máy CNC",
+        "Description": "Vận hành và bảo trì máy CNC, lập trình để gia công các chi tiết cơ khí chính xác theo yêu cầu thiết kế.",
         "image_url": "https://esuhai.vn/upload/vieclamvadaotao/2018/11/13/154210438571.jpg",
         "name": "Kỹ thuật viên vận hành máy CNC"
     },
     {
         "Code": 6,
-        "Description": "Nhà nghiên cứu di truyền học",
+        "Description": "Nghiên cứu và phân tích cấu trúc di truyền, khám phá các ứng dụng trong y học, nông nghiệp và sinh học phân tử.",
         "image_url": "https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/https://cms-prod.s3-sgn09.fptcloud.com/nhung_dieu_ban_can_biet_ve_lieu_phap_gen_gene_therapy_1_c74076a2ab.jpeg",
         "name": "Nhà nghiên cứu di truyền học"
     },
     {
         "Code": 7,
-        "Description": "Nhà phân tích dữ liệu khoa học xã hội",
+        "Description": "Phân tích dữ liệu từ các nghiên cứu xã hội, đưa ra kết luận và đề xuất chính sách dựa trên các mô hình và phương pháp phân tích khoa học.",
         "image_url": "https://huongnghiep40.vn/wp-content/uploads/2020/05/huong-nghiep-40-chuyen-gia-phan-tich-du-lieu-3-scaled.jpg",
         "name": "Nhà phân tích dữ liệu khoa học xã hội"
     },
     {
         "Code": 8,
-        "Description": "Nhà nghiên cứu trí tuệ nhân tạo",
+        "Description": "Nghiên cứu và phát triển các thuật toán và hệ thống trí tuệ nhân tạo nhằm cải thiện hiệu suất và ứng dụng trong thực tế.",
         "image_url": "https://cms.rightpath.edu.vn/uploads/TTNT_1f_1_ebe37be9c4.jpg",
         "name": "Nhà nghiên cứu trí tuệ nhân tạo"
     },
     {
         "Code": 9,
-        "Description": "Nhà vật lý học",
+        "Description": "Nghiên cứu các hiện tượng vật lý cơ bản và ứng dụng kiến thức để giải quyết các vấn đề khoa học và công nghệ.",
         "image_url": "https://images2.thanhnien.vn/528068263637045248/2024/1/24/ptn-17060931410751835215357.jpg",
         "name": "Nhà vật lý học"
     },
     {
         "Code": 10,
-        "Description": "Nhà sinh học biển",
+        "Description": "Khám phá và nghiên cứu đời sống sinh vật biển, bảo vệ đa dạng sinh học và hệ sinh thái đại dương.",
         "image_url": "https://work247.vn/pictures/images/nganh-hai-duong-hoc-5.jpg",
         "name": "Nhà sinh học biển"
     },
     {
         "Code": 11,
-        "Description": "Nhà thiết kế đồ họa 3D",
+        "Description": "Thiết kế các sản phẩm đồ họa 3D cho phim ảnh, trò chơi điện tử và các ứng dụng thực tế ảo, đáp ứng yêu cầu thẩm mỹ và kỹ thuật.",
         "image_url": "https://blogin3d.com/wp-content/uploads/2018/02/thiet-ke-ky-thuat-ky-su-thiet-ke-may.jpg",
         "name": "Nhà thiết kế đồ họa 3D"
     },
     {
         "Code": 12,
-        "Description": "Nhà thiết kế nội thất",
+        "Description": "Thiết kế và trang trí nội thất, tối ưu không gian sống và làm việc phù hợp với nhu cầu của khách hàng.",
         "image_url": "https://diaocthinhvuong.vn/wp-content/uploads/2023/02/nha-thiet-ke-thai-cong-ngoi-tren-sofa-scaled-1.jpg",
         "name": "Nhà thiết kế nội thất"
     },
     {
         "Code": 13,
-        "Description": "Nhạc sĩ điện tử",
+        "Description": "Sáng tác, sản xuất và biểu diễn âm nhạc điện tử, sử dụng các công cụ công nghệ và kỹ thuật số hiện đại.",
         "image_url": "https://kilala.vn/data/article/edmfb.png",
         "name": "Nhạc sĩ điện tử"
     },
     {
         "Code": 14,
-        "Description": "Nhiếp ảnh gia chuyên nghiệp",
+        "Description": "Chụp ảnh chuyên nghiệp, tạo ra các tác phẩm nghệ thuật hoặc phục vụ mục đích thương mại và truyền thông.",
         "image_url": "https://gobranding.com.vn/wp-content/uploads/2023/06/3-photographer-la-gi.jpg",
         "name": "Nhiếp ảnh gia chuyên nghiệp"
     },
     {
         "Code": 15,
-        "Description": "Nhà thiết kế thời trang",
+        "Description": "Thiết kế trang phục và phụ kiện thời trang, từ ý tưởng đến sản phẩm cuối cùng, phù hợp với xu hướng và thị hiếu thị trường.",
         "image_url": "https://www.hoasen.edu.vn/tuyensinh/wp-content/uploads/sites/7/2023/03/hoc-thiet-ke-thoi-trang-can-nhung-gi-hinh-anh2.png",
         "name": "Nhà thiết kế thời trang"
     },
     {
         "Code": 16,
-        "Description": "Chuyên gia tâm lý học lâm sàng",
+        "Description": "Đánh giá và điều trị các vấn đề tâm lý của cá nhân và nhóm, sử dụng các phương pháp trị liệu chuyên nghiệp.",
         "image_url": "https://vinuni.edu.vn/wp-content/uploads/2024/08/tam-ly-hoc-lam-sang-la-gi-1.jpg",
         "name": "Chuyên gia tâm lý học lâm sàng"
     },
     {
         "Code": 17,
-        "Description": "Chuyên viên tư vấn giáo dục",
+        "Description": "Tư vấn và hỗ trợ định hướng giáo dục cho học sinh, sinh viên và gia đình, giúp tối ưu hóa lựa chọn học tập và nghề nghiệp.",
         "image_url": "https://images.careerviet.vn/content/images/yeu-cau-ve-pham-chat-va-ki-nang-doi-voi-Education-Consultant-careerbuilder.jpg",
         "name": "Chuyên viên tư vấn giáo dục"
     },
     {
         "Code": 18,
-        "Description": "Nhân viên công tác xã hội",
+        "Description": "Hỗ trợ và cải thiện chất lượng cuộc sống của các nhóm cộng đồng yếu thế thông qua các chương trình và dịch vụ xã hội.",
         "image_url": "https://glints.com/vn/blog/wp-content/uploads/2023/12/nhan-vien-cong-tac-xa-hoi-la-gi-glints.jpg",
         "name": "Nhân viên công tác xã hội"
     },
     {
         "Code": 19,
-        "Description": "Giảng viên kỹ năng mềm",
+        "Description": "Giảng dạy các kỹ năng mềm cần thiết cho học tập, công việc và cuộc sống, bao gồm giao tiếp, quản lý thời gian và lãnh đạo.",
         "image_url": "https://media.licdn.com/dms/image/v2/C4E12AQF2hKoRdB7OcA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1534994033237?e=2147483647&v=beta&t=ezGbNwPkJ7dV-E7lMDtJ8lOuN0fuBVHmyQAA7eg380o",
         "name": "Giảng viên kỹ năng mềm"
     },
     {
         "Code": 20,
-        "Description": "Chuyên viên truyền thông xã hội",
+        "Description": "Xây dựng và triển khai các chiến lược truyền thông trên các nền tảng xã hội, tăng cường tương tác và nhận diện thương hiệu.",
         "image_url": "https://hrchannels.com/uptalent/attachments/images/20230323/112447979_chuyen-vien-truyen-thong-4.jpg",
         "name": "Chuyên viên truyền thông xã hội"
     },
     {
         "Code": 21,
-        "Description": "Chuyên gia khởi nghiệp công nghệ",
+        "Description": "Hỗ trợ phát triển và quản lý các dự án khởi nghiệp công nghệ, từ ý tưởng đến triển khai thực tế và gọi vốn đầu tư.",
         "image_url": "https://media.vneconomy.vn/640x360/images/upload/2022/11/09/khoi-nghiep-sang-tao.jpg",
         "name": "Chuyên gia khởi nghiệp công nghệ"
     },
     {
         "Code": 22,
-        "Description": "Quản lý chuỗi cung ứng",
+        "Description": "Quản lý và tối ưu hóa chuỗi cung ứng, đảm bảo dòng chảy hàng hóa và thông tin hiệu quả từ sản xuất đến khách hàng.",
         "image_url": "https://hrchannels.com/uptalent/attachments/images/20240301/171459407_truong-phong-logistics-2.jpg",
         "name": "Quản lý chuỗi cung ứng"
     },
     {
         "Code": 23,
-        "Description": "Chuyên viên marketing số",
+        "Description": "Lên kế hoạch và thực hiện các chiến dịch marketing số, phân tích dữ liệu và tối ưu hóa hiệu quả quảng cáo trực tuyến.",
         "image_url": "https://tanthoidai.com.vn/images/articles/2016/06/14/131103526244295000.jpg",
         "name": "Chuyên viên marketing số"
     },
     {
         "Code": 24,
-        "Description": "Quản lý dự án",
+        "Description": "Lập kế hoạch, giám sát và đảm bảo tiến độ của các dự án, từ giai đoạn khởi đầu đến hoàn thành.",
         "image_url": "https://landing-assets.gapowork.com/uploads/mceu_455091453271682522941956_3fc35fbceb.png",
         "name": "Quản lý dự án"
     },
     {
         "Code": 25,
-        "Description": "Chuyên gia thương mại điện tử",
+        "Description": "Phát triển và quản lý các chiến lược thương mại điện tử, tối ưu hóa trải nghiệm người dùng và gia tăng doanh số trực tuyến.",
         "image_url": "https://cdn.thuvienphapluat.vn//uploads/tintuc/2022/03/03/thuong-mai-dien-tu.jpg",
         "name": "Chuyên gia thương mại điện tử"
     },
     {
         "Code": 26,
-        "Description": "Nhân viên quản trị dữ liệu",
+        "Description": "Quản lý và bảo mật cơ sở dữ liệu, đảm bảo thông tin được lưu trữ và truy cập một cách hiệu quả và an toàn.",
         "image_url": "https://upload.tanca.io/api/upload/news/64c31e72bee1f8f0d0039f31?name=64c31e725bd24YUIS1487988-database-administrator-1.jpg",
         "name": "Nhân viên quản trị dữ liệu"
     },
     {
         "Code": 27,
-        "Description": "Chuyên viên kiểm toán CNTT",
+        "Description": "Đánh giá và kiểm tra hệ thống công nghệ thông tin để đảm bảo tính bảo mật và tuân thủ các tiêu chuẩn công nghệ.",
         "image_url": "https://media.tapchitaichinh.vn/w1480/images/upload/2023/11/10/3625e2de-45cc-4b14-bb92-b7139af37052.jpg",
         "name": "Chuyên viên kiểm toán CNTT"
     },
     {
         "Code": 28,
-        "Description": "Chuyên viên quản trị nhân sự",
+        "Description": "Quản lý các quy trình nhân sự, từ tuyển dụng đến đào tạo và phát triển nguồn lực, tối ưu hóa môi trường làm việc.",
         "image_url": "https://www.pace.edu.vn/uploads/news/2023/04/4-nhiem-vu-cua-quan-tri-nhan-su.jpg",
         "name": "Chuyên viên quản trị nhân sự"
     },
     {
         "Code": 29,
-        "Description": "Chuyên viên xử lý tài liệu pháp lý",
+        "Description": "Xử lý và phân tích tài liệu pháp lý, hỗ trợ xây dựng và thực thi các quy định pháp luật trong tổ chức.",
         "image_url": "https://hrchannels.com/uptalent/attachments/images/20201118/1605694981281-chuyen-vien-phap-che-va-nhung-su-that-lam-tuong-2.jpg",
         "name": "Chuyên viên xử lý tài liệu pháp lý"
     },
     {
         "Code": 30,
-        "Description": "Nhân viên kế toán quản trị",
+        "Description": "Quản lý tài chính và lập kế hoạch kế toán để hỗ trợ ra quyết định chiến lược trong tổ chức.",
         "image_url": "https://images.careerviet.vn/content/images/ke%20toan-quan-tri-la-gi-careerbuilder.png",
         "name": "Nhân viên kế toán quản trị"
     }
