@@ -110,7 +110,7 @@ function Layout() {
 
     useEffect(() => {
         // Đảm bảo rằng trạng thái của showChatbot là true khi trang vừa tải
-        setShowChatbot(true);
+        setShowChatbot(false);
     }, []);
 
     const handleSearch = () => {
