@@ -159,10 +159,11 @@
   
   .text-introduce p {
     width: 70%;
+    font-size: 20px;
   }
   
   .text-introduce .paragraph {
-    font-size: 1.2rem;
+    font-size: 20px;
     color: #4F76F6; /* Màu xanh nhẹ cho mô tả */
     line-height: 1.6;
     width: 70%; /* Căn chỉnh độ rộng của đoạn văn */
@@ -194,11 +195,11 @@
     justify-content: space-between; /* Phân bổ đều các thẻ với khoảng cách giữa chúng */
   }
   
-  .course-card {
+  .home-course-card {
     background-color: #ffffff;
     border-radius: 10px;
     padding: 20px;
-    width: 46%; /* Đảm bảo 2 thẻ mỗi hàng */
+    width: 49%; /* Đảm bảo 2 thẻ mỗi hàng */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     position: relative;
@@ -208,7 +209,7 @@
     min-height: 300px;
   }
   
-  .course-card:hover {
+  .home-course-card:hover {
     transform: scale(1.05);
   }
   
@@ -224,26 +225,38 @@
     text-align: left;
   }
   
-  .course-title{
+  .courses-title{
+    font-size: 25px;
+    font-weight: bold;
     padding: 10px 0;
   }
   
-  .course-description {
+  .courses-description {
     padding: 10px 0;
   }
-  
+
+  .courses-description {
+    font-size: 22px;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 35px;
+  }
   .course-meta {
     display: flex;
     margin-bottom: 10px;
   }
   
   .meta-item {
+    display: flex;
     background-color: #e1e5eb;
     padding: 5px 10px;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 18px;
     color: #555;
     margin-right: 10px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
   }
   
   .meta-author {
@@ -263,10 +276,9 @@
     border-radius: 5px;
     position: relative; /* Không dùng absolute để tránh ảnh hưởng layout */
     align-self: center; /* Căn giữa nút "Join" */
-    margin-top: 20px;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
-    font-size: 16px;
+    font-size: 20px;
   }
   
   .join-button:hover {

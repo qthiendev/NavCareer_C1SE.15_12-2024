@@ -239,7 +239,7 @@ const navigate = useNavigate();
         </div>
         <div className="courses-grid">
           {currentCourses.map(course => (
-            <div className="course-card" key={course.id}>
+            <div className="home-course-card" key={course.id}>
               <img src={course.image} alt={course.title} className="course-image" />
               <div className="course-info">
                 <div className="course-meta">
@@ -247,8 +247,8 @@ const navigate = useNavigate();
                   <div className="meta-item">{course.level}</div>
                   <div className="meta-author">{course.author}</div>
                 </div>
-                <h3 className="course-title">{course.title}</h3>
-                <p className="course-description">{course.description}</p>
+                <h3 className="courses-title">{course.title}</h3>
+                <p className="courses-description">{course.description}</p>
               </div>
               <button className="join-button">Tham gia ngay</button>
             </div>
