@@ -29,6 +29,8 @@ const { createAnswer } = require('../apis/courseManagement/quizManagement/create
 const { updateAnswer, changeAnswerOrdinal } = require('../apis/courseManagement/quizManagement/updateAnswer/updateAnswerController');
 const { deleteAnswer } = require('../apis/courseManagement/quizManagement/deleteAnswer/deleteAnswerController');
 
+const { importQuiz } = require('../apis/courseManagement/quizManagement/importQuiz/importQuizController')
+
 router.get('/read', readCourse);
 
 router.get('/read-full', authMiddleware.isSignedIn, authzMiddleware.esp, readFullCourse);
@@ -41,6 +43,7 @@ router.post('/module/update', authMiddleware.isSignedIn, authzMiddleware.esp, up
 router.post('/module/ordinal', authMiddleware.isSignedIn, authzMiddleware.esp, changeModuleOrdinal);
 router.post('/module/delete', authMiddleware.isSignedIn, authzMiddleware.esp, deleteModule);
 
+router.post('/module/collection/import-quiz', authMiddleware.isSignedIn, authzMiddleware.esp, importQuiz);
 router.post('/module/collection/create', authMiddleware.isSignedIn, authzMiddleware.esp, createCollection);
 router.post('/module/collection/update', authMiddleware.isSignedIn, authzMiddleware.esp, updateCollection);
 router.post('/module/collection/ordinal', authMiddleware.isSignedIn, authzMiddleware.esp, changeCollectionOrdinal);
