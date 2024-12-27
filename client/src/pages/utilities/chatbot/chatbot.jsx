@@ -116,16 +116,16 @@ function Chatbot({ onClose }) {
         animateBotResponse(answer)
         setStage('courseConsultation');
       } else if (lowerInput.includes('giá')) {
-        const answer= 'Vui lòng cho tôi biết lĩnh vực và khoảng giá mà bạn quan tâm (ví dụ: lĩnh vực Nghệ Thuật từ 2000000 đến 5000000 ).';
+        const answer= 'Vui lòng cho tôi biết Ngành và khoảng giá mà bạn quan tâm (ví dụ: Ngành học Kỹ thuật viên ô tô điện từ 2000000 đến 5000000 ).';
         animateBotResponse(answer)
         setStage('awaitingPriceInfo');
       } else if (lowerInput.includes('nhanh')) {
-        const answer= 'Bạn là học sinh hay sinh viên bạn có đam mê hay có ước mơ gì trong tương lai hay không?.';
+        const answer= 'Bạn là học sinh hay sinh viên bạn có đam mê hay có ước mơ gì trong tương lai hay không?';
         animateBotResponse(answer)
         setStage('quickConsultation');
       } else if (lowerInput.includes('đề xuất')) {
         handleCourseRecommendation();
-      } else if (lowerInput.includes('cảm ơn')||lowerInput.includes('thanks')) {
+      } else if (lowerInput.includes('cảm ơn')||lowerInput.includes('thanks')||lowerInput.includes('không')||lowerInput.includes('no')) {
           handleEnding();
       } else {
         const answer= 'Xin lỗi, bạn có thể nhập lại được không';
@@ -167,38 +167,33 @@ function Chatbot({ onClose }) {
     
   const [awaitingCourseName, setAwaitingCourseName] = useState(false);
   const handleCourseConsultation = async (input) => {
-      const lowerInput = input.toLowerCase(); // Chuyển input về chữ thường để dễ so sánh
-    
-      // Xử lý khi người dùng nhập "chưa"
-      if (lowerInput.includes('chưa')) {
-        const answer1= 'Bạn hãy nhấn vào link dưới đây để làm thử bài test nhằm hiểu rõ hơn về lĩnh vực phù hợp nhé! ';
-        animateBotResponse(answer1)
-        
-        setMessages(prev => [...prev, { sender: 'bot', text: <div className='linkServey'> <span role="gridcell"><a className='link-servey' href="http://localhost:5173/servey" target="_blank" rel="link">http://localhost:5173/servey</a></span>
-        animateBotResponse(answer)
-        </div> }]);
-        const answer2= 'Giờ bạn hãy nhập vào khóa học mà hệ thống đã đề xuất nhé!';
-        animateBotResponse(answer2)
-        
+    const lowerInput = input.toLowerCase(); // Chuyển input về chữ thường để dễ so sánh
+
+    // Xử lý khi người dùng nhập "chưa"
+    if (lowerInput.includes('chưa')) {
+      setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn hãy nhấn vào link dưới đây để làm thử bài test nhằm hiểu rõ hơn về lĩnh vực phù hợp nhé! ' }]);
+
+      setMessages(prev => [...prev, { sender: 'bot', text: <div className='linkServey'> <span role="gridcell"><a className='link-servey' href="http://localhost:5173/servey" target="_blank" rel="link">http://localhost:5173/servey</a></span>
+      </div> }]);
+      setMessages(prev => [...prev, { sender: 'bot', text: 'Giờ bạn hãy nhập vào khóa học mà hệ thống đã đề xuất nhé!' }]);
+
+      setAwaitingCourseName(true);
+
+    } 
+    else if (lowerInput.includes('rồi') || lowerInput.includes('xong')|| lowerInput.includes('mới')) {
+        setMessages(prev => [...prev, { sender: 'bot', text: 'Bạn thuộc lĩnh vực nào nhỉ? Vui lòng nhập tên khóa học bạn quan tâm.' }]);
+
+        // Đặt biến cờ để chờ người dùng nhập tên khóa học
         setAwaitingCourseName(true);
-        
+    } 
+    else if (awaitingCourseName) {
+        await sendMessageToBot(input);
+        // setAwaitingCourseName(false);
       } 
-      else if (lowerInput.includes('rồi') || lowerInput.includes('xong')|| lowerInput.includes('mới')) {
-        const answer= 'Bạn thuộc lĩnh vực nào nhỉ? Vui lòng nhập tên khóa học bạn quan tâm.';
-        animateBotResponse(answer)  
-          
-          // Đặt biến cờ để chờ người dùng nhập tên khóa học
-          setAwaitingCourseName(true);
-      } 
-      else if (awaitingCourseName) {
-          await sendMessageToBot(input);
-          // setAwaitingCourseName(false);
-        } 
-      else {
-        const answer= 'Xin lỗi, bạn đã làm bài test chưa? Hãy trả lời "chưa" hoặc "rồi" để tớ hỗ trợ bạn nhé!';
-        animateBotResponse(answer)  
-      }
-  };
+    else {
+        setMessages(prev => [...prev, { sender: 'bot', text: 'Xin lỗi, bạn đã làm bài test chưa? Hãy trả lời "chưa" hoặc "rồi" để tớ hỗ trợ bạn nhé!' }]);
+    }
+};
 
   const handleInputFields = async (input) => {
     try {
@@ -317,7 +312,7 @@ function Chatbot({ onClose }) {
               try {
                 // Gửi yêu cầu POST với minPrize và maxPrize tới API /Prize 
                 const response = await axios.post('http://localhost:5000/chatbot/PrizeRange', {
-                fieldName: matchedField.field_name,
+                fieldName: matchedField,
                 minPrize:prize
                 });
           
@@ -350,7 +345,7 @@ function Chatbot({ onClose }) {
               try {
                 // Gửi yêu cầu POST với minPrize và maxPrize tới API /Prize 
                 const response = await axios.post('http://localhost:5000/chatbot/PrizeRange', {
-                fieldName: matchedField.field_name,
+                fieldName: matchedField,
                 maxPrize:prize
                 });
           
@@ -396,8 +391,7 @@ function Chatbot({ onClose }) {
             console.log('matchedCourses:', matchedCourses);
             
             if (matchedCourses.length > 0) {
-            const answer= 'Tôi không tìm thấy thông tin khóa học nào phù hợp nhưng dưới đây là gợi ý một số khóa học đáp ứng khoảng giá mà bạn chọn';
-            animateBotResponse(answer)
+            setMessages(prev => [...prev, { sender: 'bot', text: 'Tôi không tìm thấy thông tin khóa học nào phù hợp nhưng dưới đây là gợi ý một số khóa học đáp ứng khoảng giá mà bạn chọn' }]);
               const defaultFormatCourseText = (course) => {
                 return (
                   <div className='courseChat'> <Link to={`/course/${course.course_id}`} className="course-link">
@@ -428,8 +422,7 @@ function Chatbot({ onClose }) {
       const matchedCourses = response.data.courses;
     
           if (matchedCourses) {
-            const answer= 'Dưới đây là gợi ý một số khóa học có nhiều người đăng kí nhất';
-            animateBotResponse(answer)
+            setMessages(prev => [...prev, { sender: 'bot', text: 'Dưới đây là một số khóa học có số người tham gia nhiều nhất' }]);
             const defaultFormatCourseText = (course) => {
               return (
                 <div className='courseChat'> <Link to={`/course/${course.course_id}`} className="course-link">
@@ -486,7 +479,7 @@ function Chatbot({ onClose }) {
   
         // Xóa trạng thái typing và thêm câu trả lời của bot
         setMessages((prev) => prev.filter((msg) => !msg.typing));
-        setMessages((prev) => [...prev, { sender: 'bot', text: answer }]);
+        // setMessages((prev) => [...prev, { sender: 'bot', text: answer }]);
         
         // Gọi hàm hiển thị hiệu ứng trả lời của bot
         animateBotResponse(answer);
@@ -508,8 +501,6 @@ function Chatbot({ onClose }) {
       }
     }
   };
-  
-  
   
   const animateBotResponse = (text) => {
     let currentText = '';
