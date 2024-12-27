@@ -246,7 +246,7 @@ const ProfileForm = () => {
                     </div>
 
                     {noti && <div className="error-message" style={{ color: 'red' }}>{noti}</div>}
-                    <button className="submit-button">Tạo hồ sơ</button>             
+                    <button className="crpf-submit-button">Tạo hồ sơ</button>             
                 </form>
             </div>
         </div>
