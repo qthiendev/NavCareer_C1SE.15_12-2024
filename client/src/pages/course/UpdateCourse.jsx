@@ -255,8 +255,8 @@ function UpdateCourse() {
                                 ))}
                             </select>
                             <span className="module-name">{module.module_name}</span>
-                            <button onClick={() => navigate(`/esp/course/${course_id}/module/${module.module_id}/update`)}>Modify</button>
-                            <button onClick={() => handleDeleteModule(courseData.course_id, module.module_id)}>Delete</button>
+                            <button onClick={() => navigate(`/esp/course/${course_id}/module/${module.module_id}/update`)}>Cập nhật</button>
+                            <button onClick={() => handleDeleteModule(courseData.course_id, module.module_id)}>Xóa</button>
                         </div>
                     </li>
                 ))}

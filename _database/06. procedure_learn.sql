@@ -495,7 +495,7 @@ begin
     select @total_modules = count(*)
     from Modules m
     join Enrollments e on e.course_id = m.course_id
-    where e.enrollment_id = @enrollment_id;
+    where e.enrollment_id = @enrollment_id and m.delete_flag = 0;
 
     select @qualified_modules = count(*), @total_grade = avg(max_grade)
     from (
@@ -503,6 +503,8 @@ begin
         from Grades g
         join Modules m on m.module_id = g.module_id
         where g.enrollment_id = @enrollment_id
+			and m.delete_flag = 0
+			and g.delete_flag = 0
         group by g.module_id
     ) as MaxGrades
     where max_grade >= 80;

@@ -455,23 +455,23 @@ const UpdateCollection = () => {
                     rel="noopener noreferrer"
                     className="preview-link"
                 >
-                    Preview
+                    Xem trước
                 </a>
             </div>
 
             <div className="file-input-section">
-                <label htmlFor="quizFile">Load JSON File:</label>
+                <label htmlFor="quizFile">Tải bộ câu hỏi:</label>
                 <input
                     type="file"
                     id="quizFile"
                     accept="application/json"
                     onChange={handleFileChange}
                 />
-                {fileName && <p>Loaded File: {fileName}</p>}
+                {fileName && <p>File đã tải lên: {fileName}</p>}
             </div>
 
             <button onClick={handleImportQuiz} className="import-button">
-                Import Quiz
+                Tải lên
             </button>
 
             <div className="edit-section">
@@ -545,7 +545,7 @@ const UpdateCollection = () => {
                                         )
                                     }
                                 >
-                                    Update
+                                    Cập nhật
                                 </button>
                             </div>
                         )}
@@ -584,7 +584,7 @@ const UpdateCollection = () => {
                                         )
                                     }
                                 >
-                                    Update
+                                    Cập nhật
                                 </button>
                             </div>
                         )}
@@ -603,7 +603,7 @@ const UpdateCollection = () => {
                                             )
                                         }
                                     >
-                                        Initialize Question
+                                        Khởi tạo câu hỏi
                                     </button>
                                 ) : (
                                     // If question exists, show inputs for description, type, and answers
@@ -647,8 +647,8 @@ const UpdateCollection = () => {
                                                 )
                                             }
                                         >
-                                            <option value={0}>Multiple Choice</option>
-                                            <option value={1}>Multiple Response</option>
+                                            <option value={0}>Câu trả lời đơn</option>
+                                            <option value={1}>Câu trả lời đa</option>
                                         </select>
                                         <button
                                             onClick={() =>
@@ -660,7 +660,7 @@ const UpdateCollection = () => {
                                                 )
                                             }
                                         >
-                                            Update Question
+                                            Cập nhật câu hỏi
                                         </button>
                                         <div>
                                             <h4>Answers</h4>
@@ -733,14 +733,14 @@ const UpdateCollection = () => {
                                                             handleAnswerUpdate(answer.answer_id, answer.answer_description, answer.answer_is_right)
                                                         }
                                                     >
-                                                        Update Answer
+                                                        Câp nhật câu trả lời
                                                     </button>
                                                     <button
                                                         onClick={() =>
                                                             handleAnswerDelete(answer.answer_id, material.questions[0].question_id)
                                                         }
                                                     >
-                                                        Delete Answer
+                                                        Xóa câu trả lời
                                                     </button>
                                                 </div>
                                             ))}
@@ -778,10 +778,10 @@ const UpdateCollection = () => {
             </div>
 
             <div className="add-material-buttons">
-                <button onClick={() => handleMaterialCreate(0)}>Add Text</button>
-                <button onClick={() => handleMaterialCreate(1)}>Add Image</button>
-                <button onClick={() => handleMaterialCreate(2)}>Add Video</button>
-                <button onClick={() => handleMaterialCreate(3)}>Add Question</button>
+                <button onClick={() => handleMaterialCreate(0)}>Thêm văn bản</button>
+                <button onClick={() => handleMaterialCreate(1)}>Thêm hình ảnh</button>
+                <button onClick={() => handleMaterialCreate(2)}>Thêm video</button>
+                <button onClick={() => handleMaterialCreate(3)}>Thêm câu trả lời</button>
             </div>
         </div>
     );
